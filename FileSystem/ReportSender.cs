@@ -56,7 +56,7 @@ namespace J_Project.FileSystem
         }
 
         /**
-         *  @brief CSV - JSON 변환기
+         *  @brief CSV-JSON 변환기
          *  @details CSV 보고서 데이터를 JSON 형식으로 변환한다.
          *  
          *  @param string reportType - 보고서 종류(양산, 출하)
@@ -114,13 +114,12 @@ namespace J_Project.FileSystem
             return ms1.ToArray();
         }
         /**
-         *  @brief CSV - JSON 변환기
-         *  @details CSV 보고서 데이터를 JSON 형식으로 변환한다.
+         *  @brief 데이터 정렬
+         *  @details 테스트 데이터를 전송하기 위해 순서 및 누락부분을 가공한다.
          *  
-         *  @param string reportType - 보고서 종류(양산, 출하)
-         *  @param string filePath - CSV 파일 경로
+         *  @param List<string[]> list - 정렬(가공)할 데이터
          *  
-         *  @return byte[] - 전송할 데이터
+         *  @return List<string[]> - 정렬(가공)된 데이터
          */
         private List<string[]> DataSort(List<string[]> list)
         {
@@ -145,6 +144,14 @@ namespace J_Project.FileSystem
             return sortedList;
         }
 
+        /**
+         *  @brief 데이터 전송
+         *  @details 변한된 데이터를 소켓을 통해 서버로 전송한다
+         *  
+         *  @param byte[] data - 전송할 데이터
+         *  
+         *  @return string - 전송 결과
+         */
         public string DataSend(byte[] data)
         {
             HttpSocket.ContentLength = data.Length;
@@ -169,7 +176,15 @@ namespace J_Project.FileSystem
             return result;
         }
 
-        public string DataReceiveN()
+        /**
+         *  @brief 응답 수신
+         *  @details 데이터 전송후 서버로부터 받은 응답을 수신
+         *  
+         *  @param
+         *  
+         *  @return string - 응답
+         */
+        public string DataReceive()
         {
             string result = null;
             Stream receiver = null;
@@ -200,55 +215,15 @@ namespace J_Project.FileSystem
             return result;
         }
 
-        public async Task<string> DataReceive()
-        {
-            string result = null;
-            Stream receiver = null;
-            StreamReader streamReader = null;
-
-            try
-            {
-                //receiver = HttpSocket.BeginGetResponse(new AsyncCallback((IAsyncResult iarres) =>
-                //{
-                //    try
-                //    {
-                //        using (HttpWebResponse response = (HttpWebResponse)httpWebRequest.EndGetResponse(iarres))
-                //        {
-                //            using (StreamReader streamReader = new StreamReader(response.GetResponseStream()))
-                //            {
-                //                // can only be called from the main thread
-                //                //m_text.text = streamReader.ReadToEnd();
-
-                //                text = streamReader.ReadToEnd();
-                //                isDone = true;
-                //            }
-
-                //            response.Close();
-                //        }
-
-                //    }
-                //    catch (Exception e)
-                //    {
-                //    }
-                //}), null);
-
-                receiver = HttpSocket.GetResponse().GetResponseStream();
-                streamReader = new StreamReader(receiver);
-                result = await streamReader.ReadToEndAsync();
-            }
-            catch (Exception e)
-            {
-                result = e.Message;
-            }
-            finally
-            {
-                if (receiver != null) receiver.Close();
-                if (streamReader != null) streamReader.Close();
-            }
-
-            return result;
-        }
-
+        /**
+         *  @brief 해석기
+         *  @details 서버로 받은 응답 데이터를 해석
+         *  
+         *  @param string str - 응답받은 데이터
+         *  @param out string errMessage - 에러 메세지
+         *  
+         *  @return bool - 서버의 응답 결과
+         */
         public bool Deserialize(string str, out string errMessage)
         {
             Dictionary<string, string> jsonDic = JsonConvert.DeserializeObject<Dictionary<string, string>>(str);

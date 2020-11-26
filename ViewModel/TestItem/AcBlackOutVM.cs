@@ -11,6 +11,14 @@ using System.Windows.Media;
 
 namespace J_Project.ViewModel.TestItem
 {
+    /**
+     *  @brief AC 정전 테스트 클래스
+     *  @details AC 정전과 관련된 시퀀스 및 UI관련을 담당하는 클래스
+     *
+     *  @author SSW
+     *  @date 2020.02.25
+     *  @version 1.0.0
+     */
     internal class AcBlackOutVM : AllTestVM
     {
         private enum Seq
@@ -56,12 +64,28 @@ namespace J_Project.ViewModel.TestItem
             UnitTestCommand = new BaseObjCommand(UnitTestClick);
         }
 
+        /**
+         *  @brief 데이터 저장
+         *  @details 해당 테스트의 설정값을 저장한다
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         private void DataSave()
         {
             AC_정전전압_인식.Save();
         }
 
-        // 버튼 글자 색 변경 함수
+        /**
+         *  @brief 테스트 UI 텍스트 색 변경
+         *  @details 양상 테스트 화면에서 해당 테스트 UI의 텍스트 색을 변경시킨다
+         *  
+         *  @param int index - 세부 단계의 인덱스
+         *  @param StateFlag stateFlag - 세부 단계의 테스트 결과
+         *  
+         *  @return
+         */
         public override void TextColorChange(int index, StateFlag stateFlag)
         {
             if (stateFlag == StateFlag.PASS || stateFlag == StateFlag.TEST_END)
@@ -72,12 +96,28 @@ namespace J_Project.ViewModel.TestItem
                 ButtonColor[index] = Brushes.Red;
         }
 
+        /**
+         *  @brief 테스트 UI 텍스트 색 리셋
+         *  @details 양상 테스트 화면에서 해당 테스트 UI의 텍스트 색을 흰색으로 리셋
+         *  
+         *  @param 
+         *  
+         *  @return
+         */
         public override void UiReset()
         {
             for (int i = 0; i < ButtonColor.Count; i++)
                 ButtonColor[i] = Brushes.White;
         }
 
+        /**
+         *  @brief 수동 테스트 동작
+         *  @details 수동 모드 운영 시, 테스트 UI의 활성화된 버튼을 클릭했을 경우 실행
+         *  
+         *  @param object value - 2개의 데이터로 구성(1. 해당 테스트의 케이스 번호, 2. 해당 세부 단계의 인덱스 번호)
+         *  
+         *  @return
+         */
         // 수동 테스트 동작 이벤트 함수(버튼 클릭)
         private void UnitTestClick(object value)
         {
@@ -102,6 +142,16 @@ namespace J_Project.ViewModel.TestItem
         ///////////////////////////////////////////////////////////////////////////////////
         // 시퀀스 관련
         ///////////////////////////////////////////////////////////////////////////////////
+        /**
+         *  @brief 테스트 시퀀스
+         *  @details 해당 테스트의 시퀀스를 담당 및 수행한다
+         *  
+         *  @param int caseNumbere - 해당 테스트의 케이스 번호
+         *  @param int stepNumber - 실행할 세부 단계 번호
+         *  @param ref int jumpStepNum - 점프할 세부 단계
+         *  
+         *  @return StateFlag - 수행 결과
+         */
         public override StateFlag TestSeq(int caseNumber, int stepNumber, ref int jumpStepNum)
         {
             StateFlag result = StateFlag.NORMAL_ERR;
@@ -316,7 +366,17 @@ namespace J_Project.ViewModel.TestItem
             return result;
         }
 
-        // AC 정진 인식 검사
+        /**
+         *  @brief AC 정전 인식 검사
+         *  @details AC 정전 인식을 정상적으로 수행하는지 판단한다
+         *  
+         *  @param int caseNum - 해당 테스트의 케이스 번호
+         *  @param double acBlackOut - 정전으로 인식하는 AC값
+         *  @param double errRate - 체크할 범위
+         *  @param ref (string, string) resultData - 테스트 결과
+         *  
+         *  @return StateFlag - 수행 결과
+         */
         private StateFlag AcBlackOutCheck(int caseNum, double acBlackOut, double errRate, ref (string, string) resultData)
         {
             PowerMeter pm = PowerMeter.GetObj();
@@ -353,7 +413,18 @@ namespace J_Project.ViewModel.TestItem
             return StateFlag.CONDITION_FAIL;
         }
 
-        // 전압 체크
+        /**
+         *  @brief 전압 복귀 검사
+         *  @details 에러 인식 후 복구 시 정상 출력으로 복귀하는지 검사
+         *  
+         *  @param int caseNum - 해당 테스트의 케이스 번호
+         *  @param double timing - 복귀 제한 시간
+         *  @param double maxVolt - 정상 전압 최대값
+         *  @param double minVolt - 정상 전압 최소값
+         *  @param ref (string, string) resultData - 테스트 결과
+         *  
+         *  @return StateFlag - 수행 결과
+         */
         private StateFlag VoltCheckTest(int caseNum, double timing, double maxVolt, double minVolt, ref (string, string) resultData)
         {
             Dmm1 dmm = Dmm1.GetObj();

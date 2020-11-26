@@ -52,12 +52,28 @@ namespace J_Project.ViewModel.TestItem
             UnitTestCommand = new BaseObjCommand(UnitTestClick);
         }
 
+        /**
+         *  @brief 데이터 저장
+         *  @details 해당 테스트의 설정값을 저장한다
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         private void DataSave()
         {
             출력_고전압_보호.Save();
         }
 
-        // 버튼 글자 색 변경 함수
+        /**
+         *  @brief 테스트 UI 텍스트 색 변경
+         *  @details 양상 테스트 화면에서 해당 테스트 UI의 텍스트 색을 변경시킨다
+         *  
+         *  @param int index - 세부 단계의 인덱스
+         *  @param StateFlag stateFlag - 세부 단계의 테스트 결과
+         *  
+         *  @return
+         */
         public override void TextColorChange(int index, StateFlag stateFlag)
         {
             if (stateFlag == StateFlag.PASS || stateFlag == StateFlag.TEST_END)
@@ -68,13 +84,28 @@ namespace J_Project.ViewModel.TestItem
                 ButtonColor[index] = Brushes.Red;
         }
 
+        /**
+         *  @brief 테스트 UI 텍스트 색 리셋
+         *  @details 양상 테스트 화면에서 해당 테스트 UI의 텍스트 색을 흰색으로 리셋
+         *  
+         *  @param 
+         *  
+         *  @return
+         */
         public override void UiReset()
         {
             for (int i = 0; i < ButtonColor.Count; i++)
                 ButtonColor[i] = Brushes.White;
         }
 
-        // 수동 테스트 동작 이벤트 함수(버튼 클릭)
+        /**
+         *  @brief 수동 테스트 동작
+         *  @details 수동 모드 운영 시, 테스트 UI의 활성화된 버튼을 클릭했을 경우 실행
+         *  
+         *  @param object value - 2개의 데이터로 구성(1. 해당 테스트의 케이스 번호, 2. 해당 세부 단계의 인덱스 번호)
+         *  
+         *  @return
+         */
         private void UnitTestClick(object value)
         {
             object[] parameter = (object[])value;

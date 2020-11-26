@@ -1,7 +1,7 @@
 ﻿namespace J_Project.Manager
 {
     public enum StateFlag
-    {//
+    {
         PASS,
 
         WAIT,

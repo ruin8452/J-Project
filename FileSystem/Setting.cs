@@ -12,6 +12,14 @@ using System.Threading.Tasks;
 
 namespace J_Project.FileSystem
 {
+    /**
+     *  @brief 세팅 데이터 저장 및 로드
+     *  @details 세팅 데이터를 ini파일로 저장하거나 ini파일로부터 세팅 데이터를 로드 
+     *
+     *  @author SSW
+     *  @date 2020.02.25
+     *  @version 1.0.0
+     */
     public class Setting
     {
         #region .ini File 작성을 위한 DLL 추가
@@ -20,7 +28,16 @@ namespace J_Project.FileSystem
         [DllImport("kernel32", CharSet = CharSet.Unicode)]
         private static extern int GetPrivateProfileString(string section, string key, string def, StringBuilder retVal, int size, string filePath);
         #endregion
-        
+
+        /**
+         *  @brief 파일에 저장
+         *  @details 데이터를 ini파일에 저장
+         *  
+         *  @param object classObj - 저장할 클래스
+         *  @param string fileName - 저장할 파일 경로(기본값 : \Setting\TestSetting.ini)
+         *  
+         *  @return bool - 저장 결과
+         */
         public static bool WriteSetting(object classObj, string fileName = @"\Setting\TestSetting.ini")
         {
             Type classType = classObj.GetType();
@@ -56,6 +73,15 @@ namespace J_Project.FileSystem
                 return false;
         }
 
+        /**
+         *  @brief 파일을 읽기
+         *  @details ini파일로부터 데이터를 불러오기
+         *  
+         *  @param object classObj - 읽어온 데이터를 저장할 클래스
+         *  @param string fileName - 읽어올 파일 경로(기본값 : \Setting\TestSetting.ini)
+         *  
+         *  @return bool - 저장 결과
+         */
         public static bool ReadSetting(object classObj, string fileName = @"\Setting\TestSetting.ini")
         {
             Type classType = classObj.GetType();

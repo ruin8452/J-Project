@@ -601,7 +601,7 @@ namespace J_Project.ViewModel
                 return;
             }
 
-            result = reportSender.DataReceiveN();
+            result = reportSender.DataReceive();
             reportSender.Deserialize(result, out string str1);
 
             MessageBox.Show($"시리얼 번호 : {basicInfo.SerialNumber}\n전송 결과 : {str1}");
@@ -628,14 +628,14 @@ namespace J_Project.ViewModel
                 return;
             }
 
-            result = reportSender.DataReceiveN();
+            result = reportSender.DataReceive();
             reportSender.Deserialize(result, out string str1);
 
             MessageBox.Show($"시리얼 번호 : {basicInfo.SerialNumber}\n전송 결과 : {str1}");
         }
 
         // 테스트 일시 정지 이벤트 핸들러
-        private void TestPause(object sender, TestRunCheckEventArgs e)
+        private void TestPause(object sender, EventArgs e)
         {
             StartBtnBrush = DodgerBlue;
             PauseBtnBrush = Gray;
@@ -654,7 +654,7 @@ namespace J_Project.ViewModel
         }
 
         // 테스트 정지 이벤트 핸들러
-        private void TestStop(object sender, TestRunCheckEventArgs e)
+        private void TestStop(object sender, EventArgs e)
         {
             StartBtnBrush = DodgerBlue;
             PauseBtnBrush = Gray;
