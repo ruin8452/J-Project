@@ -1,0 +1,458 @@
+﻿<Window x:Class="J_Project.UI.MainWindow.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:J_Project.UI.MainWindow"
+        xmlns:fa="clr-namespace:FontAwesome.WPF;assembly=FontAwesome.WPF"
+        xmlns:setsubw="clr-namespace:J_Project.UI.MainWindow.Setting"
+        xmlns:testsubw="clr-namespace:J_Project.UI.MainWindow.Testing"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        mc:Ignorable="d"
+        Title="J Project Total Test" Height="800" Width="1300">
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closing">
+            <i:InvokeCommandAction  Command="{Binding ClosingCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <Window.Resources>
+        <setsubw:BasicInfoPage x:Key="BasicInfoPage"/>
+        <setsubw:EquiIdPage x:Key="EquiIdPage"/>
+        <setsubw:TestSettingPage x:Key="TestSettingPage"/>
+
+        <testsubw:MainTestingPage x:Key="FirstTestingPage"/>
+        <testsubw:SecondTestingPage x:Key="SecondTestingPage"/>
+
+        <!--메인 메뉴 스타일-->
+        <Style TargetType="{x:Type ToggleButton}" x:Key="MainMenu" BasedOn="{StaticResource TogBtnBaseNormal}">
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                    <BeginStoryboard Storyboard="{StaticResource BtnBackAni_NevyToLightNevy}"/>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                    <BeginStoryboard Storyboard="{StaticResource BtnBackAni_LightNevyToNevy}"/>
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="{x:Type Button}" x:Key="ExitMenu" BasedOn="{StaticResource BtnBaseNormal}">
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                    <BeginStoryboard Storyboard="{StaticResource BtnBackAni_NevyToLightNevy}"/>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                    <BeginStoryboard Storyboard="{StaticResource BtnBackAni_LightNevyToNevy}"/>
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style BasedOn="{StaticResource {x:Type ToggleButton}}" TargetType="RadioButton" x:Key="SubMenu1">
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Background" Value="#FF1B1E2B"/>
+            <Setter Property="BorderBrush" Value="{x:Null}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontFamily" Value="NanumGothic Light"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type RadioButton}">
+                        <Border Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
+                                <EasingColorKeyFrame KeyTime="0" Value="#FF1B1E2B"/>
+                                <EasingColorKeyFrame KeyTime="0:0:0.2" Value="#FF454D72"/>
+                            </ColorAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
+                                <EasingColorKeyFrame KeyTime="0" Value="#FF454D72"/>
+                                <EasingColorKeyFrame KeyTime="0:0:0.2" Value="#FF1B1E2B"/>
+                            </ColorAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
+        <!--서브 메뉴 스타일-->
+        <Style TargetType="{x:Type ToggleButton}" x:Key="SubMenu">
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Background" Value="#FF1B1E2B"/>
+            <Setter Property="BorderBrush" Value="{x:Null}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontFamily" Value="NanumGothic Light"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                        <Border Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
+                                <EasingColorKeyFrame KeyTime="0" Value="#FF1B1E2B"/>
+                                <EasingColorKeyFrame KeyTime="0:0:0.2" Value="#FF454D72"/>
+                            </ColorAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
+                                <EasingColorKeyFrame KeyTime="0" Value="#FF454D72"/>
+                                <EasingColorKeyFrame KeyTime="0:0:0.2" Value="#FF1B1E2B"/>
+                            </ColorAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <!--메인 프레임 스타일-->
+        <Style TargetType="Frame">
+            <Style.Triggers>
+                <!--Setting 메뉴-->
+                <DataTrigger Binding="{Binding ElementName=BasicInfo, Path=IsChecked}" Value="True">
+                    <Setter Property="Content" Value="{StaticResource BasicInfoPage}"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ElementName=EquiId, Path=IsChecked}" Value="True">
+                    <Setter Property="Content" Value="{StaticResource EquiIdPage}"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ElementName=TestSetting, Path=IsChecked}" Value="True">
+                    <Setter Property="Content" Value="{StaticResource TestSettingPage}"/>
+                </DataTrigger>
+                <!--Testing 메뉴-->
+                <DataTrigger Binding="{Binding ElementName=FirstTest, Path=IsChecked}" Value="True">
+                    <Setter Property="Content" Value="{StaticResource FirstTestingPage}"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ElementName=SecondTest, Path=IsChecked}" Value="True">
+                    <Setter Property="Content" Value="{StaticResource SecondTestingPage}"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
+    <Grid Background="#FF0D0F17">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" MinWidth="200"/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!--상단 화면-->
+        <Grid Grid.Row="0" Grid.ColumnSpan="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="260"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="70"/>
+                    <ColumnDefinition Width="95"/>
+                    <ColumnDefinition Width="80"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="PC | " Foreground="White" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" FontFamily="NanumGothic Light" VerticalAlignment="Center" FontSize="17"/>
+                <TextBlock Text="{Binding PcTime, ConverterCulture=ko-kr, StringFormat='yyyy-MM-dd'}" FontWeight="Medium" Grid.Row="0" Grid.Column="1" Foreground="White" FontFamily="NanumGothic" VerticalAlignment="Center" FontSize="17"/>
+                <TextBlock Text="{Binding PcTime, ConverterCulture=ko-kr, StringFormat='HH:mm:ss'}" Grid.Row="0" Grid.Column="2" Foreground="White" FontFamily="NanumGothic Light" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="17"/>
+
+                <TextBlock Text="정류기 | " Foreground="White" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" FontFamily="NanumGothic Light" VerticalAlignment="Center" FontSize="17"/>
+                <TextBlock Text="{Binding Rect.RectTime, ConverterCulture=ko-kr, StringFormat='yyyy-MM-dd'}" FontWeight="Medium" Grid.Row="1" Grid.Column="1" Foreground="White" FontFamily="NanumGothic" VerticalAlignment="Center" FontSize="17"/>
+                <TextBlock Text="{Binding Rect.RectTime, ConverterCulture=ko-kr, StringFormat='HH:mm:ss'}"   Grid.Row="1" Grid.Column="2" Foreground="White" FontFamily="NanumGothic Light" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="17"/>
+            </Grid>
+
+            <StackPanel Orientation="Horizontal" Margin="3,3" Grid.Column="1" HorizontalAlignment="Right">
+                <Button Style="{StaticResource BtnBaseNormal}" ToolTip="양산 CSV 폴더" Background="{x:Null}" BorderBrush="{x:Null}" Margin="10,0" Command="{Binding OpenCvsFolderCommand}">
+                    <StackPanel>
+                        <fa:ImageAwesome Icon="FileText" Foreground="White" Width="30" Margin="0,0,0,3"/>
+                        <TextBlock Text="양산 CSV 폴더" Foreground="White" FontSize="8"/>
+                    </StackPanel>
+                </Button>
+                <Button Style="{StaticResource BtnBaseNormal}" ToolTip="양산 Excel 폴더" Background="{x:Null}" BorderBrush="{x:Null}" Margin="10,0" Command="{Binding OpenExcelFolderCommand}">
+                    <StackPanel>
+                        <fa:ImageAwesome Icon="FileExcelOutline" Foreground="White" Width="30" Margin="0,0,0,3"/>
+                        <TextBlock Text="양산 CSV 폴더" Foreground="White" FontSize="8"/>
+                    </StackPanel>
+                </Button>
+
+                <Border Background="White" Width="1"/>
+
+                <Button Style="{StaticResource BtnBaseNormal}" ToolTip="출하 CSV 폴더" Background="{x:Null}" BorderBrush="{x:Null}" Margin="10,0" Command="{Binding OpenCvsFolder2Command}">
+                    <StackPanel>
+                        <fa:ImageAwesome Icon="FileText" Foreground="White" Width="30" Margin="0,0,0,3"/>
+                        <TextBlock Text="출하 CSV 폴더" Foreground="White" FontSize="8"/>
+                    </StackPanel>
+                </Button>
+                <Button Style="{StaticResource BtnBaseNormal}" ToolTip="출하 Excel 폴더" Background="{x:Null}" BorderBrush="{x:Null}" Margin="10,0" Command="{Binding OpenExcelFolder2Command}">
+                    <StackPanel>
+                        <fa:ImageAwesome Icon="FileExcelOutline" Foreground="White" Width="30" Margin="0,0,0,3"/>
+                        <TextBlock Text="출하 CSV 폴더" Foreground="White" FontSize="8"/>
+                    </StackPanel>
+                </Button>
+
+                <Grid Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80"/>
+                        <ColumnDefinition Width="140"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="F/W Ver | " Foreground="White" FontFamily="NanumGothic Light" VerticalAlignment="Center" FontSize="17" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right"/>
+                    <TextBlock Text="{Binding Rect.FwVersion}" FontWeight="Medium" Grid.Row="0" Grid.Column="1" Foreground="White" FontFamily="NanumGothic" VerticalAlignment="Center" FontSize="17"/>
+
+                    <TextBlock Text="GUI Ver | " Foreground="White" FontFamily="NanumGothic Light" VerticalAlignment="Center" FontSize="17" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right"/>
+                    <TextBlock Text="{Binding GuiVersion}" FontWeight="Medium" Grid.Row="1" Grid.Column="1" Foreground="White" FontFamily="NanumGothic" VerticalAlignment="Center" FontSize="17"/>
+                </Grid>
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="70"/>
+                        <ColumnDefinition Width="70"/>
+                        <ColumnDefinition Width="70"/>
+                        <ColumnDefinition Width="70"/>
+                        <ColumnDefinition Width="70"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.Resources>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                            <Setter Property="Foreground" Value="White"/>
+                            <Setter Property="FontSize" Value="11"/>
+                        </Style>
+                        <Style TargetType="Border">
+                            <Setter Property="BorderThickness" Value="1"/>
+                            <Setter Property="Margin" Value="0.2"/>
+                            <Setter Property="CornerRadius" Value="5"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsEnabled" Value="True">
+                                    <Setter Property="Background" Value="{StaticResource LedGreen}"/>
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter Property="Background" Value="{StaticResource LedRed}"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+
+                        <Style TargetType="Button" BasedOn="{StaticResource BtnBaseRound}">
+                            <Setter Property="Foreground" Value="White"/>
+                            <Setter Property="Margin" Value="1"/>
+                            <Setter Property="BorderThickness" Value="0,0,0,3"/>
+                            <Setter Property="FontSize" Value="11"/>
+                            <Style.Triggers>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsMouseOver" Value="False"/>
+                                        <Condition Property="IsDefault" Value="True"/>
+                                    </MultiTrigger.Conditions>
+                                    <MultiTrigger.Setters>
+                                        <Setter Property="Background" Value="{StaticResource LedGreen}"/>
+                                        <Setter Property="BorderBrush" Value="{StaticResource LedGreenOff}"/>
+                                    </MultiTrigger.Setters>
+                                </MultiTrigger>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsMouseOver" Value="True"/>
+                                        <Condition Property="IsDefault" Value="True"/>
+                                    </MultiTrigger.Conditions>
+                                    <MultiTrigger.Setters>
+                                        <Setter Property="Background" Value="{StaticResource LedGreenOff}"/>
+                                        <Setter Property="BorderBrush" Value="{StaticResource LedGreenOff}"/>
+                                    </MultiTrigger.Setters>
+                                </MultiTrigger>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsMouseOver" Value="False"/>
+                                        <Condition Property="IsDefault" Value="False"/>
+                                    </MultiTrigger.Conditions>
+                                    <MultiTrigger.Setters>
+                                        <Setter Property="Background" Value="{StaticResource LedRed}"/>
+                                        <Setter Property="BorderBrush" Value="{StaticResource LedRedOff}"/>
+                                    </MultiTrigger.Setters>
+                                </MultiTrigger>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsMouseOver" Value="True"/>
+                                        <Condition Property="IsDefault" Value="False"/>
+                                    </MultiTrigger.Conditions>
+                                    <MultiTrigger.Setters>
+                                        <Setter Property="Background" Value="{StaticResource LedRedOff}"/>
+                                        <Setter Property="BorderBrush" Value="{StaticResource LedRedOff}"/>
+                                    </MultiTrigger.Setters>
+                                </MultiTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Resources>
+
+                    <!--장비 통신 연결 모니터링-->
+                    <Button Content="AC" Grid.Row="0" Grid.Column="0" IsDefault="{Binding AcSource.IsConnected}" Command="{Binding AcConnectCommand}"/>
+                    <Button Content="DC" Grid.Row="0" Grid.Column="1" IsDefault="{Binding DcSource.IsConnected}"/>
+                    <Button Content="부하" Grid.Row="0" Grid.Column="2" IsDefault="{Binding DcLoad.IsConnected}"/>
+                    <Button Content="PM" Grid.Row="0" Grid.Column="3" IsDefault="{Binding Powermeter.IsConnected}"/>
+                    <Button Content="OSC" Grid.Row="0" Grid.Column="4" IsDefault="{Binding Osc.IsConnected}"/>
+
+                    <Button Content="DMM1" Grid.Row="1" Grid.Column="0" IsDefault="{Binding Dmm1.IsConnected}"/>
+                    <Button Content="DMM2" Grid.Row="1" Grid.Column="1" IsDefault="{Binding Dmm2.IsConnected}"/>
+                    <Button Content="정류기" Grid.Row="1" Grid.Column="2" IsDefault="{Binding Rect.IsConnected}"/>
+                    <Button Content="원격" Grid.Row="1" Grid.Column="3" IsDefault="{Binding Rmt.IsConnected}"/>
+                </Grid>
+            </StackPanel>
+        </Grid>
+
+        <!--Menu 화면-->
+        <Grid Grid.Row="1" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="80"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="60"/>
+            </Grid.RowDefinitions>
+
+            <Border BorderBrush="#FF1B1E2B" BorderThickness="0,1,0,0"/>
+
+            <!--메뉴 상단 로고-->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="0">
+                <Image Height="35" Source="/J_Project;component/Resources/LogoOnly_White.png" Margin="0,0,5,0"/>
+                <TextBlock Text="KapJin" Foreground="DodgerBlue" VerticalAlignment="Center" FontFamily="Sandoll Kukdetopokki 02 Bold" FontSize="33" FontWeight="Bold"/>
+            </StackPanel>
+
+            <ScrollViewer Grid.Row="1">
+                <StackPanel>
+                    <!--Setting 버튼-->
+                    <ToggleButton x:Name="settingBtn" Background="#FF0D0F17" BorderBrush="{x:Null}" Height="45" Style="{StaticResource MainMenu}">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:ImageAwesome Icon="cogs" Height="25" Width="30" Foreground="DodgerBlue" Margin="0,0,10,0"/>
+                            <TextBlock Text="Setting" Foreground="White" FontFamily="NanumGothic Light" FontSize="21"/>
+                        </StackPanel>
+
+                        <ToggleButton.Triggers>
+                            <EventTrigger RoutedEvent="ToggleButton.Checked">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="SettingSubMenu" Storyboard.TargetProperty="Height" 
+                                                         To="90" Duration="0:0:0.3" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="ToggleButton.Unchecked">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="SettingSubMenu" Storyboard.TargetProperty="Height" 
+                                                         To="0" Duration="0:0:0.3" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </ToggleButton.Triggers>
+                    </ToggleButton>
+                    <!--Setting 버튼 하위 메뉴-->
+                    <StackPanel x:Name="SettingSubMenu" Height="0" Background="#FF1B1E2B">
+                        <!--기본정보-->
+                        <RadioButton x:Name="BasicInfo" Content="기본정보" GroupName="SubMenu" Style="{StaticResource SubMenu1}"/>
+                        <!--장비 ID-->
+                        <RadioButton x:Name="EquiId" Content="장비 ID" GroupName="SubMenu" Style="{StaticResource SubMenu1}"/>
+                        <!--테스트 설정-->
+                        <RadioButton x:Name="TestSetting" Content="테스트 설정" GroupName="SubMenu" Style="{StaticResource SubMenu1}"/>
+                    </StackPanel>
+
+                    <!--Test 버튼-->
+                    <ToggleButton x:Name="testBtn" Background="#FF0D0F17" BorderBrush="{x:Null}" Height="45" Style="{StaticResource MainMenu}">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:ImageAwesome Icon="Clipboard" Height="25" Width="30" Foreground="DodgerBlue" Margin="0,0,10,0"/>
+                            <TextBlock Text="Testing" Foreground="White" VerticalAlignment="Center" FontFamily="NanumGothic Light" FontSize="21"/>
+                        </StackPanel>
+
+                        <ToggleButton.Triggers>
+                            <EventTrigger RoutedEvent="ToggleButton.Checked">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="TestingSubMenu" Storyboard.TargetProperty="Height" 
+                                                         To="60" Duration="0:0:0.2" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="ToggleButton.Unchecked">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="TestingSubMenu" Storyboard.TargetProperty="Height" 
+                                                         To="0" Duration="0:0:0.2" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </ToggleButton.Triggers>
+                    </ToggleButton>
+                    <!--Testing 버튼 하위 메뉴-->
+                    <StackPanel x:Name="TestingSubMenu" Height="0" Background="#FF1B1E2B">
+                        <!--메인 테스트-->
+                        <RadioButton x:Name="FirstTest"  Content="양산 테스트" GroupName="SubMenu" Style="{StaticResource SubMenu1}"/>
+                        <RadioButton x:Name="SecondTest" Content="출하 테스트" GroupName="SubMenu" Style="{StaticResource SubMenu1}"/>
+                    </StackPanel>
+
+                    <!--Report 버튼-->
+                    <ToggleButton x:Name="reportBtn" Background="#FF0D0F17" BorderBrush="{x:Null}" Height="45" Style="{StaticResource MainMenu}" IsEnabled="False" Visibility="Hidden">
+                        <!--구성요소-->
+                        <StackPanel Orientation="Horizontal">
+                            <fa:ImageAwesome Icon="FileText" Height="25" Width="30" Foreground="DodgerBlue" Margin="0,0,10,0"/>
+                            <TextBlock Text="Report" Foreground="White" VerticalAlignment="Center" FontFamily="NanumGothic Light" FontSize="21"/>
+                        </StackPanel>
+                    </ToggleButton>
+                </StackPanel>
+            </ScrollViewer>
+
+            <StackPanel Grid.Row="2">
+                <Separator Background="#FF1B1E2B" Height="7"/>
+                <Button x:Name="ExitBtn" Background="#FF0D0F17" BorderBrush="{x:Null}" Height="40" Style="{StaticResource ExitMenu}" Command="{Binding ClosingCommand}">
+                    <StackPanel Orientation="Horizontal">
+                        <fa:ImageAwesome Icon="SignOut" Height="25" Foreground="DodgerBlue" Margin="-25,0,20,0"/>
+                        <TextBlock Text="Exit" Foreground="White" VerticalAlignment="Center" FontFamily="NanumGothic Light" FontSize="21"/>
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+        </Grid>
+
+        <!--Grid Splitter-->
+        <GridSplitter Width="5" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" Background="#FF222531"/>
+
+        <!--Main 화면-->
+        <Grid Background="#1B1E2B" Grid.Row="1" Grid.Column="2">
+            <Frame NavigationUIVisibility="Hidden" Source="/J_Project;component/UI/MainWindow/HomePage.xaml"/>
+        </Grid>
+
+    </Grid>
+</Window>

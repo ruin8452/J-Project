@@ -1,0 +1,65 @@
+﻿<Window x:Class="J_Project.UI.SubWindow.IdChangeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:J_Project.UI.SubWindow"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:converter="clr-namespace:J_Project.UI.BindConverterClass"
+        mc:Ignorable="d"
+        x:Name="IdChange"
+        Title="IdChangeWindow" Height="210" Width="200" ResizeMode="NoResize" WindowStyle="None">
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction  Command="{Binding LoadedCommand}" CommandParameter="{Binding ElementName=IdChange}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    
+    <Window.InputBindings>
+        <KeyBinding Key="Enter" Command="{Binding EnterCommand}"/>
+        <KeyBinding Key="Esc" Command="{Binding EscCommand}"/>
+    </Window.InputBindings>
+
+    <Window.Effect>
+        <DropShadowEffect Color="DodgerBlue" BlurRadius="40" RenderingBias="Quality" ShadowDepth="1"/>
+    </Window.Effect>
+
+    <Window.Resources>
+        <converter:DisplayIdConverter x:Key="DisplayIdConverter"/>
+        
+        <Style TargetType="Button" BasedOn="{StaticResource BtnBaseNormal}" x:Key="ButtonColor">
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Width" Value="120"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="BorderBrush" Value="{x:Null}"/>
+            <Setter Property="Background" Value="#0000"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                    <BeginStoryboard Storyboard="{StaticResource BtnBackAni_TransToBlue}"/>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                    <BeginStoryboard Storyboard="{StaticResource BtnBackAni_BlueToTrans}"/>
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
+    <Border BorderBrush="DodgerBlue" BorderThickness="1.5">
+        <StackPanel Background="#FF1B1E2B">
+            <TextBlock Text="ID 변경" Padding="10,5,0,5" Background="#FF3B456B" VerticalAlignment="Center" Foreground="White" FontSize="30" FontFamily="NanumGothic"/>
+
+            <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="8" Foreground="#FF2D3144" FontSize="120" FontFamily="Digital-7 Mono"/>
+                <TextBlock Text="{Binding Converter={StaticResource DisplayIdConverter}, Path=Rect.CommId}" Foreground="White" FontSize="120" FontFamily="Digital-7 Mono" HorizontalAlignment="Right"/>
+            </Grid>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Content="정상" Width="70" Style="{StaticResource ButtonColor}" Command="{Binding OkCommand}"/>
+                <Border Width="20"/>
+                <Button Content="오류" Width="70" Style="{StaticResource ButtonColor}" Command="{Binding ErrorCommand}"/>
+            </StackPanel>
+        </StackPanel>
+    </Border>
+</Window>

@@ -1,0 +1,154 @@
+// 양산 테스트 관련 좌표 및 데이터
+
+{
+    "FirstTest":[
+      {
+        "B7":"고길동",              // 검사자 (좌표:값)
+        "B5":"Rect 3.0kW(NB-IoT)",  // 제품명
+        "D5":"123-4567-890",        // 제품코드
+        "D6":"225874416",           // 시리얼 넘버
+        "D7":"2020-05-21",           // 검사일
+        "H5":"1.0",                 // HW 버전
+        "H6":"124",                 // SW 버전
+        "H7":"불합격"               // 검사 결과
+        "B8":"1.0",                 // DCDC 번호
+        "D8":"1.0",                 // PFC 번호
+        "G8":"1.0"                  // MCU 번호
+      },
+      {
+        "Position":"B11"            // 절연저항(TNR 제거)
+        "TestValue":"OK",
+        "PassOrFail":"합격"
+      },
+      {
+        "Position":"B12"            // 절연내압(TNR 제거)
+        "TestValue":"OK",
+        "PassOrFail":"합격"
+      },
+      {
+        "Position":"B13"            // 배터리 전원 공급 확인
+        "TestValue":"OK",
+        "PassOrFail":"합격"
+      },
+      {
+        "Position":"B14"            // ID-Set 확인
+        "TestValue":"OK",
+        "PassOrFail":"합격"
+      },
+      {
+        "Position":"B15"            // Local - DC Switch 확인
+        "TestValue":"OK",
+        "PassOrFail":"합격"
+      },
+      {
+        "Position":"B16"            // Remote 통신 테스트
+        "TestValue":"OK",
+        "PassOrFail":"합격"
+      },
+      {
+        "Position":"B17"            // 배터리 통신 확인
+        "TestValue":"OK",
+        "PassOrFail":"합격"
+      },
+      {
+        "Position":"B18"            // 온도센서 점검
+        "TestValue":"42",
+        "PassOrFail":"불합격"
+      },
+      {
+        "Position":"B19"            // 무부하 전원 ON
+        "TestValue":"0.572",
+        "PassOrFail":"합격"
+      },
+      {
+        "Position":"B20"            // 로드 레귤레이션
+        "TestValue":"53.424",
+        "PassOrFail":"합격"
+      },
+      {
+        "Position":"B21"            // 로드 레귤레이션
+        "TestValue":"53.166",
+        "PassOrFail":"합격"
+      },
+      {
+        "Position":"B22"            // 로드 레귤레이션
+        "TestValue":"53.009",
+        "PassOrFail":"합격"
+      },
+      {
+        "Position":"B23"            // 라인 레귤레이션
+        "TestValue":"53.174",
+        "PassOrFail":"합격"
+      },
+      {
+        "Position":"B24"            // 라인 레귤레이션
+        "TestValue":"53.014",
+        "PassOrFail":"합격"
+      },
+      {
+        "Position":"B25"            // 라인 레귤레이션
+        "TestValue":"53.003",
+        "PassOrFail":"합격"
+      },
+      {
+        "Position":"B26"            // 리플 노이즈
+        "TestValue":"80",
+        "PassOrFail":"합격"
+      },
+      {
+        "Position":"B27"            // 역률
+        "TestValue":"0.99",
+        "PassOrFail":"합격"
+      },
+      {
+        "Position":"B28"            // 효율
+        "TestValue":"94.577",
+        "PassOrFail":"합격"
+      },
+      {
+        "Position":"B29"            // 출력 저전압 보호
+        "TestValue":"31.271",
+        "PassOrFail":"합격"
+      },
+      {
+        "Position":"B30"            // 출력 고전압 보호
+        "TestValue":"42.269",
+        "PassOrFail":"합격"
+      },
+      {
+        "Position":"B31"            // AC 저전압 알람
+        "TestValue":"판단 불가",
+        "PassOrFail":"불합격"
+      },
+      {
+        "Position":"B32"            // AC 저전압 알람
+        "TestValue":"판단 불가",
+        "PassOrFail":"불합격"
+      },
+      {
+        "Position":"B33"            // AC 고전압 알람
+        "TestValue":"판단 불가",
+        "PassOrFail":"불합격"
+      },
+      {
+        "Position":"B34"            // AC 정전전압 인식
+        "TestValue":"판단 불가",
+        "PassOrFail":"불합격"
+      },
+      {
+        "Position":"B35"            // 출력 과부하 보호
+        "TestValue":"53.183",
+        "PassOrFail":"불합격"
+      },
+      {
+        "Position":"B36"            // 출력 과부하 보호
+        "TestValue":"53.182",
+        "PassOrFail":"불합격"
+      },
+      {
+        "Position":"B37"            // RTC TIME 체크
+        "TestValue":"OK",
+        "PassOrFail":"합격"
+      }
+    ]
+}

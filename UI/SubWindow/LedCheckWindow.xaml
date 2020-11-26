@@ -1,0 +1,227 @@
+﻿<Window x:Class="J_Project.UI.SubWindow.LedCheckWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:J_Project.UI.SubWindow"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        mc:Ignorable="d"
+        x:Name="LedCheck"
+        Title="LedCheckWindow" Height="250" Width="500" ResizeMode="NoResize" WindowStyle="None">
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction  Command="{Binding LoadedCommand}" CommandParameter="{Binding ElementName=LedCheck}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <Window.Effect>
+        <DropShadowEffect Color="DodgerBlue" BlurRadius="40" RenderingBias="Quality" ShadowDepth="1"/>
+    </Window.Effect>
+
+    <Window.InputBindings>
+        <KeyBinding Key="Enter" Command="{Binding EnterCommand}"/>
+        <KeyBinding Key="Esc" Command="{Binding EscCommand}"/>
+        <KeyBinding Key="D1" Command="{Binding RedLightCommand}"/>
+        <KeyBinding Key="D2" Command="{Binding RedBlinkCommand}"/>
+        <KeyBinding Key="D3" Command="{Binding YellowLightCommand}"/>
+        <KeyBinding Key="D4" Command="{Binding YellowBlinkCommand}"/>
+        <KeyBinding Key="D5" Command="{Binding GreenLightCommand}"/>
+    </Window.InputBindings>
+
+    <Window.Resources>
+        <Style TargetType="Button" BasedOn="{StaticResource BtnBaseNormal}" x:Key="ButtonColor">
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                    <BeginStoryboard Storyboard="{StaticResource BtnBackAni_TransToBlue}"/>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                    <BeginStoryboard Storyboard="{StaticResource BtnBackAni_BlueToTrans}"/>
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="Red" BasedOn="{StaticResource BtnBaseNormal}" TargetType="Button">
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                    <BeginStoryboard Storyboard="{StaticResource BtnBackAni_RedToDarkRed}"/>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                    <BeginStoryboard Storyboard="{StaticResource BtnBackAni_DarkRedToRed}"/>
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="Yellow" BasedOn="{StaticResource BtnBaseNormal}" TargetType="Button">
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                    <BeginStoryboard Storyboard="{StaticResource BtnBackAni_YellowToDarkYellow}"/>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                    <BeginStoryboard Storyboard="{StaticResource BtnBackAni_DarkYellowToYellow}"/>
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="Green" BasedOn="{StaticResource BtnBaseNormal}" TargetType="Button">
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                    <BeginStoryboard Storyboard="{StaticResource BtnBackAni_GreenToDarkGreen}"/>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                    <BeginStoryboard Storyboard="{StaticResource BtnBackAni_DarkGreenToGreen}"/>
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Storyboard x:Key="RedBlinkEnter">
+            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[0].(GradientStop.Color)" Storyboard.TargetName="RedBlinkBtn">
+                <EasingColorKeyFrame KeyTime="0" Value="#FFFF4444"/>
+                <EasingColorKeyFrame KeyTime="0:0:0.1" Value="#FFCB3838"/>
+            </ColorAnimationUsingKeyFrames>
+            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[1].(GradientStop.Color)" Storyboard.TargetName="RedBlinkBtn">
+                <EasingColorKeyFrame KeyTime="0" Value="#FFFF4444"/>
+                <EasingColorKeyFrame KeyTime="0:0:0.1" Value="#FFCB3838"/>
+            </ColorAnimationUsingKeyFrames>
+            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(TextElement.Background).(SolidColorBrush.Color)" Storyboard.TargetName="RedBlinkText">
+                <EasingColorKeyFrame KeyTime="0" Value="#FFFF4444"/>
+                <EasingColorKeyFrame KeyTime="0:0:0.1" Value="#FFCB3838"/>
+            </ColorAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="RedBlinkLeave">
+            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[0].(GradientStop.Color)" Storyboard.TargetName="RedBlinkBtn">
+                <EasingColorKeyFrame KeyTime="0" Value="#FFCB3838"/>
+                <EasingColorKeyFrame KeyTime="0:0:0.1" Value="#FFFF4444"/>
+            </ColorAnimationUsingKeyFrames>
+            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[1].(GradientStop.Color)" Storyboard.TargetName="RedBlinkBtn">
+                <EasingColorKeyFrame KeyTime="0" Value="#FFCB3838"/>
+                <EasingColorKeyFrame KeyTime="0:0:0.1" Value="#FFFF4444"/>
+            </ColorAnimationUsingKeyFrames>
+            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(TextElement.Background).(SolidColorBrush.Color)" Storyboard.TargetName="RedBlinkText">
+                <EasingColorKeyFrame KeyTime="0" Value="#FFCB3838"/>
+                <EasingColorKeyFrame KeyTime="0:0:0.1" Value="#FFFF4444"/>
+            </ColorAnimationUsingKeyFrames>
+        </Storyboard>
+
+        <Storyboard x:Key="YellowBlinkEnter">
+            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[0].(GradientStop.Color)" Storyboard.TargetName="YellowBlinkBtn">
+                <EasingColorKeyFrame KeyTime="0" Value="#FFF1AF00"/>
+                <EasingColorKeyFrame KeyTime="0:0:0.1" Value="#FFBF8B00"/>
+            </ColorAnimationUsingKeyFrames>
+            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[1].(GradientStop.Color)" Storyboard.TargetName="YellowBlinkBtn">
+                <EasingColorKeyFrame KeyTime="0" Value="#FFF1AF00"/>
+                <EasingColorKeyFrame KeyTime="0:0:0.1" Value="#FFBF8B00"/>
+            </ColorAnimationUsingKeyFrames>
+            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(TextElement.Background).(SolidColorBrush.Color)" Storyboard.TargetName="YellowBlinkText">
+                <EasingColorKeyFrame KeyTime="0" Value="#FFF1AF00"/>
+                <EasingColorKeyFrame KeyTime="0:0:0.1" Value="#FFBF8B00"/>
+            </ColorAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="YellowBlinkLeave">
+            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[0].(GradientStop.Color)" Storyboard.TargetName="YellowBlinkBtn">
+                <EasingColorKeyFrame KeyTime="0" Value="#FFBF8B00"/>
+                <EasingColorKeyFrame KeyTime="0:0:0.1" Value="#FFF1AF00"/>
+            </ColorAnimationUsingKeyFrames>
+            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[1].(GradientStop.Color)" Storyboard.TargetName="YellowBlinkBtn">
+                <EasingColorKeyFrame KeyTime="0" Value="#FFBF8B00"/>
+                <EasingColorKeyFrame KeyTime="0:0:0.1" Value="#FFF1AF00"/>
+            </ColorAnimationUsingKeyFrames>
+            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(TextElement.Background).(SolidColorBrush.Color)" Storyboard.TargetName="YellowBlinkText">
+                <EasingColorKeyFrame KeyTime="0" Value="#FFBF8B00"/>
+                <EasingColorKeyFrame KeyTime="0:0:0.1" Value="#FFF1AF00"/>
+            </ColorAnimationUsingKeyFrames>
+        </Storyboard>
+
+        <Storyboard x:Key="GreenBlinkEnter">
+            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(TextElement.Background).(SolidColorBrush.Color)" Storyboard.TargetName="GreenBlinkText">
+                <EasingColorKeyFrame KeyTime="0" Value="#FF31AA4D"/>
+                <EasingColorKeyFrame KeyTime="0:0:0.1" Value="#FF268F3E"/>
+            </ColorAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="GreenBlinkLeave">
+            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(TextElement.Background).(SolidColorBrush.Color)" Storyboard.TargetName="GreenBlinkText">
+                <EasingColorKeyFrame KeyTime="0" Value="#FF268F3E"/>
+                <EasingColorKeyFrame KeyTime="0:0:0.1" Value="#FF31AA4D"/>
+            </ColorAnimationUsingKeyFrames>
+        </Storyboard>
+    </Window.Resources>
+
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="UIElement.MouseEnter" SourceName="RedBlinkBtn">
+            <BeginStoryboard x:Name="RedBlinkEnter" Storyboard="{StaticResource RedBlinkEnter}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="UIElement.MouseLeave" SourceName="RedBlinkBtn">
+            <BeginStoryboard x:Name="RedBlinkLeave" Storyboard="{StaticResource RedBlinkLeave}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="UIElement.MouseEnter" SourceName="YellowBlinkBtn">
+            <BeginStoryboard x:Name="YellowBlinkEnter" Storyboard="{StaticResource YellowBlinkEnter}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="UIElement.MouseLeave" SourceName="YellowBlinkBtn">
+            <BeginStoryboard x:Name="YellowBlinkLeave" Storyboard="{StaticResource YellowBlinkLeave}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="UIElement.MouseEnter" SourceName="GreenBlinkBtn">
+            <BeginStoryboard x:Name="GreenBlinkEnter" Storyboard="{StaticResource GreenBlinkEnter}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="UIElement.MouseLeave" SourceName="GreenBlinkBtn">
+            <BeginStoryboard x:Name="GreenBlinkLeave" Storyboard="{StaticResource GreenBlinkLeave}"/>
+        </EventTrigger>
+    </Window.Triggers>
+
+    <Border BorderBrush="DodgerBlue" BorderThickness="1.5">
+        <StackPanel Background="#FF1B1E2B">
+            <TextBlock Text="LED 점검" Padding="10,5,0,5" Background="#FF3B456B" VerticalAlignment="Center" Foreground="White" FontSize="30" FontFamily="NanumGothic"/>
+
+            <Grid Margin="10,30,10,10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="60" />
+                    <RowDefinition Height="60" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Row="0" Grid.Column="0">
+                    <Button Height="50" BorderBrush="{x:Null}" Background="#FFFF4444" Style="{StaticResource Red}" Command="{Binding RedLightCommand}" FontFamily="NanumGothic">
+                        <TextBlock Text="적색 점등 (Fail1)" Foreground="White" FontSize="16" FontFamily="NanumGothic" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                    </Button>
+                </StackPanel>
+                <StackPanel Grid.Row="1" Grid.Column="0">
+                    <Button x:Name="RedBlinkBtn" Height="50" Background="{StaticResource RedBlink}" Foreground="White" FontSize="16" FontFamily="NanumGothic" Style="{StaticResource BtnBaseNormal}" Command="{Binding RedBlinkCommand}" BorderBrush="{x:Null}">
+                        <TextBlock x:Name="RedBlinkText" Text="적색 점멸 (Fail2)" HorizontalAlignment="Center" VerticalAlignment="Center" Background="#FFFF4444"/>
+                    </Button>
+                </StackPanel>
+
+                <StackPanel Grid.Row="0" Grid.Column="1">
+                    <Button Height="50" BorderBrush="{x:Null}" Background="#FFF1AF00" Style="{StaticResource Yellow}" Command="{Binding YellowLightCommand}" FontFamily="NanumGothic">
+                        <TextBlock Text="황색 점등 (Fail3)" Foreground="White" FontSize="16" FontFamily="NanumGothic" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Button>
+                </StackPanel>
+                <StackPanel Grid.Row="1" Grid.Column="1">
+                    <Button x:Name="YellowBlinkBtn" Height="50" Background="{StaticResource YellowBlink}" Foreground="White" FontSize="16" FontFamily="NanumGothic" Style="{StaticResource BtnBaseNormal}" Command="{Binding YellowBlinkCommand}" BorderBrush="{x:Null}">
+                        <TextBlock x:Name="YellowBlinkText" Text="황색 점멸 (Fail4)" HorizontalAlignment="Center" VerticalAlignment="Center" Background="#FFF1AF00"/>
+                    </Button>
+                </StackPanel>
+
+                <StackPanel Grid.Row="0" Grid.Column="2">
+                    <Button Height="50" BorderBrush="{x:Null}" Background="#FF31AA4D" Style="{StaticResource Green}" Command="{Binding GreenLightCommand}" FontFamily="NanumGothic">
+                        <TextBlock Text="녹색 점등" Foreground="White" FontSize="16" FontFamily="NanumGothic" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Button>
+                </StackPanel>
+
+                <StackPanel Grid.Row="1" Grid.Column="2">
+                    <Button x:Name="GreenBlinkBtn" IsEnabled="False" Height="50" Background="DodgerBlue" Foreground="White" FontSize="16" FontFamily="NanumGothic" Style="{StaticResource BtnBaseNormal}" Command="{Binding GreenBlinkCommand}" BorderBrush="{x:Null}">
+                        <TextBlock x:Name="GreenBlinkText" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Run Text="12V LED"/><LineBreak/>
+                            <Run Text="(오차 1V)"/>
+                        </TextBlock>
+                    </Button>
+                </StackPanel>
+            </Grid>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Content="정상" Height="30" Width="120" Command="{Binding OkCommand}" FontFamily="NanumGothic" FontSize="15" Style="{StaticResource ButtonColor}" Background="#0000" BorderBrush="{x:Null}" Foreground="White"/>
+                <Border Width="20"/>
+                <Button Content="오류" Height="30" Width="120" Command="{Binding ErrorCommand}" FontFamily="NanumGothic" FontSize="15" Style="{StaticResource ButtonColor}" Background="#0000" BorderBrush="{x:Null}" Foreground="White"/>
+            </StackPanel>
+        </StackPanel>
+    </Border>
+</Window>

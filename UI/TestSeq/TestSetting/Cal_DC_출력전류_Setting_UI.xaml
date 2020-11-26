@@ -1,0 +1,428 @@
+﻿<Page x:Class="J_Project.UI.TestSeq.TestSetting.Cal_DC_출력전류_Setting_UI"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+      xmlns:fa="clr-namespace:FontAwesome.WPF;assembly=FontAwesome.WPF"
+      mc:Ignorable="d"
+      Title="Cal_DC_출력전류_Setting_UI">
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Unloaded">
+            <i:InvokeCommandAction  Command="{Binding UnloadPage}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    
+    <Grid>
+        <StackPanel>
+            <!-- 테스트명-->
+            <TextBlock Text="DC 출력전류 CAL" Style="{StaticResource TestList_TestNameStyle}" />
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <!-- AC 설정-->
+                <StackPanel>
+                    <TextBlock Text="M200 AC" Style="{StaticResource TestList_ItemNameTextStyle}"/>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="전압(V)"    Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
+                        <TextBlock Text="전류(A)"    Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="1" />
+                        <TextBlock Text="주파수(Hz)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="2" />
+
+                        <TextBox Text="{Binding DcOutCurrCal.M200AcVolt[0]}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="0" Grid.Row="1"/>
+                        <TextBox Text="{Binding DcOutCurrCal.M200AcCurr[0]}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="1" Grid.Row="1"/>
+                        <TextBox Text="{Binding DcOutCurrCal.M200AcFreq[0]}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="2" Grid.Row="1"/>
+                    </Grid>
+                </StackPanel>
+                <!-- 화살표 이미지 -->
+                <fa:ImageAwesome Style="{StaticResource Allow}"/>
+                <!-- 알람 해제 -->
+                <TextBlock Text="저전압 알람 해제" Style="{StaticResource TestList_ItemNameTextStyle}"/>
+                <!-- 화살표 이미지 -->
+                <fa:ImageAwesome Style="{StaticResource Allow}"/>
+                <!-- 지연 시간 -->
+                <StackPanel>
+                    <TextBlock Text="지연시간" Style="{StaticResource TestList_ItemNameTextStyle}"/>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Text="대기(s)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
+
+                        <TextBox Text="{Binding DcOutCurrCal.Delay1[0]}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="0" Grid.Row="1"/>
+                    </Grid>
+                </StackPanel>
+                <!-- 화살표 이미지 -->
+                <fa:ImageAwesome Style="{StaticResource Allow}"/>
+                <!-- 부하 설정 -->
+                <StackPanel>
+                    <TextBlock Text="부하" Style="{StaticResource TestList_ItemNameTextStyle}"/>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="전류(A)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
+
+                        <TextBox Text="{Binding DcOutCurrCal.DacLoadCurr[0]}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="0" Grid.Row="1"/>
+                    </Grid>
+                </StackPanel>
+                <!-- 화살표 이미지 -->
+                <fa:ImageAwesome Style="{StaticResource Allow}"/>
+                <!-- 지연 시간 -->
+                <StackPanel>
+                    <TextBlock Text="지연시간" Style="{StaticResource TestList_ItemNameTextStyle}"/>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Text="대기(s)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
+
+                        <TextBox Text="{Binding DcOutCurrCal.Delay2[0]}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="0" Grid.Row="1"/>
+                    </Grid>
+                </StackPanel>
+                <!-- 화살표 이미지 -->
+                <fa:ImageAwesome Style="{StaticResource Allow}"/>
+                <!-- 부하 설정 -->
+                <StackPanel>
+                    <TextBlock Text="DAC CAL" Style="{StaticResource TestList_ItemNameTextStyle}"/>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="하한(A)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
+                        <TextBlock Text="상한(A)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="1" />
+
+                        <TextBox Text="{Binding DcOutCurrCal.DacLowerRef[0]}" Style="{StaticResource TestList_SetValueStyle}" Grid.Row="1" Grid.Column="0"/>
+                        <TextBox Text="{Binding DcOutCurrCal.DacUpperRef[0]}" Style="{StaticResource TestList_SetValueStyle}" Grid.Row="1" Grid.Column="1"/>
+                    </Grid>
+                </StackPanel>
+                <!-- 화살표 이미지 -->
+                <fa:ImageAwesome Style="{StaticResource Allow}"/>
+                <!-- 지연 시간 -->
+                <StackPanel>
+                    <TextBlock Text="지연시간" Style="{StaticResource TestList_ItemNameTextStyle}"/>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Text="대기(s)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
+
+                        <TextBox Text="{Binding DcOutCurrCal.Delay3[0]}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="0" Grid.Row="1"/>
+                    </Grid>
+                </StackPanel>
+                <!-- 화살표 이미지 -->
+                <fa:ImageAwesome Style="{StaticResource Allow}"/>
+                <!-- 부하 설정 -->
+                <StackPanel>
+                    <TextBlock Text="M200 기본값 설정" Style="{StaticResource TestList_ItemNameTextStyle}"/>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="전류(A)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
+
+                        <TextBox Text="{Binding DcOutCurrCal.DefaultM200Ref[0]}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="0" Grid.Row="1"/>
+                    </Grid>
+                </StackPanel>
+                <!-- 화살표 이미지 -->
+                <fa:ImageAwesome Style="{StaticResource Allow}"/>
+                <!-- 지연 시간 -->
+                <StackPanel>
+                    <TextBlock Text="지연시간" Style="{StaticResource TestList_ItemNameTextStyle}"/>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Text="대기(s)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
+
+                        <TextBox Text="{Binding DcOutCurrCal.Delay4[0]}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="0" Grid.Row="1"/>
+                    </Grid>
+                </StackPanel>
+                <!-- 화살표 이미지 -->
+                <fa:ImageAwesome Style="{StaticResource Allow}"/>
+                <!-- 부하 설정 -->
+                <StackPanel>
+                    <TextBlock Text="부하" Style="{StaticResource TestList_ItemNameTextStyle}"/>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="전류(A)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
+
+                        <TextBox Text="{Binding DcOutCurrCal.AdcLoadCurr[0]}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="0" Grid.Row="1"/>
+                    </Grid>
+                </StackPanel>
+                <!-- 화살표 이미지 -->
+                <fa:ImageAwesome Style="{StaticResource Allow}"/>
+                <!-- 지연 시간 -->
+                <StackPanel>
+                    <TextBlock Text="지연시간" Style="{StaticResource TestList_ItemNameTextStyle}"/>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Text="대기(s)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
+
+                        <TextBox Text="{Binding DcOutCurrCal.Delay5[0]}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="0" Grid.Row="1"/>
+                    </Grid>
+                </StackPanel>
+                <!-- 화살표 이미지 -->
+                <fa:ImageAwesome Style="{StaticResource Allow}"/>
+                <!-- 부하 설정 -->
+                <StackPanel>
+                    <TextBlock Text="상한 ADC CAL" Style="{StaticResource TestList_ItemNameTextStyle}"/>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="전류(A)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
+
+                        <TextBox Text="{Binding DcOutCurrCal.AdcUpperRef[0]}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="0" Grid.Row="1"/>
+                    </Grid>
+                </StackPanel>
+                <!-- 화살표 이미지 -->
+                <fa:ImageAwesome Style="{StaticResource Allow}"/>
+                <!-- 지연 시간 -->
+                <StackPanel>
+                    <TextBlock Text="지연시간" Style="{StaticResource TestList_ItemNameTextStyle}"/>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Text="대기(s)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
+
+                        <TextBox Text="{Binding DcOutCurrCal.Delay6[0]}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="0" Grid.Row="1"/>
+                    </Grid>
+                </StackPanel>
+                <!-- 화살표 이미지 -->
+                <fa:ImageAwesome Style="{StaticResource Allow}"/>
+                <!-- 부하 OFF -->
+                <TextBlock Text="부하 OFF" Style="{StaticResource TestList_ItemNameTextStyle}"/>
+                <!-- 화살표 이미지 -->
+                <fa:ImageAwesome Style="{StaticResource Allow}"/>
+                <!-- 지연 시간 -->
+                <StackPanel>
+                    <TextBlock Text="지연시간" Style="{StaticResource TestList_ItemNameTextStyle}"/>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Text="대기(s)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
+
+                        <TextBox Text="{Binding DcOutCurrCal.Delay7[0]}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="0" Grid.Row="1"/>
+                    </Grid>
+                </StackPanel>
+                <!-- 화살표 이미지 -->
+                <fa:ImageAwesome Style="{StaticResource Allow}"/>
+                <!-- 부하 설정 -->
+                <StackPanel>
+                    <TextBlock Text="하한 ADC CAL" Style="{StaticResource TestList_ItemNameTextStyle}"/>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="전류(A)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
+
+                        <TextBox Text="{Binding DcOutCurrCal.AdcLowerRef[0]}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="0" Grid.Row="1"/>
+                    </Grid>
+                </StackPanel>
+                <!-- 화살표 이미지 -->
+                <fa:ImageAwesome Style="{StaticResource Allow}"/>
+                <!-- AC 설정-->
+                <StackPanel>
+                    <TextBlock Text="M100 AC" Style="{StaticResource TestList_ItemNameTextStyle}"/>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="전압(V)"    Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
+                        <TextBlock Text="전류(A)"    Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="1" />
+                        <TextBlock Text="주파수(Hz)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="2" />
+
+                        <TextBox Text="{Binding DcOutCurrCal.M100AcVolt[0]}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="0" Grid.Row="1"/>
+                        <TextBox Text="{Binding DcOutCurrCal.M100AcCurr[0]}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="1" Grid.Row="1"/>
+                        <TextBox Text="{Binding DcOutCurrCal.M100AcFreq[0]}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="2" Grid.Row="1"/>
+                    </Grid>
+                </StackPanel>
+                <!-- 화살표 이미지 -->
+                <fa:ImageAwesome Style="{StaticResource Allow}"/>
+                <!-- 정류기 접속 -->
+                <TextBlock Text="정류기 리셋" Style="{StaticResource TestList_ItemNameTextStyle}"/>
+                <!-- 화살표 이미지 -->
+                <fa:ImageAwesome Style="{StaticResource Allow}"/>
+                <!-- 알람 해제 -->
+                <TextBlock Text="저전압 알람 해제" Style="{StaticResource TestList_ItemNameTextStyle}"/>
+                <!-- 화살표 이미지 -->
+                <fa:ImageAwesome Style="{StaticResource Allow}"/>
+                <!-- 지연 시간 -->
+                <StackPanel>
+                    <TextBlock Text="지연시간" Style="{StaticResource TestList_ItemNameTextStyle}"/>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Text="대기(s)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
+
+                        <TextBox Text="{Binding DcOutCurrCal.Delay8[0]}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="0" Grid.Row="1"/>
+                    </Grid>
+                </StackPanel>
+                <!-- 화살표 이미지 -->
+                <fa:ImageAwesome Style="{StaticResource Allow}"/>
+                <!-- 부하 설정 -->
+                <StackPanel>
+                    <TextBlock Text="부하" Style="{StaticResource TestList_ItemNameTextStyle}"/>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="전류(A)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
+
+                        <TextBox Text="{Binding DcOutCurrCal.M100LoadCurr[0]}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="0" Grid.Row="1"/>
+                    </Grid>
+                </StackPanel>
+                <!-- 화살표 이미지 -->
+                <fa:ImageAwesome Style="{StaticResource Allow}"/>
+                <!-- 지연 시간 -->
+                <StackPanel>
+                    <TextBlock Text="지연시간" Style="{StaticResource TestList_ItemNameTextStyle}"/>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Text="대기(s)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
+
+                        <TextBox Text="{Binding DcOutCurrCal.Delay9[0]}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="0" Grid.Row="1"/>
+                    </Grid>
+                </StackPanel>
+                <!-- 화살표 이미지 -->
+                <fa:ImageAwesome Style="{StaticResource Allow}"/>
+                <!-- 부하 설정 -->
+                <StackPanel>
+                    <TextBlock Text="M100 기본값 설정" Style="{StaticResource TestList_ItemNameTextStyle}"/>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition Height="16" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="전류(A)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
+
+                        <TextBox Text="{Binding DcOutCurrCal.DefaultM100Ref[0]}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="0" Grid.Row="1"/>
+                    </Grid>
+                </StackPanel>
+                <!-- 화살표 이미지 -->
+                <fa:ImageAwesome Style="{StaticResource Allow}"/>
+                <!-- 부하 OFF -->
+                <TextBlock Text="부하 OFF" Style="{StaticResource TestList_ItemNameTextStyle}"/>
+                <!-- 화살표 이미지 -->
+                <fa:ImageAwesome Style="{StaticResource Allow}"/>
+                <!-- 정류기 접속 -->
+                <TextBlock Text="정류기 리셋" Style="{StaticResource TestList_ItemNameTextStyle}"/>
+                <!-- 화살표 이미지 -->
+                <fa:ImageAwesome Style="{StaticResource Allow}"/>
+                <!-- 지연 시간 -->
+                <StackPanel>
+                    <TextBlock Text="지연시간" Style="{StaticResource TestList_ItemNameTextStyle}"/>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Text="대기(s)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
+
+                        <TextBox Text="{Binding DcOutCurrCal.NextTestWait[0]}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="0" Grid.Row="1"/>
+                    </Grid>
+                </StackPanel>
+                <!-- 화살표 이미지 -->
+                <fa:ImageAwesome Style="{StaticResource Allow}"/>
+                <!-- 테스트명-->
+                <TextBlock Text="다음 테스트" Style="{StaticResource TestList_ItemNameTextStyle}"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Page>

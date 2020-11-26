@@ -1,0 +1,1019 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0949105A-A21E-4960-B597-6B3B4DAB17E7}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>J_Project</RootNamespace>
+    <AssemblyName>J_Project</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <LangVersion>8.0</LangVersion>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <LangVersion>8.0</LangVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CommonServiceLocator, Version=2.0.2.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>packages\CommonServiceLocator.2.0.2\lib\net47\CommonServiceLocator.dll</HintPath>
+    </Reference>
+    <Reference Include="Costura, Version=1.6.2.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
+      <HintPath>packages\Costura.Fody.1.6.2\lib\dotnet\Costura.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="FontAwesome.WPF, Version=4.7.0.37774, Culture=neutral, PublicKeyToken=0758b07a11a4f466, processorArchitecture=MSIL">
+      <HintPath>packages\FontAwesome.WPF.4.7.0.9\lib\net40\FontAwesome.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight, Version=5.4.1.0, Culture=neutral, PublicKeyToken=e7570ab207bcb616, processorArchitecture=MSIL">
+      <HintPath>packages\MvvmLightLibs.5.4.1.1\lib\net45\GalaSoft.MvvmLight.dll</HintPath>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight.Extras, Version=5.4.1.0, Culture=neutral, PublicKeyToken=669f0b5e8f868abf, processorArchitecture=MSIL">
+      <HintPath>packages\MvvmLightLibs.5.4.1.1\lib\net45\GalaSoft.MvvmLight.Extras.dll</HintPath>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight.Platform, Version=5.4.1.0, Culture=neutral, PublicKeyToken=5f873c45e98af8a1, processorArchitecture=MSIL">
+      <HintPath>packages\MvvmLightLibs.5.4.1.1\lib\net45\GalaSoft.MvvmLight.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=1.0.0.999, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <HintPath>packages\SharpZipLib.1.0.0\lib\net45\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Ivi.Visa, Version=5.11.0.0, Culture=neutral, PublicKeyToken=a128c98f1d7717c1, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Expression.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\Program Files (x86)\Microsoft SDKs\Expression\Blend\.NETFramework\v4.0\Libraries\Microsoft.Expression.Drawing.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Office.Interop.Excel.15.0.4795.1000\lib\net20\Microsoft.Office.Interop.Excel.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAPICodePack, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\WindowsAPICodePack-Core.1.1.1\lib\Microsoft.WindowsAPICodePack.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAPICodePack.Shell, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\WindowsAPICodePack-Shell.1.1.1\lib\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
+    </Reference>
+    <Reference Include="NationalInstruments.Visa, Version=19.0.0.49152, Culture=neutral, PublicKeyToken=2eaa5af0834e221d, processorArchitecture=MSIL" />
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI, Version=2.4.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>packages\NPOI.2.4.1\lib\net45\NPOI.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OOXML, Version=2.4.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>packages\NPOI.2.4.1\lib\net45\NPOI.OOXML.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXml4Net, Version=2.4.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>packages\NPOI.2.4.1\lib\net45\NPOI.OpenXml4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXmlFormats, Version=2.4.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>packages\NPOI.2.4.1\lib\net45\NPOI.OpenXmlFormats.dll</HintPath>
+    </Reference>
+    <Reference Include="PropertyChanged, Version=1.53.0.0, Culture=neutral, PublicKeyToken=ee3ee20bcf148ddd, processorArchitecture=MSIL">
+      <HintPath>packages\PropertyChanged.Fody.1.53.0\lib\netstandard10\PropertyChanged.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Drawing.Design" />
+    <Reference Include="System.Reflection, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Reflection.4.3.0\lib\net462\System.Reflection.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reflection.TypeExtensions, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Reflection.TypeExtensions.4.3.0\lib\net462\System.Reflection.TypeExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Runtime.Serialization.Primitives, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Runtime.Serialization.Primitives.4.3.0\lib\net46\System.Runtime.Serialization.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\MvvmLightLibs.5.4.1.1\lib\net45\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.XmlDocument, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Xml.XmlDocument.4.3.0\lib\net46\System.Xml.XmlDocument.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="WinFormAnimation, Version=1.6.0.4, Culture=neutral, PublicKeyToken=310fd07b25df79b3, processorArchitecture=MSIL">
+      <HintPath>packages\WinFormAnimation.1.6.0.4\lib\net40\WinFormAnimation.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="Communication\CommFlags\CommFlag.cs" />
+    <Compile Include="Communication\CommModule\ICommModule.cs" />
+    <Compile Include="Communication\CommModule\NullComm.cs" />
+    <Compile Include="Communication\CommModule\SerialComm.cs" />
+    <Compile Include="Communication\CommModule\UsbComm.cs" />
+    <Compile Include="Data\BasicInfo.cs" />
+    <Compile Include="Data\EquiConnectID.cs" />
+    <Compile Include="Equipment\AcSource.cs" />
+    <Compile Include="Equipment\DcLoad.cs" />
+    <Compile Include="Equipment\DcSource.cs" />
+    <Compile Include="Equipment\Dmm1.cs" />
+    <Compile Include="Equipment\Dmm2.cs" />
+    <Compile Include="Equipment\Equipment.cs" />
+    <Compile Include="Equipment\Oscilloscope.cs" />
+    <Compile Include="Equipment\PowerMeter.cs" />
+    <Compile Include="Equipment\Rectifier.cs" />
+    <Compile Include="Equipment\Remote.cs" />
+    <Compile Include="FileSystem\CsvReport.cs" />
+    <Compile Include="FileSystem\DirectoryManager.cs" />
+    <Compile Include="FileSystem\ExcelReport.cs" />
+    <Compile Include="FileSystem\Logger.cs" />
+    <Compile Include="FileSystem\ReportSender.cs" />
+    <Compile Include="FileSystem\Setting.cs" />
+    <Compile Include="Manager\EventArgsClass\TestEndEventArgs.cs" />
+    <Compile Include="Manager\EventArgsClass\TestRunCheckEventArgs.cs" />
+    <Compile Include="Manager\EventArgsClass\TestStartEventArgs.cs" />
+    <Compile Include="Manager\EventArgsClass\UnitTestEndEventArgs.cs" />
+    <Compile Include="Manager\EventArgsClass\UnitTestStartEventArgs.cs" />
+    <Compile Include="Manager\Fault.cs" />
+    <Compile Include="Manager\TestExecution.cs" />
+    <Compile Include="Manager\TestItemUint.cs" />
+    <Compile Include="Manager\TestOption.cs" />
+    <Compile Include="Manager\Util.cs" />
+    <Compile Include="TestMethod\BatteryComm.cs" />
+    <Compile Include="TestMethod\IdChange.cs" />
+    <Compile Include="TestMethod\SerialSave.cs" />
+    <Compile Include="TestMethod\RemoteComm.cs" />
+    <Compile Include="TestMethod\RectOnCheck.cs" />
+    <Compile Include="TestMethod\LocalSwitch.cs" />
+    <Compile Include="TestMethod\M100Ready.cs" />
+    <Compile Include="TestMethod\CalReady.cs" />
+    <Compile Include="TestMethod\M200Ready.cs" />
+    <Compile Include="TestMethod\RTC_TIME_체크.cs" />
+    <Compile Include="TestMethod\AC_고전압_알람.cs" />
+    <Compile Include="TestMethod\AC_저전압_알람.cs" />
+    <Compile Include="TestMethod\AC_정전전압_인식.cs" />
+    <Compile Include="TestMethod\Cal_AC_입력전압.cs" />
+    <Compile Include="TestMethod\Cal_DC_출력전류.cs" />
+    <Compile Include="TestMethod\Cal_DC_출력전압.cs" />
+    <Compile Include="TestMethod\EventArgsClass\ResultCheckEventArgs.cs" />
+    <Compile Include="TestMethod\Test.cs" />
+    <Compile Include="TestMethod\ConnecterCheck.cs" />
+    <Compile Include="TestMethod\라인_레귤레이션.cs" />
+    <Compile Include="TestMethod\로드_레귤레이션.cs" />
+    <Compile Include="TestMethod\리플_노이즈.cs" />
+    <Compile Include="TestMethod\DcOutCheck.cs" />
+    <Compile Include="TestMethod\무부하_전원_ON.cs" />
+    <Compile Include="TestMethod\역률.cs" />
+    <Compile Include="TestMethod\LedCheck.cs" />
+    <Compile Include="TestMethod\온도센서_점검.cs" />
+    <Compile Include="TestMethod\초기세팅.cs" />
+    <Compile Include="TestMethod\출력_고전압_보호.cs" />
+    <Compile Include="TestMethod\출력_과부하_보호.cs" />
+    <Compile Include="TestMethod\출력_저전압_보호.cs" />
+    <Compile Include="TestMethod\효율.cs" />
+    <Compile Include="UI\BindConverterClass\ButtonColorConverter.cs" />
+    <Compile Include="UI\BindConverterClass\DisplayIdConverter.cs" />
+    <Compile Include="UI\MainWindow\Testing\SecondTestingPage.xaml.cs">
+      <DependentUpon>SecondTestingPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\SubWindow\SerialWindow.xaml.cs">
+      <DependentUpon>SerialWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\SubWindow\TextWindow.xaml.cs">
+      <DependentUpon>TextWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\SubWindow\IdChangeWindow.xaml.cs">
+      <DependentUpon>IdChangeWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\SubWindow\ConnecterCheckWindow.xaml.cs">
+      <DependentUpon>ConnecterCheckWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\SubWindow\LedCheckWindow.xaml.cs">
+      <DependentUpon>LedCheckWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\SubWindow\LoadCtrlWindow2.xaml.cs">
+      <DependentUpon>LoadCtrlWindow2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\SubWindow\LoadCtrlWindow.xaml.cs">
+      <DependentUpon>LoadCtrlWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\SubWindow\AcCtrlWindow.xaml.cs">
+      <DependentUpon>AcCtrlWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\SubWindow\LocalSwitchWindow.xaml.cs">
+      <DependentUpon>LocalSwitchWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\SubWindow\ReportProcessWindow.xaml.cs">
+      <DependentUpon>ReportProcessWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\Execution\BatteryComm_UI.xaml.cs">
+      <DependentUpon>BatteryComm_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\Execution\IdChange_UI.xaml.cs">
+      <DependentUpon>IdChange_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\Execution\ConnecterCheck_UI.xaml.cs">
+      <DependentUpon>ConnecterCheck_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\Execution\LedCheck2_UI.xaml.cs">
+      <DependentUpon>LedCheck2_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\Execution\SerialSave_UI.xaml.cs">
+      <DependentUpon>SerialSave_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\Execution\RemoteComm_UI.xaml.cs">
+      <DependentUpon>RemoteComm_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\Execution\LocalSwitch_UI.xaml.cs">
+      <DependentUpon>LocalSwitch_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\Execution\LedCheck_UI.xaml.cs">
+      <DependentUpon>LedCheck_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\BindConverterClass\ButtonActiveConverter.cs" />
+    <Compile Include="UI\BindConverterClass\ButtonTextColorConverter.cs" />
+    <Compile Include="UI\BindConverterClass\ErrorToColorConverter.cs" />
+    <Compile Include="UI\BindConverterClass\PassThroughConverter.cs" />
+    <Compile Include="UI\CommandClass\BaseCommand.cs" />
+    <Compile Include="UI\CommandClass\BaseObjCommand.cs" />
+    <Compile Include="UI\CommandClass\ComboCommand.cs" />
+    <Compile Include="UI\MainWindow\MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\MainWindow\Setting\BasicInfoPage.xaml.cs">
+      <DependentUpon>BasicInfoPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\MainWindow\HomePage.xaml.cs">
+      <DependentUpon>HomePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\MainWindow\Setting\EquiIdPage.xaml.cs">
+      <DependentUpon>EquiIdPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\MainWindow\Setting\TestSettingPage.xaml.cs">
+      <DependentUpon>TestSettingPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\MainWindow\Testing\MainTestingPage.xaml.cs">
+      <DependentUpon>MainTestingPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\Execution\AC_고전압_알람_UI.xaml.cs">
+      <DependentUpon>AC_고전압_알람_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\Execution\AC_저전압_알람1_UI.xaml.cs">
+      <DependentUpon>AC_저전압_알람1_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\Execution\AC_저전압_알람2_UI.xaml.cs">
+      <DependentUpon>AC_저전압_알람2_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\Execution\AC_정전전압_인식_UI.xaml.cs">
+      <DependentUpon>AC_정전전압_인식_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\Execution\Cal_AC_입력전압_UI.xaml.cs">
+      <DependentUpon>Cal_AC_입력전압_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\Execution\Cal_DC_출력전류_UI.xaml.cs">
+      <DependentUpon>Cal_DC_출력전류_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\Execution\Cal_DC_출력전압_UI.xaml.cs">
+      <DependentUpon>Cal_DC_출력전압_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\Execution\RectOnCheck_UI.xaml.cs">
+      <DependentUpon>RectOnCheck_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\Execution\ITestExeList.cs" />
+    <Compile Include="UI\TestSeq\Execution\RTC_TIME_체크2_UI.xaml.cs">
+      <DependentUpon>RTC_TIME_체크2_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\Execution\라인_레귤레이션1_UI.xaml.cs">
+      <DependentUpon>라인_레귤레이션1_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\Execution\라인_레귤레이션2_UI.xaml.cs">
+      <DependentUpon>라인_레귤레이션2_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\Execution\라인_레귤레이션3_UI.xaml.cs">
+      <DependentUpon>라인_레귤레이션3_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\Execution\라인_레귤레이션4_UI.xaml.cs">
+      <DependentUpon>라인_레귤레이션4_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\Execution\로드_레귤레이션1_UI.xaml.cs">
+      <DependentUpon>로드_레귤레이션1_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\Execution\로드_레귤레이션2_UI.xaml.cs">
+      <DependentUpon>로드_레귤레이션2_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\Execution\로드_레귤레이션3_UI.xaml.cs">
+      <DependentUpon>로드_레귤레이션3_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\Execution\리플_노이즈_UI.xaml.cs">
+      <DependentUpon>리플_노이즈_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\Execution\무부하_전원_ON_UI.xaml.cs">
+      <DependentUpon>무부하_전원_ON_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\Execution\DcOutCheck_UI.xaml.cs">
+      <DependentUpon>DcOutCheck_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\Execution\역률_UI.xaml.cs">
+      <DependentUpon>역률_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\Execution\초기세팅_UI.xaml.cs">
+      <DependentUpon>초기세팅_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\Execution\온도센서_점검_UI.xaml.cs">
+      <DependentUpon>온도센서_점검_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\Execution\출력_고전압_보호_UI.xaml.cs">
+      <DependentUpon>출력_고전압_보호_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\Execution\출력_과부하_보호1_UI.xaml.cs">
+      <DependentUpon>출력_과부하_보호1_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\Execution\출력_과부하_보호2_UI.xaml.cs">
+      <DependentUpon>출력_과부하_보호2_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\Execution\출력_저전압_보호_UI.xaml.cs">
+      <DependentUpon>출력_저전압_보호_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\Execution\효율_UI.xaml.cs">
+      <DependentUpon>효율_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\Execution\RTC_TIME_체크_UI.xaml.cs">
+      <DependentUpon>RTC_TIME_체크_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\Execution\M100Ready_UI.xaml.cs">
+      <DependentUpon>M100Ready_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\Execution\CalReady_UI.xaml.cs">
+      <DependentUpon>CalReady_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\Execution\M200Ready_UI.xaml.cs">
+      <DependentUpon>M200Ready_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\TestSetting\AC_고전압_알람_Setting_UI.xaml.cs">
+      <DependentUpon>AC_고전압_알람_Setting_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\TestSetting\AC_저전압_알람_Setting_UI.xaml.cs">
+      <DependentUpon>AC_저전압_알람_Setting_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\TestSetting\AC_정전전압_인식_Setting_UI.xaml.cs">
+      <DependentUpon>AC_정전전압_인식_Setting_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\TestSetting\BatteryComm_Setting_UI.xaml.cs">
+      <DependentUpon>BatteryComm_Setting_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\TestSetting\IdChange_Setting_UI.xaml.cs">
+      <DependentUpon>IdChange_Setting_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\TestSetting\ConnecterCheck_Setting_UI.xaml.cs">
+      <DependentUpon>ConnecterCheck_Setting_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\TestSetting\LedCheck2_Setting_UI.xaml.cs">
+      <DependentUpon>LedCheck2_Setting_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\TestSetting\SerialSave_Setting_UI.xaml.cs">
+      <DependentUpon>SerialSave_Setting_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\TestSetting\RemoteComm_Setting_UI.xaml.cs">
+      <DependentUpon>RemoteComm_Setting_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\TestSetting\RectOnCheck_Setting_UI.xaml.cs">
+      <DependentUpon>RectOnCheck_Setting_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\TestSetting\LocalSwitch_Setting_UI.xaml.cs">
+      <DependentUpon>LocalSwitch_Setting_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\TestSetting\M200Ready_Setting_UI.xaml.cs">
+      <DependentUpon>M200Ready_Setting_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\TestSetting\M100Ready_Setting_UI.xaml.cs">
+      <DependentUpon>M100Ready_Setting_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\TestSetting\Cal_AC_입력전압_Setting_UI.xaml.cs">
+      <DependentUpon>Cal_AC_입력전압_Setting_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\TestSetting\Cal_DC_출력전류_Setting_UI.xaml.cs">
+      <DependentUpon>Cal_DC_출력전류_Setting_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\TestSetting\Cal_DC_출력전압_Setting_UI.xaml.cs">
+      <DependentUpon>Cal_DC_출력전압_Setting_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\TestSetting\ITestSettingList.cs" />
+    <Compile Include="UI\TestSeq\TestSetting\CalReady_Setting_UI.xaml.cs">
+      <DependentUpon>CalReady_Setting_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\TestSetting\RTC_TIME_체크2_Setting_UI.xaml.cs">
+      <DependentUpon>RTC_TIME_체크2_Setting_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\TestSetting\라인_레귤레이션_Setting_UI.xaml.cs">
+      <DependentUpon>라인_레귤레이션_Setting_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\TestSetting\로드_레귤레이션_Setting_UI.xaml.cs">
+      <DependentUpon>로드_레귤레이션_Setting_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\TestSetting\리플_노이즈_Setting_UI.xaml.cs">
+      <DependentUpon>리플_노이즈_Setting_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\TestSetting\DcOutCheck_Setting_UI.xaml.cs">
+      <DependentUpon>DcOutCheck_Setting_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\TestSetting\무부하_전원_ON_Setting_UI.xaml.cs">
+      <DependentUpon>무부하_전원_ON_Setting_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\TestSetting\역률_Setting_UI.xaml.cs">
+      <DependentUpon>역률_Setting_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\TestSetting\LedCheck_Setting_UI.xaml.cs">
+      <DependentUpon>LedCheck_Setting_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\TestSetting\초기세팅_Setting_UI.xaml.cs">
+      <DependentUpon>초기세팅_Setting_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\TestSetting\온도센서_점검_Setting_UI.xaml.cs">
+      <DependentUpon>온도센서_점검_Setting_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\TestSetting\출력_고전압_보호_Setting_UI.xaml.cs">
+      <DependentUpon>출력_고전압_보호_Setting_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\TestSetting\출력_과부하_보호_Setting_UI.xaml.cs">
+      <DependentUpon>출력_과부하_보호_Setting_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\TestSetting\출력_저전압_보호_Setting_UI.xaml.cs">
+      <DependentUpon>출력_저전압_보호_Setting_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\TestSetting\RTC_TIME_체크_Setting_UI.xaml.cs">
+      <DependentUpon>RTC_TIME_체크_Setting_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\TestSetting\효율_Setting_UI.xaml.cs">
+      <DependentUpon>효율_Setting_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UI\UserController\ToggleSwitch.xaml.cs">
+      <DependentUpon>ToggleSwitch.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\MainWindowVM.cs" />
+    <Compile Include="ViewModel\BasicInfoPageVM.cs" />
+    <Compile Include="ViewModel\SubWindow\SerialViewModel.cs" />
+    <Compile Include="ViewModel\SubWindow\TextViewModel.cs" />
+    <Compile Include="ViewModel\SubWindow\AcCtrlViewModel.cs" />
+    <Compile Include="ViewModel\SubWindow\IdChangeWinViewModel.cs" />
+    <Compile Include="ViewModel\SubWindow\ConnecterWinViewModel.cs" />
+    <Compile Include="ViewModel\SubWindow\LedCheckWinViewModel.cs" />
+    <Compile Include="ViewModel\SubWindow\LoadCtrlViewModel.cs" />
+    <Compile Include="ViewModel\SubWindow\LocalSwitchWinViewModel.cs" />
+    <Compile Include="ViewModel\SubWindow\ReportProcessViewModel.cs" />
+    <Compile Include="ViewModel\SettingPageVM.cs" />
+    <Compile Include="ViewModel\TestingPageVM.cs" />
+    <Compile Include="ViewModel\TestItem\AcHighVM.cs" />
+    <Compile Include="ViewModel\TestItem\AcLowVM.cs" />
+    <Compile Include="ViewModel\TestItem\AcBlackOutVM.cs" />
+    <Compile Include="ViewModel\TestItem\AllTestVM.cs" />
+    <Compile Include="ViewModel\TestItem\BatteryComm2VM.cs" />
+    <Compile Include="ViewModel\TestItem\CalAcVM.cs" />
+    <Compile Include="ViewModel\TestItem\CalDcCurrVM.cs" />
+    <Compile Include="ViewModel\TestItem\CalDcVoltVM.cs" />
+    <Compile Include="ViewModel\TestItem\DcOutCheckVM.cs" />
+    <Compile Include="ViewModel\TestItem\IdChangeVM.cs" />
+    <Compile Include="ViewModel\TestItem\LedCheck2VM.cs" />
+    <Compile Include="ViewModel\TestItem\SerialSaveVM.cs" />
+    <Compile Include="ViewModel\TestItem\LocalSwitch2VM.cs" />
+    <Compile Include="ViewModel\TestItem\RectOnCheckVM.cs" />
+    <Compile Include="ViewModel\TestItem\BatteryCommVM.cs" />
+    <Compile Include="ViewModel\TestItem\RemoteComm2VM.cs" />
+    <Compile Include="ViewModel\TestItem\RemoteCommVM.cs" />
+    <Compile Include="ViewModel\TestItem\LocalSwitchVM.cs" />
+    <Compile Include="ViewModel\TestItem\M100ReadyVM.cs" />
+    <Compile Include="ViewModel\TestItem\CalReadyVM.cs" />
+    <Compile Include="ViewModel\TestItem\M200ReadyVM.cs" />
+    <Compile Include="ViewModel\TestItem\LedCheckVM.cs" />
+    <Compile Include="ViewModel\TestItem\ConnecterVM.cs" />
+    <Compile Include="ViewModel\TestItem\RtcCheck2VM.cs" />
+    <Compile Include="ViewModel\TestItem\LineRegVM.cs" />
+    <Compile Include="ViewModel\TestItem\LoadRegVM.cs" />
+    <Compile Include="ViewModel\TestItem\Noise2VM.cs" />
+    <Compile Include="ViewModel\TestItem\NoiseVM.cs" />
+    <Compile Include="ViewModel\TestItem\NoLoad2VM.cs" />
+    <Compile Include="ViewModel\TestItem\NoLoadVM.cs" />
+    <Compile Include="ViewModel\TestItem\PowerFactor2VM.cs" />
+    <Compile Include="ViewModel\TestItem\PowerFactorVM.cs" />
+    <Compile Include="ViewModel\TestItem\InitVM.cs" />
+    <Compile Include="ViewModel\TestItem\TempVM.cs" />
+    <Compile Include="ViewModel\TestItem\OutputHighVM.cs" />
+    <Compile Include="ViewModel\TestItem\OutputOverVM.cs" />
+    <Compile Include="ViewModel\TestItem\OutputLowVM.cs" />
+    <Compile Include="ViewModel\TestItem\RtcCheckVM.cs" />
+    <Compile Include="ViewModel\TestItem\EfficiencyVM.cs" />
+    <Compile Include="ViewModel\ViewModelLocator.cs" />
+    <Page Include="UI\MainWindow\Testing\SecondTestingPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Style\UI_Animation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\SubWindow\SerialWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\SubWindow\TextWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\SubWindow\IdChangeWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\SubWindow\ConnecterCheckWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\SubWindow\LedCheckWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\SubWindow\LoadCtrlWindow2.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\SubWindow\LoadCtrlWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\SubWindow\AcCtrlWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\SubWindow\LocalSwitchWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\SubWindow\ReportProcessWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\Execution\BatteryComm_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\Execution\IdChange_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\Execution\ConnecterCheck_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\Execution\LedCheck2_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\Execution\SerialSave_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\Execution\RemoteComm_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\Execution\LocalSwitch_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\Execution\LedCheck_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\MainWindow\MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\MainWindow\Setting\BasicInfoPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\MainWindow\HomePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\MainWindow\Setting\EquiIdPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\MainWindow\Setting\TestSettingPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\MainWindow\Testing\MainTestingPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Style\UI_ButtonStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Style\UI_ComboboxStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Style\UI_GroupingStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Style\UI_ImageStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Style\UI_Scrollbar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Style\UI_TextStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\Execution\AC_고전압_알람_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\Execution\AC_저전압_알람1_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\Execution\AC_저전압_알람2_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\Execution\AC_정전전압_인식_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\Execution\Cal_AC_입력전압_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\Execution\Cal_DC_출력전류_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\Execution\Cal_DC_출력전압_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\Execution\RectOnCheck_UI.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\TestSeq\Execution\RTC_TIME_체크2_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\Execution\라인_레귤레이션1_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\Execution\라인_레귤레이션2_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\Execution\라인_레귤레이션3_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\Execution\라인_레귤레이션4_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\Execution\로드_레귤레이션1_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\Execution\로드_레귤레이션2_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\Execution\로드_레귤레이션3_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\Execution\리플_노이즈_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\Execution\무부하_전원_ON_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\Execution\DcOutCheck_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\Execution\역률_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\Execution\초기세팅_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\Execution\온도센서_점검_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\Execution\출력_고전압_보호_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\Execution\출력_과부하_보호1_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\Execution\출력_과부하_보호2_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\Execution\출력_저전압_보호_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\Execution\효율_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\Execution\RTC_TIME_체크_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\Execution\M100Ready_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\Execution\CalReady_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\Execution\M200Ready_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\TestSetting\AC_고전압_알람_Setting_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\TestSetting\AC_저전압_알람_Setting_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\TestSetting\AC_정전전압_인식_Setting_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\TestSetting\BatteryComm_Setting_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\TestSetting\IdChange_Setting_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\TestSetting\ConnecterCheck_Setting_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\TestSetting\LedCheck2_Setting_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\TestSetting\SerialSave_Setting_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\TestSetting\RemoteComm_Setting_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\TestSetting\RectOnCheck_Setting_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\TestSetting\LocalSwitch_Setting_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\TestSetting\M200Ready_Setting_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\TestSetting\M100Ready_Setting_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\TestSetting\Cal_AC_입력전압_Setting_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\TestSetting\Cal_DC_출력전류_Setting_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\TestSetting\Cal_DC_출력전압_Setting_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\TestSetting\CalReady_Setting_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\TestSetting\RTC_TIME_체크2_Setting_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\TestSetting\라인_레귤레이션_Setting_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\TestSetting\로드_레귤레이션_Setting_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\TestSetting\리플_노이즈_Setting_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\TestSetting\DcOutCheck_Setting_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\TestSetting\무부하_전원_ON_Setting_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\TestSetting\역률_Setting_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\TestSetting\LedCheck_Setting_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\TestSetting\초기세팅_Setting_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\TestSetting\온도센서_점검_Setting_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\TestSetting\출력_고전압_보호_Setting_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\TestSetting\출력_과부하_보호_Setting_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\TestSetting\출력_저전압_보호_Setting_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\TestSetting\RTC_TIME_체크_Setting_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\TestSetting\효율_Setting_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\UserController\ToggleSwitch.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\allow.png" />
+    <Resource Include="Resources\Logo.JPG" />
+    <Resource Include="Resources\Logo2.JPG" />
+    <Resource Include="Resources\monitoring.png" />
+    <Resource Include="Resources\onoff.png" />
+    <Resource Include="Resources\redButton.PNG" />
+    <Resource Include="Resources\Reset.png" />
+    <Resource Include="Resources\setting.png" />
+    <Resource Include="Resources\test.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="FodyWeavers.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\LogoOnly.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\LogoOnly_NoBack.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="CheckList.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\test_Blue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\LogoOnly_Blue3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\LogoOnly_Blue4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\logout.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\LogoOnly_White.png" />
+    <Resource Include="Resources\logout_Blue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\report_Blue.png" />
+    <Resource Include="Resources\setting_Blue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Setting2.png" />
+    <Resource Include="Resources\Setting2_Blue.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="packages\Fody.2.5.0\build\Fody.targets" Condition="Exists('packages\Fody.2.5.0\build\Fody.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>이 프로젝트는 이 컴퓨터에 없는 NuGet 패키지를 참조합니다. 해당 패키지를 다운로드하려면 NuGet 패키지 복원을 사용하십시오. 자세한 내용은 http://go.microsoft.com/fwlink/?LinkID=322105를 참조하십시오. 누락된 파일은 {0}입니다.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('packages\Fody.2.5.0\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Fody.2.5.0\build\Fody.targets'))" />
+    <Error Condition="!Exists('packages\Costura.Fody.1.6.2\build\dotnet\Costura.Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Costura.Fody.1.6.2\build\dotnet\Costura.Fody.targets'))" />
+  </Target>
+  <Import Project="packages\Costura.Fody.1.6.2\build\dotnet\Costura.Fody.targets" Condition="Exists('packages\Costura.Fody.1.6.2\build\dotnet\Costura.Fody.targets')" />
+</Project>

@@ -1,0 +1,90 @@
+﻿<Page x:Class="J_Project.UI.TestSeq.TestSetting.RectOnCheck_Setting_UI"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+      xmlns:fa="clr-namespace:FontAwesome.WPF;assembly=FontAwesome.WPF"
+      mc:Ignorable="d"
+      Title="RectOnCheck_Setting_UI">
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Unloaded">
+            <i:InvokeCommandAction  Command="{Binding UnloadPage}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <Grid>
+        <StackPanel>
+            <!-- 테스트명-->
+            <TextBlock Text="정류기 전원 확인" Style="{StaticResource TestList_TestNameStyle}" />
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <!-- DC 설정 -->
+                <StackPanel>
+                    <TextBlock Text="DC" Style="{StaticResource TestList_ItemNameTextStyle}" />
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="전압(V)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
+                        <TextBlock Text="전류(A)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="1" />
+
+                        <TextBox x:Name="DcVolt" Style="{StaticResource TestList_SetValueStyle}" Text="{Binding RectOn.DcVolt[0], Mode=TwoWay}" Tag="{Binding IsRightText}" Grid.Column="0" Grid.Row="1"/>
+                        <TextBox x:Name="DcCurr" Style="{StaticResource TestList_SetValueStyle}" Text="{Binding RectOn.DcCurr[0], Mode=TwoWay}" Grid.Column="1" Grid.Row="1"/>
+                    </Grid>
+                </StackPanel>
+                <!-- 화살표 이미지 -->
+                <fa:ImageAwesome Style="{StaticResource Allow}"/>
+                <!-- 지연 시간 -->
+                <StackPanel>
+                    <TextBlock Text="지연시간" Style="{StaticResource TestList_ItemNameTextStyle}" />
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Text="대기(s)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
+
+                        <TextBox Style="{StaticResource TestList_SetValueStyle}" Text="{Binding RectOn.Delay1[0], Mode=TwoWay}" Grid.Column="0" Grid.Row="1" />
+                    </Grid>
+                </StackPanel>
+                <!-- 화살표 이미지 -->
+                <fa:ImageAwesome Style="{StaticResource Allow}"/>
+                <!-- 정류기 접속 -->
+                <TextBlock Text="정류기 접속" Style="{StaticResource TestList_ItemNameTextStyle}" />
+                <!-- 화살표 이미지 -->
+                <fa:ImageAwesome Style="{StaticResource Allow}"/>
+                <!-- 정류기 ON 확인 -->
+                <TextBlock Text="정류기 ON 확인" Style="{StaticResource TestList_ItemNameTextStyle}" />
+                <!-- 화살표 이미지 -->
+                <fa:ImageAwesome Style="{StaticResource Allow}"/>
+                <!-- 지연 시간 -->
+                <StackPanel>
+                    <TextBlock Text="지연시간" Style="{StaticResource TestList_ItemNameTextStyle}" />
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Text="대기(s)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
+
+                        <TextBox Style="{StaticResource TestList_SetValueStyle}" Text="{Binding RectOn.NextTestWait[0], Mode=TwoWay}" Grid.Column="0" Grid.Row="1" />
+                    </Grid>
+                </StackPanel>
+                <!-- 화살표 이미지 -->
+                <fa:ImageAwesome Style="{StaticResource Allow}"/>
+                <!-- 테스트명-->
+                <TextBlock Text="다음 테스트" Style="{StaticResource TestList_ItemNameTextStyle}" />
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Page>

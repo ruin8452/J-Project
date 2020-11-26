@@ -1,0 +1,304 @@
+﻿using J_Project.Equipment;
+using J_Project.Manager;
+using J_Project.TestMethod;
+using J_Project.ViewModel.CommandClass;
+using J_Project.ViewModel.SubWindow;
+using System;
+using System.Collections.ObjectModel;
+using System.Text;
+using System.Windows;
+using System.Windows.Input;
+using System.Windows.Media;
+
+namespace J_Project.ViewModel.TestItem
+{
+    internal class DcOutCheckVM : AllTestVM
+    {
+        private enum Seq
+        {
+            AC_ON,
+            DELAY1,
+            SWITCH_CHECK,
+            OUTPUT_CHECK,
+            RESULT_SAVE,
+            NEXT_TEST_DELAY,
+            END_TEST
+        }
+
+        private enum RefSave
+        {
+            NO_SAVE,
+            SAVE
+        }
+
+        private const double ERR_RATE = 0.05;
+
+        public static string TestName { get; } = "출력전압 체크";
+        public DcOutCheck DcCheck { get; set; }
+        public TestOption Option { get; set; }
+
+        public ObservableCollection<SolidColorBrush> ButtonColor { get; private set; }
+
+        public ICommand UnloadPage { get; set; }
+        public ICommand UnitTestCommand { get; set; }
+
+        public DcOutCheckVM()
+        {
+            TestLog = new StringBuilder();
+
+            TotalStepNum = (int)Seq.END_TEST + 1;
+
+            DcOutCheck.Load();
+            DcCheck = DcOutCheck.GetObj();
+            Option = TestOption.GetObj();
+            ButtonColor = new ObservableCollection<SolidColorBrush>();
+
+            for (int i = 0; i < TotalStepNum; i++)
+                ButtonColor.Add(Brushes.White);
+
+            UnloadPage = new BaseCommand(DataSave);
+            UnitTestCommand = new BaseObjCommand(UnitTestClick);
+        }
+
+        private void DataSave()
+        {
+            DcOutCheck.Save();
+        }
+
+        // 버튼 글자 색 변경 함수
+        public override void TextColorChange(int index, StateFlag stateFlag)
+        {
+            if (stateFlag == StateFlag.PASS || stateFlag == StateFlag.TEST_END)
+                ButtonColor[index] = Brushes.GreenYellow;
+            else if (stateFlag == StateFlag.WAIT)
+                ButtonColor[index] = Brushes.Yellow;
+            else
+                ButtonColor[index] = Brushes.Red;
+        }
+
+        public override void UiReset()
+        {
+            for (int i = 0; i < ButtonColor.Count; i++)
+                ButtonColor[i] = Brushes.White;
+        }
+
+        // 수동 테스트 동작 이벤트 함수(버튼 클릭)
+        private void UnitTestClick(object value)
+        {
+            object[] parameter = (object[])value;
+
+            //string result = Test.EquiConnectCheck();
+            //if (result.Length > 0)
+            //{
+            //    MessageBox.Show($"다음의 장비의 연결이 원할하지 않습니다.\n\n{result}", "장비 연결");
+            //    return;
+            //}
+
+            int caseIndex = int.Parse(parameter[0].ToString());
+            int unitIndex = int.Parse(parameter[1].ToString());
+            int jumpNum = -1;
+
+            TextColorChange(unitIndex, StateFlag.WAIT);
+            StateFlag resultState = TestSeq(caseIndex, unitIndex, ref jumpNum);
+            TextColorChange(unitIndex, resultState);
+        }
+
+        ///////////////////////////////////////////////////////////////////////////////////
+        // 시퀀스 관련
+        ///////////////////////////////////////////////////////////////////////////////////
+        public override StateFlag TestSeq(int caseNumber, int stepNumber, ref int jumpStepNum)
+        {
+            StateFlag result = StateFlag.NORMAL_ERR;
+            Seq stepName = (Seq)stepNumber;
+
+            switch (stepName)
+            {
+                case Seq.AC_ON: // 초기 AC 설정
+                    TestLog.AppendLine("[ AC ]");
+
+                    double acVolt = PowerMeter.GetObj().AcVolt;
+                    TestLog.AppendLine($"- AC : {acVolt}");
+                    if (Math.Abs(DcCheck.AcVolt[caseNumber] - acVolt) <= AC_ERR_RANGE)
+                    {
+                        result = StateFlag.PASS;
+                        break;
+                    }
+
+                    if (Option.IsFullAuto)
+                    {
+                        result = AcSourceSet(DcCheck.AcVolt[caseNumber], DcCheck.AcCurr[caseNumber], DcCheck.AcFreq[caseNumber]);
+                        TestLog.AppendLine($"- AC 세팅 결과 : {result}");
+
+                        if (result != StateFlag.PASS)
+                        {
+                            jumpStepNum = (int)Seq.RESULT_SAVE;
+                            break;
+                        }
+
+                        result = AcSourceOn();
+                        TestLog.AppendLine($"- AC 전원 결과 : {result}\n");
+
+                        if (result != StateFlag.PASS)
+                            jumpStepNum = (int)Seq.RESULT_SAVE;
+                    }
+                    else
+                    {
+                        TestLog.AppendLine($"- AC 설정 팝업");
+
+                        result = AcCtrlWin(DcCheck.AcVolt[caseNumber], AC_ERR_RANGE, AcCheckMode.NORMAL);
+                        TestLog.AppendLine($"- AC 전원 결과 : {result}\n");
+
+                        if (result != StateFlag.PASS)
+                            jumpStepNum = (int)Seq.RESULT_SAVE;
+                    }
+                    break;
+
+                case Seq.DELAY1:
+                    TestLog.AppendLine("[ 딜레이1 ]\n");
+                    Util.Delay(DcCheck.Delay1[caseNumber]);
+                    result = StateFlag.PASS;
+                    break;
+
+                case Seq.SWITCH_CHECK:
+                    TestLog.AppendLine("[ 스위치 체크 ]");
+                    Rectifier rect = Rectifier.GetObj();
+                    MessageBoxResult msgResult;
+
+                    if (rect.LocalRemoteLed && rect.SwLed[0] && rect.SwLed[1] && rect.SwLed[2] && rect.SwLed[3])
+                    {
+                        TestLog.AppendLine($"- 스위치 체크 완료\n");
+                        result = StateFlag.PASS;
+                    }
+                    else
+                    {
+                        msgResult = MessageBox.Show("스위치를 Local 및 ON으로 변경해주세요.", "스위치 변경", MessageBoxButton.OKCancel);
+                        if (msgResult == MessageBoxResult.Cancel)
+                        {
+                            TestLog.AppendLine($"- 스위치 체크 실패\n");
+                            resultData = ("스위치 조작 오류", "불합격");
+                            result = StateFlag.LOCAL_SWITCH_ERR;
+                            jumpStepNum = (int)Seq.RESULT_SAVE;
+                        }
+                        else
+                            result = StateFlag.WAIT;
+                    }
+                    break;
+
+                case Seq.OUTPUT_CHECK:
+                    TestLog.AppendLine("[ 출력 체크 ]");
+
+                    TestLog.AppendLine("[ 기본값 세팅 ]");
+                    result = DefaultRefSet(DcCheck.DefaultRef[caseNumber]);
+                    TestLog.AppendLine($"- 결과 : {result}\n");
+
+                    TestLog.AppendLine($"- 정상 출력값 : 53.3");
+                    TestLog.AppendLine($"- 정류기 출력전압 : {Rectifier.GetObj().DcOutputVolt}");
+                    TestLog.AppendLine($"- 현재오차 : {Math.Abs(53.3 - Rectifier.GetObj().DcOutputVolt)}");
+                    TestLog.AppendLine($"- 허용오차 : 1");
+
+                    if (Math.Abs(53.3 - Rectifier.GetObj().DcOutputVolt) <= 1)
+                    {
+                        TestLog.AppendLine($"- 테스트 합격\n");
+                        resultData = ((-Rectifier.GetObj().DcOutputVolt).ToString(), "합격");
+                        result = StateFlag.PASS;
+                    }
+                    else
+                    {
+                        TestLog.AppendLine($"- 테스트 불합격\n");
+                        resultData = ((-Rectifier.GetObj().DcOutputVolt).ToString(), "불합격");
+                        result = StateFlag.NORMAL_ERR;
+                    }
+                    break;
+
+                case Seq.RESULT_SAVE: // 결과 저장
+                    TestLog.AppendLine("[ 결과 저장 ]");
+                    result = ResultDataSave((int)SecondTestOrder.OutputCheck, TestName, resultData);
+                    TestLog.AppendLine($"- 결과 : {result}\n");
+                    break;
+
+                case Seq.NEXT_TEST_DELAY:
+                    TestLog.AppendLine("[ 다음 테스트 딜레이 ]\n");
+                    Util.Delay(DcCheck.NextTestWait[caseNumber]);
+                    result = StateFlag.PASS;
+                    break;
+
+                case Seq.END_TEST:
+                    TestLog.AppendLine("[ 테스트 완료 ]\n");
+                    result = StateFlag.TEST_END;
+                    break;
+
+                default:
+                    break;
+            }
+
+            return result;
+        }
+
+        private StateFlag DefaultRefSet(double refValue)
+        {
+            Rectifier rect = Rectifier.GetObj();
+            double dmmDcVolt;
+            double rectDcVolt;
+            bool cmdResult;
+
+            for (int i = 0; i < MAX_CAL_TRY_COUNT; i++)
+            {
+                TestLog.AppendLine($"- 시도 {i}회차");
+
+                TestLog.Append($"- 전압 Ref 설정 -> ");
+                cmdResult = rect.RectCommand(CommandList.V_REF_SET, (ushort)RefSave.SAVE, (ushort)(refValue * 100));
+                if (!cmdResult)
+                {
+                    TestLog.AppendLine($"실패");
+                    continue;
+                }
+                TestLog.AppendLine($"성공");
+
+                Util.Delay(1);
+
+                // CAL 완료 후 출력값 보정
+                dmmDcVolt = Dmm1.GetObj().DcVolt;
+                if (dmmDcVolt < refValue)
+                {
+                    TestLog.AppendLine($"- CAL 보정 : 설정값 보다 낮음");
+
+                    double correction = refValue - dmmDcVolt;
+                    TestLog.Append($"- 전압 Ref 보정 설정({correction}) -> ");
+                    cmdResult = rect.RectCommand(CommandList.V_REF_SET, (ushort)RefSave.SAVE, (ushort)((refValue + correction) * 100));
+                    if (!cmdResult)
+                    {
+                        TestLog.AppendLine($"실패");
+                        continue;
+                    }
+                    TestLog.AppendLine($"성공");
+                }
+                else if (dmmDcVolt > refValue + 0.03)
+                {
+                    TestLog.AppendLine($"- CAL 보정 : 설정값 보다 높음");
+
+                    double correction = dmmDcVolt - refValue;
+                    TestLog.Append($"- 전압 Ref 보정 설정({correction}) -> ");
+                    cmdResult = rect.RectCommand(CommandList.V_REF_SET, (ushort)RefSave.SAVE, (ushort)((refValue - correction) * 100));
+                    if (!cmdResult)
+                    {
+                        TestLog.AppendLine($"실패");
+                        continue;
+                    }
+                    TestLog.AppendLine($"성공");
+                }
+
+                // 최종 출력값 검사
+                Util.Delay(1);
+                rectDcVolt = rect.DcOutputVolt;
+
+                if (Math.Abs(refValue - rectDcVolt) <= ERR_RATE)
+                {
+                    TestLog.AppendLine($"- 설정 성공");
+                    return StateFlag.PASS;
+                }
+            }
+            TestLog.AppendLine($"- 설정 실패");
+            return StateFlag.DC_VOLT_CAL_ERR;
+        }
+    }
+}

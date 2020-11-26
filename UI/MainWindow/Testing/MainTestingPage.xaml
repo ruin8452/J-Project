@@ -1,0 +1,581 @@
+﻿<Page x:Class="J_Project.UI.MainWindow.Testing.MainTestingPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:J_Project.UI.MainWindow.Testing"
+      xmlns:fa="clr-namespace:FontAwesome.WPF;assembly=FontAwesome.WPF"
+      xmlns:usercontrol="clr-namespace:J_Project.UI.UserController"
+      xmlns:manager="clr-namespace:J_Project.Manager"
+      xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+      xmlns:converter="clr-namespace:J_Project.UI.BindConverterClass"
+      mc:Ignorable="d"
+      Title="MainTestingPage">
+
+    <Page.InputBindings>
+        <KeyBinding Key="R" Command="{Binding LogRenewalCommand}"/>
+    </Page.InputBindings>
+
+    <Page.Resources>
+        <converter:ButtonActiveConverter x:Key="ButtonAcvieConverter"/>
+        <converter:ButtonColorConverter x:Key="ButtonColorConverter"/>
+
+        <Style TargetType="fa:ImageAwesome" x:Key="AutoOption">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=AutoToggle, Path=IsChecked}" Value="True">
+                    <Setter Property="Icon" Value="ToggleOn"/>
+                    <Setter Property="Foreground" Value="DodgerBlue"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ElementName=AutoToggle, Path=IsChecked}" Value="False">
+                    <Setter Property="Icon" Value="ToggleOff"/>
+                    <Setter Property="Foreground" Value="Gray"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="{x:Type TreeViewItem}">
+            <Setter Property="IsExpanded" Value="True"/>
+            <Setter Property="Margin" Value="0,1"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontFamily" Value="NanumGothic Light"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+
+        <Style TargetType="TextBlock" x:Key="LedName">
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontFamily" Value="NanumGothic"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Style.Triggers>
+                <Trigger Property="IsEnabled"  Value="True">
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+                <Trigger Property="IsEnabled"  Value="False">
+                    <Setter Property="Foreground" Value="Gray"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="Ellipse" x:Key="Led">
+            <Setter Property="Height" Value="15"/>
+            <Setter Property="Width" Value="15"/>
+            <Setter Property="Margin" Value="10,0,7,0"/>
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="True">
+                    <Setter Property="Fill" Value="{StaticResource LedRed}"/>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Fill" Value="{StaticResource LedRedOff}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="Ellipse" x:Key="LedGreen">
+            <Setter Property="Height" Value="15"/>
+            <Setter Property="Width" Value="15"/>
+            <Setter Property="Margin" Value="10,0,7,0"/>
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="True">
+                    <Setter Property="Fill" Value="{StaticResource LedGreen}"/>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Fill" Value="{StaticResource LedGreenOff}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- 시작 컨트롤러 색상 변경 -->
+        <Style TargetType="{x:Type fa:ImageAwesome}" x:Key="ColorChange">
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                    <BeginStoryboard Storyboard="{StaticResource ImgAsForAni_BlueToDarkBlue}"/>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                    <BeginStoryboard Storyboard="{StaticResource ImgAsForAni_DarkBlueToBlue}"/>
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="{x:Type Button}" x:Key="TreeFuncBtn" BasedOn="{StaticResource BtnBaseNormal}">
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Background" Value="#00000000"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="{x:Null}"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="FontFamily" Value="NanumGothic Light"/>
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                    <BeginStoryboard Storyboard="{StaticResource BtnBackAni_TransToBlue}"/>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                    <BeginStoryboard Storyboard="{StaticResource BtnBackAni_BlueToTrans}"/>
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
+    </Page.Resources>
+
+    <Grid Background="#FF1B1E2B">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="180"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Text="[ 양산 테스트 ]" Foreground="White" FontSize="40" HorizontalAlignment="Center" FontFamily="DX하늘구름" VerticalAlignment="Center"/>
+
+        <StackPanel Grid.Row="1" >
+            <ScrollViewer x:Name="SequenceViewer" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Auto" Margin="15" Padding="0" PreviewMouseWheel="SequenceViewer_PreviewMouseWheel">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Loaded">
+                        <i:InvokeCommandAction  Command="{Binding ScrollView}" CommandParameter="{Binding ElementName=SequenceViewer}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+
+                <Frame Content="{Binding TestUi}"/>
+            </ScrollViewer>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="2">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="220"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="210"/>
+                </Grid.ColumnDefinitions>
+
+                <!--테스트 컨트롤러-->
+                <Border BorderBrush="#FF3B456B" BorderThickness="1" Margin="5,5,0,0" Grid.Row="0">
+                    <StackPanel>
+                        <TextBlock Text="테스트 컨트롤러" Background="#FF3B456B" Padding="3" Foreground="White" FontFamily="NanumGothic" FontSize="20" FontWeight="Bold"/>
+
+                        <StackPanel Margin="0,10,0,0">
+                            <Grid Margin="0,0,0,10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <!--시작-->
+                                <Button Style="{StaticResource BtnBaseNormal}" Grid.Column="0" Background="{x:Null}" BorderBrush="{x:Null}" Command="{Binding AutoTestStartCommand}">
+                                    <Button.IsEnabled>
+                                        <MultiBinding Converter="{StaticResource ButtonAcvieConverter}" ConverterParameter="시작">
+                                            <Binding ElementName="TestPassiveCtrl" Path="IsChecked"/>
+                                            <Binding Path="TestRunFlag"/>
+                                        </MultiBinding>
+                                    </Button.IsEnabled>
+                                    <StackPanel>
+                                        <fa:ImageAwesome Icon="Play" Height="30" Width="30" Margin="0,0,0,3">
+                                            <fa:ImageAwesome.Foreground>
+                                                <MultiBinding Converter="{StaticResource ButtonColorConverter}">
+                                                    <Binding ElementName="TestPassiveCtrl" Path="IsChecked"/>
+                                                    <Binding Path="StartBtnBrush"/>
+                                                </MultiBinding>
+                                            </fa:ImageAwesome.Foreground>
+                                        </fa:ImageAwesome>
+                                        <TextBlock Text="시작" FontSize="14" Foreground="White" HorizontalAlignment="Center" FontFamily="NanumGothic Light"/>
+                                    </StackPanel>
+                                </Button>
+                                <!--일시정지-->
+                                <Button Style="{StaticResource BtnBaseNormal}" Grid.Column="1" Background="{x:Null}" BorderBrush="{x:Null}" Command="{Binding AutoTestPauseCommand}">
+                                    <Button.IsEnabled>
+                                        <MultiBinding Converter="{StaticResource ButtonAcvieConverter}" ConverterParameter="일시정지">
+                                            <Binding Path="TestRunFlag"/>
+                                        </MultiBinding>
+                                    </Button.IsEnabled>
+                                    <StackPanel>
+                                        <fa:ImageAwesome Icon="Pause" Foreground="{Binding PauseBtnBrush}" Height="30" Width="30" Margin="0,0,0,3"/>
+                                        <TextBlock Text="일시정지" FontSize="14" Foreground="White" HorizontalAlignment="Center" FontFamily="NanumGothic Light"/>
+                                    </StackPanel>
+                                </Button>
+                                <!--정지-->
+                                <Button Style="{StaticResource BtnBaseNormal}" Grid.Column="2" Background="{x:Null}" BorderBrush="{x:Null}" Command="{Binding AutoTestStopCommand}">
+                                    <Button.IsEnabled>
+                                        <MultiBinding Converter="{StaticResource ButtonAcvieConverter}" ConverterParameter="정지">
+                                            <Binding Path="TestRunFlag"/>
+                                            <Binding Path="TestPauseFlag"/>
+                                        </MultiBinding>
+                                    </Button.IsEnabled>
+                                    <StackPanel>
+                                        <fa:ImageAwesome Icon="Stop" Foreground="{Binding StopBtnBrush}" Height="30" Width="30" Margin="0,0,0,3"/>
+                                        <TextBlock Text="정지" FontSize="14" Foreground="White" HorizontalAlignment="Center" FontFamily="NanumGothic Light"/>
+                                    </StackPanel>
+                                </Button>
+                            </Grid>
+
+                            <TextBox Text="{Binding TestRunningText}" Margin="10,0" BorderBrush="DodgerBlue" IsReadOnly="True" FontSize="14" HorizontalContentAlignment="Center"/>
+
+                            <Grid Margin="0,5,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="4*"/>
+                                    <ColumnDefinition Width="4*"/>
+                                    <ColumnDefinition Width="4*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Text="반자동" Foreground="White" VerticalAlignment="Center" Grid.Column="0" HorizontalAlignment="Right" FontSize="13"/>
+                                <ToggleButton x:Name="AutoToggle" Height="30" Width="50" Grid.Column="1" Background="{x:Null}" BorderBrush="{x:Null}" IsChecked="{Binding Option.IsFullAuto, Mode=TwoWay}" IsEnabled="{Binding IsTestEnd}" Style="{StaticResource TogBtnBaseNormal}">
+                                    <fa:ImageAwesome Style="{StaticResource AutoOption}"/>
+                                </ToggleButton>
+                                <TextBlock Text="자동" Foreground="White" VerticalAlignment="Center" Grid.Column="2" HorizontalAlignment="Left" FontSize="13"/>
+                            </Grid>
+
+                            <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
+                                <CheckBox x:Name="TestPassiveCtrl" Content="수동" Foreground="White" Margin="0,5,10,5" BorderBrush="White" HorizontalAlignment="Right" IsEnabled="{Binding IsTestEnd}" IsChecked="{Binding Option.IsPassiveCtrl, Mode=TwoWay}"/>
+                                <CheckBox Content="부하 관리" Foreground="White" Margin="0,5,10,5" BorderBrush="White" HorizontalAlignment="Right" IsChecked="{Binding Option.IsLoadManage, Mode=TwoWay}"/>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <Button Content="정류기 리셋" Style="{StaticResource TreeFuncBtn}" FontSize="13" Command="{Binding ResetCommand}"/>
+                                <Border Width="20"/>
+                                <Button Content="정류기 CAL 리셋" Style="{StaticResource TreeFuncBtn}" FontSize="13" Command="{Binding CalResetCommand}"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <!--테스트 리스트-->
+                <Border x:Name="ListBorder" BorderBrush="#FF3B456B" BorderThickness="1" Margin="5,5,0,5" Grid.Row="1" LayoutUpdated="ListBorder_LayoutUpdated">
+                    <StackPanel>
+                        <TextBlock Height="29" Text="테스트 리스트" Background="#FF3B456B" Padding="3" Foreground="White" FontFamily="NanumGothic" FontSize="20" FontWeight="Bold"/>
+
+                        <Grid Height="25">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Button Content="전체선택" Style="{StaticResource TreeFuncBtn}" Grid.Row="1" Grid.Column="0" IsEnabled="{Binding IsTestEnd}" Command="{Binding AllCheckCommand}"/>
+                            <Button Content="전체해제" Style="{StaticResource TreeFuncBtn}" Grid.Row="1" Grid.Column="1" IsEnabled="{Binding IsTestEnd}" Command="{Binding AllUncheckCommand}"/>
+                        </Grid>
+
+                        <TreeView x:Name="TestTreeView" Background="#FF252A3C" BorderBrush="{x:Null}" Margin="0,0,0,0" ItemsSource="{Binding TreeTestItems}" ScrollViewer.VerticalScrollBarVisibility="Visible">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="SelectedItemChanged">
+                                    <i:InvokeCommandAction  Command="{Binding TreeItemSelectedCommand}" CommandParameter="{Binding SelectedItem, ElementName=TestTreeView}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+
+                            <TreeView.ItemTemplate>
+                                <HierarchicalDataTemplate DataType="{x:Type manager:TestItemUint}" ItemsSource="{Binding Child}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <CheckBox Margin="0,0,10,0" VerticalAlignment="Center" IsChecked="{Binding Checked}" Click="ClickTreeCheckBox"/>
+                                        <TextBlock Text="{Binding TestName}"/>
+                                    </StackPanel>
+                                </HierarchicalDataTemplate>
+                            </TreeView.ItemTemplate>
+                        </TreeView>
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="190"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!--LED Box-->
+                <Border BorderBrush="#FF3B456B" BorderThickness="1" Margin="5,5,0,0" Grid.Row="0">
+                    <StackPanel>
+                        <TextBlock Text="LED 박스" Background="#FF3B456B" Padding="3" Foreground="White" FontFamily="NanumGothic" FontSize="20" FontWeight="Bold"/>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,10,0,0" HorizontalAlignment="Center">
+                            <Border Width="5"/>
+                            
+                            <!--H/W 오류-->
+                            <StackPanel Width="110" VerticalAlignment="Center">
+                                <TextBlock Text="H/W 오류" Foreground="White" HorizontalAlignment="Center" FontFamily="NanumGothic" FontSize="17" Margin="0,0,0,10"/>
+
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,7">
+                                    <Ellipse Style="{StaticResource Led}" IsEnabled="{Binding Rect.Flag_RectFail}"/>
+                                    <TextBlock Text="정류기 오류" Style="{StaticResource LedName}" IsEnabled="{Binding Rect.Flag_RectFail}"/>
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,7">
+                                    <Ellipse Style="{StaticResource Led}" IsEnabled="{Binding Rect.Flag_AcFail}"/>
+                                    <TextBlock Text="AC 오류" Style="{StaticResource LedName}" IsEnabled="{Binding Rect.Flag_AcFail}"/>
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,7">
+                                    <Ellipse Style="{StaticResource Led}" IsEnabled="{Binding Rect.Flag_BatFail}"/>
+                                    <TextBlock Text="배터리 오류" Style="{StaticResource LedName}" IsEnabled="{Binding Rect.Flag_BatFail}"/>
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,7">
+                                    <Ellipse Style="{StaticResource Led}" IsEnabled="{Binding Rect.Flag_BatEx}"/>
+                                    <TextBlock Text="배터리 교환" Style="{StaticResource LedName}" IsEnabled="{Binding Rect.Flag_BatEx}"/>
+                                </StackPanel>
+                            </StackPanel>
+
+                            <Border Width="10"/>
+
+                            <!--AC 오류 LED-->
+                            <StackPanel Width="110">
+                                <TextBlock Text="AC 입력" Foreground="White" HorizontalAlignment="Center" FontFamily="NanumGothic" FontSize="17" Margin="0,0,0,10"/>
+
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,7">
+                                    <Ellipse Style="{StaticResource Led}"  IsEnabled="{Binding Rect.Flag_OverAcInVolt}"/>
+                                    <TextBlock Text="AC 고전압" Style="{StaticResource LedName}"  IsEnabled="{Binding Rect.Flag_OverAcInVolt}"/>
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,7">
+                                    <Ellipse Style="{StaticResource Led}" IsEnabled="{Binding Rect.Flag_UnderAcInVolt}"/>
+                                    <TextBlock Text="AC 저전압" Style="{StaticResource LedName}" IsEnabled="{Binding Rect.Flag_UnderAcInVolt}"/>
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,7">
+                                    <Ellipse Style="{StaticResource Led}"  IsEnabled="{Binding Rect.Flag_AcRelayOnOff}"/>
+                                    <TextBlock Text="AC 정전" Style="{StaticResource LedName}"  IsEnabled="{Binding Rect.Flag_AcRelayOnOff}"/>
+                                </StackPanel>
+                            </StackPanel>
+
+                            <Border Width="10"/>
+
+                            <!--DC Out 오류 LED-->
+                            <StackPanel Width="110">
+                                <TextBlock Text="DC 출력" Foreground="White" HorizontalAlignment="Center" FontFamily="NanumGothic" FontSize="17" Margin="0,0,0,10"/>
+
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,7">
+                                    <Ellipse Style="{StaticResource Led}" IsEnabled="{Binding Rect.Flag_OverDcOutVolt}"/>
+                                    <TextBlock Text="출력 고전압" Style="{StaticResource LedName}" IsEnabled="{Binding Rect.Flag_OverDcOutVolt}"/>
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,7">
+                                    <Ellipse Style="{StaticResource Led}" IsEnabled="{Binding Rect.Flag_UnberDcOutVolt}"/>
+                                    <TextBlock Text="출력 저전압" Style="{StaticResource LedName}" IsEnabled="{Binding Rect.Flag_UnberDcOutVolt}"/>
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,7">
+                                    <Ellipse Style="{StaticResource Led}" IsEnabled="{Binding Rect.Flag_DcOverLoad}"/>
+                                    <TextBlock Text="출력 과부하" Style="{StaticResource LedName}" IsEnabled="{Binding Rect.Flag_DcOverLoad}"/>
+                                </StackPanel>
+                            </StackPanel>
+
+                            <Border Width="10"/>
+
+                            <!--배터리 통신 LED-->
+                            <StackPanel Width="150">
+                                <TextBlock Text="배터리 통신" Foreground="White" HorizontalAlignment="Center" FontFamily="NanumGothic" FontSize="17" Margin="0,0,0,10"/>
+
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,7" Grid.Row="0" Grid.Column="0">
+                                        <Ellipse Style="{StaticResource LedGreen}" IsEnabled="{Binding Rect.BatteryComm[0]}"/>
+                                        <TextBlock Text="BAT1" Style="{StaticResource LedName}" IsEnabled="{Binding Rect.BatteryComm[0]}"/>
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,7" Grid.Row="0" Grid.Column="1">
+                                        <Ellipse Style="{StaticResource LedGreen}" IsEnabled="{Binding Rect.BatteryComm[1]}"/>
+                                        <TextBlock Text="BAT2" Style="{StaticResource LedName}" IsEnabled="{Binding Rect.BatteryComm[1]}"/>
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,7" Grid.Row="1" Grid.Column="0">
+                                        <Ellipse Style="{StaticResource LedGreen}" IsEnabled="{Binding Rect.BatteryComm[2]}"/>
+                                        <TextBlock Text="BAT3" Style="{StaticResource LedName}" IsEnabled="{Binding Rect.BatteryComm[2]}"/>
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,7" Grid.Row="1" Grid.Column="1">
+                                        <Ellipse Style="{StaticResource LedGreen}" IsEnabled="{Binding Rect.BatteryComm[3]}"/>
+                                        <TextBlock Text="BAT4" Style="{StaticResource LedName}" IsEnabled="{Binding Rect.BatteryComm[3]}"/>
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,7" Grid.Row="2" Grid.Column="0">
+                                        <Ellipse Style="{StaticResource LedGreen}" IsEnabled="{Binding Rect.BatteryComm[4]}"/>
+                                        <TextBlock Text="BAT5" Style="{StaticResource LedName}" IsEnabled="{Binding Rect.BatteryComm[4]}"/>
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,7" Grid.Row="2" Grid.Column="1">
+                                        <Ellipse Style="{StaticResource LedGreen}" IsEnabled="{Binding Rect.BatteryComm[5]}"/>
+                                        <TextBlock Text="BAT6" Style="{StaticResource LedName}" IsEnabled="{Binding Rect.BatteryComm[5]}"/>
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,7" Grid.Row="3" Grid.Column="0">
+                                        <Ellipse Style="{StaticResource LedGreen}" IsEnabled="{Binding Rect.BatteryComm[6]}"/>
+                                        <TextBlock Text="BAT7" Style="{StaticResource LedName}" IsEnabled="{Binding Rect.BatteryComm[6]}"/>
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,7" Grid.Row="3" Grid.Column="1">
+                                        <Ellipse Style="{StaticResource LedGreen}" IsEnabled="{Binding Rect.BatteryComm[7]}"/>
+                                        <TextBlock Text="BAT8" Style="{StaticResource LedName}" IsEnabled="{Binding Rect.BatteryComm[7]}"/>
+                                    </StackPanel>
+                                </Grid>
+                            </StackPanel>
+                            
+                            <Border Width="5"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <!--Monitoing Box-->
+                <Border BorderBrush="#FF3B456B" BorderThickness="1" Margin="5,5,0,5" Grid.Row="1">
+                    <StackPanel>
+                        <TextBlock Text="모니터링" Background="#FF3B456B" Padding="3" Foreground="White" FontFamily="NanumGothic" FontSize="20" FontWeight="Bold"/>
+
+                        <StackPanel Orientation="Horizontal">
+                            <StackPanel Margin="10">
+                                <!-- 정류기 모드 -->
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <TextBlock Text="모드" Foreground="White" FontSize="15" FontFamily="NanumGothic" Background="{x:Null}" VerticalAlignment="Center"/>
+                                    <Rectangle Height="25" Width="3" Fill="DodgerBlue" RadiusY="1.5" RadiusX="1.5" Margin="5,0"/>
+                                    <Grid Width="123">
+                                        <TextBlock Text="{Binding Rect.AcInVoltMode}" Foreground="White" FontFamily="Digital-7 Mono" FontSize="45" Background="{x:Null}" HorizontalAlignment="Right"/>
+                                    </Grid>
+                                </StackPanel>
+                                <!-- 정류기 AC Volt -->
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <TextBlock Text="AC 전압" Foreground="White" FontSize="15" FontFamily="NanumGothic" Background="{x:Null}" VerticalAlignment="Center"/>
+                                    <Rectangle Height="25" Width="3" Fill="DodgerBlue" RadiusY="1.5" RadiusX="1.5" Margin="5,0"/>
+                                    <Grid Width="123">
+                                        <TextBlock Text="888.88" Foreground="#FF2D3144" FontFamily="Digital-7 Mono" FontSize="45" Background="{x:Null}"/>
+                                        <TextBlock Text="{Binding Rect.AcInputVolt, StringFormat=#0.00}" Foreground="White" FontFamily="Digital-7 Mono" FontSize="45" Background="{x:Null}" HorizontalAlignment="Right"/>
+                                    </Grid>
+                                </StackPanel>
+                                <!-- 정류기 DC Volt -->
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <TextBlock Text="DC 전압" Foreground="White" FontSize="15" FontFamily="NanumGothic" Background="{x:Null}" VerticalAlignment="Center"/>
+                                    <Rectangle Height="25" Width="3" Fill="DodgerBlue" RadiusY="1.5" RadiusX="1.5" Margin="5,0"/>
+                                    <Grid Width="123">
+                                        <TextBlock Text="888.88" Foreground="#FF2D3144" FontFamily="Digital-7 Mono" FontSize="45" Background="{x:Null}"/>
+                                        <TextBlock Text="{Binding Rect.DcOutputVolt, StringFormat=#0.00}" Foreground="White" FontFamily="Digital-7 Mono" FontSize="45" Background="{x:Null}" HorizontalAlignment="Right"/>
+                                    </Grid>
+                                </StackPanel>
+                                <!-- 정류기 DC Curr -->
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <TextBlock Text="DC 전류" Foreground="White" FontSize="15" FontFamily="NanumGothic" Background="{x:Null}" VerticalAlignment="Center"/>
+                                    <Rectangle Height="25" Width="3" Fill="DodgerBlue" RadiusY="1.5" RadiusX="1.5" Margin="5,0"/>
+                                    <Grid Width="123">
+                                        <TextBlock Text="888.88" Foreground="#FF2D3144" FontFamily="Digital-7 Mono" FontSize="45" Background="{x:Null}"/>
+                                        <TextBlock Text="{Binding Rect.DcOutputCurr, StringFormat=#0.00}" Foreground="White" FontFamily="Digital-7 Mono" FontSize="45" Background="{x:Null}" HorizontalAlignment="Right"/>
+                                    </Grid>
+                                </StackPanel>
+
+                                <!-- PM AC Volt -->
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <TextBlock Text="진행시간" Foreground="White" FontSize="15" FontFamily="NanumGothic" Background="{x:Null}" VerticalAlignment="Center"/>
+                                    <Rectangle Height="25" Width="3" Fill="DodgerBlue" RadiusY="1.5" RadiusX="1.5" Margin="5,0"/>
+                                    <Grid Width="123">
+                                        <TextBlock Text="88:88" Foreground="#FF2D3144" FontFamily="Digital-7 Mono" FontSize="45" Background="{x:Null}" HorizontalAlignment="Right"/>
+                                        <TextBlock Text="{Binding TotalTestTime, StringFormat=00:00}" Foreground="White" FontFamily="Digital-7 Mono" FontSize="45" Background="{x:Null}" HorizontalAlignment="Right"/>
+                                    </Grid>
+                                </StackPanel>
+                            </StackPanel>
+                            <Border Width="10"/>
+                            <StackPanel Margin="10">
+                                <!-- PM AC Volt -->
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <TextBlock Text="온도(℃)" Foreground="White" FontSize="15" FontFamily="NanumGothic" Background="{x:Null}" VerticalAlignment="Center"/>
+                                    <Rectangle Height="25" Width="3" Fill="DodgerBlue" RadiusY="1.5" RadiusX="1.5" Margin="5,0"/>
+                                    <Grid Width="123">
+                                        <TextBlock Text="888.8" Foreground="#FF2D3144" FontFamily="Digital-7 Mono" FontSize="45" Background="{x:Null}" HorizontalAlignment="Right"/>
+                                        <TextBlock Text="{Binding Rect.SystemTemp, StringFormat=#0.0}" Foreground="White" FontFamily="Digital-7 Mono" FontSize="45" Background="{x:Null}" HorizontalAlignment="Right"/>
+                                    </Grid>
+                                </StackPanel>
+                                <!-- PM AC Volt -->
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <TextBlock Text="파워미터" Foreground="White" FontSize="15" FontFamily="NanumGothic" Background="{x:Null}" VerticalAlignment="Center"/>
+                                    <Rectangle Height="25" Width="3" Fill="DodgerBlue" RadiusY="1.5" RadiusX="1.5" Margin="5,0"/>
+                                    <Grid Width="123">
+                                        <TextBlock Text="888.88" Foreground="#FF2D3144" FontFamily="Digital-7 Mono" FontSize="45" Background="{x:Null}"/>
+                                        <TextBlock Text="{Binding Pm.AcVolt, StringFormat=#0.00}" Foreground="White" FontFamily="Digital-7 Mono" FontSize="45" Background="{x:Null}" HorizontalAlignment="Right"/>
+                                    </Grid>
+                                </StackPanel>
+                                <!-- Dmm1 Volt -->
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <TextBlock Text="DMM(V)" Foreground="White" FontSize="15" FontFamily="NanumGothic" Background="{x:Null}" VerticalAlignment="Center"/>
+                                    <Rectangle Height="25" Width="3" Fill="DodgerBlue" RadiusY="1.5" RadiusX="1.5" Margin="5,0"/>
+                                    <Grid Width="123">
+                                        <TextBlock Text="888.88" Foreground="#FF2D3144" FontFamily="Digital-7 Mono" FontSize="45" Background="{x:Null}"/>
+                                        <TextBlock Text="{Binding Dmm1.DcVolt, StringFormat=#0.00}" Foreground="White" FontFamily="Digital-7 Mono" FontSize="45" Background="{x:Null}" HorizontalAlignment="Right"/>
+                                    </Grid>
+                                </StackPanel>
+                                <!-- Dmm2 Volt -->
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <TextBlock Text="DMM(A)" Foreground="White" FontSize="15" FontFamily="NanumGothic" Background="{x:Null}" VerticalAlignment="Center"/>
+                                    <Rectangle Height="25" Width="3" Fill="DodgerBlue" RadiusY="1.5" RadiusX="1.5" Margin="5,0"/>
+                                    <Grid Width="123">
+                                        <TextBlock Text="888.88" Foreground="#FF2D3144" FontFamily="Digital-7 Mono" FontSize="45" Background="{x:Null}"/>
+                                        <TextBlock Text="{Binding Dmm2.DcVolt, StringFormat=#0.00}" Foreground="White" FontFamily="Digital-7 Mono" FontSize="45" Background="{x:Null}" HorizontalAlignment="Right"/>
+                                    </Grid>
+                                </StackPanel>
+                            </StackPanel>
+                            <Border Width="10"/>
+                            <StackPanel Margin="10">
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="80"/>
+                    <RowDefinition Height="80"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!--테스트 결과-->
+                <Border MinWidth="150" BorderBrush="#FF3B456B" BorderThickness="1" Margin="5,5,0,5" Grid.Row="0" LayoutUpdated="LogBorder_LayoutUpdated">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" Background="#FF3B456B" >
+                            <TextBlock Text="서버 전송" Padding="3" Foreground="White" FontFamily="NanumGothic" FontSize="20" FontWeight="Bold"/>
+                        </StackPanel>
+
+                        <Grid>
+                            <Button Content="양산 전송" Height="40" Command="{Binding FirstSendCommand}" Style="{StaticResource TreeFuncBtn}" Grid.Column="1"/>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+                
+                <!--테스트 결과-->
+                <Border MinWidth="150" BorderBrush="#FF3B456B" BorderThickness="1" Margin="5,5,0,5" Grid.Row="1" LayoutUpdated="LogBorder_LayoutUpdated">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" Background="#FF3B456B" >
+                            <TextBlock Text="보고서" Padding="3" Foreground="White" FontFamily="NanumGothic" FontSize="20" FontWeight="Bold"/>
+                        </StackPanel>
+
+                        <Grid>
+                            <Button Content="CSV 변환기" Height="40" Command="{Binding CsvConverterCommand}" Style="{StaticResource TreeFuncBtn}" Grid.Column="1"/>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+                
+                <!--테스트 결과-->
+                <Border x:Name="LogBorder" MinWidth="150" BorderBrush="#FF3B456B" BorderThickness="1" Margin="5,5,0,5" Grid.Row="2" LayoutUpdated="LogBorder_LayoutUpdated">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" Background="#FF3B456B" >
+                            <Button Style="{StaticResource BtnBaseNormal}" Background="{x:Null}" BorderBrush="{x:Null}" Margin="5,0" Command="{Binding LogRenewalCommand}">
+                                <fa:ImageAwesome Icon="Refresh" Foreground="White" Height="20"/>
+                            </Button>
+                            <TextBlock Text="테스트 로그" Padding="3" Foreground="White" FontFamily="NanumGothic" FontSize="20" FontWeight="Bold"/>
+                        </StackPanel>
+
+                        <ScrollViewer x:Name="LogViewer" >
+                            <TextBlock Text="{Binding Log}" Foreground="White" FontFamily="NanumBarunGothic" FontSize="14"/>
+                        </ScrollViewer>
+                    </StackPanel>
+                </Border>
+            </Grid>
+            
+            <Button x:Name="button" Content="Button" Width="75" Click="button_Click" Visibility="Hidden"/>
+        </StackPanel>
+    </Grid>
+</Page>

@@ -1,0 +1,130 @@
+﻿<Window x:Class="J_Project.UI.SubWindow.LocalSwitchWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:J_Project.UI.SubWindow"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        mc:Ignorable="d"
+        x:Name="LocalSwitch"
+        Title="LocalSwitchWindow" Height="320" Width="500" ResizeMode="NoResize" WindowStyle="None">
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction  Command="{Binding LoadedCommand}" CommandParameter="{Binding ElementName=LocalSwitch}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <Window.Effect>
+        <DropShadowEffect Color="DodgerBlue" BlurRadius="40" RenderingBias="Quality" ShadowDepth="1"/>
+    </Window.Effect>
+
+    <Window.InputBindings>
+        <KeyBinding Key="Enter" Command="{Binding EnterCommand}"/>
+        <KeyBinding Key="Esc" Command="{Binding EscCommand}"/>
+    </Window.InputBindings>
+
+    <Window.Resources>
+        <Style TargetType="Button" BasedOn="{StaticResource BtnBaseNormal}" x:Key="ButtonColor">
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Width" Value="120"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="BorderBrush" Value="{x:Null}"/>
+            <Setter Property="Background" Value="#0000"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                    <BeginStoryboard Storyboard="{StaticResource BtnBackAni_TransToBlue}"/>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                    <BeginStoryboard Storyboard="{StaticResource BtnBackAni_BlueToTrans}"/>
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="Rectangle" x:Key="SwLed">
+            <Style.Triggers>
+                <Trigger Property ="IsEnabled" Value="True">
+                    <Setter Property="Fill" Value="{StaticResource LedGreen}"/>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Fill" Value="{StaticResource LedRed}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
+    <Border BorderBrush="DodgerBlue" BorderThickness="1.5">
+        <StackPanel Background="#FF1B1E2B">
+            <TextBlock Text="로컬 스위치 점검" Padding="10,5,0,5" Background="#FF3B456B" VerticalAlignment="Center" Foreground="White" FontSize="30" FontFamily="NanumGothic"/>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Margin="5" Grid.Row="0" Grid.Column="0">
+                    <TextBlock Text="#1" Foreground="White" FontFamily="NanumGothic Light" FontSize="20"/>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Rectangle Width="7" Height="60" Margin="5" Style="{StaticResource SwLed}" IsEnabled="{Binding Rect.SwLed[0]}" RadiusY="3.5" RadiusX="3.5"/>
+
+                        <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <TextBlock Text="888.88" Foreground="#FF2D3144" FontSize="80" FontFamily="Digital-7 Mono"/>
+                            <TextBlock Text="{Binding Rect.DcSwOutVolt[0], StringFormat=#0.00}" Foreground="White" FontSize="80" FontFamily="Digital-7 Mono" HorizontalAlignment="Right"/>
+                        </Grid>
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Margin="5" Grid.Row="0" Grid.Column="1">
+                    <TextBlock Text="#2" Foreground="White" FontFamily="NanumGothic Light" FontSize="20"/>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Rectangle Width="7" Height="60" Margin="5" Style="{StaticResource SwLed}" IsEnabled="{Binding Rect.SwLed[1]}" RadiusY="3.5" RadiusX="3.5"/>
+
+                        <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <TextBlock Text="888.88" Foreground="#FF2D3144" FontSize="80" FontFamily="Digital-7 Mono"/>
+                            <TextBlock Text="{Binding Rect.DcSwOutVolt[1], StringFormat=#0.00}" Foreground="White" FontSize="80" FontFamily="Digital-7 Mono" HorizontalAlignment="Right"/>
+                        </Grid>
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Margin="5" Grid.Row="1" Grid.Column="0">
+                    <TextBlock Text="#3" Foreground="White" FontFamily="NanumGothic Light" FontSize="20"/>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Rectangle Width="7" Height="60" Margin="5" Style="{StaticResource SwLed}" IsEnabled="{Binding Rect.SwLed[2]}" RadiusY="3.5" RadiusX="3.5"/>
+
+                        <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <TextBlock Text="888.88" Foreground="#FF2D3144" FontSize="80" FontFamily="Digital-7 Mono"/>
+                            <TextBlock Text="{Binding Rect.DcSwOutVolt[2], StringFormat=#0.00}" Foreground="White" FontSize="80" FontFamily="Digital-7 Mono" HorizontalAlignment="Right"/>
+                        </Grid>
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Margin="5" Grid.Row="1" Grid.Column="1">
+                    <TextBlock Text="#4" Foreground="White" FontFamily="NanumGothic Light" FontSize="20"/>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Rectangle Width="7" Height="60" Margin="5" Style="{StaticResource SwLed}" IsEnabled="{Binding Rect.SwLed[3]}" RadiusY="3.5" RadiusX="3.5"/>
+
+                        <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <TextBlock Text="888.88" Foreground="#FF2D3144" FontSize="80" FontFamily="Digital-7 Mono"/>
+                            <TextBlock Text="{Binding Rect.DcSwOutVolt[3], StringFormat=#0.00}" Foreground="White" FontSize="80" FontFamily="Digital-7 Mono" HorizontalAlignment="Right"/>
+                        </Grid>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+
+            <StackPanel Orientation="Horizontal" Margin="0,5,0,0" HorizontalAlignment="Center">
+                <Button Content="정상" Style="{StaticResource ButtonColor}" Command="{Binding OkCommand}"/>
+                <Border Width="20"/>
+                <Button Content="오류" Style="{StaticResource ButtonColor}" Command="{Binding ErrorCommand}"/>
+            </StackPanel>
+        </StackPanel>
+    </Border>
+</Window>

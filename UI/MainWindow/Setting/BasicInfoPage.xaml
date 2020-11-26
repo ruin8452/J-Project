@@ -1,0 +1,226 @@
+﻿<Page x:Class="J_Project.UI.MainWindow.Setting.BasicInfoPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="clr-namespace:J_Project.UI.MainWindow.Setting"
+      xmlns:fa="clr-namespace:FontAwesome.WPF;assembly=FontAwesome.WPF"
+      mc:Ignorable="d"
+      Title="BasicInfoPage">
+
+    <Page.Resources>
+        <Style x:Key="FuncImage" TargetType="{x:Type fa:ImageAwesome}">
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Height" Value="30" />
+            <Setter Property="Width" Value="30" />
+            <Setter Property="Margin" Value="0,0,0,3" />
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                    <BeginStoryboard Storyboard="{StaticResource ImgAsForAni_WhiteToBlue}" />
+                </EventTrigger>
+                <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                    <BeginStoryboard Storyboard="{StaticResource ImgAsForAni_BlueToWhite}" />
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="ItemIcon" TargetType="fa:ImageAwesome">
+            <Setter Property="Width" Value="37" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Margin" Value="0,0,10,0" />
+            <Setter Property="Foreground" Value="White" />
+        </Style>
+        <Style x:Key="InfoItem" TargetType="TextBlock">
+            <Setter Property="Margin" Value="0,0,0,3" />
+            <Setter Property="Background" Value="{x:Null}" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontFamily" Value="NanumGothic Light" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+        <Style x:Key="InsertData" TargetType="TextBox">
+            <Setter Property="BorderThickness" Value="0,0,0,2" />
+            <Setter Property="Background" Value="{x:Null}" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="BorderBrush" Value="#FF818DC5" />
+            <Setter Property="CaretBrush" Value="White" />
+            <Setter Property="SelectionBrush" Value="DodgerBlue" />
+            <Setter Property="FontFamily" Value="NanumGothic" />
+            <Setter Property="FontSize" Value="17" />
+        </Style>
+        <Style x:Key="Search" TargetType="Button" BasedOn="{StaticResource BtnBaseNormal}">
+            <Setter Property="Width" Value="60" />
+            <Setter Property="Margin" Value="10,0,0,0" />
+            <Setter Property="Background" Value="#FF53609B" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderBrush" Value="{x:Null}" />
+            <Setter Property="FontFamily" Value="NanumGothic Light" />
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                    <BeginStoryboard Storyboard="{StaticResource BtnBackAni_NevyToLightNevy2}" />
+                </EventTrigger>
+                <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                    <BeginStoryboard Storyboard="{StaticResource BtnBackAni_LightNevyToNevy2}" />
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
+    </Page.Resources>
+
+    <ScrollViewer>
+        <StackPanel Background="#FF1B1E2B">
+            <!--기본정보-->
+            <TextBlock Text="Information" Background="{x:Null}" Margin="20" Foreground="White" FontFamily="DX하늘구름" FontSize="30" HorizontalAlignment="Center" />
+
+            <Grid Margin="30,10,30,30">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!--저장 버튼-->
+                <StackPanel Orientation="Horizontal" Grid.ColumnSpan="2" HorizontalAlignment="Left">
+                    <Button Grid.Column="0" Width="70" Style="{StaticResource BtnBaseNormal}" Background="{x:Null}" BorderBrush="{x:Null}" Command="{Binding BasicInfoSaveCommand}">
+                        <StackPanel>
+                            <fa:ImageAwesome Icon="Save" Style="{StaticResource FuncImage}" />
+                            <TextBlock Text="저장" FontSize="14" Foreground="White" HorizontalAlignment="Center" FontFamily="NanumGothic Light" />
+                        </StackPanel>
+                    </Button>
+
+                    <TextBlock Text="{Binding InfoSaveText}" Foreground="{Binding InfoSaveColor}" VerticalAlignment="Center" />
+                </StackPanel>
+
+                <!--검사자-->
+                <DockPanel Height="40" Margin="15" Grid.Row="1" Grid.Column="0">
+                    <fa:ImageAwesome Icon="User" Style="{StaticResource ItemIcon}" />
+                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+                        <TextBlock Text="검사자 *" Style="{StaticResource InfoItem}" />
+                        <TextBlock Text="필수 항목" Foreground="{StaticResource LedRed}" Margin="10,0,0,0" />
+                    </StackPanel>
+                    <TextBox Text="{Binding Info.Checker, Mode=TwoWay}" DockPanel.Dock="Bottom" Style="{StaticResource InsertData}" GotFocus="TextBoxSelectAll_Tab" GotMouseCapture="TextBoxSelectAll_Mouse" />
+                </DockPanel>
+                <!--모델-->
+                <DockPanel Height="40" Margin="15" Grid.Row="1" Grid.Column="1">
+                    <fa:ImageAwesome Icon="Inbox" Style="{StaticResource ItemIcon}" />
+                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+                        <TextBlock Text="모델명 *" Style="{StaticResource InfoItem}" />
+                        <TextBlock Text="필수 항목" Foreground="{StaticResource LedRed}" Margin="10,0,0,0" />
+                    </StackPanel>
+                    <TextBox Text="{Binding Info.ModelName, Mode=TwoWay}" DockPanel.Dock="Bottom" Style="{StaticResource InsertData}" GotFocus="TextBoxSelectAll_Tab" GotMouseCapture="TextBoxSelectAll_Mouse" />
+                </DockPanel>
+                <!--제품코드-->
+                <DockPanel Height="40" Margin="15" Grid.Row="2" Grid.Column="0">
+                    <fa:ImageAwesome Icon="Barcode" Style="{StaticResource ItemIcon}" />
+                    <TextBlock Text="제품코드" DockPanel.Dock="Top" Style="{StaticResource InfoItem}" />
+                    <TextBox Text="{Binding Info.ProductCode, Mode=TwoWay}" DockPanel.Dock="Bottom" Style="{StaticResource InsertData}" GotFocus="TextBoxSelectAll_Tab" GotMouseCapture="TextBoxSelectAll_Mouse" />
+                </DockPanel>
+                <!--시리얼번호-->
+                <DockPanel Height="40" Margin="15" Grid.Row="2" Grid.Column="1">
+                    <fa:ImageAwesome Icon="Tag" Style="{StaticResource ItemIcon}" />
+                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+                        <TextBlock Text="시리얼 번호 *" Style="{StaticResource InfoItem}" />
+                        <TextBlock Text="필수 항목" Foreground="{StaticResource LedRed}" Margin="10,0,0,0" />
+                    </StackPanel>
+                    <TextBox Text="{Binding Info.SerialNumber, Mode=TwoWay}" DockPanel.Dock="Bottom" Style="{StaticResource InsertData}" GotFocus="TextBoxSelectAll_Tab" GotMouseCapture="TextBoxSelectAll_Mouse" />
+                </DockPanel>
+                <!--DCDC 시리얼번호-->
+                <DockPanel Height="40" Margin="15" Grid.Row="3" Grid.Column="0">
+                    <fa:ImageAwesome Icon="Tag" Style="{StaticResource ItemIcon}" />
+                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+                        <TextBlock Text="DCDC 시리얼" Style="{StaticResource InfoItem}" />
+                    </StackPanel>
+                    <TextBox Text="{Binding Info.DcdcSerial, Mode=TwoWay}" DockPanel.Dock="Bottom" Style="{StaticResource InsertData}" GotFocus="TextBoxSelectAll_Tab" GotMouseCapture="TextBoxSelectAll_Mouse" />
+                </DockPanel>
+                <!--PFC 시리얼번호-->
+                <DockPanel Height="40" Margin="15" Grid.Row="3" Grid.Column="1">
+                    <fa:ImageAwesome Icon="Tag" Style="{StaticResource ItemIcon}" />
+                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+                        <TextBlock Text="PFC 시리얼" Style="{StaticResource InfoItem}" />
+                    </StackPanel>
+                    <TextBox Text="{Binding Info.PfcSerial, Mode=TwoWay}" DockPanel.Dock="Bottom" Style="{StaticResource InsertData}" GotFocus="TextBoxSelectAll_Tab" GotMouseCapture="TextBoxSelectAll_Mouse" />
+                </DockPanel>
+                <!--MCU 시리얼번호-->
+                <DockPanel Height="40" Margin="15" Grid.Row="4" Grid.Column="0">
+                    <fa:ImageAwesome Icon="Tag" Style="{StaticResource ItemIcon}" />
+                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+                        <TextBlock Text="MCU 시리얼" Style="{StaticResource InfoItem}" />
+                    </StackPanel>
+                    <TextBox Text="{Binding Info.McuSerial, Mode=TwoWay}" DockPanel.Dock="Bottom" Style="{StaticResource InsertData}" GotFocus="TextBoxSelectAll_Tab" GotMouseCapture="TextBoxSelectAll_Mouse" />
+                </DockPanel>
+                <!--hw 버전-->
+                <DockPanel Height="40" Margin="15" Grid.Row="4" Grid.Column="1">
+                    <fa:ImageAwesome Icon="HddOutline" Style="{StaticResource ItemIcon}" />
+                    <TextBlock Text="H/W 버전" DockPanel.Dock="Top" Style="{StaticResource InfoItem}" />
+                    <TextBox Text="{Binding Info.HwVersion, Mode=TwoWay}" DockPanel.Dock="Bottom" Style="{StaticResource InsertData}" GotFocus="TextBoxSelectAll_Tab" GotMouseCapture="TextBoxSelectAll_Mouse" />
+                </DockPanel>
+                <!--sw 버전-->
+                <DockPanel Height="40" Margin="15" Grid.Row="5" Grid.Column="0">
+                    <fa:ImageAwesome Icon="Download" Style="{StaticResource ItemIcon}" />
+                    <TextBlock Text="S/W 버전" DockPanel.Dock="Top" Style="{StaticResource InfoItem}" />
+                    <TextBox Text="{Binding Rect.FwVersion}" DockPanel.Dock="Bottom" Style="{StaticResource InsertData}" IsReadOnly="True" GotFocus="TextBoxSelectAll_Tab" GotMouseCapture="TextBoxSelectAll_Mouse" />
+                </DockPanel>
+                <!--dcdc 버전-->
+                <DockPanel Height="40" Margin="15" Grid.Row="5" Grid.Column="1">
+                    <fa:ImageAwesome Icon="Server" Style="{StaticResource ItemIcon}" />
+                    <TextBlock Text="DCDC 버전" DockPanel.Dock="Top" Style="{StaticResource InfoItem}" />
+                    <TextBox Text="{Binding Info.DcdcNumber, Mode=TwoWay}" DockPanel.Dock="Bottom" Style="{StaticResource InsertData}" GotFocus="TextBoxSelectAll_Tab" GotMouseCapture="TextBoxSelectAll_Mouse" />
+                </DockPanel>
+                <!--pfc 버전-->
+                <DockPanel Height="40" Margin="15" Grid.Row="6" Grid.Column="0">
+                    <fa:ImageAwesome Icon="Square" Style="{StaticResource ItemIcon}" />
+                    <TextBlock Text="PFC 버전" DockPanel.Dock="Top" Style="{StaticResource InfoItem}" />
+                    <TextBox Text="{Binding Info.PfcNumber, Mode=TwoWay}" DockPanel.Dock="Bottom" Style="{StaticResource InsertData}" GotFocus="TextBoxSelectAll_Tab" GotMouseCapture="TextBoxSelectAll_Mouse" />
+                </DockPanel>
+                <!--mcu 버전-->
+                <DockPanel Height="40" Margin="15" Grid.Row="6" Grid.Column="1">
+                    <fa:ImageAwesome Icon="Microchip" Style="{StaticResource ItemIcon}" />
+                    <TextBlock Text="MCU 버전" DockPanel.Dock="Top" Style="{StaticResource InfoItem}" />
+                    <TextBox Text="{Binding Info.McuNumber, Mode=TwoWay}" DockPanel.Dock="Bottom" Style="{StaticResource InsertData}" GotFocus="TextBoxSelectAll_Tab" GotMouseCapture="TextBoxSelectAll_Mouse" />
+                </DockPanel>
+                <!--성적서 양식 경로-->
+                <DockPanel Height="40" Margin="15" Grid.Row="7" Grid.ColumnSpan="2">
+                    <fa:ImageAwesome Icon="FileExcelOutline" Style="{StaticResource ItemIcon}" />
+                    <Button Content="찾아보기" DockPanel.Dock="Right" Style="{StaticResource Search}" Command="{Binding FirstReportOpenClickCommand}" IsTabStop="False" />
+                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+                        <TextBlock Text="양산 성적서 양식 경로 *" Style="{StaticResource InfoItem}" />
+                        <TextBlock Text="필수 항목" Foreground="{StaticResource LedRed}" Margin="10,0,0,0" />
+                    </StackPanel>
+                    <TextBox Text="{Binding Info.FirstReportOpenPath, Mode=TwoWay}" DockPanel.Dock="Bottom" Style="{StaticResource InsertData}" GotFocus="TextBoxSelectAll_Tab" GotMouseCapture="TextBoxSelectAll_Mouse" />
+                </DockPanel>
+                <!--성적서 양식 경로-->
+                <DockPanel Height="40" Margin="15" Grid.Row="8" Grid.ColumnSpan="2">
+                    <fa:ImageAwesome Icon="FileExcelOutline" Style="{StaticResource ItemIcon}" />
+                    <Button Content="찾아보기" DockPanel.Dock="Right" Style="{StaticResource Search}" Command="{Binding SecondReportOpenClickCommand}" IsTabStop="False" />
+                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+                        <TextBlock Text="출하 성적서 양식 경로 *" Style="{StaticResource InfoItem}" />
+                        <TextBlock Text="필수 항목" Foreground="{StaticResource LedRed}" Margin="10,0,0,0" />
+                    </StackPanel>
+                    <TextBox Text="{Binding Info.SecondReportOpenPath, Mode=TwoWay}" DockPanel.Dock="Bottom" Style="{StaticResource InsertData}" GotFocus="TextBoxSelectAll_Tab" GotMouseCapture="TextBoxSelectAll_Mouse" />
+                </DockPanel>
+                <!--성적서 저장 경로-->
+                <DockPanel Height="40" Margin="15" Grid.Row="9" Grid.ColumnSpan="2">
+                    <fa:ImageAwesome Icon="FolderOpen" Style="{StaticResource ItemIcon}" />
+                    <Button Content="찾아보기" DockPanel.Dock="Right" Style="{StaticResource Search}" Command="{Binding ReportSaveClickCommand}" IsTabStop="False" />
+                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+                        <TextBlock Text="성적서 저장 경로 *" Style="{StaticResource InfoItem}" />
+                        <TextBlock Text="필수 항목" Foreground="{StaticResource LedRed}" Margin="10,0,0,0" />
+                    </StackPanel>
+                    <TextBox Text="{Binding Info.ReportSavePath, Mode=TwoWay}" DockPanel.Dock="Bottom" Style="{StaticResource InsertData}" GotFocus="TextBoxSelectAll_Tab" GotMouseCapture="TextBoxSelectAll_Mouse" />
+                </DockPanel>
+            </Grid>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

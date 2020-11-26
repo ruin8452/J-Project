@@ -1,0 +1,298 @@
+﻿<Window x:Class="J_Project.UI.SubWindow.ConnecterCheckWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:J_Project.UI.SubWindow"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        mc:Ignorable="d"
+        x:Name="ConnecterCheck"
+        Title="ConnecterCheckWindow" Height="250" Width="680" ResizeMode="NoResize" WindowStyle="None">
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction  Command="{Binding LoadedCommand}" CommandParameter="{Binding ElementName=ConnecterCheck}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <Window.Effect>
+        <DropShadowEffect Color="DodgerBlue" BlurRadius="40" RenderingBias="Quality" ShadowDepth="1"/>
+    </Window.Effect>
+
+    <Window.InputBindings>
+        <KeyBinding Key="Enter" Command="{Binding OkCommand}"/>
+        <KeyBinding Key="A" Command="{Binding AllCheckCommand}"/>
+    </Window.InputBindings>
+
+    <Window.Resources>
+        <Style TargetType="Button" BasedOn="{StaticResource BtnBaseNormal}" x:Key="ButtonColor">
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                    <BeginStoryboard Storyboard="{StaticResource BtnBackAni_TransToBlue}"/>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                    <BeginStoryboard Storyboard="{StaticResource BtnBackAni_BlueToTrans}"/>
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="ToggleButton" BasedOn="{StaticResource TogBtnBaseNormal}">
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="BorderBrush" Value="{x:Null}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="FontFamily" Value="NanumGothic Light"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                    <BeginStoryboard Storyboard="{StaticResource BtnBackAni_NevyToLightNevy3}"/>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                    <BeginStoryboard Storyboard="{StaticResource BtnBackAni_LightNevyToNevy3}"/>
+                </EventTrigger>
+            </Style.Triggers>
+            
+        </Style>
+
+        <Style TargetType="Rectangle" x:Key="DcOut1Item">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=DcOut1Tog, Path=IsChecked}" Value="True">
+                    <Setter Property="Fill" Value="{StaticResource LedGreen}"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ElementName=DcOut1Tog, Path=IsChecked}" Value="False">
+                    <Setter Property="Fill" Value="{StaticResource LedRed}"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="TextBlock" x:Key="DcOut1Text">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=DcOut1Tog, Path=IsChecked}" Value="True">
+                    <Setter Property="Text" Value="정상"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ElementName=DcOut1Tog, Path=IsChecked}" Value="False">
+                    <Setter Property="Text" Value="비정상"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="Rectangle" x:Key="DcOut2Item">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=DcOut2Tog, Path=IsChecked}" Value="True">
+                    <Setter Property="Fill" Value="{StaticResource LedGreen}"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ElementName=DcOut2Tog, Path=IsChecked}" Value="False">
+                    <Setter Property="Fill" Value="{StaticResource LedRed}"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="TextBlock" x:Key="DcOut2Text">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=DcOut2Tog, Path=IsChecked}" Value="True">
+                    <Setter Property="Text" Value="정상"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ElementName=DcOut2Tog, Path=IsChecked}" Value="False">
+                    <Setter Property="Text" Value="비정상"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="Rectangle" x:Key="DcOut3Item">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=DcOut3Tog, Path=IsChecked}" Value="True">
+                    <Setter Property="Fill" Value="{StaticResource LedGreen}"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ElementName=DcOut3Tog, Path=IsChecked}" Value="False">
+                    <Setter Property="Fill" Value="{StaticResource LedRed}"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="TextBlock" x:Key="DcOut3Text">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=DcOut3Tog, Path=IsChecked}" Value="True">
+                    <Setter Property="Text" Value="정상"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ElementName=DcOut3Tog, Path=IsChecked}" Value="False">
+                    <Setter Property="Text" Value="비정상"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="Rectangle" x:Key="DcOut4Item">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=DcOut4Tog, Path=IsChecked}" Value="True">
+                    <Setter Property="Fill" Value="{StaticResource LedGreen}"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ElementName=DcOut4Tog, Path=IsChecked}" Value="False">
+                    <Setter Property="Fill" Value="{StaticResource LedRed}"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="TextBlock" x:Key="DcOut4Text">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=DcOut4Tog, Path=IsChecked}" Value="True">
+                    <Setter Property="Text" Value="정상"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ElementName=DcOut4Tog, Path=IsChecked}" Value="False">
+                    <Setter Property="Text" Value="비정상"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="Rectangle" x:Key="ParalItem">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=ParalTog, Path=IsChecked}" Value="True">
+                    <Setter Property="Fill" Value="{StaticResource LedGreen}"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ElementName=ParalTog, Path=IsChecked}" Value="False">
+                    <Setter Property="Fill" Value="{StaticResource LedRed}"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="TextBlock" x:Key="ParalText">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=ParalTog, Path=IsChecked}" Value="True">
+                    <Setter Property="Text" Value="정상"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ElementName=ParalTog, Path=IsChecked}" Value="False">
+                    <Setter Property="Text" Value="비정상"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="Rectangle" x:Key="BatItem">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=BatTog, Path=IsChecked}" Value="True">
+                    <Setter Property="Fill" Value="{StaticResource LedGreen}"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ElementName=BatTog, Path=IsChecked}" Value="False">
+                    <Setter Property="Fill" Value="{StaticResource LedRed}"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="TextBlock" x:Key="BatText">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=BatTog, Path=IsChecked}" Value="True">
+                    <Setter Property="Text" Value="정상"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ElementName=BatTog, Path=IsChecked}" Value="False">
+                    <Setter Property="Text" Value="비정상"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
+    <Border BorderBrush="DodgerBlue" BorderThickness="1.5">
+        <StackPanel Background="#FF1B1E2B">
+            <TextBlock Text="출력 커넥터 점검" Padding="10,5,0,5" Background="#FF3B456B" VerticalAlignment="Center" Foreground="White" FontSize="30" FontFamily="NanumGothic"/>
+
+            <Grid Margin="10,30,10,10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="120" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Grid Grid.Column="0" Margin="1,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Rectangle Grid.RowSpan="4" Style="{StaticResource DcOut1Item}"/>
+                    <TextBlock Text="DC Out1" Grid.Row="1" FontSize="18" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <ToggleButton x:Name="DcOut1Tog" Grid.Row="4" Grid.Column="0" Margin="1" Background="#FF1B1E2B" IsChecked="{Binding DcOut1Flag, Mode=TwoWay}">
+                        <TextBlock Style="{StaticResource DcOut1Text}"/>
+                    </ToggleButton>
+                </Grid>
+
+                <Grid Grid.Column="1" Margin="1,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Rectangle Grid.RowSpan="4" Style="{StaticResource DcOut2Item}"/>
+                    <TextBlock Text="DC Out2" Grid.Row="1" FontSize="18" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <ToggleButton x:Name="DcOut2Tog" Grid.Row="4" Grid.Column="0" Margin="1" Background="#FF1B1E2B" IsChecked="{Binding DcOut2Flag, Mode=TwoWay}">
+                        <TextBlock Style="{StaticResource DcOut2Text}"/>
+                    </ToggleButton>
+                </Grid>
+
+                <Grid Grid.Column="2" Margin="1,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Rectangle Grid.RowSpan="4" Style="{StaticResource DcOut3Item}"/>
+                    <TextBlock Text="DC Out3" Grid.Row="1" FontSize="18" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <ToggleButton x:Name="DcOut3Tog" Grid.Row="4" Grid.Column="0" Margin="1" Background="#FF1B1E2B" IsChecked="{Binding DcOut3Flag, Mode=TwoWay}">
+                        <TextBlock Style="{StaticResource DcOut3Text}"/>
+                    </ToggleButton>
+                </Grid>
+
+                <Grid Grid.Column="3" Margin="1,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Rectangle Grid.RowSpan="4" Style="{StaticResource DcOut4Item}"/>
+                    <TextBlock Text="DC Out4" Grid.Row="1" FontSize="18" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <ToggleButton x:Name="DcOut4Tog" Grid.Row="4" Grid.Column="0" Margin="1" Background="#FF1B1E2B" IsChecked="{Binding DcOut4Flag, Mode=TwoWay}">
+                        <TextBlock Style="{StaticResource DcOut4Text}"/>
+                    </ToggleButton>
+                </Grid>
+
+                <Grid Grid.Column="4" Margin="1,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Rectangle Grid.RowSpan="4" Style="{StaticResource ParalItem}"/>
+                    <TextBlock Text="병렬" Grid.Row="1" FontSize="18" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <ToggleButton x:Name="ParalTog" Grid.Row="4" Grid.Column="0" Margin="1" Background="#FF1B1E2B" IsChecked="{Binding ParalFlag, Mode=TwoWay}">
+                        <TextBlock Style="{StaticResource ParalText}"/>
+                    </ToggleButton>
+                </Grid>
+
+                <Grid Grid.Column="5" Margin="1,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Rectangle Grid.RowSpan="4" Style="{StaticResource BatItem}"/>
+                    <TextBlock Text="배터리" Grid.Row="1" FontSize="18" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <ToggleButton x:Name="BatTog" Grid.Row="4" Grid.Column="0" Margin="1" Background="#FF1B1E2B" IsChecked="{Binding BatFlag, Mode=TwoWay}">
+                        <TextBlock Style="{StaticResource BatText}"/>
+                    </ToggleButton>
+                </Grid>
+            </Grid>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Content="모두 정상" Height="30" Width="120" Command="{Binding AllCheckCommand}" FontFamily="NanumGothic" FontSize="15" Style="{StaticResource ButtonColor}" Background="#0000" BorderBrush="{x:Null}" Foreground="White"/>
+                <Button Content="확인" Height="30" Width="120" Command="{Binding OkCommand}" FontFamily="NanumGothic" FontSize="15" Style="{StaticResource ButtonColor}" Background="#0000" BorderBrush="{x:Null}" Foreground="White"/>
+            </StackPanel>
+        </StackPanel>
+    </Border>
+</Window>

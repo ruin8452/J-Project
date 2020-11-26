@@ -1,0 +1,15 @@
+﻿<UserControl x:Class="J_Project.UI.UserController.ToggleSwitch"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:J_Project.UI.UserController"
+             mc:Ignorable="d" Width="1039.966" Height="478">
+
+    <Viewbox  MouseLeftButtonDown="Ellipse_MouseLeftButtonDown">
+        <Grid Margin="0" Height="272" Width="592">
+            <Rectangle x:Name="Back" RadiusY="76" RadiusX="76" Margin="20,60,20,60"/>
+            <Ellipse x:Name="Dot" Fill="White" Margin="10,10,326.18,10"/>
+        </Grid>
+    </Viewbox>
+</UserControl>

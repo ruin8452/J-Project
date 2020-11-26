@@ -1,0 +1,47 @@
+﻿using J_Project.FileSystem;
+using System.Collections.ObjectModel;
+
+namespace J_Project.TestMethod
+{
+    internal class M100Ready : Test
+    {
+        public ObservableCollection<double> AcVolt { get; set; }
+        public ObservableCollection<double> AcCurr { get; set; }
+        public ObservableCollection<double> AcFreq { get; set; }
+
+        public ObservableCollection<double> NextTestWait { get; set; }
+
+        #region 싱글톤 패턴 구현
+
+        private static M100Ready SingleTonObj = null;
+
+        private M100Ready()
+        {
+            MaxCase = 1;
+
+            AcVolt = new ObservableCollection<double>() { 100 };
+            AcCurr = new ObservableCollection<double>() { 20 };
+            AcFreq = new ObservableCollection<double>() { 50 };
+
+            NextTestWait = new ObservableCollection<double>() { 0.5 };
+        }
+
+        public static M100Ready GetObj()
+        {
+            if (SingleTonObj == null) SingleTonObj = new M100Ready();
+            return SingleTonObj;
+        }
+
+        #endregion 싱글톤 패턴 구현
+
+        public static void Save()
+        {
+            Setting.WriteSetting(GetObj(), @"\Setting\TestSetting.ini");
+        }
+
+        public static void Load()
+        {
+            Setting.ReadSetting(GetObj(), @"\Setting\TestSetting.ini");
+        }
+    }
+}

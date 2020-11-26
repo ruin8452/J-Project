@@ -1,0 +1,69 @@
+// 출하 테스트 관련 좌표 및 데이터
+
+{
+    "SecondTest":[
+      {
+        "B7":"고길동",              // 검사자 (좌표:값)
+        "B5":"Rect 3.0kW(NB-IoT)",  // 제품명
+        "D5":"123-4567-890",        // 제품코드
+        "D6":"225874416",           // 시리얼 넘버
+        "D7":"2020-05-21"           // 검사일
+        "H5":"1.0",                 // HW 버전
+        "H6":"124",                 // SW 버전
+        "H7":"불합격"               // 검사 결과
+        "B8":"1.0",                 // DCDC 번호
+        "D8":"1.0",                 // PFC 번호
+        "G8":"1.0"                  // MCU 번호
+      },
+      {
+        "Position":"B11"            // 무부하 전원 ON
+        "TestValue":"OK",
+        "PassOrFail":"합격"
+      },
+      {
+        "Position":"B12"            // 출력전압 체크
+        "TestValue":"OK",
+        "PassOrFail":"합격"
+      },
+      {
+        "Position":"B13"            // LED 체크
+        "TestValue":"OK",
+        "PassOrFail":"합격"
+      },
+      {
+        "Position":"B14"            // 리모트 통신
+        "TestValue":"OK",
+        "PassOrFail":"합격"
+      },
+      {
+        "Position":"B15"            // 배터리 통신
+        "TestValue":"OK",
+        "PassOrFail":"합격"
+      },
+      {
+        "Position":"B16"            // Local - DC Switch 체크
+        "TestValue":"OK",
+        "PassOrFail":"합격"
+      },
+      {
+        "Position":"B17"            // 출력 커넥터 체크
+        "TestValue":"OK",
+        "PassOrFail":"합격"
+      },
+      {
+        "Position":"B18"            // 역률
+        "TestValue":"0.99",
+        "PassOrFail":"합격"
+      },
+      {
+        "Position":"B19"            // 리플 노이즈
+        "TestValue":"80",
+        "PassOrFail":"합격"
+      },
+      {
+        "Position":"B20"            // RTC TIME 체크
+        "TestValue":"OK",
+        "PassOrFail":"불합격"
+      }
+    ]
+}

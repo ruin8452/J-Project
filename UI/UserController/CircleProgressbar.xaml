@@ -1,0 +1,27 @@
+﻿<UserControl x:Class="J_Project.UI.UserController.CircleProgressbar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:J_Project.UI.UserController"
+             xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing"
+             x:Name="_this"
+             mc:Ignorable="d" Height="60" Width="60">
+
+    <UserControl.Resources>
+        <local:ValueToAngleConverter x:Key="ValueToAngleConverter"/>
+    </UserControl.Resources>
+
+    <Grid>
+        <!--<ed:Arc ArcThicknessUnit="Pixel" EndAngle="360" Stretch="None" Stroke="{Binding ElementName=_this, Path=InsideBrush}" StartAngle="0" StrokeThickness="{Binding ElementName=_this, Path=ProgressThickness}"/>
+        <ed:Arc ArcThicknessUnit="Pixel" EndAngle="{Binding Converter={StaticResource ValueToAngleConverter}, ElementName=_this, Path=Value}" Stretch="None" Stroke="{Binding ElementName=_this, Path=ProgressBrush}" StartAngle="0" StrokeThickness="{Binding ElementName=_this, Path=ProgressThickness}"/>-->
+        <Ellipse Fill="{Binding ElementName=_this, Path=InsideBrush}"/>
+        <ed:Arc ArcThicknessUnit="Pixel" EndAngle="{Binding ElementName=_this, Path=Value}" Stretch="None" Stroke="{Binding ElementName=_this, Path=ProgressBrush}" StartAngle="0" StrokeThickness="{Binding ElementName=_this, Path=ProgressThickness}"/>
+        <TextBox Text="{Binding ElementName=_this, Path=Text}" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" FontFamily="Malgun Gothic" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True"/>
+
+        <!--<Ellipse Fill="Gray"/>
+        <ed:Arc ArcThicknessUnit="Pixel" EndAngle="193.84" Stretch="None" Stroke="DodgerBlue" StartAngle="0" StrokeThickness="10"/>
+        <TextBox Text="13/26" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" FontFamily="12LotteMartDreamBold" HorizontalAlignment="Center" VerticalAlignment="Center"/>-->
+    
+    </Grid>
+</UserControl>
