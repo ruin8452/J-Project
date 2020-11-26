@@ -13,6 +13,14 @@ using System.Windows.Media;
 
 namespace J_Project.ViewModel.TestItem
 {
+    /**
+     *  @brief Remote 통신 테스트 클래스(출하용)
+     *  @details Remote 통신과 관련된 시퀀스 및 UI관련을 담당하는 클래스
+     *
+     *  @author SSW
+     *  @date 2020.02.25
+     *  @version 1.0.0
+     */
     internal class RemoteComm2VM : AllTestVM
     {
         private enum Seq

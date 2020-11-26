@@ -11,6 +11,14 @@ using System.Windows.Media;
 
 namespace J_Project.ViewModel.TestItem
 {
+    /**
+     *  @brief 출력 고전압 보호 테스트 클래스
+     *  @details 출력 고전압 보호와 관련된 시퀀스 및 UI관련을 담당하는 클래스
+     *
+     *  @author SSW
+     *  @date 2020.02.25
+     *  @version 1.0.0
+     */
     internal class OutputHighVM : AllTestVM
     {
         private enum Seq

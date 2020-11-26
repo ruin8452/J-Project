@@ -13,6 +13,14 @@ using System.Windows.Media;
 
 namespace J_Project.ViewModel.TestItem
 {
+    /**
+     *  @brief 역률 테스트 클래스(양산용)
+     *  @details 역률과 관련된 시퀀스 및 UI관련을 담당하는 클래스
+     *
+     *  @author SSW
+     *  @date 2020.02.25
+     *  @version 1.0.0
+     */
     internal class PowerFactorVM : AllTestVM
     {
         private enum Seq

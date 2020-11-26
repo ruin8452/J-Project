@@ -183,7 +183,6 @@
     <Compile Include="TestMethod\IdChange.cs" />
     <Compile Include="TestMethod\SerialSave.cs" />
     <Compile Include="TestMethod\RemoteComm.cs" />
-    <Compile Include="TestMethod\RectOnCheck.cs" />
     <Compile Include="TestMethod\LocalSwitch.cs" />
     <Compile Include="TestMethod\M100Ready.cs" />
     <Compile Include="TestMethod\CalReady.cs" />
@@ -316,9 +315,6 @@
     <Compile Include="UI\TestSeq\Execution\Cal_DC_출력전압_UI.xaml.cs">
       <DependentUpon>Cal_DC_출력전압_UI.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\TestSeq\Execution\RectOnCheck_UI.xaml.cs">
-      <DependentUpon>RectOnCheck_UI.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UI\TestSeq\Execution\ITestExeList.cs" />
     <Compile Include="UI\TestSeq\Execution\RTC_TIME_체크2_UI.xaml.cs">
       <DependentUpon>RTC_TIME_체크2_UI.xaml</DependentUpon>
@@ -415,9 +411,6 @@
     </Compile>
     <Compile Include="UI\TestSeq\TestSetting\RemoteComm_Setting_UI.xaml.cs">
       <DependentUpon>RemoteComm_Setting_UI.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\TestSeq\TestSetting\RectOnCheck_Setting_UI.xaml.cs">
-      <DependentUpon>RectOnCheck_Setting_UI.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\TestSeq\TestSetting\LocalSwitch_Setting_UI.xaml.cs">
       <DependentUpon>LocalSwitch_Setting_UI.xaml</DependentUpon>
@@ -520,7 +513,6 @@
     <Compile Include="ViewModel\TestItem\LedCheck2VM.cs" />
     <Compile Include="ViewModel\TestItem\SerialSaveVM.cs" />
     <Compile Include="ViewModel\TestItem\LocalSwitch2VM.cs" />
-    <Compile Include="ViewModel\TestItem\RectOnCheckVM.cs" />
     <Compile Include="ViewModel\TestItem\BatteryCommVM.cs" />
     <Compile Include="ViewModel\TestItem\RemoteComm2VM.cs" />
     <Compile Include="ViewModel\TestItem\RemoteCommVM.cs" />
@@ -703,10 +695,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UI\TestSeq\Execution\RectOnCheck_UI.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="UI\TestSeq\Execution\RTC_TIME_체크2_UI.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -832,10 +820,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\TestSeq\TestSetting\RemoteComm_Setting_UI.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UI\TestSeq\TestSetting\RectOnCheck_Setting_UI.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

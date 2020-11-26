@@ -13,6 +13,14 @@ using System.Windows.Media;
 
 namespace J_Project.ViewModel.TestItem
 {
+    /**
+     *  @brief LED 체크 테스트 클래스(양산용)
+     *  @details LED 체크와 관련된 시퀀스 및 UI관련을 담당하는 클래스
+     *
+     *  @author SSW
+     *  @date 2020.02.25
+     *  @version 1.0.0
+     */
     internal class LedCheckVM : AllTestVM
     {
         private enum Seq

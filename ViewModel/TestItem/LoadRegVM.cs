@@ -11,6 +11,14 @@ using System.Windows.Media;
 
 namespace J_Project.ViewModel.TestItem
 {
+    /**
+     *  @brief 로드 레귤레이션 테스트 클래스
+     *  @details 로드 레귤레이션과 관련된 시퀀스 및 UI관련을 담당하는 클래스
+     *
+     *  @author SSW
+     *  @date 2020.02.25
+     *  @version 1.0.0
+     */
     internal class LoadRegVM : AllTestVM
     {
         private enum Seq
