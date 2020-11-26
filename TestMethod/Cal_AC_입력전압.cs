@@ -12,8 +12,14 @@ using J_Project.ViewModel.SubWindow;
 
 namespace J_Project.TestMethod
 {
-    // AC 80 설정 > AC ON > 하한값에 PM 측정값 삽입 설정 > 정류기 & PM값 비교확인 > 
-    // AC 260 설정 > 상한값에 PM 측정값 삽입 설정 > 정류기 & PM값 비교확인 > 결과 저장 > AC OFF > 다음 테스트 딜레이
+    /**
+     *  @brief Cal_AC_입력전압 테스트 세팅 데이터
+     *  @details Cal_AC_입력전압 테스트 데이터 관리를 담당하는 클래스
+     *
+     *  @author SSW
+     *  @date 2020.02.25
+     *  @version 1.0.0
+     */
     public class Cal_AC_입력전압 : Test
     {
         public ObservableCollection<double> AcVoltLower  { get; set; }
@@ -60,10 +66,27 @@ namespace J_Project.TestMethod
         }
         #endregion
 
+        /**
+         *  @brief 데이터 저장
+         *  @details 해당 테스트의 설정값을 ini파일에 저장한다
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         public static void Save()
         {
             Setting.WriteSetting(GetObj(), @"\Setting\TestSetting.ini");
         }
+
+        /**
+         *  @brief 데이터 로드
+         *  @details ini파일에서 해당 테스트의 설정값을 불러온다
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         public static void Load()
         {
             Setting.ReadSetting(GetObj(), @"\Setting\TestSetting.ini");

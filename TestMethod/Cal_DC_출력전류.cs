@@ -12,6 +12,14 @@ using J_Project.ViewModel.SubWindow;
 
 namespace J_Project.TestMethod
 {
+    /**
+     *  @brief Cal_DC_출력전류 테스트 세팅 데이터
+     *  @details Cal_DC_출력전류 테스트 데이터 관리를 담당하는 클래스
+     *
+     *  @author SSW
+     *  @date 2020.02.25
+     *  @version 1.0.0
+     */
     public class Cal_DC_출력전류 : Test
     {
         public ObservableCollection<double> M200AcVolt     { get; set; }
@@ -93,10 +101,27 @@ namespace J_Project.TestMethod
         }
         #endregion
 
+        /**
+         *  @brief 데이터 저장
+         *  @details 해당 테스트의 설정값을 ini파일에 저장한다
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         public static void Save()
         {
             Setting.WriteSetting(GetObj(), @"\Setting\TestSetting.ini");
         }
+
+        /**
+         *  @brief 데이터 로드
+         *  @details ini파일에서 해당 테스트의 설정값을 불러온다
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         public static void Load()
         {
             Setting.ReadSetting(GetObj(), @"\Setting\TestSetting.ini");

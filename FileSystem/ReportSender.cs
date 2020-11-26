@@ -25,12 +25,29 @@ namespace J_Project.FileSystem
 
         HttpWebRequest HttpSocket = null;
 
+        /**
+         *  @brief 전송 주소 설정
+         *  @details 보고서를 전송하기 위한 주소를 설정한다(고정)
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         public void SetHttp()
         {
             HttpSocket = (HttpWebRequest)WebRequest.Create(string.Format($"http://59.12.34.202:2099/update_Kapjin_TestReport"));
             HttpSocket.Method = WebRequestMethods.Http.Post;
             HttpSocket.ContentType = "application/json";
         }
+        /**
+         *  @brief 전송 주소 설정
+         *  @details 보고서를 전송하기 위한 주소를 설정한다(임의)
+         *  
+         *  @param string ip - IP
+         *  @param string port - 포트번호
+         *  
+         *  @return
+         */
         public void SetHttp(string ip, string port)
         {
             HttpSocket = WebRequest.CreateHttp(string.Format($"http://{ip}:{port}"));
@@ -38,6 +55,15 @@ namespace J_Project.FileSystem
             HttpSocket.ContentType = "application/json";
         }
 
+        /**
+         *  @brief CSV - JSON 변환기
+         *  @details CSV 보고서 데이터를 JSON 형식으로 변환한다.
+         *  
+         *  @param string reportType - 보고서 종류(양산, 출하)
+         *  @param string filePath - CSV 파일 경로
+         *  
+         *  @return byte[] - 전송할 데이터
+         */
         public byte[] ConvertCvsToJson(string reportType, string filePath)
         {
             JArray jDataArr = new JArray();
@@ -87,6 +113,15 @@ namespace J_Project.FileSystem
 
             return ms1.ToArray();
         }
+        /**
+         *  @brief CSV - JSON 변환기
+         *  @details CSV 보고서 데이터를 JSON 형식으로 변환한다.
+         *  
+         *  @param string reportType - 보고서 종류(양산, 출하)
+         *  @param string filePath - CSV 파일 경로
+         *  
+         *  @return byte[] - 전송할 데이터
+         */
         private List<string[]> DataSort(List<string[]> list)
         {
             int maxIndex = 0;

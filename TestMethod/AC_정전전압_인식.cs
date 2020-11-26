@@ -14,8 +14,8 @@ using J_Project.FileSystem;
 namespace J_Project.TestMethod
 {
     /**
-     *  @brief AC_정전전압_인식 세팅 데이터
-     *  @details AC_정전전압_인식 세팅 데이터 관리를 담당하는 클래스
+     *  @brief AC_정전전압_인식 테스트 세팅 데이터
+     *  @details AC_정전전압_인식 테스트 세팅 데이터 관리를 담당하는 클래스
      *
      *  @author SSW
      *  @date 2020.02.25

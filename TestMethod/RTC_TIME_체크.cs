@@ -3,8 +3,14 @@ using System.Collections.ObjectModel;
 
 namespace J_Project.TestMethod
 {
-    // 테스트 시퀀스
-    //   AC 200 설정 > 1.5kW 부하 설정 > AC ON > Load ON > AC 270 설정 > Fault 인식 > AC 200 설정 > 제한시간 후 전압체크 > 결과저장 > 다음 테스트 딜레이
+    /**
+     *  @brief RTC_TIME_체크 테스트 세팅 데이터
+     *  @details RTC_TIME_체크 테스트 데이터 관리를 담당하는 클래스
+     *
+     *  @author SSW
+     *  @date 2020.02.25
+     *  @version 1.0.0
+     */
     public class RTC_TIME_체크 : Test
     {
         public ObservableCollection<double> AcVolt { get; set; }
@@ -56,11 +62,27 @@ namespace J_Project.TestMethod
 
         #endregion 싱글톤 패턴 구현
 
+        /**
+         *  @brief 데이터 저장
+         *  @details 해당 테스트의 설정값을 ini파일에 저장한다
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         public static void Save()
         {
             Setting.WriteSetting(GetObj(), @"\Setting\TestSetting.ini");
         }
 
+        /**
+         *  @brief 데이터 로드
+         *  @details ini파일에서 해당 테스트의 설정값을 불러온다
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         public static void Load()
         {
             Setting.ReadSetting(GetObj(), @"\Setting\TestSetting.ini");

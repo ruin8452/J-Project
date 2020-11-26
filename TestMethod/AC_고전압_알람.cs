@@ -4,8 +4,8 @@ using System.Collections.ObjectModel;
 namespace J_Project.TestMethod
 {
     /**
-     *  @brief AC_고전압_알람 세팅 데이터
-     *  @details AC_고전압_알람 세팅 데이터 관리를 담당하는 클래스
+     *  @brief AC_고전압_알람 테스트 세팅 데이터
+     *  @details AC_고전압_알람 테스트 세팅 데이터 관리를 담당하는 클래스
      *
      *  @author SSW
      *  @date 2020.02.25
