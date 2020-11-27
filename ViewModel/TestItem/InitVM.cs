@@ -259,7 +259,14 @@ namespace J_Project.ViewModel.TestItem
             return result;
         }
 
-        // 전압 체크
+        /**
+         *  @brief RTC 설정
+         *  @details 정류기의 RTC 값을 현재 시간으로 설정한다
+         *  
+         *  @param 
+         *  
+         *  @return StateFlag - 수행 결과
+         */
         private StateFlag RtcSet()
         {
             bool cmdResult;

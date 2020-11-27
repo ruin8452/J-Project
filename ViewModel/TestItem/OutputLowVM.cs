@@ -258,13 +258,23 @@ namespace J_Project.ViewModel.TestItem
             return result;
         }
 
-        // AC 저전압 인식 검사
-        private StateFlag RectOutLowCheck(int caseNum, double acDrop, double errRate, ref (string, string) resultData)
+        /**
+         *  @brief 출력 저전압 인식 검사
+         *  @details 정류기의 출력을 기준치 이상 강제로 내렸을 때, 출력 저전압 인식을 하는지 검사
+         *  
+         *  @param int caseNum - 해당 테스트의 케이스 번호
+         *  @param double outDrop - 저전압 인식 기준치
+         *  @param double errRate - 체크할 범위(기준값 ±범위값)
+         *  @param ref (string, string) resultData - 테스트 결과
+         *  
+         *  @return StateFlag - 수행 결과
+         */
+        private StateFlag RectOutLowCheck(int caseNum, double outDrop, double errRate, ref (string, string) resultData)
         {
             Rectifier rect = Rectifier.GetObj();
             Dmm1 dmm1 = Dmm1.GetObj();
-            double minDc = acDrop - errRate;
-            double maxDc = acDrop + errRate;
+            double minDc = outDrop - errRate;
+            double maxDc = outDrop + errRate;
 
             TestLog.AppendLine($"- 검사 범위 : {minDc} ~ {maxDc}");
 

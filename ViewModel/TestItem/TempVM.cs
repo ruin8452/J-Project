@@ -217,7 +217,7 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.RESULT_CHECK: // 결과 판단 & 성적서 작성
                     TestLog.AppendLine("[ 기능 검사 ]");
-                    result = TempSensingTest(caseNumber, TempCheck.RoomTemp[caseNumber], TempCheck.ErrorRate[caseNumber], ref resultData);
+                    result = TempSensingTest(TempCheck.RoomTemp[caseNumber], TempCheck.ErrorRate[caseNumber], ref resultData);
                     TestLog.AppendLine($"- 결과 : {result}\n");
                     break;
 
@@ -244,10 +244,19 @@ namespace J_Project.ViewModel.TestItem
             return result;
         }
 
-        private StateFlag TempSensingTest(int caseNum, double roomTemp, double errorRate, ref (string, string) resultData)
+        /**
+         *  @brief 온도 센서 검사
+         *  @details 정류기의 온도가 허용 오차를 넘었는지 검사한다
+         *  
+         *  @param double roomTemp - 방 온도
+         *  @param double errorRate - 허용 오차
+         *  @param ref (string, string) resultData - 테스트 결과
+         *  
+         *  @return StateFlag - 수행 결과
+         */
+        private StateFlag TempSensingTest(double roomTemp, double errorRate, ref (string, string) resultData)
         {
             double rectifierTemp = Rectifier.GetObj().SystemTemp;
-            //TestResult[caseNum] = rectifierTemp.ToString();
 
             rectifierTemp = Math.Round(rectifierTemp, 3);
             TestLog.AppendLine($"- 온도 : {rectifierTemp}");

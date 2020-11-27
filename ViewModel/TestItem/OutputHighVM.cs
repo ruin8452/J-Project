@@ -258,7 +258,17 @@ namespace J_Project.ViewModel.TestItem
             return result;
         }
 
-        // 출력 고전압 인식 검사
+        /**
+         *  @brief 출력 고전압 인식 검사
+         *  @details 정류기의 출력을 기준치 이상 강제로 올렸을 때, 출력 고전압 인식을 하는지 검사
+         *  
+         *  @param int caseNum - 해당 테스트의 케이스 번호
+         *  @param double outUp - 고전압 인식 기준치
+         *  @param double errRate - 체크할 범위(기준값 ±범위값)
+         *  @param ref (string, string) resultData - 테스트 결과
+         *  
+         *  @return StateFlag - 수행 결과
+         */
         private StateFlag RectOutHighCheck(int caseNum, double outUp, double errRate, ref (string, string) resultData)
         {
             Rectifier rect = Rectifier.GetObj();

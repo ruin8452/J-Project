@@ -231,7 +231,7 @@ namespace J_Project.ViewModel.TestItem
                             break;
                         }
 
-                        result = OverLoadCheck(caseNumber);
+                        result = OverLoadCheck();
                         if (result != StateFlag.PASS)
                             jumpStepNum = (int)Seq.LOAD_OFF;
                     }
@@ -311,8 +311,15 @@ namespace J_Project.ViewModel.TestItem
             return result;
         }
 
-        // 과부하 보호 검사
-        private StateFlag OverLoadCheck(int caseNum)
+        /**
+         *  @brief 출력 과부하 검사
+         *  @details 정류기에 과부하를 걸었을 경우 과부하 인식을 하는지 검사
+         *  
+         *  @param 
+         *  
+         *  @return StateFlag - 수행 결과
+         */
+        private StateFlag OverLoadCheck()
         {
             TestLog.Append($"- Fault 발생 검사 -> ");
 
@@ -331,6 +338,18 @@ namespace J_Project.ViewModel.TestItem
             return StateFlag.FAULT_ERROR;
         }
 
+        /**
+         *  @brief 전압 복귀 검사
+         *  @details 에러 인식 후 복구 시 정상 출력으로 복귀하는지 검사
+         *  
+         *  @param int caseNum - 해당 테스트의 케이스 번호
+         *  @param double timing - 복귀 제한 시간
+         *  @param double dcOutVolt - 정상 전압값
+         *  @param double errRate - 체크할 범위(기준값 ±범위값)
+         *  @param ref (string, string) resultData - 테스트 결과
+         *  
+         *  @return StateFlag - 수행 결과
+         */
         private StateFlag PassFailCheckTest(int caseNum, double timing, double dcOutVolt, double errRate, ref (string, string) resultData)
         {
             Dmm1 dmm = Dmm1.GetObj();

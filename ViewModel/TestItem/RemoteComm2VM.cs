@@ -248,7 +248,14 @@ namespace J_Project.ViewModel.TestItem
             return result;
         }
 
-        // 스위치 1,2 리모트 통신 검사
+        /**
+         *  @brief 리모트 스위치 1,2 통신 검사
+         *  @details 리모트 스위치 1,2 통신이 원할한지 검사한다
+         *  
+         *  @param ref (string, string) resultData - 테스트 결과
+         *  
+         *  @return StateFlag - 수행 결과
+         */
         private StateFlag Remote12Check(ref (string, string) resultData)
         {
             int loop;
@@ -343,7 +350,14 @@ namespace J_Project.ViewModel.TestItem
             return StateFlag.PASS;
         }
 
-        // 스위치 3,4 리모트 통신 검사
+        /**
+         *  @brief 리모트 스위치 3,4 통신 검사
+         *  @details 리모트 스위치 3,4 통신이 원할한지 검사한다
+         *  
+         *  @param ref (string, string) resultData - 테스트 결과
+         *  
+         *  @return StateFlag - 수행 결과
+         */
         private StateFlag Remote34Check(ref (string, string) resultData)
         {
             int loop;

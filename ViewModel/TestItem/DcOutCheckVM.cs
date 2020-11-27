@@ -283,6 +283,14 @@ namespace J_Project.ViewModel.TestItem
             return result;
         }
 
+        /**
+         *  @brief DC 전압 기본값 CAL 수행
+         *  @details DC 전압 기본값 CAL을 진행하고 잘 됐는지 검사한다
+         *  
+         *  @param double refValue - 포인트 CAL 기준값
+         *  
+         *  @return StateFlag - 수행 결과
+         */
         private StateFlag DefaultRefSet(double refValue)
         {
             Rectifier rect = Rectifier.GetObj();

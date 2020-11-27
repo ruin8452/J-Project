@@ -251,7 +251,15 @@ namespace J_Project.ViewModel.TestItem
             return result;
         }
 
-        // 소비전류 체크
+        /**
+         *  @brief 무부하 소비전류 검사
+         *  @details 무부하 시 소비전류가 정상 범위 이내인지 검사
+         *  
+         *  @param double limitCurrRms - 기준 소비전류값
+         *  @param ref (string, string) resultData - 테스트 결과
+         *  
+         *  @return StateFlag - 수행 결과
+         */
         private StateFlag ConsumptionCurrTest(double limitCurrRms, ref (string, string) resultData)
         {
             PowerMeter powerMeter = PowerMeter.GetObj();
@@ -274,7 +282,16 @@ namespace J_Project.ViewModel.TestItem
             }
         }
 
-        // 소비전류 체크
+        /**
+         *  @brief 무부하 소비전류 검사(수동입력)
+         *  @details 무부하 시 소비전류가 정상 범위 이내인지 검사
+         *           계측장비와의 통신이 원할하지 않을 경우 수동입력을 통해 진행한다
+         *  
+         *  @param double limitCurrRms - 기준 소비전류값
+         *  @param ref (string, string) resultData - 테스트 결과
+         *  
+         *  @return StateFlag - 수행 결과
+         */
         private StateFlag ConsumptionCurrPassiveTest(double limitCurrRms, ref (string, string) resultData)
         {
             TestLog.AppendLine($"- 소비전류 팝업");

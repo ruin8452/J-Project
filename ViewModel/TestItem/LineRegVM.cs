@@ -317,7 +317,18 @@ namespace J_Project.ViewModel.TestItem
             return result;
         }
 
-        // 전압 체크
+        /**
+         *  @brief 전압 안정성 검사
+         *  @details AC가 변동이 있을 때 고정적으로 출력이 되는지 확인
+         *  
+         *  @param int caseNum - 해당 테스트의 케이스 번호
+         *  @param double timing - 복귀 제한 시간
+         *  @param double maxVolt - 정상 전압 최대값
+         *  @param double minVolt - 정상 전압 최소값
+         *  @param ref (string, string) resultData - 테스트 결과
+         *  
+         *  @return StateFlag - 수행 결과
+         */
         private StateFlag VoltCheckTest(int caseNum, double timing, double maxVolt, double minVolt, ref (string, string) resultData)
         {
             Dmm1 dmm = Dmm1.GetObj();

@@ -317,7 +317,14 @@ namespace J_Project.ViewModel.TestItem
             return result;
         }
 
-        // RTC 설정
+        /**
+         *  @brief RTC 설정
+         *  @details 정류기의 RTC 값을 현재 시간으로 설정한다
+         *  
+         *  @param 
+         *  
+         *  @return StateFlag - 수행 결과
+         */
         private StateFlag RtcSet()
         {
             bool cmdResult;
@@ -343,7 +350,14 @@ namespace J_Project.ViewModel.TestItem
             return StateFlag.RTC_ERR;
         }
 
-        // RTC 체크
+        /**
+         *  @brief RTC 검사
+         *  @details 테스트 시작 시 설정한 RTC가 테스트를 진행하면서 허용 오차 범위를 넘었는지 검사한다
+         *  
+         *  @param double timeErrRate - 허용 시간 오차
+         *  
+         *  @return StateFlag - 수행 결과
+         */
         private StateFlag RtcCheckTest(double timeErrRate)
         {
             for (int i = 0; i < MAX_TRY_COUNT; i++)

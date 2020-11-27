@@ -319,7 +319,15 @@ namespace J_Project.ViewModel.TestItem
             return result;
         }
 
-        // 효율 체크
+        /**
+         *  @brief 효율 체크 수행
+         *  @details 장비의 효율이 정상 범위 이내인지 검사한다
+         *  
+         *  @param double limitEfficiency - 기준 효율값
+         *  @param ref (string, string) resultData - 테스트 결과
+         *  
+         *  @return StateFlag - 수행 결과
+         */
         private StateFlag EfficiencyTest(double limitEfficiency, ref (string, string) resultData)
         {
             Dmm1 dmm1 = Dmm1.GetObj();
@@ -360,7 +368,16 @@ namespace J_Project.ViewModel.TestItem
             }
         }
 
-        // 효율 수동입력
+        /**
+         *  @brief 효율 체크 수행(수동입력)
+         *  @details 장비의 효율이 기준값에 미치는지 검사한다
+         *           계측장비와의 통신이 원할하지 않을 경우 수동입력을 통해 진행한다
+         *  
+         *  @param double limitEfficiency - 기준 효율값
+         *  @param ref (string, string) resultData - 테스트 결과
+         *  
+         *  @return StateFlag - 수행 결과
+         */
         private StateFlag EfficiencyPassiveCheckTest(double limitEfficiency, ref (string, string) resultData)
         {
             Dmm1 dmm1 = Dmm1.GetObj();

@@ -251,11 +251,11 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.RESULT_CHECK: // 결과 판단 & 성적서 작성
                     TestLog.AppendLine("[ 기능 검사 ]");
-                    result = NoiseCheckTest(caseNumber, Noise.LimitNoiseVolt[caseNumber], ref resultData);
+                    result = NoiseCheckTest(Noise.LimitNoiseVolt[caseNumber], ref resultData);
 
                     // 실패시 수동 입력
                     if (result != StateFlag.PASS)
-                        result = NoisePassiveCheckTest(caseNumber, Noise.LimitNoiseVolt[caseNumber], ref resultData);
+                        result = NoisePassiveCheckTest(Noise.LimitNoiseVolt[caseNumber], ref resultData);
 
                     TestLog.AppendLine($"- 결과 : {result}\n");
                     break;
@@ -334,7 +334,16 @@ namespace J_Project.ViewModel.TestItem
             return result;
         }
 
-        private StateFlag NoiseCheckTest(int caseNum, int limitNoiseVolt, ref (string, string) resultData)
+        /**
+         *  @brief 노이즈 검사
+         *  @details 출력 시 발생하는 노이즈가 정상 범위 이내인지 검사
+         *  
+         *  @param int limitNoiseVolt - 기준 노이즈값
+         *  @param ref (string, string) resultData - 테스트 결과
+         *  
+         *  @return StateFlag - 수행 결과
+         */
+        private StateFlag NoiseCheckTest(int limitNoiseVolt, ref (string, string) resultData)
         {
             Oscilloscope osc = Oscilloscope.GetObj();
             double noiseVolt = osc.RealPk2pk();
@@ -356,8 +365,17 @@ namespace J_Project.ViewModel.TestItem
             }
         }
 
-        // 노이즈 수동입력
-        private StateFlag NoisePassiveCheckTest(int caseNum, int limitNoiseVolt, ref (string, string) resultData)
+        /**
+         *  @brief 노이즈 검사(수동입력)
+         *  @details 출력 시 발생하는 노이즈가 정상 범위 이내인지 검사
+         *           계측장비와의 통신이 원할하지 않을 경우 수동입력을 통해 진행한다
+         *  
+         *  @param int limitNoiseVolt - 기준 노이즈값
+         *  @param ref (string, string) resultData - 테스트 결과
+         *  
+         *  @return StateFlag - 수행 결과
+         */
+        private StateFlag NoisePassiveCheckTest(int limitNoiseVolt, ref (string, string) resultData)
         {
             TestLog.AppendLine($"- 노이즈 팝업");
 
