@@ -142,6 +142,16 @@ namespace J_Project.ViewModel.TestItem
         ///////////////////////////////////////////////////////////////////////////////////
         // 시퀀스 관련
         ///////////////////////////////////////////////////////////////////////////////////
+        /**
+         *  @brief 테스트 시퀀스
+         *  @details 해당 테스트의 시퀀스를 담당 및 수행한다
+         *  
+         *  @param int caseNumbere - 해당 테스트의 케이스 번호
+         *  @param int stepNumber - 실행할 세부 단계 번호
+         *  @param ref int jumpStepNum - 점프할 세부 단계
+         *  
+         *  @return StateFlag - 수행 결과
+         */
         public override StateFlag TestSeq(int caseNumber, int stepNumber, ref int jumpStepNum)
         {
             StateFlag result = StateFlag.NORMAL_ERR;
@@ -268,6 +278,15 @@ namespace J_Project.ViewModel.TestItem
             return result;
         }
 
+        /**
+         *  @brief AC CAL 수행
+         *  @details AC CAL을 진행하고 잘 됐는지 검사한다
+         *  
+         *  @param ushort upDown - 상한, 하한 포인트 선택
+         *                         1: 상한 AC CAL, 0 : 하한 AC CAL
+         *  
+         *  @return StateFlag - 수행 결과
+         */
         private StateFlag CalCheck(ushort upDown)
         {
             double pmAcMonitor;

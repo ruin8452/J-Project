@@ -371,8 +371,8 @@ namespace J_Project.ViewModel.TestItem
          *  @details AC 정전 인식을 정상적으로 수행하는지 판단한다
          *  
          *  @param int caseNum - 해당 테스트의 케이스 번호
-         *  @param double acBlackOut - 정전으로 인식하는 AC값
-         *  @param double errRate - 체크할 범위
+         *  @param double acBlackOut - 정전으로 인식하는 AC 기준값
+         *  @param double errRate - 체크할 범위(기준값 ±범위값)
          *  @param ref (string, string) resultData - 테스트 결과
          *  
          *  @return StateFlag - 수행 결과

@@ -141,6 +141,16 @@ namespace J_Project.ViewModel.TestItem
         ///////////////////////////////////////////////////////////////////////////////////
         // 시퀀스 관련
         ///////////////////////////////////////////////////////////////////////////////////
+        /**
+         *  @brief 테스트 시퀀스
+         *  @details 해당 테스트의 시퀀스를 담당 및 수행한다
+         *  
+         *  @param int caseNumbere - 해당 테스트의 케이스 번호
+         *  @param int stepNumber - 실행할 세부 단계 번호
+         *  @param ref int jumpStepNum - 점프할 세부 단계
+         *  
+         *  @return StateFlag - 수행 결과
+         */
         public override StateFlag TestSeq(int caseNumber, int stepNumber, ref int jumpStepNum)
         {
             StateFlag result = StateFlag.NORMAL_ERR;
@@ -358,7 +368,17 @@ namespace J_Project.ViewModel.TestItem
             return result;
         }
 
-        // AC 저전압 인식 검사
+        /**
+         *  @brief AC 저전압 인식 검사
+         *  @details AC 저전압 인식을 정상적으로 수행하는지 판단한다
+         *  
+         *  @param int caseNum - 해당 테스트의 케이스 번호
+         *  @param double acDrop - 저전압으로 인식하는 AC 기준값
+         *  @param double errRate - 체크할 범위(기준값 ±범위값)
+         *  @param ref (string, string) resultData - 테스트 결과
+         *  
+         *  @return StateFlag - 수행 결과
+         */
         private StateFlag AcLowCheck(int caseNum, double acDrop, double errRate, ref (string, string) resultData)
         {
             PowerMeter pm = PowerMeter.GetObj();
@@ -395,7 +415,18 @@ namespace J_Project.ViewModel.TestItem
             return StateFlag.CONDITION_FAIL;
         }
 
-        // 전압 복귀 체크
+        /**
+         *  @brief 전압 복귀 검사
+         *  @details 에러 인식 후 복구 시 정상 출력으로 복귀하는지 검사
+         *  
+         *  @param int caseNum - 해당 테스트의 케이스 번호
+         *  @param double timing - 복귀 제한 시간
+         *  @param double maxVolt - 정상 전압 최대값
+         *  @param double minVolt - 정상 전압 최소값
+         *  @param ref (string, string) resultData - 테스트 결과
+         *  
+         *  @return StateFlag - 수행 결과
+         */
         private StateFlag VoltCheckTest(int caseNum, double timing, double maxVolt, double minVolt, ref (string, string) resultData)
         {
             Dmm1 dmm = Dmm1.GetObj();

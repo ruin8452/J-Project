@@ -157,6 +157,16 @@ namespace J_Project.ViewModel.TestItem
         ///////////////////////////////////////////////////////////////////////////////////
         // 시퀀스 관련
         ///////////////////////////////////////////////////////////////////////////////////
+        /**
+         *  @brief 테스트 시퀀스
+         *  @details 해당 테스트의 시퀀스를 담당 및 수행한다
+         *  
+         *  @param int caseNumbere - 해당 테스트의 케이스 번호
+         *  @param int stepNumber - 실행할 세부 단계 번호
+         *  @param ref int jumpStepNum - 점프할 세부 단계
+         *  
+         *  @return StateFlag - 수행 결과
+         */
         public override StateFlag TestSeq(int caseNumber, int stepNumber, ref int jumpStepNum)
         {
             StateFlag result = StateFlag.NORMAL_ERR;
@@ -260,12 +270,12 @@ namespace J_Project.ViewModel.TestItem
                 case Seq.DAC_CAL:
                     TestLog.AppendLine("[ DAC CAL ]");
 
-                    result = Cal(DcOutVoltCal.DacLowerRef[caseNumber], CalPoint.LOW_POINT);
+                    result = Cal(DcOutVoltCal.DacLowerRef[caseNumber], (ushort)CalPoint.LOW_POINT);
                     TestLog.AppendLine($"- 결과 : {result}\n");
                     if (result != StateFlag.PASS)
                         return result;
 
-                    result = Cal(DcOutVoltCal.DacUpperRef[caseNumber], CalPoint.HIGH_POINT);
+                    result = Cal(DcOutVoltCal.DacUpperRef[caseNumber], (ushort)CalPoint.HIGH_POINT);
                     TestLog.AppendLine($"- 결과 : {result}\n");
 
                     //result = DacCal(DcOutVoltCal.DacLowerRef[caseNumber], DcOutVoltCal.DacUpperRef[caseNumber]);
@@ -351,7 +361,16 @@ namespace J_Project.ViewModel.TestItem
             return result;
         }
 
-        private StateFlag Cal(double calValue, CalPoint calPoint)
+        /**
+         *  @brief DC 전압 CAL 수행
+         *  @details DC 전압 CAL을 진행하고 잘 됐는지 검사한다
+         *  
+         *  @param double refValue - 포인트 CAL 기준값
+         *  @param ushort unDown - 1: 상한 AC CAL, 0 : 하한 AC CAL
+         *  
+         *  @return StateFlag - 수행 결과
+         */
+        private StateFlag Cal(double calValue, ushort upDown)
         {
             Rectifier rect = Rectifier.GetObj();
 
@@ -393,12 +412,12 @@ namespace J_Project.ViewModel.TestItem
                 dmmDcVolt = Dmm1.GetObj().DcVolt;
 
                 TestLog.AppendLine($"- 전압 DAC CAL 시도 ");
-                rect.RectCommand(CommandList.DAC_V_CAL, (ushort)calPoint, (ushort)(dmmDcVolt * 100.0));
+                rect.RectCommand(CommandList.DAC_V_CAL, upDown, (ushort)(dmmDcVolt * 100.0));
 
                 Util.Delay(0.5);
 
                 TestLog.AppendLine($"- 전압 ADC CAL 시도 ");
-                rect.RectCommand(CommandList.ADC_V_CAL, (ushort)calPoint, (ushort)(dmmDcVolt * 100.0));
+                rect.RectCommand(CommandList.ADC_V_CAL, upDown, (ushort)(dmmDcVolt * 100.0));
 
                 // 정확도 검사
                 rect.RectMonitoring();
@@ -450,170 +469,14 @@ namespace J_Project.ViewModel.TestItem
             return StateFlag.PASS;
         }
 
-        private StateFlag DacCal(double lowRefValue, double upRefValue)
-        {
-            Rectifier rect = Rectifier.GetObj();
-            double dmmDcVolt;
-            bool cmdResult;
-
-            rect.MonitoringStop();
-
-            for (int i = 0; i < MAX_CAL_TRY_COUNT; i++)
-            {
-                TestLog.AppendLine($"- 시도 {i}회차");
-
-                // Low 포인트 CAL
-                TestLog.Append($"- 전압 하한 Ref 설정 -> ");
-                cmdResult = rect.RectCommand(CommandList.V_REF_SET, (ushort)RefSave.NO_SAVE, (ushort)(lowRefValue * 100));
-                if (!cmdResult)
-                {
-                    TestLog.AppendLine($"실패");
-                    Debug.WriteLine("V Ref Set " + lowRefValue + " Fail");
-                    continue;
-                }
-                TestLog.AppendLine($"성공");
-
-                Util.Delay(1.5);   // Dmm값 안정화를 위한 딜레이
-
-                dmmDcVolt = Dmm1.GetObj().DcVolt;
-                TestLog.Append($"- 전압 DAC CAL 시도 : {dmmDcVolt} -> ");
-                cmdResult = rect.RectCommand(CommandList.DAC_V_CAL, (ushort)CalPoint.LOW_POINT, (ushort)(dmmDcVolt * 100.0));
-                if (!cmdResult)
-                {
-                    TestLog.AppendLine($"실패");
-                    Debug.WriteLine("V DAC CAL Low Fail : " + dmmDcVolt);
-                    continue;
-                }
-                TestLog.AppendLine($"성공");
-
-                // High 포인트 CAL
-                Util.Delay(1);
-                TestLog.Append($"- 전압 상한 Ref 설정 -> ");
-                cmdResult = rect.RectCommand(CommandList.V_REF_SET, (ushort)RefSave.NO_SAVE, (ushort)(upRefValue * 100));
-                if (!cmdResult)
-                {
-                    TestLog.AppendLine($"실패");
-                    Debug.WriteLine("V Ref Set " + upRefValue + " Fail");
-                    continue;
-                }
-                TestLog.AppendLine($"성공");
-
-                Util.Delay(1.5);
-
-                dmmDcVolt = Dmm1.GetObj().DcVolt;
-                TestLog.Append($"- 전압 DAC CAL 시도 : {dmmDcVolt} -> ");
-                cmdResult = rect.RectCommand(CommandList.DAC_V_CAL, (ushort)CalPoint.HIGH_POINT, (ushort)(dmmDcVolt * 100.0));
-                if (!cmdResult)
-                {
-                    TestLog.AppendLine($"실패");
-                    Debug.WriteLine("V DAC CAL High Fail : " + dmmDcVolt);
-                    continue;
-                }
-                TestLog.AppendLine($"성공");
-
-                // CAL 적용
-                Util.Delay(1);
-                TestLog.Append($"- CAL 적용 -> ");
-                cmdResult = rect.RectCommand(CommandList.CAL_V_APPLY, 1);
-                if (!cmdResult)
-                {
-                    TestLog.AppendLine($"실패");
-                    continue;
-                }
-                TestLog.AppendLine($"성공");
-
-                TestLog.AppendLine($"- DAC CAL 성공");
-                rect.MonitoringStart();
-                return StateFlag.PASS;
-            }
-            TestLog.AppendLine($"- DAC CAL 실패");
-            rect.MonitoringStart();
-            return StateFlag.DC_VOLT_CAL_ERR;
-        }
-
-        private StateFlag AdcCal(double lowRefValue, double upRefValue)
-        {
-            Rectifier rect = Rectifier.GetObj();
-            double dmmDcVolt;
-            double rectDcVolt;
-            bool cmdResult;
-
-            rect.MonitoringStop();
-
-            for (int i = 0; i < MAX_CAL_TRY_COUNT; i++)
-            {
-                TestLog.AppendLine($"- 시도 {i}회차");
-
-                // Low 포인트 CAL
-                TestLog.Append($"- 전압 하한 Ref 설정 -> ");
-                cmdResult = rect.RectCommand(CommandList.V_REF_SET, (ushort)RefSave.NO_SAVE, (ushort)(lowRefValue * 100.0));
-                if (!cmdResult)
-                {
-                    TestLog.AppendLine($"실패");
-                    Debug.WriteLine("V Ref Set " + lowRefValue + " Fail");
-                    continue;
-                }
-                TestLog.AppendLine($"성공");
-
-                Util.Delay(1.5);
-                dmmDcVolt = Dmm1.GetObj().DcVolt;
-                TestLog.Append($"- 전압 ADC CAL 시도 : {dmmDcVolt} -> ");
-                cmdResult = rect.RectCommand(CommandList.ADC_V_CAL, (ushort)CalPoint.LOW_POINT, (ushort)(dmmDcVolt * 100.0));
-                if (!cmdResult)
-                {
-                    TestLog.AppendLine($"실패");
-                    Debug.WriteLine("V ADC CAL Low Fail : " + dmmDcVolt);
-                    continue;
-                }
-                TestLog.AppendLine($"성공");
-
-                // High 포인트 CAL
-                Util.Delay(1);
-                TestLog.Append($"- 전압 상한 Ref 설정 -> ");
-                cmdResult = rect.RectCommand(CommandList.V_REF_SET, (ushort)RefSave.NO_SAVE, (ushort)(upRefValue * 100.0));
-                if (!cmdResult)
-                {
-                    TestLog.AppendLine($"실패");
-                    Debug.WriteLine("V Ref Set " + upRefValue + " Fail");
-                    continue;
-                }
-                TestLog.AppendLine($"성공");
-
-                Util.Delay(1.5);
-                dmmDcVolt = Dmm1.GetObj().DcVolt;
-                TestLog.Append($"- 전압 ADC CAL 시도 : {dmmDcVolt} -> ");
-                cmdResult = rect.RectCommand(CommandList.ADC_V_CAL, (ushort)CalPoint.HIGH_POINT, (ushort)(dmmDcVolt * 100.0));
-                if (!cmdResult)
-                {
-                    TestLog.AppendLine($"실패");
-                    Debug.WriteLine("V ADC CAL High Fail : " + dmmDcVolt);
-                    continue;
-                }
-                TestLog.AppendLine($"성공");
-
-                // 정확도 검사
-                rect.RectMonitoring();
-                dmmDcVolt = Dmm1.GetObj().DcVolt;
-                Util.Delay(1.5);
-                rectDcVolt = rect.DcOutputVolt;
-
-                TestLog.AppendLine($"- DMM1 측정값 : {dmmDcVolt}");
-                TestLog.AppendLine($"- 정류기 전류 : {rectDcVolt}");
-                TestLog.AppendLine($"- 현재오차 : {Math.Abs(dmmDcVolt - rectDcVolt)}");
-                TestLog.AppendLine($"- 허용오차 : {ERR_RATE}");
-
-                if (Math.Abs(dmmDcVolt - rectDcVolt) <= ERR_RATE)
-                {
-                    TestLog.AppendLine($"- ADC CAL 완료");
-                    rect.MonitoringStart();
-                    return StateFlag.PASS;
-                }
-            }
-            TestLog.AppendLine($"- ADC CAL 실패");
-            rect.MonitoringStart();
-            return StateFlag.DC_VOLT_CAL_ERR;
-        }
-
+        /**
+         *  @brief DC 전압 기본값 CAL 수행
+         *  @details DC 전압 기본값 CAL을 진행하고 잘 됐는지 검사한다
+         *  
+         *  @param double refValue - 포인트 CAL 기준값
+         *  
+         *  @return StateFlag - 수행 결과
+         */
         private StateFlag DefaultRefSet(double refValue)
         {
             Rectifier rect = Rectifier.GetObj();

@@ -171,6 +171,16 @@ namespace J_Project.ViewModel.TestItem
         ///////////////////////////////////////////////////////////////////////////////////
         // 시퀀스 관련
         ///////////////////////////////////////////////////////////////////////////////////
+        /**
+         *  @brief 테스트 시퀀스
+         *  @details 해당 테스트의 시퀀스를 담당 및 수행한다
+         *  
+         *  @param int caseNumbere - 해당 테스트의 케이스 번호
+         *  @param int stepNumber - 실행할 세부 단계 번호
+         *  @param ref int jumpStepNum - 점프할 세부 단계
+         *  
+         *  @return StateFlag - 수행 결과
+         */
         public override StateFlag TestSeq(int caseNumber, int stepNumber, ref int jumpStepNum)
         {
             StateFlag result = StateFlag.NORMAL_ERR;
@@ -577,9 +587,18 @@ namespace J_Project.ViewModel.TestItem
             return result;
         }
 
-        // I Cal Dmm 값 전송시 :
-        // Dmm값(mV) * 1000 = Dmm값(V)
-        // Dmm값(V) * 100 = MCU 수신 배율
+        /**
+         *  @brief DC 전류 DAC CAL 수행
+         *  @details DC 전류 DAC CAL을 진행하고 잘 됐는지 검사한다
+         *  
+         *  @param double lowRefValue - 하한 포인트 CAL 기준값
+         *  @param double upRefValue - 상한 포인트 CAL 기준값
+         *  
+         *  @return StateFlag - 수행 결과
+         *  
+         *  @see I Cal Dmm 값 전송시 주의사항 :
+         *       DMM의 전압값 * 100을 해서 MCU에 전달해야 정상적으로 인식한다
+         */
         private StateFlag DacCal(double lowRefValue, double upRefValue)
         {
             Rectifier rect = Rectifier.GetObj();
@@ -663,6 +682,15 @@ namespace J_Project.ViewModel.TestItem
             return StateFlag.DC_CURR_CAL_ERR;
         }
 
+        /**
+         *  @brief DC 전류 ADC CAL 수행
+         *  @details DC 전류 ADC CAL을 진행하고 잘 됐는지 검사한다
+         *  
+         *  @param ushort unDown - 1: 상한 AC CAL, 0 : 하한 AC CAL
+         *  @param double refValue - 포인트 CAL 기준값
+         *  
+         *  @return StateFlag - 수행 결과
+         */
         private StateFlag AdcCalCheck(ushort unDown, double refValue)
         {
             Rectifier rect = Rectifier.GetObj();
@@ -712,6 +740,14 @@ namespace J_Project.ViewModel.TestItem
             return StateFlag.DC_CURR_CAL_ERR;
         }
 
+        /**
+         *  @brief DC 전류 기본값 CAL 수행
+         *  @details DC 전류 기본값 CAL을 진행하고 잘 됐는지 검사한다
+         *  
+         *  @param double refValue - 포인트 CAL 기준값
+         *  
+         *  @return StateFlag - 수행 결과
+         */
         private StateFlag DefaultRefSet(double refValue)
         {
             double dmmDcVolt;
@@ -748,6 +784,16 @@ namespace J_Project.ViewModel.TestItem
             return StateFlag.DC_VOLT_CAL_ERR;
         }
 
+        /**
+         *  @brief DAC CAL 전류값 계산기
+         *  @details
+         *  
+         *  @param double I_RefVal - CAL 포인트값
+         *  
+         *  @return StateFlag - 계산된 결과
+         *  
+         *  @see MCU에서 계산하면 리소스를 많이 잡아먹어서 PC에서 계산하고 계산된 값을 MCU에 전송
+         */
         private int I_RefCal(int I_RefVal)
         {
             double x1 = 4095, x2 = 2500.0, y1 = 6500.0, y2 = 0.0;
