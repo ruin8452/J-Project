@@ -24,7 +24,7 @@ namespace J_Project.UI.MainWindow.Setting
         {
             InitializeComponent();
 
-            DataContext = new ViewModel.SettingPageVM();
+            DataContext = new ViewModel.TestSettingPageVM();
         }
 
         private void SeqViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)

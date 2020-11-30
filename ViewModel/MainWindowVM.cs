@@ -13,6 +13,14 @@ using GalaSoft.MvvmLight.Command;
 
 namespace J_Project.ViewModel
 {
+    /**
+     *  @brief 메인 화면 UI VM 클래스
+     *  @details 메인 화면 UI에서 사용하는 변수 및 메소드를 포함하고 있는 클래스
+     *
+     *  @author SSW
+     *  @date 2020.02.25
+     *  @version 1.0.0
+     */
     [ImplementPropertyChanged]
     public class MainWindowVM
     {
@@ -85,6 +93,14 @@ namespace J_Project.ViewModel
             DateMonitor.Start();
         }
 
+        /**
+         *  @brief 종료 클릭
+         *  @details 프로그램 종료 버튼 클릭시 동작하는 메소드
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         private void ClosingClick()
         {
             if (AcSource.IsConnected) AcSource.Disconnect();
@@ -101,6 +117,14 @@ namespace J_Project.ViewModel
             process.Kill();
         }
 
+        /**
+         *  @brief 양산 CSV 보고서 폴더 열기
+         *  @details 양산 CSV 보고서 폴더 열기 버튼 클릭시 동작하는 메소드
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         private void OpenCvsFolder()
         {
             try
@@ -112,6 +136,14 @@ namespace J_Project.ViewModel
                 MessageBox.Show("경로를 찾을 수 없습니다.");
             }
         }
+        /**
+         *  @brief 양산 엑셀 보고서 폴더 열기
+         *  @details 양산 엑셀 보고서 폴더 열기 버튼 클릭시 동작하는 메소드
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         private void OpenExcelFolder()
         {
             try
@@ -123,6 +155,14 @@ namespace J_Project.ViewModel
                 MessageBox.Show("경로를 찾을 수 없습니다.");
             }
         }
+        /**
+         *  @brief 출하 CSV 보고서 폴더 열기
+         *  @details 출하 CSV 보고서 폴더 열기 버튼 클릭시 동작하는 메소드
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         private void OpenCvsFolder2()
         {
             try
@@ -134,6 +174,14 @@ namespace J_Project.ViewModel
                 MessageBox.Show("경로를 찾을 수 없습니다.");
             }
         }
+        /**
+         *  @brief 출하 엑셀 보고서 폴더 열기
+         *  @details 출하 엑셀 보고서 폴더 열기 버튼 클릭시 동작하는 메소드
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         private void OpenExcelFolder2()
         {
             try
@@ -146,11 +194,27 @@ namespace J_Project.ViewModel
             }
         }
 
+        /**
+         *  @brief 현재 시간 갱신
+         *  @details 현재 시간을 갱신시키는 메소드
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         private void NowTime(object sender, EventArgs e)
         {
             PcTime = DateTime.Now;
         }
 
+        /**
+         *  @brief AC 소스 접속
+         *  @details AC 소스 장비에 접속하는 메소드
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         private void AcConnect()
         {
             if (AcSource.IsConnected == false)
@@ -158,6 +222,14 @@ namespace J_Project.ViewModel
             else
                 AcSource.Disconnect();
         }
+        /**
+         *  @brief DC 소스 접속
+         *  @details DC 소스 장비에 접속하는 메소드
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         private void DcConnect()
         {
             if (DcSource.IsConnected == false)
@@ -165,6 +237,14 @@ namespace J_Project.ViewModel
             else
                 DcSource.Disconnect();
         }
+        /**
+         *  @brief 부하 접속
+         *  @details 부하 장비에 접속하는 메소드
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         private void LoadConnect()
         {
             if (DcLoad.IsConnected == false)
@@ -172,6 +252,14 @@ namespace J_Project.ViewModel
             else
                 DcLoad.Disconnect();
         }
+        /**
+         *  @brief 파워미터 접속
+         *  @details 파워미터 장비에 접속하는 메소드
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         private void PmConnect()
         {
             if (Powermeter.IsConnected == false)
@@ -179,6 +267,14 @@ namespace J_Project.ViewModel
             else
                 Powermeter.Disconnect();
         }
+        /**
+         *  @brief DMM1 접속
+         *  @details DMM1 장비에 접속하는 메소드
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         private void Dmm1Connect()
         {
             if (Dmm1.IsConnected == false)
@@ -186,6 +282,14 @@ namespace J_Project.ViewModel
             else
                 Dmm1.Disconnect();
         }
+        /**
+         *  @brief DMM2 접속
+         *  @details DMM2 장비에 접속하는 메소드
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         private void Dmm2Connect()
         {
             if (Dmm2.IsConnected == false)
@@ -193,6 +297,14 @@ namespace J_Project.ViewModel
             else
                 Dmm2.Disconnect();
         }
+        /**
+         *  @brief 오실로스코프 접속
+         *  @details 오실로스코프 장비에 접속하는 메소드
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         private void OscConnect()
         {
             if (Osc.IsConnected == false)
@@ -200,6 +312,14 @@ namespace J_Project.ViewModel
             else
                 Osc.Disconnect();
         }
+        /**
+         *  @brief 정류기 접속
+         *  @details 정류기 장비에 접속하는 메소드
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         private void RectConnect()
         {
             if (Rect.IsConnected == false)
@@ -207,6 +327,14 @@ namespace J_Project.ViewModel
             else
                 Rect.Disconnect();
         }
+        /**
+         *  @brief 리모트 통신기 접속
+         *  @details 리모트 통신기 장비에 접속하는 메소드
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         private void RmtConnect()
         {
             if (Rmt.IsConnected == false)

@@ -538,6 +538,7 @@
     <Compile Include="ViewModel\TestItem\OutputLowVM.cs" />
     <Compile Include="ViewModel\TestItem\RtcCheckVM.cs" />
     <Compile Include="ViewModel\TestItem\EfficiencyVM.cs" />
+    <Compile Include="ViewModel\TestSettingPageVM.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Page Include="UI\MainWindow\Testing\SecondTestingPage.xaml">
       <Generator>MSBuild:Compile</Generator>

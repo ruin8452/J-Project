@@ -19,15 +19,19 @@ using System.Windows.Media;
 
 namespace J_Project.ViewModel
 {
+    /**
+     *  @brief 장비 세팅 화면 UI VM 클래스
+     *  @details 장비 세팅 화면 UI에서 사용하는 변수 및 메소드를 포함하고 있는 클래스
+     *
+     *  @author SSW
+     *  @date 2020.02.25
+     *  @version 1.0.0
+     */
     [ImplementPropertyChanged]
     public class SettingPageVM
     {
         public TestOption Option { get; set; }
 
-        public string InfoSaveText { get; set; }
-        public SolidColorBrush InfoSaveColor { get; set; }
-
-        public BasicInfo Info { get; set; }
         public EquiConnectID EquiId { get; set; }
 
         public ObservableCollection<string> EquiIdList { get; set; }
@@ -43,20 +47,8 @@ namespace J_Project.ViewModel
         public Rectifier Rect { get; set; }
         public Remote Rmt { get; set; }
 
-        public bool AutoConnectFlag { get; set; }
-        public string SettingStateText { get; set; }
-        public object SettingUiFrame { get; set; }
-
-        public ICommand UnloadPage { get; set; }
         public ICommand DcOnCommand { get; set; }
         public ICommand DcOffCommand { get; set; }
-        public ICommand OscSetCommand { get; set; }
-        public ICommand Dmm1SetCommand { get; set; }
-        public ICommand Dmm2SetCommand { get; set; }
-
-        public ICommand FirstReportOpenClickCommand { get; set; }
-        public ICommand SecondReportOpenClickCommand { get; set; }
-        public ICommand ReportSaveClickCommand { get; set; }
 
         public ICommand AcConnectClickCommand { get; set; }
         public ICommand DcConnectClickCommand { get; set; }
@@ -82,14 +74,10 @@ namespace J_Project.ViewModel
         public ICommand AllConnectClickCommand { get; set; }
         public ICommand AllDisConnectClickCommand { get; set; }
 
-        public ICommand BasicInfoSaveCommand { get; set; }
         public ICommand EquiIdInfoSaveCommand { get; set; }
 
         public SettingPageVM()
         {
-            InfoSaveColor = Brushes.White;
-
-            Info = BasicInfo.GetObj();
             EquiId = EquiConnectID.GetObj();
             Option = TestOption.GetObj();
 
@@ -106,16 +94,8 @@ namespace J_Project.ViewModel
             EquiIdList = new ObservableCollection<string>(MakeEquiIdList());
             EquiIdTreeItems = new ObservableCollection<TreeViewItem>(MakeEquiIdTreeItems());
 
-            UnloadPage = new BaseCommand(DataSave);
-            OscSetCommand = new BaseCommand(OscSetting);
-            Dmm1SetCommand = new BaseCommand(Dmm1Setting);
-            Dmm2SetCommand = new BaseCommand(Dmm2Setting);
             DcOnCommand = new BaseCommand(DcOn);
             DcOffCommand = new BaseCommand(DcOff);
-
-            FirstReportOpenClickCommand = new BaseCommand(FirstReportOpenDialog);
-            SecondReportOpenClickCommand = new BaseCommand(SecondReportOpenDialog);
-            ReportSaveClickCommand = new BaseCommand(ReportSaveDialog);
 
             AcConnectClickCommand = new ComboCommand(AcConnect);
             DcConnectClickCommand = new ComboCommand(DcConnect);
@@ -141,66 +121,22 @@ namespace J_Project.ViewModel
             AllConnectClickCommand = new BaseCommand(AllConnect);
             AllDisConnectClickCommand = new BaseCommand(AllDisConnect);
 
-            BasicInfoSaveCommand = new BaseCommand(SaveBasicInfo);
             EquiIdInfoSaveCommand = new BaseCommand(SaveEquiIdInfo);
 
             if (EquiId.AutoConnect)
                 AllConnectClickCommand.Execute(null);
         }
 
-        private void DataSave()
-        {
-            TestOption.Save();
-        }
-
-        private void OscSetting()
-        {
-            if (Oscilloscope.GetObj().IsConnected == false)
-            { MessageBox.Show("오실로스코프 연결X"); return; }
-
-            if (Oscilloscope.GetObj().CouplingMode() != "AC")
-            { MessageBox.Show("커플링 설정 실패"); return; }
-
-            if (Oscilloscope.GetObj().TimeScale() != 0.025)
-            { MessageBox.Show("시간스케일 설정 실패"); return; }
-
-            if (Oscilloscope.GetObj().RangeScale() != 0.1)
-            { MessageBox.Show("범위 설정 실패"); return; }
-
-            if (Oscilloscope.GetObj().MeasurementMode() != "PK2PK")
-            { MessageBox.Show("측정모드 설정 실패"); return; }
-
-            MessageBox.Show("설정 완료");
-        }
-
-        private void Dmm1Setting()
-        {
-            if (Dmm1.GetObj().IsConnected == false)
-            { MessageBox.Show("DMM1 연결X"); return; }
-
-            if (Dmm1.GetObj().DisplayVolt() != "VOLT")
-            { MessageBox.Show("디스플레이 설정 실패"); return; }
-
-            if (Dmm1.GetObj().AutoRangeSet() != 1)
-            { MessageBox.Show("범위 설정 실패"); return; }
-
-            MessageBox.Show("설정 완료");
-        }
-
-        private void Dmm2Setting()
-        {
-            if (Dmm2.GetObj().IsConnected == false)
-            { MessageBox.Show("DMM2 연결X"); return; }
-
-            if (Dmm2.GetObj().DisplayVolt() != "VOLT")
-            { MessageBox.Show("디스플레이 설정 실패"); return; }
-
-            if (Dmm2.GetObj().AutoRangeSet() != 1)
-            { MessageBox.Show("범위 설정 실패"); return; }
-
-            MessageBox.Show("설정 완료");
-        }
-
+        /**
+         *  @brief DC 소스 전원 ON
+         *  @details DC 소스 전원을 ON 시키는 버튼을 누를 때 동작하는 메소드
+         *  
+         *  @param
+         *  
+         *  @return
+         *  
+         *  @see 정류기의 장비 ID를 얻기 위해서는 전원이 공급이 되어야 하는데 간편하게 공급하기 위해 장비 설정 화면에 삽입함
+         */
         private void DcOn()
         {
             if (DcSource.GetObj().IsConnected == false)
@@ -209,6 +145,16 @@ namespace J_Project.ViewModel
             DcSource.GetObj().DcPowerCtrl(CtrlFlag.ON);
         }
 
+        /**
+         *  @brief DC 소스 전원 OFF
+         *  @details DC 소스 전원을 OFF 시키는 버튼을 누를 때 동작하는 메소드
+         *  
+         *  @param
+         *  
+         *  @return
+         *  
+         *  @see 정류기의 장비 ID를 얻기 위해서는 전원이 공급이 되어야 하는데 간편하게 공급하기 위해 장비 설정 화면에 삽입함
+         */
         private void DcOff()
         {
             if (DcSource.GetObj().IsConnected == false)
@@ -217,92 +163,41 @@ namespace J_Project.ViewModel
             DcSource.GetObj().DcPowerCtrl(CtrlFlag.OFF);
         }
 
-        private void SaveBasicInfo()
-        {
-            if (string.IsNullOrEmpty(Info.Checker) || string.IsNullOrEmpty(Info.ModelName) || string.IsNullOrEmpty(Info.SerialNumber) ||
-                string.IsNullOrEmpty(Info.FirstReportOpenPath) || string.IsNullOrEmpty(Info.SecondReportOpenPath) ||
-                string.IsNullOrEmpty(Info.ReportSavePath))
-            {
-                InfoSaveColor = System.Windows.Application.Current.Resources["LedRed"] as SolidColorBrush;
-                InfoSaveText = "필수 항목이 비어있습니다.";
-            }
-            else
-            {
-                InfoSaveColor = Brushes.White;
-                InfoSaveText = "저장을 완료했습니다";
-                BasicInfo.Save();
-            }
-        }
-
+        /**
+         *  @brief 장비ID 저장
+         *  @details 장비ID를 저장시키는 버튼을 누를 때 동작하는 메소드
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         private void SaveEquiIdInfo()
         {
             EquiConnectID.Save();
         }
 
-        private void FirstReportOpenDialog()
-        {
-            using OpenFileDialog openReport = new OpenFileDialog
-            {
-                Title = "양산 성적서 양식 파일 선택",
-                Filter = "Excel파일(*.xlsx)|*.xlsx|Excel파일 (*.xls)|*.xls|csv (*.csv)|*.csv|All files (*.*)|*.*"
-            };
-
-            if (Info.FirstReportOpenPath.Length > 0)
-            {
-                string folderPath = Info.FirstReportOpenPath.Substring(0, Info.FirstReportOpenPath.LastIndexOf('\\'));
-                openReport.InitialDirectory = folderPath;
-            }
-            else
-                openReport.InitialDirectory = Environment.CurrentDirectory;
-
-            if (openReport.ShowDialog() == DialogResult.OK)   // 다이얼 로그에서 OK버튼을 눌렀을 경우
-                Info.FirstReportOpenPath = openReport.FileName;
-        }
-
-        private void SecondReportOpenDialog()
-        {
-            using OpenFileDialog openReport = new OpenFileDialog
-            {
-                Title = "출하 성적서 양식 파일 선택",
-                Filter = "Excel파일(*.xlsx)|*.xlsx|Excel파일 (*.xls)|*.xls|csv (*.csv)|*.csv|All files (*.*)|*.*"
-            };
-
-            if (Info.SecondReportOpenPath.Length > 0)
-            {
-                string folderPath = Info.SecondReportOpenPath.Substring(0, Info.SecondReportOpenPath.LastIndexOf('\\'));
-                openReport.InitialDirectory = folderPath;
-            }
-            else
-                openReport.InitialDirectory = Environment.CurrentDirectory;
-
-            if (openReport.ShowDialog() == DialogResult.OK)   // 다이얼 로그에서 OK버튼을 눌렀을 경우
-                Info.SecondReportOpenPath = openReport.FileName;
-        }
-
-        // 성적서 저장 폴더 선택 버튼 클릭
-        private void ReportSaveDialog()
-        {
-            using CommonOpenFileDialog saveRepoPath = new CommonOpenFileDialog
-            {
-                Title = "성적서 저장 경로 선택",
-                IsFolderPicker = true // 폴더 선택 가능 여부 설정
-            };
-
-            if (Info.ReportSavePath.Length > 0)
-                saveRepoPath.InitialDirectory = Info.ReportSavePath;
-            else
-                saveRepoPath.InitialDirectory = Environment.CurrentDirectory;
-
-            if (saveRepoPath.ShowDialog() == CommonFileDialogResult.Ok)
-                Info.ReportSavePath = saveRepoPath.FileName;
-        }
-
+        /**
+         *  @brief 장비ID 리스트 갱신
+         *  @details 장비ID를 갱신시키는 버튼을 누를 때 동작하는 메소드
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         private void IdListRenewalClick()
         {
             EquiIdList = new ObservableCollection<string>(MakeEquiIdList());
             EquiIdTreeItems = new ObservableCollection<TreeViewItem>(MakeEquiIdTreeItems());
         }
 
+        /**
+         *  @brief 장비ID 리스트 작성
+         *  @details 장비ID 리스트를 작성하는 메소드(Comport, VISA ID)
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         private List<string> MakeEquiIdList()
         {
             List<string> equiIdList = new List<string>();
@@ -321,6 +216,14 @@ namespace J_Project.ViewModel
             return equiIdList;
         }
 
+        /**
+         *  @brief 장비ID 상세정보 리스트 작성
+         *  @details 장비ID에 따라 상세 정보를 작성하는 메소드
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         private List<TreeViewItem> MakeEquiIdTreeItems()
         {
             List<TreeViewItem> equiIdList = new List<TreeViewItem>();
@@ -359,7 +262,14 @@ namespace J_Project.ViewModel
 
         #region AC 접속 및 해제
 
-        // AC 접속
+        /**
+         *  @brief AC 접속
+         *  @details AC 소스에 접속한다
+         *  
+         *  @param string idText - AC 소스의 ID
+         *  
+         *  @return
+         */
         private void AcConnect(string idText)
         {
             if (string.IsNullOrEmpty(idText)) return;
@@ -374,6 +284,14 @@ namespace J_Project.ViewModel
                 AcSource.EquiCheck();
         }
 
+        /**
+         *  @brief AC 접속 해제
+         *  @details AC 소스로부터 접속 해제한다
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         private void AcDisConnect()
         {
             AcSource.Disconnect();
@@ -383,7 +301,14 @@ namespace J_Project.ViewModel
 
         #region DC 접속 및 해제
 
-        // DC 접속
+        /**
+         *  @brief DC 접속
+         *  @details DC 소스에 접속한다
+         *  
+         *  @param string idText - DC 소스의 ID
+         *  
+         *  @return
+         */
         private void DcConnect(string idText)
         {
             if (string.IsNullOrEmpty(idText)) return;
@@ -398,6 +323,14 @@ namespace J_Project.ViewModel
                 DcSource.EquiCheck();
         }
 
+        /**
+         *  @brief DC 접속 해제
+         *  @details DC 소스로부터 접속 해제한다
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         private void DcDisConnect()
         {
             DcSource.Disconnect();
@@ -407,7 +340,14 @@ namespace J_Project.ViewModel
 
         #region Load 접속 및 해제
 
-        // Load 접속
+        /**
+         *  @brief Load 접속
+         *  @details Load에 접속한다
+         *  
+         *  @param string idText - Load의 ID
+         *  
+         *  @return
+         */
         private void LoadConnect(string idText)
         {
             if (string.IsNullOrEmpty(idText)) return;
@@ -422,6 +362,14 @@ namespace J_Project.ViewModel
                 DcLoad.EquiCheck();
         }
 
+        /**
+         *  @brief Load 접속 해제
+         *  @details Load로부터 접속 해제한다
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         private void LoadDisConnect()
         {
             DcLoad.Disconnect();
@@ -431,7 +379,14 @@ namespace J_Project.ViewModel
 
         #region 파워미터 접속 및 해제
 
-        // 파워미터 접속
+        /**
+         *  @brief 파워미터 접속
+         *  @details 파워미터에 접속한다
+         *  
+         *  @param string idText - 파워미터의 ID
+         *  
+         *  @return
+         */
         private void PmConnect(string idText)
         {
             if (string.IsNullOrEmpty(idText)) return;
@@ -446,6 +401,14 @@ namespace J_Project.ViewModel
                 Powermeter.EquiCheck();
         }
 
+        /**
+         *  @brief 파워미터 접속 해제
+         *  @details 파워미터로부터 접속 해제한다
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         private void PmDisConnect()
         {
             Powermeter.Disconnect();
@@ -455,7 +418,14 @@ namespace J_Project.ViewModel
 
         #region 멀티미터1 접속 및 해제
 
-        // 멀티미터1 접속
+        /**
+         *  @brief 멀티미터1 접속
+         *  @details 멀티미터1에 접속한다
+         *  
+         *  @param string idText - 멀티미터1의 ID
+         *  
+         *  @return
+         */
         private void Dmm1Connect(string idText)
         {
             if (string.IsNullOrEmpty(idText)) return;
@@ -470,6 +440,14 @@ namespace J_Project.ViewModel
                 Dmm1.EquiCheck();
         }
 
+        /**
+         *  @brief 멀티미터1 접속 해제
+         *  @details 멀티미터1로부터 접속 해제한다
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         private void Dmm1DisConnect()
         {
             Dmm1.Disconnect();
@@ -479,7 +457,14 @@ namespace J_Project.ViewModel
 
         #region 멀티미터2 접속 및 해제
 
-        // 멀티미터2 접속
+        /**
+         *  @brief 멀티미터2 접속
+         *  @details 멀티미터2에 접속한다
+         *  
+         *  @param string idText - 멀티미터2의 ID
+         *  
+         *  @return
+         */
         private void Dmm2Connect(string idText)
         {
             if (string.IsNullOrEmpty(idText)) return;
@@ -494,6 +479,14 @@ namespace J_Project.ViewModel
                 Dmm2.EquiCheck();
         }
 
+        /**
+         *  @brief 멀티미터2 접속 해제
+         *  @details 멀티미터2로부터 접속 해제한다
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         private void Dmm2DisConnect()
         {
             Dmm2.Disconnect();
@@ -503,7 +496,14 @@ namespace J_Project.ViewModel
 
         #region 오실로스코프 접속 및 해제
 
-        // 스코프 접속
+        /**
+         *  @brief 오실로스코프 접속
+         *  @details 오실로스코프에 접속한다
+         *  
+         *  @param string idText - 오실로스코프의 ID
+         *  
+         *  @return
+         */
         private void OscConnect(string idText)
         {
             if (string.IsNullOrEmpty(idText)) return;
@@ -518,6 +518,14 @@ namespace J_Project.ViewModel
                 Osc.EquiCheck();
         }
 
+        /**
+         *  @brief 오실로스코프 접속 해제
+         *  @details 오실로스코프로부터 접속 해제한다
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         private void OscDisConnect()
         {
             Osc.Disconnect();
@@ -527,7 +535,14 @@ namespace J_Project.ViewModel
 
         #region 정류기 접속 및 해제
 
-        // 정류기 접속
+        /**
+         *  @brief 정류기 접속
+         *  @details 정류기에 접속한다
+         *  
+         *  @param string idText - 정류기의 ID
+         *  
+         *  @return
+         */
         private void RectConnect(string idText)
         {
             if (string.IsNullOrEmpty(idText)) return;
@@ -538,6 +553,14 @@ namespace J_Project.ViewModel
                 Rect.Connect(idText);
         }
 
+        /**
+         *  @brief 정류기 접속 해제
+         *  @details 정류기로부터 접속 해제한다
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         private void RectDisConnect()
         {
             Rect.Disconnect();
@@ -547,7 +570,14 @@ namespace J_Project.ViewModel
 
         #region 원격 접속 및 해제
 
-        // 정류기 접속
+        /**
+         *  @brief 리모트 접속
+         *  @details 리모트에 접속한다
+         *  
+         *  @param string idText - 리모트의 ID
+         *  
+         *  @return
+         */
         private void RemoteConnect(string idText)
         {
             if (string.IsNullOrEmpty(idText)) return;
@@ -558,6 +588,14 @@ namespace J_Project.ViewModel
                 Rmt.Connect(idText);
         }
 
+        /**
+         *  @brief 리모트 접속 해제
+         *  @details 리모트로부터 접속 해제한다
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         private void RemoteDisConnect()
         {
             Rmt.Disconnect();
@@ -567,6 +605,14 @@ namespace J_Project.ViewModel
 
         #region 모든 장비 접속 및 해제
 
+        /**
+         *  @brief 모든 장비 접속
+         *  @details 모든 장비에 접속한다(정류가, 리모트 제외)
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         public void AllConnect()
         {
             if (AcSource.IsConnected == false && Option.IsFullAuto) AcConnectClickCommand.Execute(EquiId.AcSourceID);
@@ -580,6 +626,14 @@ namespace J_Project.ViewModel
             //if (Rect.IsConnected == false)                          RectConnectClickCommand.Execute(EquiId.RectID);
         }
 
+        /**
+         *  @brief 모든 장비 접속 해제
+         *  @details 모든 장비로부터 접속 해제한다
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         public void AllDisConnect()
         {
             if (Option.IsFullAuto) AcDisConnectClickCommand.Execute(null);

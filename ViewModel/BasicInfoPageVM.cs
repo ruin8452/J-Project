@@ -11,6 +11,14 @@ using System.Windows.Media;
 
 namespace J_Project.ViewModel
 {
+    /**
+     *  @brief 기본 정보 UI VM 클래스
+     *  @details 기본 정보 UI에서 사용하는 변수 및 메소드를 포함하고 있는 클래스
+     *
+     *  @author SSW
+     *  @date 2020.02.25
+     *  @version 1.0.0
+     */
     [ImplementPropertyChanged]
     public class BasicInfoPageVM
     {
@@ -22,8 +30,6 @@ namespace J_Project.ViewModel
         public BasicInfo Info { get; set; }
 
         public Rectifier Rect { get; set; }
-
-        public string SettingStateText { get; set; }
 
         public ICommand FirstReportOpenClickCommand { get; set; }
         public ICommand SecondReportOpenClickCommand { get; set; }
@@ -46,6 +52,14 @@ namespace J_Project.ViewModel
             ReportSaveClickCommand = new BaseCommand(ReportSaveDialog);
         }
 
+        /**
+         *  @brief 기본 정보 저장
+         *  @details 기본 정보를 저장할 때 필수 항목을 적었는지 검사한다
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         private void SaveBasicInfo()
         {
             if (string.IsNullOrEmpty(Info.Checker) || string.IsNullOrEmpty(Info.ModelName) || string.IsNullOrEmpty(Info.SerialNumber) ||
@@ -63,6 +77,14 @@ namespace J_Project.ViewModel
             }
         }
 
+        /**
+         *  @brief 양산 테스트 보고서 양식 경로 설정 다이얼로그 열기
+         *  @details 양산 테스트 보고서 양식의 위치를 저장하기 위한 다이얼로그를 연다
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         private void FirstReportOpenDialog()
         {
             using OpenFileDialog openReport = new OpenFileDialog
@@ -83,6 +105,14 @@ namespace J_Project.ViewModel
                 Info.FirstReportOpenPath = openReport.FileName;
         }
 
+        /**
+         *  @brief 출하 테스트 보고서 양식 경로 설정 다이얼로그 열기
+         *  @details 출하 테스트 보고서 양식의 위치를 저장하기 위한 다이얼로그를 연다
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         private void SecondReportOpenDialog()
         {
             using OpenFileDialog openReport = new OpenFileDialog
@@ -104,6 +134,14 @@ namespace J_Project.ViewModel
         }
 
         // 성적서 저장 폴더 선택 버튼 클릭
+        /**
+         *  @brief 보고서 저장 경로 설정 다이얼로그 열기
+         *  @details 테스트를 마치고 생성된 보고서를 저장할 루트 폴더를 설정할 다이얼로그를 연다
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         private void ReportSaveDialog()
         {
             using CommonOpenFileDialog saveRepoPath = new CommonOpenFileDialog

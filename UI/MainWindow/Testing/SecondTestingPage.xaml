@@ -279,11 +279,16 @@
                     <StackPanel>
                         <TextBlock Text="LED 박스" Background="#FF3B456B" Padding="3" Foreground="White" FontFamily="NanumGothic" FontSize="20" FontWeight="Bold"/>
 
-                        <StackPanel Orientation="Horizontal" Margin="0,10,0,0" HorizontalAlignment="Center">
-                            <Border Width="5"/>
+                        <Grid Margin="0,10,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
 
                             <!--H/W 오류-->
-                            <StackPanel Width="110" VerticalAlignment="Center">
+                            <StackPanel Width="110" VerticalAlignment="Center" Grid.Column="0">
                                 <TextBlock Text="H/W 오류" Foreground="White" HorizontalAlignment="Center" FontFamily="NanumGothic" FontSize="17" Margin="0,0,0,10"/>
 
                                 <StackPanel Orientation="Horizontal" Margin="0,0,0,7">
@@ -307,10 +312,8 @@
                                 </StackPanel>
                             </StackPanel>
 
-                            <Border Width="10"/>
-
                             <!--AC 오류 LED-->
-                            <StackPanel Width="110">
+                            <StackPanel Width="110"  Grid.Column="1">
                                 <TextBlock Text="AC 입력" Foreground="White" HorizontalAlignment="Center" FontFamily="NanumGothic" FontSize="17" Margin="0,0,0,10"/>
 
                                 <StackPanel Orientation="Horizontal" Margin="0,0,0,7">
@@ -329,10 +332,8 @@
                                 </StackPanel>
                             </StackPanel>
 
-                            <Border Width="10"/>
-
                             <!--DC Out 오류 LED-->
-                            <StackPanel Width="110">
+                            <StackPanel Width="110" Grid.Column="2">
                                 <TextBlock Text="DC 출력" Foreground="White" HorizontalAlignment="Center" FontFamily="NanumGothic" FontSize="17" Margin="0,0,0,10"/>
 
                                 <StackPanel Orientation="Horizontal" Margin="0,0,0,7">
@@ -351,10 +352,8 @@
                                 </StackPanel>
                             </StackPanel>
 
-                            <Border Width="10"/>
-
                             <!--배터리 통신 LED-->
-                            <StackPanel Width="150">
+                            <StackPanel Width="150" Grid.Column="3">
                                 <TextBlock Text="배터리 통신" Foreground="White" HorizontalAlignment="Center" FontFamily="NanumGothic" FontSize="17" Margin="0,0,0,10"/>
 
                                 <Grid>
@@ -410,9 +409,7 @@
                                     </StackPanel>
                                 </Grid>
                             </StackPanel>
-
-                            <Border Width="5"/>
-                        </StackPanel>
+                        </Grid>
                     </StackPanel>
                 </Border>
 
@@ -466,6 +463,45 @@
                                     <Grid Width="123">
                                         <TextBlock Text="88:88" Foreground="#FF2D3144" FontFamily="Digital-7 Mono" FontSize="45" Background="{x:Null}" HorizontalAlignment="Right"/>
                                         <TextBlock Text="{Binding TotalTestTime}" Foreground="White" FontFamily="Digital-7 Mono" FontSize="45" Background="{x:Null}" HorizontalAlignment="Right"/>
+                                    </Grid>
+                                </StackPanel>
+                            </StackPanel>
+                            <Border Width="10"/>
+                            <StackPanel Margin="10">
+                                <!-- DC1 -->
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <TextBlock Text="DC SW 1" Foreground="White" FontSize="15" FontFamily="NanumGothic" Background="{x:Null}" VerticalAlignment="Center"/>
+                                    <Rectangle Height="25" Width="3" Fill="DodgerBlue" RadiusY="1.5" RadiusX="1.5" Margin="5,0"/>
+                                    <Grid Width="123">
+                                        <TextBlock Text="888.88" Foreground="#FF2D3144" FontFamily="Digital-7 Mono" FontSize="45" Background="{x:Null}" HorizontalAlignment="Right"/>
+                                        <TextBlock Text="{Binding Rect.DcSwOutVolt[0], StringFormat=#0.00}" Foreground="White" FontFamily="Digital-7 Mono" FontSize="45" Background="{x:Null}" HorizontalAlignment="Right"/>
+                                    </Grid>
+                                </StackPanel>
+                                <!-- PM AC Volt -->
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <TextBlock Text="DC SW 2" Foreground="White" FontSize="15" FontFamily="NanumGothic" Background="{x:Null}" VerticalAlignment="Center"/>
+                                    <Rectangle Height="25" Width="3" Fill="DodgerBlue" RadiusY="1.5" RadiusX="1.5" Margin="5,0"/>
+                                    <Grid Width="123">
+                                        <TextBlock Text="888.88" Foreground="#FF2D3144" FontFamily="Digital-7 Mono" FontSize="45" Background="{x:Null}"/>
+                                        <TextBlock Text="{Binding Rect.DcSwOutVolt[1], StringFormat=#0.00}" Foreground="White" FontFamily="Digital-7 Mono" FontSize="45" Background="{x:Null}" HorizontalAlignment="Right"/>
+                                    </Grid>
+                                </StackPanel>
+                                <!-- Dmm1 Volt -->
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <TextBlock Text="DC SW 3" Foreground="White" FontSize="15" FontFamily="NanumGothic" Background="{x:Null}" VerticalAlignment="Center"/>
+                                    <Rectangle Height="25" Width="3" Fill="DodgerBlue" RadiusY="1.5" RadiusX="1.5" Margin="5,0"/>
+                                    <Grid Width="123">
+                                        <TextBlock Text="888.88" Foreground="#FF2D3144" FontFamily="Digital-7 Mono" FontSize="45" Background="{x:Null}"/>
+                                        <TextBlock Text="{Binding Rect.DcSwOutVolt[2], StringFormat=#0.00}" Foreground="White" FontFamily="Digital-7 Mono" FontSize="45" Background="{x:Null}" HorizontalAlignment="Right"/>
+                                    </Grid>
+                                </StackPanel>
+                                <!-- Dmm2 Volt -->
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <TextBlock Text="DC SW 4" Foreground="White" FontSize="15" FontFamily="NanumGothic" Background="{x:Null}" VerticalAlignment="Center"/>
+                                    <Rectangle Height="25" Width="3" Fill="DodgerBlue" RadiusY="1.5" RadiusX="1.5" Margin="5,0"/>
+                                    <Grid Width="123">
+                                        <TextBlock Text="888.88" Foreground="#FF2D3144" FontFamily="Digital-7 Mono" FontSize="45" Background="{x:Null}"/>
+                                        <TextBlock Text="{Binding Rect.DcSwOutVolt[3], StringFormat=#0.00}" Foreground="White" FontFamily="Digital-7 Mono" FontSize="45" Background="{x:Null}" HorizontalAlignment="Right"/>
                                     </Grid>
                                 </StackPanel>
                             </StackPanel>

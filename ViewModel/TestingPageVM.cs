@@ -27,6 +27,14 @@ using Timer = System.Timers.Timer;
 
 namespace J_Project.ViewModel
 {
+    /**
+     *  @brief 테스트 화면 UI VM 클래스
+     *  @details 테스트 화면 UI에서 사용하는 변수 및 메소드를 포함하고 있는 클래스
+     *
+     *  @author SSW
+     *  @date 2020.02.25
+     *  @version 1.0.0
+     */
     [ImplementPropertyChanged]
     public class TestingPageVM
     {
@@ -157,7 +165,14 @@ namespace J_Project.ViewModel
             CsvConverterCommand = new BaseCommand(CsvConverter);
         }
 
-        // 테스트 항목 선택 시 UI 변경
+        /**
+         *  @brief 테스트 항목 선택 시 UI 변경
+         *  @details 테스트 리스트에서 항목을 선택할 경우, 메인 화면의 테스트 스퀀스 뷰를 변경시키는 역할
+         *  
+         *  @param object selectedItem - 선택한 테스트 항목
+         *  
+         *  @return
+         */
         private void TreeViewSelected(object selectedItem)
         {
             TestItemUint Item = selectedItem as TestItemUint;
@@ -169,27 +184,55 @@ namespace J_Project.ViewModel
             catch (Exception) { }
         }
 
-        // 스크롤 뷰어 가져오기
+        /**
+         *  @brief 스크롤 뷰어 가져오기
+         *  @details 테스트 스퀀스 뷰의 스코롤 뷰어를 가져온다
+         *  
+         *  @param object scroll - 가져올 스크롤 뷰어
+         *  
+         *  @return
+         */
         private void AutoScrolling(object scroll)
         {
             Viewer = scroll as ScrollViewer;
         }
 
-        // 테스트 항목 전체 선택
+        /**
+         *  @brief 테스트 항목 전체 선택
+         *  @details 테스트 항목의 모든 테스트를 체크 상태로 한다
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         private void TreeItemAllCheck()
         {
             foreach (var temp in MakeList(TreeTestItems))
                 temp.Checked = true;
         }
 
-        // 테스트 항목 전체 선택 해제
+        /**
+         *  @brief 테스트 항목 전체 선택 해제
+         *  @details 테스트 항목의 모든 테스트를 체크 해제 상태로 한다
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         private void TreeItemAllUnCheck()
         {
             foreach (var temp in MakeList(TreeTestItems))
                 temp.Checked = false;
         }
 
-        // 보고서 변환기
+        /**
+         *  @brief CSV 보고서 변환기
+         *  @details 작성된 CSV 보고서를 엑셀 보고서로 변환시킨다
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         private void CsvConverter()
         {
             // CSV 파일 다듬기 /////////////////////////////////////////////////////////////
@@ -221,6 +264,14 @@ namespace J_Project.ViewModel
                 csvReport.ReportConverter(csvSavePath, basicInfo.SecondReportOpenPath);
         }
 
+        /**
+         *  @brief 테스트 목록 순서 UP
+         *  @details 테스트 목록 순서를 한단계 올린다
+         *  
+         *  @param object selectedItem - 선택된 테스트 항목
+         *  
+         *  @return
+         */
         public void NodeUp(object selectedItem)
         {
             if (selectedItem == null) return;
@@ -249,6 +300,14 @@ namespace J_Project.ViewModel
                 }
             }
         }
+        /**
+         *  @brief 테스트 목록 순서 DOWN
+         *  @details 테스트 목록 순서를 한단계 내린다
+         *  
+         *  @param object selectedItem - 선택된 테스트 항목
+         *  
+         *  @return
+         */
         public void NodeDown(object selectedItem)
         {
             if (selectedItem == null) return;
@@ -278,19 +337,40 @@ namespace J_Project.ViewModel
             }
         }
 
-        // 정류기 리셋
+        /**
+         *  @brief 정류기 리셋
+         *  @details 정류기를 리셋시킨다
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         private void RectResetCheck()
         {
             if(Rectifier.GetObj().RectCommand(CommandList.SW_RESET, 1))
                 MessageBox.Show("정류기 리셋 OK");
         }
-        // 정류기 CAL 리셋
+        /**
+         *  @brief 정류기 CAL 리셋
+         *  @details 정류기의 CAL 데이터를 리셋시킨다
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         private void CalResetCheck()
         {
             if(Rectifier.GetObj().RectCommand(CommandList.CAL_RESET, 1))
                 MessageBox.Show("정류기 CAL 리셋 OK");
         }
-        // 로그 갱신
+        /**
+         *  @brief 로그 갱신
+         *  @details 로그창을 갱신시킨다
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         private void LogRenewal()
         {
             if (TestUi == null) return;
@@ -298,7 +378,14 @@ namespace J_Project.ViewModel
             Log = ((AllTestVM)TestUi.DataContext).TestLog.ToString();
         }
 
-        // 자동테스트 시작 버튼 클릭
+        /**
+         *  @brief 자동테스트 시작 버튼 클릭
+         *  @details 자동테스트를 시작한다
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         private void StartClick()
         {
             // 일시중지 상태일 경우
@@ -410,17 +497,41 @@ namespace J_Project.ViewModel
             testExe.TestStart(runableTestList);
         }
 
+        /**
+         *  @brief 자동테스트 일시정지 버튼 클릭
+         *  @details 자동테스트를 일시정지 한다
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         private void PauseClick()
         {
             testExe.TestPause();
         }
 
+        /**
+         *  @brief 자동테스트 정지 버튼 클릭
+         *  @details 자동테스트를 정지 한다
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         private void StopClick()
         {
             testExe.TestStop();
         }
 
-        // 테스트 시작 전 이벤트 핸들러
+        /**
+         *  @brief 테스트 시작 전 이벤트 핸들러
+         *  @details 테스트 시작 전에 발생한 이벤트를 감지하여 수행한다
+         *  
+         *  @param object sender - 이벤트 발생 객체
+         *  @param TestRunCheckEventArgs e - 이벤트 변수
+         *  
+         *  @return
+         */
         private void BeforeTestStart(object sender, TestRunCheckEventArgs e)
         {
             List<TestItemUint> source = MakeList(TreeTestItems);
@@ -447,7 +558,15 @@ namespace J_Project.ViewModel
             TestRunningText = "테스트 진행중";
         }
 
-        // 테스트 시작 이벤트 핸들러
+        /**
+         *  @brief 테스트 시작 이벤트 핸들러
+         *  @details 테스트 시작 시 발생한 이벤트를 감지하여 수행한다
+         *  
+         *  @param object sender - 이벤트 발생 객체
+         *  @param TestStartEventArgs e - 이벤트 변수
+         *  
+         *  @return
+         */
         private void TestStart(object sender, TestStartEventArgs e)
         {
             List<TestItemUint> source = MakeList(TreeTestItems);
@@ -459,7 +578,15 @@ namespace J_Project.ViewModel
             TestUi = itemUi.First();
         }
 
-        // 테스트 단일 요소 시작 이벤트 핸들러
+        /**
+         *  @brief 테스트 세부 항목 시작 이벤트 핸들러
+         *  @details 테스트 세부 항목 시작 시 발생한 이벤트를 감지하여 수행한다
+         *  
+         *  @param object sender - 이벤트 발생 객체
+         *  @param UnitTestStartEventArgs e - 이벤트 변수
+         *  
+         *  @return
+         */
         private void TestUnitItemStart(object sender, UnitTestStartEventArgs e)
         {
             //string result = Test.EquiConnectCheck(false, TestType);
@@ -484,7 +611,15 @@ namespace J_Project.ViewModel
             testItem.TextColorChange(e.CurrentSeqNumer, StateFlag.WAIT);
         }
 
-        // 테스트 단일 요소 종료 이벤트 핸들러
+        /**
+         *  @brief 테스트 세부 항목 종료 이벤트 핸들러
+         *  @details 테스트 세부 항목 종료 시 발생한 이벤트를 감지하여 수행한다
+         *  
+         *  @param object sender - 이벤트 발생 객체
+         *  @param UnitTestEndEventArgs e - 이벤트 변수
+         *  
+         *  @return
+         */
         private void TestUnitItemStop(object sender, UnitTestEndEventArgs e)
         {
             List<TestItemUint> source = MakeList(TreeTestItems);
@@ -500,7 +635,15 @@ namespace J_Project.ViewModel
             unitItem.TextColorChange(e.CurrentSeqNumer, e.Result);
         }
 
-        // 테스트 종료 이벤트 핸들러
+        /**
+         *  @brief 테스트 종료 이벤트 핸들러
+         *  @details 테스트 종료 시 발생한 이벤트를 감지하여 수행한다
+         *  
+         *  @param object sender - 이벤트 발생 객체
+         *  @param TestEndEventArgs e - 이벤트 변수
+         *  
+         *  @return
+         */
         private void TestEndCheck(object sender, TestEndEventArgs e)
         {
             List<TestItemUint> source = MakeList(TreeTestItems);
@@ -516,8 +659,16 @@ namespace J_Project.ViewModel
             }
         }
 
-        // 테스트 종료 후 이벤트 핸들러
-        private void AfterTestEnd(object sender, TestRunCheckEventArgs e)
+        /**
+         *  @brief 테스트 종료 후 이벤트 핸들러
+         *  @details 테스트 완전 종료 후 발생한 이벤트를 감지하여 수행한다
+         *  
+         *  @param object sender - 이벤트 발생 객체
+         *  @param EventArgs e - 이벤트 변수
+         *  
+         *  @return
+         */
+        private void AfterTestEnd(object sender, EventArgs e)
         {
             StartBtnBrush = DodgerBlue;
             PauseBtnBrush = Gray;
@@ -580,7 +731,14 @@ namespace J_Project.ViewModel
             MessageBox.Show(endText.ToString());
         }
 
-        // 양산 테스트 보고서 서버 전송
+        /**
+         *  @brief 양산 테스트 보고서 서버 전송
+         *  @details 양산 테스트 후 생성된 보고서를 서버로 전송시킨다
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         private void FirstServerSend()
         {
             if (!File.Exists(csvSavePath))
@@ -607,7 +765,14 @@ namespace J_Project.ViewModel
             MessageBox.Show($"시리얼 번호 : {basicInfo.SerialNumber}\n전송 결과 : {str1}");
         }
 
-        // 출하 테스트 보고서 서버 전송
+        /**
+         *  @brief 출하 테스트 보고서 서버 전송
+         *  @details 출하 테스트 후 생성된 보고서를 서버로 전송시킨다
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         private void SecondServerSend()
         {
             if (!File.Exists(csvSavePath))
@@ -634,7 +799,15 @@ namespace J_Project.ViewModel
             MessageBox.Show($"시리얼 번호 : {basicInfo.SerialNumber}\n전송 결과 : {str1}");
         }
 
-        // 테스트 일시 정지 이벤트 핸들러
+        /**
+         *  @brief 테스트 일시 정지 이벤트 핸들러
+         *  @details 테스트 일시 정지 시 발생한 이벤트를 감지하여 수행한다
+         *  
+         *  @param object sender - 이벤트 발생 객체
+         *  @param EventArgs e - 이벤트 변수
+         *  
+         *  @return
+         */
         private void TestPause(object sender, EventArgs e)
         {
             StartBtnBrush = DodgerBlue;
@@ -653,7 +826,15 @@ namespace J_Project.ViewModel
             if (Option.IsFullAuto) DcLoad.GetObj().LoadPowerCtrl(CtrlFlag.OFF);
         }
 
-        // 테스트 정지 이벤트 핸들러
+        /**
+         *  @brief 테스트 일정지 이벤트 핸들러
+         *  @details 테스트 정지 시 발생한 이벤트를 감지하여 수행한다
+         *  
+         *  @param object sender - 이벤트 발생 객체
+         *  @param EventArgs e - 이벤트 변수
+         *  
+         *  @return
+         */
         private void TestStop(object sender, EventArgs e)
         {
             StartBtnBrush = DodgerBlue;
@@ -704,7 +885,14 @@ namespace J_Project.ViewModel
             MessageBox.Show("테스트 정지");
         }
 
-        // 트리뷰 소스 제작 함수
+        /**
+         *  @brief 트리뷰 소스 제작
+         *  @details 테스트 목록에 들어가는 테스트의 트리뷰에 대한 소스를 만든다.
+         *  
+         *  @param
+         *  
+         *  @return ObservableCollection<TestItemUint> - 테스트 트리뷰 소스
+         */
         private ObservableCollection<TestItemUint> MakeTree()
         {
             int index = 0;
@@ -825,6 +1013,14 @@ namespace J_Project.ViewModel
             return TestTree;
         }
 
+        /**
+         *  @brief 테스트 트리뷰 리스트 변환기
+         *  @details 테스트 트리뷰를 일차원의 리스트로 변환한다
+         *  
+         *  @param
+         *  
+         *  @return ObservableCollection<TestItemUint> - 테스트 트리뷰 소스
+         */
         private List<TestItemUint> MakeList(ObservableCollection<TestItemUint> source)
         {
             List<TestItemUint> tempList = new List<TestItemUint>();

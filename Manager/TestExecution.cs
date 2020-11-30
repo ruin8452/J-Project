@@ -23,7 +23,7 @@ namespace J_Project.Manager
         public event EventHandler<UnitTestStartEventArgs> UnitTestStart;
         public event EventHandler<UnitTestEndEventArgs>   UnitTestEnd;
         public event EventHandler<TestEndEventArgs>       AutoTestEnd;
-        public event EventHandler<TestRunCheckEventArgs>  AfterAutoTestEnd;
+        public event EventHandler<EventArgs>  AfterAutoTestEnd;
 
         public event EventHandler<EventArgs>  AutoTestPause;
         public event EventHandler<EventArgs>  AutoTestStop;
@@ -160,7 +160,7 @@ namespace J_Project.Manager
                     if (TestIndex >= TestList.Count) // 마지막 테스트였을 경우
                     {
                         AutoTestTimer.Stop();
-                        OnAfterAutoTestEnd(new TestRunCheckEventArgs(false));
+                        OnAfterAutoTestEnd(new EventArgs());
                     }
                     else
                     {
@@ -245,7 +245,7 @@ namespace J_Project.Manager
          *  
          *  @return
          */
-        public void OnAfterAutoTestEnd(TestRunCheckEventArgs e)
+        public void OnAfterAutoTestEnd(EventArgs e)
         {
             AfterAutoTestEnd?.Invoke(this, e);
         }
