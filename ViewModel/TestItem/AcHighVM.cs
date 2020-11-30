@@ -37,6 +37,7 @@ namespace J_Project.ViewModel.TestItem
             END_TEST
         }
 
+        private int TestOrterNum = (int)FirstTestOrder.AcHigh;
         public static string TestName { get; } = "AC 고전압 알람";
         public AC_고전압_알람 AcHigh { get; set; }
         public TestOption Option { get; set; }
@@ -56,6 +57,8 @@ namespace J_Project.ViewModel.TestItem
             AcHigh = AC_고전압_알람.GetObj();
             Option = TestOption.GetObj();
             ButtonColor = new ObservableCollection<SolidColorBrush>();
+
+            FirstOrder[TestOrterNum - 1] = new string[] { TestOrterNum.ToString(), TestName, "판단불가", "불합격" };
 
             for (int i = 0; i < TotalStepNum; i++)
                 ButtonColor.Add(Brushes.White);
@@ -316,7 +319,7 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.RESULT_SAVE: // 결과 저장
                     TestLog.AppendLine("[ 결과 저장 ]");
-                    result = ResultDataSave((int)FirstTestOrder.AcHigh, TestName, resultData);
+                    result = ResultDataSave(TestOrterNum, TestName, resultData);
                     TestLog.AppendLine($"- 결과 : {result}\n");
                     break;
 

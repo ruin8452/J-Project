@@ -33,6 +33,7 @@ namespace J_Project.ViewModel.TestItem
             END_TEST
         }
 
+        private int TestOrterNum = (int)FirstTestOrder.NoLoad;
         public static string TestName { get; } = "무부하 전원 ON";
         public 무부하_전원_ON NoLoad { get; set; }
         public TestOption Option { get; set; }
@@ -52,6 +53,8 @@ namespace J_Project.ViewModel.TestItem
             NoLoad = 무부하_전원_ON.GetObj();
             Option = TestOption.GetObj();
             ButtonColor = new ObservableCollection<SolidColorBrush>();
+
+            FirstOrder[TestOrterNum - 1] = new string[] { TestOrterNum.ToString(), TestName, "판단불가", "불합격" };
 
             for (int i = 0; i < TotalStepNum; i++)
                 ButtonColor.Add(Brushes.White);
@@ -213,7 +216,7 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.RESULT_SAVE: // 결과 저장
                     TestLog.AppendLine("[ 결과 저장 ]");
-                    result = ResultDataSave((int)FirstTestOrder.NoLoad, TestName, resultData);
+                    result = ResultDataSave(TestOrterNum, TestName, resultData);
                     TestLog.AppendLine($"- 결과 : {result}\n");
                     break;
 

@@ -37,6 +37,7 @@ namespace J_Project.ViewModel.TestItem
             END_TEST
         }
 
+        private int TestOrterNum = (int)FirstTestOrder.AcBlackOut;
         public static string TestName { get; } = "AC 정전전압 인식";
         public AC_정전전압_인식 AcBlackOut { get; set; }
         public TestOption Option { get; set; }
@@ -56,6 +57,8 @@ namespace J_Project.ViewModel.TestItem
             AcBlackOut = AC_정전전압_인식.GetObj();
             Option = TestOption.GetObj();
             ButtonColor = new ObservableCollection<SolidColorBrush>();
+
+            FirstOrder[TestOrterNum-1] = new string[] { TestOrterNum.ToString(), TestName, "판단불가", "불합격" };
 
             for (int i = 0; i < TotalStepNum; i++)
                 ButtonColor.Add(Brushes.White);
@@ -317,7 +320,7 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.RESULT_SAVE: // 결과 저장
                     TestLog.AppendLine("[ 결과 저장 ]");
-                    result = ResultDataSave((int)FirstTestOrder.AcBlackOut, TestName, resultData);
+                    result = ResultDataSave(TestOrterNum, TestName, resultData);
                     TestLog.AppendLine($"- 결과 : {result}\n");
                     break;
 

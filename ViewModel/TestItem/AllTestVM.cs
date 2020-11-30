@@ -5,6 +5,7 @@ using J_Project.Manager;
 using J_Project.UI.SubWindow;
 using J_Project.ViewModel.SubWindow;
 using PropertyChanged;
+using System;
 using System.Text;
 using System.Windows;
 
@@ -69,12 +70,16 @@ namespace J_Project.ViewModel.TestItem
         public int TotalStepNum;
         public static string ReportSavePath;
 
+        private static int FirstOrderCnt = Enum.GetNames(typeof(FirstTestOrder)).Length;
+        public static string[][] FirstOrder = new string[FirstOrderCnt][];
+
         protected (string, string) resultData = ("판단 불가", "불합격");
         public StringBuilder TestLog;
 
         // AC 설정
         protected StateFlag AcSourceSet(double acv, double acc, double freq)
         {
+            
             AcSource acSource = AcSource.GetObj();
             double? result = null;
 

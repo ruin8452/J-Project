@@ -34,6 +34,9 @@ namespace J_Project.ViewModel.TestItem
             END_TEST
         }
 
+        private int TestOrterNum = (int)FirstTestOrder.LoadReg0;
+        private int TestOrterNum1 = (int)FirstTestOrder.LoadReg1;
+        private int TestOrterNum2 = (int)FirstTestOrder.LoadReg2;
         public static string TestName { get; } = "로드 레귤레이션";
         public 로드_레귤레이션 LoadReg { get; set; }
         public TestOption Option { get; set; }
@@ -53,6 +56,10 @@ namespace J_Project.ViewModel.TestItem
             LoadReg = 로드_레귤레이션.GetObj();
             Option = TestOption.GetObj();
             ButtonColor = new ObservableCollection<SolidColorBrush>();
+
+            FirstOrder[TestOrterNum - 1] = new string[] { TestOrterNum.ToString(), TestName, "판단불가", "불합격" };
+            FirstOrder[TestOrterNum1 - 1] = new string[] { TestOrterNum1.ToString(), TestName, "판단불가", "불합격" };
+            FirstOrder[TestOrterNum2 - 1] = new string[] { TestOrterNum2.ToString(), TestName, "판단불가", "불합격" };
 
             for (int i = 0; i < TotalStepNum; i++)
                 ButtonColor.Add(Brushes.White);
@@ -256,11 +263,11 @@ namespace J_Project.ViewModel.TestItem
                 case Seq.RESULT_SAVE: // 결과 저장
                     TestLog.AppendLine("[ 결과 저장 ]");
                     if (caseNumber == 0)
-                        result = ResultDataSave((int)FirstTestOrder.LoadReg0, TestName, resultData);
+                        result = ResultDataSave(TestOrterNum, TestName, resultData);
                     else if (caseNumber == 1)
-                        result = ResultDataSave((int)FirstTestOrder.LoadReg1, TestName, resultData);
+                        result = ResultDataSave(TestOrterNum1, TestName, resultData);
                     else
-                        result = ResultDataSave((int)FirstTestOrder.LoadReg2, TestName, resultData);
+                        result = ResultDataSave(TestOrterNum2, TestName, resultData);
                     TestLog.AppendLine($"- 결과 : {result}\n");
                     break;
 

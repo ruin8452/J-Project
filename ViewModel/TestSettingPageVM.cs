@@ -29,6 +29,7 @@ namespace J_Project.ViewModel
         public Dmm2 Dmm2 { get; set; }
         public Oscilloscope Osc { get; set; }
 
+        public ICommand UnloadPage { get; set; }
         public ICommand OscSetCommand { get; set; }
         public ICommand Dmm1SetCommand { get; set; }
         public ICommand Dmm2SetCommand { get; set; }
@@ -41,11 +42,24 @@ namespace J_Project.ViewModel
             Dmm2 = Dmm2.GetObj();
             Osc = Oscilloscope.GetObj();
 
+            UnloadPage = new BaseCommand(DataSave);
             OscSetCommand = new BaseCommand(OscSetting);
             Dmm1SetCommand = new BaseCommand(Dmm1Setting);
             Dmm2SetCommand = new BaseCommand(Dmm2Setting);
         }
 
+        /**
+         *  @brief 데이터 저장
+         *  @details 테스트 옵션의 데이트를 저장한다
+         *  
+         *  @param
+         *  
+         *  @return
+         */
+        private void DataSave()
+        {
+            TestOption.Save();
+        }
 
         /**
          *  @brief 오실로스코프 세팅
