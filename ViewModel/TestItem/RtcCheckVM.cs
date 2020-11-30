@@ -1,4 +1,5 @@
-﻿using J_Project.Equipment;
+﻿using GalaSoft.MvvmLight.Command;
+using J_Project.Equipment;
 using J_Project.Manager;
 using J_Project.TestMethod;
 using J_Project.ViewModel.CommandClass;
@@ -43,8 +44,8 @@ namespace J_Project.ViewModel.TestItem
 
         public ObservableCollection<SolidColorBrush> ButtonColor { get; private set; }
 
-        public ICommand UnloadPage { get; set; }
-        public ICommand UnitTestCommand { get; set; }
+        public RelayCommand UnloadPage { get; set; }
+        public RelayCommand<object> UnitTestCommand { get; set; }
 
         public RtcCheckVM()
         {
@@ -62,8 +63,8 @@ namespace J_Project.ViewModel.TestItem
             for (int i = 0; i < TotalStepNum; i++)
                 ButtonColor.Add(Brushes.White);
 
-            UnloadPage = new BaseCommand(DataSave);
-            UnitTestCommand = new BaseObjCommand(UnitTestClick);
+            UnloadPage = new RelayCommand(DataSave);
+            UnitTestCommand = new RelayCommand<object>(UnitTestClick);
         }
 
         /**
@@ -278,7 +279,7 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.RESULT_SAVE:
                     TestLog.AppendLine("[ 결과 저장 ]");
-                    result = ResultDataSave(TestOrterNum, TestName, resultData);
+                    result = ResultDataSave(TestOrterNum, resultData);
                     TestLog.AppendLine($"- 결과 : {result}\n");
                     break;
 

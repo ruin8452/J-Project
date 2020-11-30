@@ -107,14 +107,23 @@ namespace J_Project.ViewModel.TestItem
          */
         public static void SecondOrderInit()
         {
-            for (int i = 0; i < SecondOrderCnt; i++)
+            for (int i = 1; i < SecondOrderCnt; i++)
             {
                 SecondOrder[i][2] = "판단 불가";
                 SecondOrder[i][3] = "불합격";
             }
         }
 
-        // AC 설정
+        /**
+         *  @brief AC 설정
+         *  @details AC 소스의 전압, 전류, 주파수를 설정한다
+         *  
+         *  @param double acv - AC 전압
+         *  @param double acc - AC 전류
+         *  @param double freq - 주파수
+         *  
+         *  @return StateFlag - 설정 결과
+         */
         protected StateFlag AcSourceSet(double acv, double acc, double freq)
         {
             
@@ -147,7 +156,14 @@ namespace J_Project.ViewModel.TestItem
 
             return StateFlag.PASS;
         }
-        // AC 설정
+        /**
+         *  @brief AC 설정
+         *  @details AC 소스의 전압을 설정한다
+         *  
+         *  @param double acv - AC 전압
+         *  
+         *  @return StateFlag - 설정 결과
+         */
         protected StateFlag AcSourceSet(double acv)
         {
             AcSource acSource = AcSource.GetObj();
@@ -163,7 +179,14 @@ namespace J_Project.ViewModel.TestItem
             return StateFlag.AC_VOLT_SET_ERR;
         }
 
-        // AC On
+        /**
+         *  @brief AC 출력 ON
+         *  @details AC 소스의 출력을 ON한다
+         *  
+         *  @param
+         *  
+         *  @return StateFlag - 설정 결과
+         */
         protected StateFlag AcSourceOn()
         {
             AcSource acSource = AcSource.GetObj();
@@ -179,7 +202,14 @@ namespace J_Project.ViewModel.TestItem
             return StateFlag.AC_ON_ERR;
         }
 
-        // AC Off
+        /**
+         *  @brief AC 출력 OFF
+         *  @details AC 소스의 출력을 OFF한다
+         *  
+         *  @param
+         *  
+         *  @return StateFlag - 설정 결과
+         */
         protected StateFlag AcSourceOff()
         {
             AcSource acSource = AcSource.GetObj();
@@ -195,7 +225,15 @@ namespace J_Project.ViewModel.TestItem
             return StateFlag.AC_OFF_ERR;
         }
 
-        // DC 설정
+        /**
+         *  @brief DC 설정
+         *  @details DC 소스의 전압, 전류를 설정한다
+         *  
+         *  @param double dcv - DC 전압
+         *  @param double dcc - DC 전류
+         *  
+         *  @return StateFlag - 설정 결과
+         */
         protected StateFlag DcSourceSet(double dcv, double dcc)
         {
             DcSource dcSource = DcSource.GetObj();
@@ -220,7 +258,14 @@ namespace J_Project.ViewModel.TestItem
             return StateFlag.PASS;
         }
 
-        // DC On
+        /**
+         *  @brief DC 출력 ON
+         *  @details DC 소스의 출력을 ON한다
+         *  
+         *  @param
+         *  
+         *  @return StateFlag - 설정 결과
+         */
         protected StateFlag DcSourceOn()
         {
             DcSource dcSource = DcSource.GetObj();
@@ -236,7 +281,14 @@ namespace J_Project.ViewModel.TestItem
             return StateFlag.DC_ON_ERR;
         }
 
-        // DC Off
+        /**
+         *  @brief DC 출력 OFF
+         *  @details DC 소스의 출력을 OFF한다
+         *  
+         *  @param
+         *  
+         *  @return StateFlag - 설정 결과
+         */
         protected StateFlag DcSourceOff()
         {
             DcSource dcSource = DcSource.GetObj();
@@ -252,7 +304,14 @@ namespace J_Project.ViewModel.TestItem
             return StateFlag.DC_OFF_ERR;
         }
 
-        // 부하 설정
+        /**
+         *  @brief 부하 설정
+         *  @details 부하의 전류를 설정한다
+         *  
+         *  @param double curr - 부하 전류
+         *  
+         *  @return StateFlag - 설정 결과
+         */
         protected StateFlag LoadCurrSet(double curr)
         {
             DcLoad dcLoad = DcLoad.GetObj();
@@ -268,7 +327,14 @@ namespace J_Project.ViewModel.TestItem
             return StateFlag.LOAD_SET_ERR;
         }
 
-        // Load On
+        /**
+         *  @brief 부하 출력 ON
+         *  @details 부하의 출력을 ON한다
+         *  
+         *  @param
+         *  
+         *  @return StateFlag - 설정 결과
+         */
         protected StateFlag LoadOn()
         {
             DcLoad dcLoad = DcLoad.GetObj();
@@ -284,7 +350,14 @@ namespace J_Project.ViewModel.TestItem
             return StateFlag.LOAD_ON_ERR;
         }
 
-        // Load Off
+        /**
+         *  @brief 부하 출력 OFF
+         *  @details 부하의 출력을 OFF한다
+         *  
+         *  @param
+         *  
+         *  @return StateFlag - 설정 결과
+         */
         protected StateFlag LoadOff()
         {
             DcLoad dcLoad = DcLoad.GetObj();
@@ -300,6 +373,16 @@ namespace J_Project.ViewModel.TestItem
             return StateFlag.LOAD_OFF_ERR;
         }
 
+        /**
+         *  @brief AC 소스 수동조작 윈도우
+         *  @details 서브 윈도우를 띄워 AC 소스 수동조작을 유도한다
+         *  
+         *  @param double acSetVolt - 설정해야 할 AC 전압
+         *  @param double errRange - 허용오차
+         *  @param AcCheckMode acMode - AC 상태 감지 모드(노멀, 저전압, 고전압, 정전)
+         *  
+         *  @return StateFlag - 설정 결과
+         */
         protected StateFlag AcCtrlWin(double acSetVolt, int errRange, AcCheckMode acMode)
         {
             StateFlag result;
@@ -322,6 +405,16 @@ namespace J_Project.ViewModel.TestItem
             return result;
         }
 
+        /**
+         *  @brief 부하 수동조작 윈도우
+         *  @details 서브 윈도우를 띄워 부하 수동조작을 유도한다
+         *  
+         *  @param double loadSetVolt - 설정해야 할 부하값
+         *  @param double errRange - 허용오차
+         *  @param AcCheckMode acMode - AC 상태 감지 모드(노멀, 과부하)
+         *  
+         *  @return StateFlag - 설정 결과
+         */
         protected StateFlag LoadCtrlWin(double loadSetVolt, int errRange, LoadCheckMode loadMode)
         {
             StateFlag result;
@@ -344,6 +437,16 @@ namespace J_Project.ViewModel.TestItem
             return result;
         }
 
+        /**
+         *  @brief 부하 수동조작 윈도우(출하용)
+         *  @details 서브 윈도우를 띄워 부하 수동조작을 유도한다(출하용)
+         *  
+         *  @param double loadSetVolt - 설정해야 할 부하값
+         *  @param double errRange - 허용오차
+         *  @param AcCheckMode acMode - AC 상태 감지 모드(노멀, 과부하)
+         *  
+         *  @return StateFlag - 설정 결과
+         */
         protected StateFlag LoadCtrlWin2(double loadSetVolt, int errRange, LoadCheckMode loadMode)
         {
             StateFlag result;
@@ -366,8 +469,16 @@ namespace J_Project.ViewModel.TestItem
             return result;
         }
 
-        // 성적서 작성
-        protected StateFlag ResultDataSave(int Order, string testName, (string, string)? resultData)
+        /**
+         *  @brief 성적서 작성
+         *  @details 테스트 후 산출된 데이터를 파일에 저장한다
+         *  
+         *  @param int Order - 테스트 번호
+         *  @param (string, string)? resultData - 테스트 결과값(값, 결과)
+         *  
+         *  @return StateFlag - 설정 결과
+         */
+        protected StateFlag ResultDataSave(int Order, (string, string)? resultData)
         {
             CsvReport csvReport = CsvReport.GetObj();
 
@@ -381,8 +492,35 @@ namespace J_Project.ViewModel.TestItem
             return saveState;
         }
 
+        /**
+         *  @brief 테스트 시퀀스
+         *  @details 해당 테스트의 시퀀스를 담당 및 수행한다
+         *  
+         *  @param int caseNumbere - 해당 테스트의 케이스 번호
+         *  @param int stepNumber - 실행할 세부 단계 번호
+         *  @param ref int jumpStepNum - 점프할 세부 단계
+         *  
+         *  @return StateFlag - 수행 결과
+         */
         public abstract StateFlag TestSeq(int caseNumber, int stepNumber, ref int jumpStepNum);
+        /**
+         *  @brief 테스트 UI 텍스트 색 변경
+         *  @details 양상 테스트 화면에서 해당 테스트 UI의 텍스트 색을 변경시킨다
+         *  
+         *  @param int index - 세부 단계의 인덱스
+         *  @param StateFlag stateFlag - 세부 단계의 테스트 결과
+         *  
+         *  @return
+         */
         public abstract void TextColorChange(int index, StateFlag stateFlag);
+        /**
+         *  @brief 테스트 UI 텍스트 색 리셋
+         *  @details 양상 테스트 화면에서 해당 테스트 UI의 텍스트 색을 흰색으로 리셋
+         *  
+         *  @param 
+         *  
+         *  @return
+         */
         public abstract void UiReset();
     }
 }

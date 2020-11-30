@@ -75,7 +75,7 @@ namespace J_Project.FileSystem
 
             reader.Close();
 
-            DataList = DataSort(DataList);
+            //DataList = DataSort(DataList);
 
             foreach (var temp in DataList)
             {

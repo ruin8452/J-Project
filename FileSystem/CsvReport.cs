@@ -158,16 +158,14 @@ namespace J_Project.FileSystem
             {
                 try
                 {
-                    StringBuilder saveText = new StringBuilder();
+                    string saveStr;
 
-                    for (int i = 0; i < datas.Length; i++)
-                    {
-                        saveText.Append(datas[i].ToString());
-                        saveText.Append(",");
-                    }
-                    saveText.Remove(saveText.Length - 1, 1); // 마지막에 붙은 ','를 제거
+                    if (datas == null)
+                        saveStr = "-";
+                    else
+                        saveStr = string.Join(",", datas);
 
-                    csvStream.WriteLine(saveText);
+                    csvStream.WriteLine(saveStr);
                 }
                 catch (Exception)
                 {
