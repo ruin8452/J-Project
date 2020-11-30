@@ -500,6 +500,9 @@
     <Compile Include="ViewModel\SubWindow\ReportProcessViewModel.cs" />
     <Compile Include="ViewModel\SettingPageVM.cs" />
     <Compile Include="ViewModel\TestingPageVM.cs" />
+    <Compile Include="ViewModel\TestItem\IsolPressVM.cs" />
+    <Compile Include="ViewModel\TestItem\PowerSupplyVM.cs" />
+    <Compile Include="ViewModel\TestItem\IsolResVM.cs" />
     <Compile Include="ViewModel\TestItem\AcHighVM.cs" />
     <Compile Include="ViewModel\TestItem\AcLowVM.cs" />
     <Compile Include="ViewModel\TestItem\AcBlackOutVM.cs" />

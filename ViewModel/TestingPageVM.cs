@@ -236,14 +236,14 @@ namespace J_Project.ViewModel
         private void CsvConverter()
         {
             // CSV 파일 다듬기 /////////////////////////////////////////////////////////////
-            List<string[]> sortList = csvReport.DataSort(csvReport.CsvReader(csvSavePath), TestType);
+            List<string[]> csvList = csvReport.CsvReader(csvSavePath);
 
             basicInfo.SwVersion = Rect.FwVersion.ToString();
             basicInfo.CheckDate = DateTime.Today.ToShortDateString();
             basicInfo.TestResult = "합격";
-            for (int i = 1; i < sortList.Count; i++)
+            for (int i = 1; i < csvList.Count; i++)
             {
-                if (sortList[i].Contains("불합격"))
+                if (csvList[i].Contains("불합격"))
                 {
                     basicInfo.TestResult = "불합격";
                     break;
@@ -254,8 +254,8 @@ namespace J_Project.ViewModel
                                           basicInfo.DcdcSerial, basicInfo.PfcSerial, basicInfo.McuSerial, basicInfo.CheckDate, basicInfo.HwVersion, basicInfo.SwVersion,
                                           basicInfo.TestResult, basicInfo.DcdcNumber, basicInfo.PfcNumber, basicInfo.McuNumber };
 
-            sortList[0] = str;
-            csvReport.ReportSave(csvSavePath, sortList);
+            csvList[0] = str;
+            csvReport.ReportSave(csvSavePath, csvList);
             /////////////////////////////////////////////////////////////
 
             if (TestType == "FirstTest")
@@ -474,23 +474,54 @@ namespace J_Project.ViewModel
                 string writeTypeStr = ((ReportProcessViewModel)reportWindow.DataContext).WriteType;
 
                 if (writeTypeStr == "덮어쓰기")
+                {
                     csvSavePath = csvReport.SetFilePath(basicInfo.Checker, filePath, FileWriteType.OVER_WRITE);
+
+                    if (TestType == "FirstTest")
+                    {
+                        AllTestVM.FirstOrderInit();
+                        csvReport.ReportSave(csvSavePath, new List<string[]>(AllTestVM.FirstOrder));
+                    }
+                    else
+                    {
+                        AllTestVM.SecondOrderInit();
+                        csvReport.ReportSave(csvSavePath, new List<string[]>(AllTestVM.SecondOrder));
+                    }
+                }
+                else if (writeTypeStr == "새로쓰기")
+                {
+                    csvSavePath = csvReport.SetFilePath(basicInfo.Checker, filePath, FileWriteType.NEW_WRITE);
+
+                    if (TestType == "FirstTest")
+                    {
+                        AllTestVM.FirstOrderInit();
+                        csvReport.ReportSave(csvSavePath, new List<string[]>(AllTestVM.FirstOrder));
+                    }
+                    else
+                    {
+                        AllTestVM.SecondOrderInit();
+                        csvReport.ReportSave(csvSavePath, new List<string[]>(AllTestVM.SecondOrder));
+                    }
+                }
                 else if (writeTypeStr == "이어쓰기")
                     csvSavePath = csvReport.SetFilePath(basicInfo.Checker, filePath, FileWriteType.CONTINUE_WRITE);
-                else if (writeTypeStr == "새로쓰기")
-                    csvSavePath = csvReport.SetFilePath(basicInfo.Checker, filePath, FileWriteType.NEW_WRITE);
                 else if (writeTypeStr == "취소")
                     return;
             }
             else
+            {
                 csvSavePath = csvReport.SetFilePath(basicInfo.Checker, filePath, FileWriteType.NEW_WRITE);
 
-
-            if (TestType == "FirstTest")
-            {
-                csvReport.ReportSave(csvSavePath, ((int)FirstTestOrder.IsolRes).ToString(), "절연저항(TNR 제거)", "OK", "합격");
-                csvReport.ReportSave(csvSavePath, ((int)FirstTestOrder.IsolPress).ToString(), "절연내압(TNR 제거)", "OK", "합격");
-                csvReport.ReportSave(csvSavePath, ((int)FirstTestOrder.PowerSupply).ToString(), "배터리 전원 공급 확인", "OK", "합격");
+                if (TestType == "FirstTest")
+                {
+                    AllTestVM.FirstOrderInit();
+                    csvReport.ReportSave(csvSavePath, new List<string[]>(AllTestVM.FirstOrder));
+                }
+                else
+                {
+                    AllTestVM.SecondOrderInit();
+                    csvReport.ReportSave(csvSavePath, new List<string[]>(AllTestVM.SecondOrder));
+                }
             }
 
             AllTestVM.ReportSavePath = csvSavePath;
@@ -684,25 +715,26 @@ namespace J_Project.ViewModel
             TestRunningText = "테스트 종료";
 
             // CSV 파일 다듬기 /////////////////////////////////////////////////////////////
-            List<string[]> sortList = csvReport.DataSort(csvReport.CsvReader(csvSavePath), TestType);
+            List<string[]> csvList = csvReport.CsvReader(csvSavePath);
 
             basicInfo.SwVersion = Rect.FwVersion.ToString();
             basicInfo.CheckDate = DateTime.Today.ToShortDateString();
             basicInfo.TestResult = "합격";
-            for (int i = 1; i < sortList.Count; i++)
+            for (int i = 1; i < csvList.Count; i++)
             {
-                if (sortList[i].Contains("불합격"))
+                if (csvList[i].Contains("불합격"))
                 {
                     basicInfo.TestResult = "불합격";
                     break;
                 }
             }
             
-            string[] str = new string[] { "0", basicInfo.Checker, basicInfo.ModelName, basicInfo.ProductCode, basicInfo.SerialNumber, basicInfo.CheckDate,
+            string[] str = new string[] { "0", basicInfo.Checker, basicInfo.ModelName, basicInfo.ProductCode, basicInfo.SerialNumber,
+                                 basicInfo.DcdcSerial, basicInfo.PfcSerial, basicInfo.McuSerial, basicInfo.CheckDate,
                                  basicInfo.HwVersion, basicInfo.SwVersion, basicInfo.TestResult, basicInfo.DcdcNumber, basicInfo.PfcNumber, basicInfo.McuNumber };
 
-            sortList[0] = str;
-            csvReport.ReportSave(csvSavePath, sortList);
+            csvList[0] = str;
+            csvReport.ReportSave(csvSavePath, csvList);
             /////////////////////////////////////////////////////////////
 
             if (TestType == "FirstTest")
@@ -848,14 +880,14 @@ namespace J_Project.ViewModel
             TotalTestTimer.Stop();
             TestTimeView.Stop();
 
-            List<string[]> sortList = csvReport.DataSort(csvReport.CsvReader(csvSavePath), TestType);
+            List<string[]> csvList = csvReport.CsvReader(csvSavePath);
 
             basicInfo.SwVersion = Rect.FwVersion.ToString();
             basicInfo.CheckDate = DateTime.Today.ToShortDateString();
             basicInfo.TestResult = "합격";
-            for (int i = 1; i < sortList.Count; i++)
+            for (int i = 1; i < csvList.Count; i++)
             {
-                if (sortList[i].Contains("불합격"))
+                if (csvList[i].Contains("불합격"))
                 {
                     basicInfo.TestResult = "불합격";
                     break;
@@ -865,11 +897,11 @@ namespace J_Project.ViewModel
             //                     basicInfo.HwVersion, basicInfo.SwVersion, basicInfo.TestResult, basicInfo.DcdcNumber, basicInfo.PfcNumber, basicInfo.McuNumber);
 
             string[] str = new string[] { "0", basicInfo.Checker, basicInfo.ModelName, basicInfo.ProductCode, basicInfo.SerialNumber,
-                                          basicInfo.DcdcSerial, basicInfo.PfcSerial, basicInfo.McuSerial, basicInfo.CheckDate, basicInfo.HwVersion, basicInfo.SwVersion,
-                                          basicInfo.TestResult, basicInfo.DcdcNumber, basicInfo.PfcNumber, basicInfo.McuNumber };
+                                          basicInfo.DcdcSerial, basicInfo.PfcSerial, basicInfo.McuSerial, basicInfo.CheckDate,
+                                          basicInfo.HwVersion, basicInfo.SwVersion, basicInfo.TestResult, basicInfo.DcdcNumber, basicInfo.PfcNumber, basicInfo.McuNumber };
 
-            sortList[0] = str;
-            csvReport.ReportSave(csvSavePath, sortList);
+            csvList[0] = str;
+            csvReport.ReportSave(csvSavePath, csvList);
 
             if (TestType == "FirstTest")
             {
@@ -904,8 +936,11 @@ namespace J_Project.ViewModel
                 TestItemUint M200 = new TestItemUint() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = M200ReadyVM.TestName, TestExeUi = new M200Ready_UI() };
                 TestItemUint M100 = new TestItemUint() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = M100ReadyVM.TestName, TestExeUi = new M100Ready_UI() };
 
+                TestItemUint isoReg = new TestItemUint() { TestIndex = 0, CaseIndex = 0, Checked = false, TestName = IsolResVM.TestName, Parents = null, remark = new IsolResVM() };
+                TestItemUint isoPress = new TestItemUint() { TestIndex = 0, CaseIndex = 0, Checked = false, TestName = IsolPressVM.TestName, Parents = null, remark = new IsolPressVM() };
+                TestItemUint PowerSup = new TestItemUint() { TestIndex = 0, CaseIndex = 0, Checked = false, TestName = PowerSupplyVM.TestName, Parents = null, remark = new PowerSupplyVM() };
+
                 TestItemUint init = new TestItemUint() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = InitVM.TestName, TestExeUi = new 초기세팅_UI() };
-                //TestItemUint test1 = new TestItemUint() { TestIndex = index++, CaseIndex = 0, Checked = false, TestName = "정류기 전원 확인", Parents = null, TestExeUi = new RectOnCheck_UI() };
 
                 TestItemUint acCal = new TestItemUint() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = cal, TestName = CalAcVM.TestName, TestExeUi = new Cal_AC_입력전압_UI() };
                 TestItemUint voltCal = new TestItemUint() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = cal, TestName = CalDcVoltVM.TestName, TestExeUi = new Cal_DC_출력전압_UI() };

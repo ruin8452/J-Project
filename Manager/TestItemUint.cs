@@ -12,6 +12,7 @@ namespace J_Project.Manager
         public TestItemUint Parents { get; set; }
         public ObservableCollection<TestItemUint> Child { get; set; }
         public Page TestExeUi { get; set; }
+        public object remark { get; set; }
 
         public int TestIndex;
         public int CaseIndex;

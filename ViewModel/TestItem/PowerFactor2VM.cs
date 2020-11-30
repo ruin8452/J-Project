@@ -36,6 +36,7 @@ namespace J_Project.ViewModel.TestItem
             END_TEST
         }
 
+        private int TestOrterNum = (int)SecondTestOrder.PowerFacter;
         public static string TestName { get; } = "역률";
         public 역률 PowerFactor { get; set; }
         public TestOption Option { get; set; }
@@ -55,6 +56,8 @@ namespace J_Project.ViewModel.TestItem
             PowerFactor = 역률.GetObj();
             Option = TestOption.GetObj();
             ButtonColor = new ObservableCollection<SolidColorBrush>();
+
+            SecondOrder[TestOrterNum] = new string[] { TestOrterNum.ToString(), TestName, "판단불가", "불합격" };
 
             for (int i = 0; i < TotalStepNum; i++)
                 ButtonColor.Add(Brushes.White);
@@ -263,7 +266,7 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.RESULT_SAVE: // 결과 저장
                     TestLog.AppendLine("[ 결과 저장 ]");
-                    result = ResultDataSave((int)SecondTestOrder.PowerFacter, TestName, resultData);
+                    result = ResultDataSave(TestOrterNum, TestName, resultData);
                     TestLog.AppendLine($"- 결과 : {result}\n");
                     break;
 

@@ -36,6 +36,7 @@ namespace J_Project.ViewModel.TestItem
             END_TEST
         }
 
+        private int TestOrterNum = (int)SecondTestOrder.Connecter;
         public static string TestName { get; } = "출력 커넥터 체크";
         public ConnecterCheck ConnCheck { get; set; }
         public TestOption Option { get; set; }
@@ -55,6 +56,8 @@ namespace J_Project.ViewModel.TestItem
             ConnCheck = ConnecterCheck.GetObj();
             Option = TestOption.GetObj();
             ButtonColor = new ObservableCollection<SolidColorBrush>();
+
+            SecondOrder[TestOrterNum] = new string[] { TestOrterNum.ToString(), TestName, "판단불가", "불합격" };
 
             for (int i = 0; i < TotalStepNum; i++)
                 ButtonColor.Add(Brushes.White);
@@ -288,7 +291,7 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.RESULT_SAVE: // 결과 저장
                     TestLog.AppendLine("[ 결과 저장 ]");
-                    result = ResultDataSave((int)SecondTestOrder.Connecter, TestName, resultData);
+                    result = ResultDataSave(TestOrterNum, TestName, resultData);
                     TestLog.AppendLine($"- 결과 : {result}\n");
                     break;
 

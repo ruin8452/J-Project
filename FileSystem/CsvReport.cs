@@ -107,6 +107,7 @@ namespace J_Project.FileSystem
         /**
          *  @brief 파일 저장
          *  @details 파일에 데이터를 담아 저장한다
+         *           한 줄의 데이터를 저장
          *  
          *  @param string path - 파일 경로
          *  @param params string[] datas - 저장할 데이터
@@ -142,6 +143,7 @@ namespace J_Project.FileSystem
         /**
          *  @brief 파일 저장
          *  @details 파일에 데이터를 담아 저장한다
+         *           여러 줄의 데이터를 저장
          *  
          *  @param string path - 파일 경로
          *  @param List<string[]> testData - 저장할 데이터
@@ -174,42 +176,6 @@ namespace J_Project.FileSystem
             }
 
             return StateFlag.PASS;
-        }
-
-        /**
-         *  @brief 데이터 정렬
-         *  @details 데이터를 타입에 따라 정렬한다(양산검사, 출하검사)
-         *  
-         *  @param List<string[]> list - 정렬할 데이터
-         *  @param List<string[]> testData - 데이터
-         *  
-         *  @return StateFlag 정상 수행 여부
-         */
-        public List<string[]> DataSort(List<string[]> list, string TestType)
-        {
-            //int maxIndex = 0;
-
-            //foreach (var item in list)
-            //    maxIndex = Math.Max(maxIndex, int.Parse(item[0]));
-            string[][] tempArr;
-
-            if (TestType == "FirstTest")
-                tempArr = new string[28][];
-            else
-                tempArr = new string[11][];
-
-            foreach (var item in list)
-                tempArr[int.Parse(item[0])] = item;
-
-            List<string[]> sortedList = new List<string[]>(tempArr);
-
-            for (int i = 1; i < sortedList.Count; i++)
-            {
-                if (sortedList[i] == null)
-                    sortedList[i] = new string[4] { i.ToString(), "Null Tset", "수행하지 않은 테스트", "불합격" };
-            }
-
-            return sortedList;
         }
 
         /**
@@ -271,7 +237,7 @@ namespace J_Project.FileSystem
             }
             catch (Exception e)
             {
-                MessageBox.Show("보고서 생성 실패 : " + e.Message);
+                MessageBox.Show("엑셀 보고서 생성 실패 : " + e.Message);
             }
         }
 

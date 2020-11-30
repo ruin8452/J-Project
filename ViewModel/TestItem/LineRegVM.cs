@@ -57,9 +57,9 @@ namespace J_Project.ViewModel.TestItem
             Option = TestOption.GetObj();
             ButtonColor = new ObservableCollection<SolidColorBrush>();
 
-            FirstOrder[TestOrterNum - 1] = new string[] { TestOrterNum.ToString(), TestName, "판단불가", "불합격" };
-            FirstOrder[TestOrterNum1 - 1] = new string[] { TestOrterNum1.ToString(), TestName, "판단불가", "불합격" };
-            FirstOrder[TestOrterNum2 - 1] = new string[] { TestOrterNum2.ToString(), TestName, "판단불가", "불합격" };
+            FirstOrder[TestOrterNum] = new string[] { TestOrterNum.ToString(), TestName, "판단불가", "불합격" };
+            FirstOrder[TestOrterNum1] = new string[] { TestOrterNum1.ToString(), TestName, "판단불가", "불합격" };
+            FirstOrder[TestOrterNum2] = new string[] { TestOrterNum2.ToString(), TestName, "판단불가", "불합격" };
 
             for (int i = 0; i < TotalStepNum; i++)
                 ButtonColor.Add(Brushes.White);

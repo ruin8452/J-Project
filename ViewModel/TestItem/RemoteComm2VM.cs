@@ -35,6 +35,7 @@ namespace J_Project.ViewModel.TestItem
             END_TEST
         }
 
+        private int TestOrterNum = (int)SecondTestOrder.Remote;
         public static string TestName { get; } = "Remote 통신 테스트";
         public RemoteComm RemoteComm { get; set; }
         public TestOption Option { get; set; }
@@ -54,6 +55,8 @@ namespace J_Project.ViewModel.TestItem
             RemoteComm = RemoteComm.GetObj();
             Option = TestOption.GetObj();
             ButtonColor = new ObservableCollection<SolidColorBrush>();
+
+            SecondOrder[TestOrterNum] = new string[] { TestOrterNum.ToString(), TestName, "판단불가", "불합격" };
 
             for (int i = 0; i < TotalStepNum; i++)
                 ButtonColor.Add(Brushes.White);
@@ -227,7 +230,7 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.RESULT_SAVE: // 결과 저장
                     TestLog.AppendLine("[ 결과 저장 ]");
-                    result = ResultDataSave((int)SecondTestOrder.Remote, TestName, resultData);
+                    result = ResultDataSave(TestOrterNum, TestName, resultData);
                     TestLog.AppendLine($"- 결과 : {result}\n");
                     break;
 

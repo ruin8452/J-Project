@@ -6,6 +6,7 @@ using J_Project.UI.SubWindow;
 using J_Project.ViewModel.SubWindow;
 using PropertyChanged;
 using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Windows;
 
@@ -70,11 +71,48 @@ namespace J_Project.ViewModel.TestItem
         public int TotalStepNum;
         public static string ReportSavePath;
 
-        private static int FirstOrderCnt = Enum.GetNames(typeof(FirstTestOrder)).Length;
+        // 첫 줄 기본 정보 삽입을 위해 배열의 크기 1+
+        private static int FirstOrderCnt = Enum.GetNames(typeof(FirstTestOrder)).Length + 1;
+        private static int SecondOrderCnt = Enum.GetNames(typeof(SecondTestOrder)).Length + 1;
         public static string[][] FirstOrder = new string[FirstOrderCnt][];
+        public static string[][] SecondOrder = new string[SecondOrderCnt][];
 
         protected (string, string) resultData = ("판단 불가", "불합격");
         public StringBuilder TestLog;
+
+        /**
+         *  @brief 양산 테스트 데이터 배열 초기화
+         *  @details 양산 테스트 데이터가 담긴 배열을 초기화한다
+         *  
+         *  @param 
+         *  
+         *  @return 
+         */
+        public static void FirstOrderInit()
+        {
+            // 맨 앞쪽 데이터 4개(기본정보, 절연저항, 절연내압, 전원 공급)는 패스
+            for(int i = 4; i < FirstOrderCnt; i++)
+            {
+                FirstOrder[i][2] = "판단 불가";
+                FirstOrder[i][3] = "불합격";
+            }
+        }
+        /**
+         *  @brief 출하 테스트 데이터 배열 초기화
+         *  @details 출하 테스트 데이터가 담긴 배열을 초기화한다
+         *  
+         *  @param 
+         *  
+         *  @return 
+         */
+        public static void SecondOrderInit()
+        {
+            for (int i = 0; i < SecondOrderCnt; i++)
+            {
+                SecondOrder[i][2] = "판단 불가";
+                SecondOrder[i][3] = "불합격";
+            }
+        }
 
         // AC 설정
         protected StateFlag AcSourceSet(double acv, double acc, double freq)
@@ -333,7 +371,12 @@ namespace J_Project.ViewModel.TestItem
         {
             CsvReport csvReport = CsvReport.GetObj();
 
-            StateFlag saveState = csvReport.ReportSave(ReportSavePath, Order.ToString(), testName, resultData.Value.Item1, resultData.Value.Item2);
+            List<string[]> testList = csvReport.CsvReader(ReportSavePath);
+
+            testList[Order][2] = resultData.Value.Item1;    // 테스트 값
+            testList[Order][3] = resultData.Value.Item2;    // 테스트 결과
+
+            StateFlag saveState = csvReport.ReportSave(ReportSavePath, testList);
 
             return saveState;
         }
