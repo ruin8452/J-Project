@@ -177,24 +177,6 @@ namespace J_Project.FileSystem
         }
 
         /**
-         *  @brief 테스트 결과 필터링
-         *  @details 경로에 있는 보고서 파일을 검사하여 합불 여부 판단
-         *  
-         *  @param string path - 파일 경로
-         *  
-         *  @return string 합격 또는 불합격
-         */
-        public string TestResultFilter(string path)
-        {
-            foreach(var data in CsvReader(path))
-            {
-                if (data.Contains("불합격"))
-                    return "불합격";
-            }
-            return "합격";
-        }
-
-        /**
          *  @brief 불합격한 테스트 필터링
          *  @details 경로에 있는 보고서 파일을 검사하여 불합격한 테스트를 필터링 하는 함수
          *  

@@ -1,6 +1,6 @@
-﻿using J_Project.Equipment;
+﻿using GalaSoft.MvvmLight.Command;
+using J_Project.Equipment;
 using J_Project.Manager;
-using J_Project.ViewModel.CommandClass;
 using NPOI.HPSF;
 using PropertyChanged;
 using System;
@@ -25,25 +25,41 @@ namespace J_Project.ViewModel.SubWindow
         public bool ParalFlag { get; set; }
         public bool BatFlag { get; set; }
 
-        public ICommand LoadedCommand { get; set; }
-        public ICommand AllCheckCommand { get; set; }
-        public ICommand OkCommand { get; set; }
+        public RelayCommand<object> LoadedCommand { get; set; }
+        public RelayCommand AllCheckCommand { get; set; }
+        public RelayCommand OkCommand { get; set; }
 
         Window window;
 
         public ConnecterWinViewModel()
         {
-            LoadedCommand = new BaseObjCommand(SubWinLoad);
-            AllCheckCommand = new BaseCommand(AllFlagOn);
-            OkCommand = new BaseCommand(Ok);
+            LoadedCommand = new RelayCommand<object>(SubWinLoad);
+            AllCheckCommand = new RelayCommand(AllFlagOn);
+            OkCommand = new RelayCommand(Ok);
         }
 
+        /**
+         *  @brief 윈도우 로드
+         *  @details 현재의 서브 윈도우의 객체를 얻는다
+         *  
+         *  @param object obj - 윈도우 객체
+         *  
+         *  @return
+         */
         private void SubWinLoad(object obj)
         {
             if (obj is Window window)
                 this.window = window;
         }
 
+        /**
+         *  @brief 플래그 체크
+         *  @details 모든 플래그를 true 처리(단축키 A 처리시 동작)
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         private void AllFlagOn()
         {
             DcOut1Flag = true;
@@ -54,6 +70,15 @@ namespace J_Project.ViewModel.SubWindow
             BatFlag = true;
         }
 
+        /**
+         *  @brief 확인 버튼 클릭
+         *  @details 확인 버튼 클릭시 동작
+         *           정상 입력 확인 후 합불 처리
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         private void Ok()
         {
             MessageBoxResult result = MessageBox.Show("입력하신 정보가 맞습니까?", "확인", MessageBoxButton.YesNo);

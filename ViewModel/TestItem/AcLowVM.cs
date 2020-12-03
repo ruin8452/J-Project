@@ -2,12 +2,10 @@
 using J_Project.Equipment;
 using J_Project.Manager;
 using J_Project.TestMethod;
-using J_Project.ViewModel.CommandClass;
 using J_Project.ViewModel.SubWindow;
 using System;
 using System.Collections.ObjectModel;
 using System.Text;
-using System.Windows.Input;
 using System.Windows.Media;
 
 namespace J_Project.ViewModel.TestItem
@@ -60,8 +58,8 @@ namespace J_Project.ViewModel.TestItem
             Option = TestOption.GetObj();
             ButtonColor = new ObservableCollection<SolidColorBrush>();
 
-            FirstOrder[TestOrterNum] = new string[] { TestOrterNum.ToString(), TestName, "판단불가", "불합격" };
-            FirstOrder[TestOrterNum1] = new string[] { TestOrterNum1.ToString(), TestName, "판단불가", "불합격" };
+            FirstOrder[TestOrterNum] = new string[] { TestOrterNum.ToString(), TestName + "1", "판단불가", "불합격" };
+            FirstOrder[TestOrterNum1] = new string[] { TestOrterNum1.ToString(), TestName + "2", "판단불가", "불합격" };
 
             for (int i = 0; i < TotalStepNum; i++)
                 ButtonColor.Add(Brushes.White);
@@ -438,12 +436,12 @@ namespace J_Project.ViewModel.TestItem
             Dmm1 dmm = Dmm1.GetObj();
             double voltCheck = double.NaN;
 
-            for (int i = 0; i < timing; i++)
+            for (int i = 1; i <= timing; i++)
             {
                 Util.Delay(1);  // 설정 제한시간 후 체크
                 voltCheck = Math.Round(dmm.DcVolt, 3);
 
-                TestLog.AppendLine($"- {timing + 1}초 : {voltCheck}");
+                TestLog.AppendLine($"- {timing}초 : {voltCheck}");
 
                 if (voltCheck >= minVolt && voltCheck <= maxVolt)
                     break;
@@ -453,6 +451,7 @@ namespace J_Project.ViewModel.TestItem
             TestLog.AppendLine($"- 최대 전압 : {maxVolt}");
             TestLog.AppendLine($"- 측정 전압 : {voltCheck}");
 
+            // 테스트 조건 검사
             if (minVolt <= voltCheck && voltCheck <= maxVolt)
             {
                 TestLog.AppendLine($"- 테스트 합격");

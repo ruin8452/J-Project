@@ -3,12 +3,10 @@ using J_Project.Equipment;
 using J_Project.FileSystem;
 using J_Project.Manager;
 using J_Project.TestMethod;
-using J_Project.ViewModel.CommandClass;
 using J_Project.ViewModel.SubWindow;
 using System;
 using System.Collections.ObjectModel;
 using System.Text;
-using System.Windows.Input;
 using System.Windows.Media;
 
 namespace J_Project.ViewModel.TestItem
@@ -263,8 +261,10 @@ namespace J_Project.ViewModel.TestItem
                 return StateFlag.BATTERY_COMM_ERR;
             }
 
+            // 8개의 배터리를 검사
             for (int i = 0; i < rect.BatteryComm.Count; i++)
             {
+                // 연결되어 있지 않으면 패스
                 if (!rect.BatteryComm[i]) continue;
 
                 TestLog.AppendLine($"- {i + 1}번 배터리 연결 확인");
@@ -273,12 +273,14 @@ namespace J_Project.ViewModel.TestItem
                 batEx = (byte)(1 << i);
                 batCmd = (ushort)(batFail << 8 | batEx);
 
+                // 시도 횟수만큼 반복
                 for (int j = 0; j < MAX_TRY_COUNT; j++)
                 {
                     rect.RectCommand(CommandList.BATTERY_TEST, 1, batCmd); // 1 : 메뉴얼모드
                     TestLog.AppendLine($"- {i + 1}번 배터리 컨트롤 시도");
                     Util.Delay(1);
 
+                    // 테스트 조건 검사
                     if (rect.Flag_BatFail && rect.Flag_BatEx == false)
                     {
                         TestLog.AppendLine($"- 테스트 실패 : {i + 1}번 배터리 통신 실패");

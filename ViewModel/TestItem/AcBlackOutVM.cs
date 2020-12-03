@@ -2,12 +2,10 @@
 using J_Project.Equipment;
 using J_Project.Manager;
 using J_Project.TestMethod;
-using J_Project.ViewModel.CommandClass;
 using J_Project.ViewModel.SubWindow;
 using System;
 using System.Collections.ObjectModel;
 using System.Text;
-using System.Windows.Input;
 using System.Windows.Media;
 
 namespace J_Project.ViewModel.TestItem
@@ -167,6 +165,8 @@ namespace J_Project.ViewModel.TestItem
 
                     double acVolt = PowerMeter.GetObj().AcVolt;
                     TestLog.AppendLine($"- AC : {acVolt}");
+
+                    // 값이 오차 이내 인지 검사(오차 이내이면 값을 조정할 필요 없이 바로 다음 단계로)
                     if (Math.Abs(AcBlackOut.AcVoltInit[caseNumber] - acVolt) <= AC_ERR_RANGE)
                     {
                         result = StateFlag.PASS;
@@ -179,6 +179,7 @@ namespace J_Project.ViewModel.TestItem
                         result = AcSourceSet(AcBlackOut.AcVoltInit[caseNumber], AcBlackOut.AcCurrInit[caseNumber], AcBlackOut.AcFreqInit[caseNumber]);
                         TestLog.AppendLine($"- AC 세팅 결과 : {result}");
 
+                        // AC 설정 실패 시 테스트 실패, 결과 저장 부분으로 점프
                         if (result != StateFlag.PASS)
                         {
                             jumpStepNum = (int)Seq.RESULT_SAVE;
@@ -198,6 +199,7 @@ namespace J_Project.ViewModel.TestItem
                         result = AcCtrlWin(AcBlackOut.AcVoltInit[caseNumber], AC_ERR_RANGE, AcCheckMode.NORMAL);
                         TestLog.AppendLine($"- AC 전원 결과 : {result}\n");
 
+                        // AC 설정 실패 시 테스트 실패, 결과 저장 부분으로 점프
                         if (result != StateFlag.PASS)
                             jumpStepNum = (int)Seq.RESULT_SAVE;
                     }
@@ -214,6 +216,8 @@ namespace J_Project.ViewModel.TestItem
 
                     double loadVolt = Dmm2.GetObj().DcVolt;
                     TestLog.AppendLine($"- DC : {loadVolt}");
+
+                    // 값이 오차 이내 인지 검사(오차 이내이면 값을 조정할 필요 없이 바로 다음 단계로)
                     if (Math.Abs(AcBlackOut.LoadCurr[caseNumber] - loadVolt) <= LOAD_ERR_RANGE)
                     {
                         result = StateFlag.PASS;
@@ -225,6 +229,7 @@ namespace J_Project.ViewModel.TestItem
                         result = LoadCurrSet(AcBlackOut.LoadCurr[caseNumber]);
                         TestLog.AppendLine($"- 부하 세팅 결과 : {result}");
 
+                        // 부하 설정 실패 시 테스트 실패, 결과 저장 부분으로 점프
                         if (result != StateFlag.PASS)
                         {
                             jumpStepNum = (int)Seq.RESULT_SAVE;
@@ -244,6 +249,7 @@ namespace J_Project.ViewModel.TestItem
                         result = LoadCtrlWin(AcBlackOut.LoadCurr[caseNumber], LOAD_ERR_RANGE, LoadCheckMode.NORMAL);
                         TestLog.AppendLine($"- 부하 전원 결과 : {result}\n");
 
+                        // 부하 설정 실패 시 테스트 실패, 결과 저장 부분으로 점프
                         if (result != StateFlag.PASS)
                             jumpStepNum = (int)Seq.RESULT_SAVE;
                     }
@@ -433,12 +439,12 @@ namespace J_Project.ViewModel.TestItem
             Dmm1 dmm = Dmm1.GetObj();
             double voltCheck = double.NaN;
 
-            for (int i = 0; i < timing; i++)
+            for (int i = 1; i <= timing; i++)
             {
                 Util.Delay(1);  // 설정 제한시간 후 체크
                 voltCheck = Math.Round(dmm.DcVolt, 3);
 
-                TestLog.AppendLine($"- {timing + 1}초 : {voltCheck}");
+                TestLog.AppendLine($"- {timing}초 : {voltCheck}");
 
                 if (voltCheck >= minVolt && voltCheck <= maxVolt)
                     break;
@@ -448,6 +454,7 @@ namespace J_Project.ViewModel.TestItem
             TestLog.AppendLine($"- 최대 전압 : {maxVolt}");
             TestLog.AppendLine($"- 측정 전압 : {voltCheck}");
 
+            // 테스트 조건 검사
             if (minVolt <= voltCheck && voltCheck <= maxVolt)
             {
                 TestLog.AppendLine($"- 테스트 합격");

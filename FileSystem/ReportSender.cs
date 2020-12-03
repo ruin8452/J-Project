@@ -18,7 +18,7 @@ namespace J_Project.FileSystem
      *  @date 2020.02.25
      *  @version 1.0.0
      */
-    public class ReportSend
+    public class ReportSender
     {
         public static string FIRST_TEST { get { return "FirstTest"; } }
         public static string SECOND_TEST { get { return "SecondTest"; } }
@@ -33,7 +33,7 @@ namespace J_Project.FileSystem
          *  
          *  @return
          */
-        public void SetHttp()
+        private void SetHttp()
         {
             HttpSocket = (HttpWebRequest)WebRequest.Create(string.Format($"http://59.12.34.202:2099/update_Kapjin_TestReport"));
             HttpSocket.Method = WebRequestMethods.Http.Post;
@@ -64,7 +64,7 @@ namespace J_Project.FileSystem
          *  
          *  @return byte[] - 전송할 데이터
          */
-        public byte[] ConvertCvsToJson(string reportType, string filePath)
+        private byte[] ConvertCvsToJson(string reportType, string filePath)
         {
             JArray jDataArr = new JArray();
             List<string[]> DataList = new List<string[]>();
@@ -74,8 +74,6 @@ namespace J_Project.FileSystem
                 DataList.Add(reader.ReadLine().Split(','));
 
             reader.Close();
-
-            //DataList = DataSort(DataList);
 
             foreach (var temp in DataList)
             {
@@ -113,36 +111,6 @@ namespace J_Project.FileSystem
 
             return ms1.ToArray();
         }
-        /**
-         *  @brief 데이터 정렬
-         *  @details 테스트 데이터를 전송하기 위해 순서 및 누락부분을 가공한다.
-         *  
-         *  @param List<string[]> list - 정렬(가공)할 데이터
-         *  
-         *  @return List<string[]> - 정렬(가공)된 데이터
-         */
-        private List<string[]> DataSort(List<string[]> list)
-        {
-            int maxIndex = 0;
-
-            foreach (var item in list)
-                maxIndex = Math.Max(maxIndex, int.Parse(item[0]));
-
-            string[][] tempArr = new string[maxIndex + 1][];
-
-            foreach (var item in list)
-                tempArr[int.Parse(item[0])] = item;
-
-            List<string[]> sortedList = new List<string[]>(tempArr);
-
-            for (int i = 0; i < sortedList.Count; i++)
-            {
-                if (sortedList[i] == null)
-                    sortedList[i] = new string[4] { i.ToString(), "Null Tset", "수행하지 않은 테스트", "불합격" };
-            }
-
-            return sortedList;
-        }
 
         /**
          *  @brief 데이터 전송
@@ -152,7 +120,7 @@ namespace J_Project.FileSystem
          *  
          *  @return string - 전송 결과
          */
-        public string DataSend(byte[] data)
+        private string DataSend(byte[] data)
         {
             HttpSocket.ContentLength = data.Length;
             Stream sender = null;
@@ -184,7 +152,7 @@ namespace J_Project.FileSystem
          *  
          *  @return string - 응답
          */
-        public string DataReceive()
+        private string DataReceive()
         {
             string result = null;
             Stream receiver = null;
@@ -224,7 +192,7 @@ namespace J_Project.FileSystem
          *  
          *  @return bool - 서버의 응답 결과
          */
-        public bool Deserialize(string str, out string errMessage)
+        private bool Deserialize(string str, out string errMessage)
         {
             Dictionary<string, string> jsonDic = JsonConvert.DeserializeObject<Dictionary<string, string>>(str);
             JObject result = JObject.Parse(jsonDic["update_Kapjin_TestReportResult"]);
@@ -233,6 +201,40 @@ namespace J_Project.FileSystem
             errMessage = (string)result["errMsg"];
 
             return succ;
+        }
+
+        /**
+         *  @brief 보고서 전송
+         *  @details CSV 데이터 -> JSON 객체 -> 바이트 배열로 변환 후 서버에 전송하는 함수
+         *  
+         *  @param string reportType - 보고서 종류(양산, 출하)
+         *  @param string filePath - CSV 파일 경로
+         *  
+         *  @return string - 전송 결과
+         */
+        public string Reporsend(string reportType, string filePath)
+        {
+            SetHttp();
+            byte[] dataByte = ConvertCvsToJson(reportType, filePath);
+            string result = DataSend(dataByte);
+
+            return result;
+        }
+
+        /**
+         *  @brief 응답 수신
+         *  @details 보고서 데이터를 보낸 후 서버로부터의 응답을 받는 함수
+         *  
+         *  @param
+         *  
+         *  @return string - 에러 메세지
+         */
+        public string AnswerReceive()
+        {
+            string result = DataReceive();
+            Deserialize(result, out string errMsg);
+
+            return errMsg;
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using J_Project.Equipment;
 using J_Project.Manager;
-using J_Project.ViewModel.CommandClass;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
@@ -9,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using GalaSoft.MvvmLight.Command;
 
 namespace J_Project.ViewModel
 {
@@ -29,10 +29,10 @@ namespace J_Project.ViewModel
         public Dmm2 Dmm2 { get; set; }
         public Oscilloscope Osc { get; set; }
 
-        public ICommand UnloadPage { get; set; }
-        public ICommand OscSetCommand { get; set; }
-        public ICommand Dmm1SetCommand { get; set; }
-        public ICommand Dmm2SetCommand { get; set; }
+        public RelayCommand UnloadPage { get; set; }
+        public RelayCommand OscSetCommand { get; set; }
+        public RelayCommand Dmm1SetCommand { get; set; }
+        public RelayCommand Dmm2SetCommand { get; set; }
 
         public TestSettingPageVM()
         {
@@ -42,10 +42,10 @@ namespace J_Project.ViewModel
             Dmm2 = Dmm2.GetObj();
             Osc = Oscilloscope.GetObj();
 
-            UnloadPage = new BaseCommand(DataSave);
-            OscSetCommand = new BaseCommand(OscSetting);
-            Dmm1SetCommand = new BaseCommand(Dmm1Setting);
-            Dmm2SetCommand = new BaseCommand(Dmm2Setting);
+            UnloadPage = new RelayCommand(DataSave);
+            OscSetCommand = new RelayCommand(OscSetting);
+            Dmm1SetCommand = new RelayCommand(Dmm1Setting);
+            Dmm2SetCommand = new RelayCommand(Dmm2Setting);
         }
 
         /**

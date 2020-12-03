@@ -1,6 +1,6 @@
-﻿using J_Project.Equipment;
+﻿using GalaSoft.MvvmLight.Command;
+using J_Project.Equipment;
 using J_Project.Manager;
-using J_Project.ViewModel.CommandClass;
 using NPOI.HPSF;
 using PropertyChanged;
 using System;
@@ -27,44 +27,60 @@ namespace J_Project.ViewModel.SubWindow
         public bool GreenLightFlag { get; set; }
         public bool GreenBlinkFlag { get; set; }
 
-        public ICommand LoadedCommand { get; set; }
-        public ICommand EnterCommand { get; set; }
-        public ICommand EscCommand { get; set; }
+        public RelayCommand<object> LoadedCommand { get; set; }
+        public RelayCommand EnterCommand { get; set; }
+        public RelayCommand EscCommand { get; set; }
 
-        public ICommand RedLightCommand { get; set; }
-        public ICommand RedBlinkCommand { get; set; }
-        public ICommand YellowLightCommand { get; set; }
-        public ICommand YellowBlinkCommand { get; set; }
-        public ICommand GreenLightCommand { get; set; }
+        public RelayCommand RedLightCommand { get; set; }
+        public RelayCommand RedBlinkCommand { get; set; }
+        public RelayCommand YellowLightCommand { get; set; }
+        public RelayCommand YellowBlinkCommand { get; set; }
+        public RelayCommand GreenLightCommand { get; set; }
 
-        public ICommand CheckCommand { get; set; }
-        public ICommand OkCommand { get; set; }
-        public ICommand ErrorCommand { get; set; }
+        public RelayCommand CheckCommand { get; set; }
+        public RelayCommand OkCommand { get; set; }
+        public RelayCommand ErrorCommand { get; set; }
 
         Window window;
 
         public LedCheckWinViewModel()
         {
-            LoadedCommand = new BaseObjCommand(SubWinLoad);
-            EnterCommand = new BaseCommand(Ok);
-            EscCommand = new BaseCommand(Error);
+            LoadedCommand = new RelayCommand<object>(SubWinLoad);
+            EnterCommand = new RelayCommand(Ok);
+            EscCommand = new RelayCommand(Error);
 
-            RedLightCommand = new BaseCommand(RedLight);
-            RedBlinkCommand = new BaseCommand(RedBlink);
-            YellowLightCommand = new BaseCommand(YellowLight);
-            YellowBlinkCommand = new BaseCommand(YellowBlink);
-            GreenLightCommand = new BaseCommand(GreenLight);
+            RedLightCommand = new RelayCommand(RedLight);
+            RedBlinkCommand = new RelayCommand(RedBlink);
+            YellowLightCommand = new RelayCommand(YellowLight);
+            YellowBlinkCommand = new RelayCommand(YellowBlink);
+            GreenLightCommand = new RelayCommand(GreenLight);
 
-            OkCommand = new BaseCommand(Ok);
-            ErrorCommand = new BaseCommand(Error);
+            OkCommand = new RelayCommand(Ok);
+            ErrorCommand = new RelayCommand(Error);
         }
 
+        /**
+         *  @brief 윈도우 로드
+         *  @details 현재의 서브 윈도우의 객체를 얻는다
+         *  
+         *  @param object obj - 윈도우 객체
+         *  
+         *  @return
+         */
         private void SubWinLoad(object obj)
         {
             if (obj is Window window)
                 this.window = window;
         }
 
+        /**
+         *  @brief 적색 점등
+         *  @details 정류기에게 LED 적색 점등 명령 전송
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         private void RedLight()
         {
             Rectifier.GetObj().MonitoringStop();
@@ -118,6 +134,14 @@ namespace J_Project.ViewModel.SubWindow
 
             Rectifier.GetObj().MonitoringStart();
         }
+        /**
+         *  @brief 적색 점멸
+         *  @details 정류기에게 LED 적색 점멸 명령 전송
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         private void RedBlink()
         {
             Rectifier.GetObj().MonitoringStop();
@@ -171,6 +195,14 @@ namespace J_Project.ViewModel.SubWindow
 
             Rectifier.GetObj().MonitoringStart();
         }
+        /**
+         *  @brief 황색 점등
+         *  @details 정류기에게 LED 황색 점등 명령 전송
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         private void YellowLight()
         {
             Rectifier.GetObj().MonitoringStop();
@@ -224,6 +256,14 @@ namespace J_Project.ViewModel.SubWindow
 
             Rectifier.GetObj().MonitoringStart();
         }
+        /**
+         *  @brief 황색 점멸
+         *  @details 정류기에게 LED 황색 점멸 명령 전송
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         private void YellowBlink()
         {
             Rectifier.GetObj().MonitoringStop();
@@ -277,6 +317,14 @@ namespace J_Project.ViewModel.SubWindow
 
             Rectifier.GetObj().MonitoringStart();
         }
+        /**
+         *  @brief 녹색 점등
+         *  @details 정류기에게 LED 녹색 점등 명령 전송
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         private void GreenLight()
         {
             Rectifier.GetObj().MonitoringStop();
@@ -329,6 +377,14 @@ namespace J_Project.ViewModel.SubWindow
             Rectifier.GetObj().MonitoringStart();
         }
 
+        /**
+         *  @brief 확인 버튼 클릭
+         *  @details 확인 버튼 클릭 시 합격 처리
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         private void Ok()
         {
             PassOrFail = true;
@@ -340,6 +396,14 @@ namespace J_Project.ViewModel.SubWindow
             GreenLight();
             window.Close();
         }
+        /**
+         *  @brief 취소 버튼 클릭
+         *  @details 취소 버튼 클릭 시 불합격 처리
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         private void Error()
         {
             PassOrFail = false;

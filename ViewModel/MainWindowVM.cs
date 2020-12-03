@@ -2,7 +2,6 @@
 using J_Project.Equipment;
 using J_Project.FileSystem;
 using J_Project.Manager;
-using J_Project.ViewModel.CommandClass;
 using PropertyChanged;
 using System;
 using System.Diagnostics;
@@ -36,7 +35,7 @@ namespace J_Project.ViewModel
 
         public DateTime PcTime { get; set; }
 
-        public string GuiVersion { get; set; } = "200626.1.0.14";    // 날짜.메인.서브.패치
+        public string GuiVersion { get; set; } = "201211.1.1.2";    // 날짜.메인.서브.패치
 
         public RelayCommand ClosingCommand { get; set; }
         public RelayCommand OpenCvsFolderCommand { get; set; }

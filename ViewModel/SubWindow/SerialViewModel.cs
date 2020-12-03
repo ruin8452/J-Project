@@ -1,11 +1,9 @@
-﻿using J_Project.Equipment;
+﻿using GalaSoft.MvvmLight.Command;
+using J_Project.Equipment;
 using J_Project.Manager;
-using J_Project.ViewModel.CommandClass;
 using PropertyChanged;
 using System;
 using System.Windows;
-using System.Windows.Input;
-using System.Windows.Media;
 
 namespace J_Project.ViewModel.SubWindow
 {
@@ -20,24 +18,32 @@ namespace J_Project.ViewModel.SubWindow
 
         public static bool CtrlResult = false;
 
-        public ICommand LoadedCommand { get; set; }
-        public ICommand InputQRCommand { get; set; }
-        public ICommand QRTextChangeCommand { get; set; }
-        public ICommand CompleteCommand { get; set; }
-        public ICommand CancelCommand { get; set; }
+        public RelayCommand<object> LoadedCommand { get; set; }
+        public RelayCommand InputQRCommand { get; set; }
+        public RelayCommand<object> QRTextChangeCommand { get; set; }
+        public RelayCommand CompleteCommand { get; set; }
+        public RelayCommand CancelCommand { get; set; }
 
         Window window;
 
         public SerialViewModel()
         {
             Rect = Rectifier.GetObj();
-            LoadedCommand = new BaseObjCommand(SubWinLoad);
-            InputQRCommand = new BaseCommand(SerialSave);
-            QRTextChangeCommand = new BaseObjCommand(SubstringSerial);
-            CompleteCommand = new BaseCommand(CtrlValueCheck);
-            CancelCommand = new BaseCommand(CtrlCancel);
+            LoadedCommand = new RelayCommand<object>(SubWinLoad);
+            InputQRCommand = new RelayCommand(SerialSave);
+            QRTextChangeCommand = new RelayCommand<object>(SubstringSerial);
+            CompleteCommand = new RelayCommand(CtrlValueCheck);
+            CancelCommand = new RelayCommand(CtrlCancel);
         }
 
+        /**
+         *  @brief 확인 버튼 클릭
+         *  @details 확인 버튼 클릭 시 합격 처리
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         private void SubWinLoad(object obj)
         {
             if (obj is Window window)

@@ -2,12 +2,10 @@
 using J_Project.Equipment;
 using J_Project.Manager;
 using J_Project.TestMethod;
-using J_Project.ViewModel.CommandClass;
 using J_Project.ViewModel.SubWindow;
 using System;
 using System.Collections.ObjectModel;
 using System.Text;
-using System.Windows.Input;
 using System.Windows.Media;
 
 namespace J_Project.ViewModel.TestItem
@@ -58,8 +56,8 @@ namespace J_Project.ViewModel.TestItem
             Option = TestOption.GetObj();
             ButtonColor = new ObservableCollection<SolidColorBrush>();
 
-            FirstOrder[TestOrterNum] = new string[] { TestOrterNum.ToString(), TestName, "판단불가", "불합격" };
-            FirstOrder[TestOrterNum1] = new string[] { TestOrterNum1.ToString(), TestName, "판단불가", "불합격" };
+            FirstOrder[TestOrterNum] = new string[] { TestOrterNum.ToString(), TestName + "1", "판단불가", "불합격" };
+            FirstOrder[TestOrterNum1] = new string[] { TestOrterNum1.ToString(), TestName + "2", "판단불가", "불합격" };
 
             for (int i = 0; i < TotalStepNum; i++)
                 ButtonColor.Add(Brushes.White);

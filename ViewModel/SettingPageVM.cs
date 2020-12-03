@@ -1,9 +1,9 @@
-﻿using Ivi.Visa;
+﻿using GalaSoft.MvvmLight.Command;
+using Ivi.Visa;
 using J_Project.Communication.CommFlags;
 using J_Project.Data;
 using J_Project.Equipment;
 using J_Project.Manager;
-using J_Project.ViewModel.CommandClass;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using NationalInstruments.Visa;
 using PropertyChanged;
@@ -47,34 +47,34 @@ namespace J_Project.ViewModel
         public Rectifier Rect { get; set; }
         public Remote Rmt { get; set; }
 
-        public ICommand DcOnCommand { get; set; }
-        public ICommand DcOffCommand { get; set; }
+        public RelayCommand DcOnCommand { get; set; }
+        public RelayCommand DcOffCommand { get; set; }
 
-        public ICommand AcConnectClickCommand { get; set; }
-        public ICommand DcConnectClickCommand { get; set; }
-        public ICommand LoadConnectClickCommand { get; set; }
-        public ICommand PmConnectClickCommand { get; set; }
-        public ICommand Dmm1ConnectClickCommand { get; set; }
-        public ICommand Dmm2ConnectClickCommand { get; set; }
-        public ICommand OscConnectClickCommand { get; set; }
-        public ICommand RectConnectClickCommand { get; set; }
-        public ICommand RemoteConnectClickCommand { get; set; }
+        public RelayCommand<string> AcConnectClickCommand { get; set; }
+        public RelayCommand<string> DcConnectClickCommand { get; set; }
+        public RelayCommand<string> LoadConnectClickCommand { get; set; }
+        public RelayCommand<string> PmConnectClickCommand { get; set; }
+        public RelayCommand<string> Dmm1ConnectClickCommand { get; set; }
+        public RelayCommand<string> Dmm2ConnectClickCommand { get; set; }
+        public RelayCommand<string> OscConnectClickCommand { get; set; }
+        public RelayCommand<string> RectConnectClickCommand { get; set; }
+        public RelayCommand<string> RemoteConnectClickCommand { get; set; }
 
-        public ICommand AcDisConnectClickCommand { get; set; }
-        public ICommand DcDisConnectClickCommand { get; set; }
-        public ICommand LoadDisConnectClickCommand { get; set; }
-        public ICommand PmDisConnectClickCommand { get; set; }
-        public ICommand Dmm1DisConnectClickCommand { get; set; }
-        public ICommand Dmm2DisConnectClickCommand { get; set; }
-        public ICommand OscDisConnectClickCommand { get; set; }
-        public ICommand RectDisConnectClickCommand { get; set; }
-        public ICommand RemoteDisConnectClickCommand { get; set; }
+        public RelayCommand AcDisConnectClickCommand { get; set; }
+        public RelayCommand DcDisConnectClickCommand { get; set; }
+        public RelayCommand LoadDisConnectClickCommand { get; set; }
+        public RelayCommand PmDisConnectClickCommand { get; set; }
+        public RelayCommand Dmm1DisConnectClickCommand { get; set; }
+        public RelayCommand Dmm2DisConnectClickCommand { get; set; }
+        public RelayCommand OscDisConnectClickCommand { get; set; }
+        public RelayCommand RectDisConnectClickCommand { get; set; }
+        public RelayCommand RemoteDisConnectClickCommand { get; set; }
 
-        public ICommand IdListRenewalCommand { get; set; }
-        public ICommand AllConnectClickCommand { get; set; }
-        public ICommand AllDisConnectClickCommand { get; set; }
+        public RelayCommand IdListRenewalCommand { get; set; }
+        public RelayCommand AllConnectClickCommand { get; set; }
+        public RelayCommand AllDisConnectClickCommand { get; set; }
 
-        public ICommand EquiIdInfoSaveCommand { get; set; }
+        public RelayCommand EquiIdInfoSaveCommand { get; set; }
 
         public SettingPageVM()
         {
@@ -94,34 +94,34 @@ namespace J_Project.ViewModel
             EquiIdList = new ObservableCollection<string>(MakeEquiIdList());
             EquiIdTreeItems = new ObservableCollection<TreeViewItem>(MakeEquiIdTreeItems());
 
-            DcOnCommand = new BaseCommand(DcOn);
-            DcOffCommand = new BaseCommand(DcOff);
+            DcOnCommand = new RelayCommand(DcOn);
+            DcOffCommand = new RelayCommand(DcOff);
 
-            AcConnectClickCommand = new ComboCommand(AcConnect);
-            DcConnectClickCommand = new ComboCommand(DcConnect);
-            LoadConnectClickCommand = new ComboCommand(LoadConnect);
-            PmConnectClickCommand = new ComboCommand(PmConnect);
-            Dmm1ConnectClickCommand = new ComboCommand(Dmm1Connect);
-            Dmm2ConnectClickCommand = new ComboCommand(Dmm2Connect);
-            OscConnectClickCommand = new ComboCommand(OscConnect);
-            RectConnectClickCommand = new ComboCommand(RectConnect);
-            RemoteConnectClickCommand = new ComboCommand(RemoteConnect);
+            AcConnectClickCommand = new RelayCommand<string>(AcConnect);
+            DcConnectClickCommand = new RelayCommand<string>(DcConnect);
+            LoadConnectClickCommand = new RelayCommand<string>(LoadConnect);
+            PmConnectClickCommand = new RelayCommand<string>(PmConnect);
+            Dmm1ConnectClickCommand = new RelayCommand<string>(Dmm1Connect);
+            Dmm2ConnectClickCommand = new RelayCommand<string>(Dmm2Connect);
+            OscConnectClickCommand = new RelayCommand<string>(OscConnect);
+            RectConnectClickCommand = new RelayCommand<string>(RectConnect);
+            RemoteConnectClickCommand = new RelayCommand<string>(RemoteConnect);
 
-            AcDisConnectClickCommand = new BaseCommand(AcDisConnect);
-            DcDisConnectClickCommand = new BaseCommand(DcDisConnect);
-            LoadDisConnectClickCommand = new BaseCommand(LoadDisConnect);
-            PmDisConnectClickCommand = new BaseCommand(PmDisConnect);
-            Dmm1DisConnectClickCommand = new BaseCommand(Dmm1DisConnect);
-            Dmm2DisConnectClickCommand = new BaseCommand(Dmm2DisConnect);
-            OscDisConnectClickCommand = new BaseCommand(OscDisConnect);
-            RectDisConnectClickCommand = new BaseCommand(RectDisConnect);
-            RemoteDisConnectClickCommand = new BaseCommand(RemoteDisConnect);
+            AcDisConnectClickCommand = new RelayCommand(AcDisConnect);
+            DcDisConnectClickCommand = new RelayCommand(DcDisConnect);
+            LoadDisConnectClickCommand = new RelayCommand(LoadDisConnect);
+            PmDisConnectClickCommand = new RelayCommand(PmDisConnect);
+            Dmm1DisConnectClickCommand = new RelayCommand(Dmm1DisConnect);
+            Dmm2DisConnectClickCommand = new RelayCommand(Dmm2DisConnect);
+            OscDisConnectClickCommand = new RelayCommand(OscDisConnect);
+            RectDisConnectClickCommand = new RelayCommand(RectDisConnect);
+            RemoteDisConnectClickCommand = new RelayCommand(RemoteDisConnect);
 
-            IdListRenewalCommand = new BaseCommand(IdListRenewalClick);
-            AllConnectClickCommand = new BaseCommand(AllConnect);
-            AllDisConnectClickCommand = new BaseCommand(AllDisConnect);
+            IdListRenewalCommand = new RelayCommand(IdListRenewalClick);
+            AllConnectClickCommand = new RelayCommand(AllConnect);
+            AllDisConnectClickCommand = new RelayCommand(AllDisConnect);
 
-            EquiIdInfoSaveCommand = new BaseCommand(SaveEquiIdInfo);
+            EquiIdInfoSaveCommand = new RelayCommand(SaveEquiIdInfo);
 
             if (EquiId.AutoConnect)
                 AllConnectClickCommand.Execute(null);

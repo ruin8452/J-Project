@@ -1,13 +1,7 @@
-﻿using J_Project.Equipment;
-using J_Project.ViewModel.CommandClass;
+﻿using GalaSoft.MvvmLight.Command;
+using J_Project.Equipment;
 using PropertyChanged;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Input;
 
 namespace J_Project.ViewModel.SubWindow
 {
@@ -18,12 +12,12 @@ namespace J_Project.ViewModel.SubWindow
 
         public Rectifier Rect { get; set; }
 
-        public ICommand LoadedCommand { get; set; }
-        public ICommand EnterCommand { get; set; }
-        public ICommand EscCommand { get; set; }
+        public RelayCommand<object> LoadedCommand { get; set; }
+        public RelayCommand EnterCommand { get; set; }
+        public RelayCommand EscCommand { get; set; }
 
-        public ICommand OkCommand { get; set; }
-        public ICommand ErrorCommand { get; set; }
+        public RelayCommand OkCommand { get; set; }
+        public RelayCommand ErrorCommand { get; set; }
 
         Window window;
 
@@ -31,27 +25,51 @@ namespace J_Project.ViewModel.SubWindow
         {
             Rect = Rectifier.GetObj();
 
-            LoadedCommand = new BaseObjCommand(SubWinLoad);
-            EnterCommand = new BaseCommand(Ok);
-            EscCommand = new BaseCommand(Error);
+            LoadedCommand = new RelayCommand<object>(SubWinLoad);
+            EnterCommand = new RelayCommand(Ok);
+            EscCommand = new RelayCommand(Error);
 
-            OkCommand = new BaseCommand(Ok);
-            ErrorCommand = new BaseCommand(Error);
+            OkCommand = new RelayCommand(Ok);
+            ErrorCommand = new RelayCommand(Error);
 
             //Rect.Connect("COM21", 9600);
         }
 
+        /**
+         *  @brief 윈도우 로드
+         *  @details 현재의 서브 윈도우의 객체를 얻는다
+         *  
+         *  @param object obj - 윈도우 객체
+         *  
+         *  @return
+         */
         private void SubWinLoad(object obj)
         {
             if (obj is Window window)
                 this.window = window;
         }
 
+        /**
+         *  @brief 확인 버튼 클릭
+         *  @details 확인 버튼 클릭 시 합격 처리
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         private void Ok()
         {
             PassOrFail = true;
             window.Close();
         }
+        /**
+         *  @brief 취소 버튼 클릭
+         *  @details 취소 버튼 클릭 시 불합격 처리
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         private void Error()
         {
             PassOrFail = false;

@@ -273,9 +273,6 @@
     <Compile Include="UI\BindConverterClass\ButtonTextColorConverter.cs" />
     <Compile Include="UI\BindConverterClass\ErrorToColorConverter.cs" />
     <Compile Include="UI\BindConverterClass\PassThroughConverter.cs" />
-    <Compile Include="UI\CommandClass\BaseCommand.cs" />
-    <Compile Include="UI\CommandClass\BaseObjCommand.cs" />
-    <Compile Include="UI\CommandClass\ComboCommand.cs" />
     <Compile Include="UI\MainWindow\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>

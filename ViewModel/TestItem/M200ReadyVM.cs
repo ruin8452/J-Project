@@ -2,13 +2,11 @@
 using J_Project.Equipment;
 using J_Project.Manager;
 using J_Project.TestMethod;
-using J_Project.ViewModel.CommandClass;
 using J_Project.ViewModel.SubWindow;
 using PropertyChanged;
 using System;
 using System.Collections.ObjectModel;
 using System.Text;
-using System.Windows.Input;
 using System.Windows.Media;
 
 namespace J_Project.ViewModel.TestItem

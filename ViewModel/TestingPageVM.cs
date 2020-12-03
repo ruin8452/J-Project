@@ -6,7 +6,6 @@ using J_Project.Manager;
 using J_Project.Manager.EventArgsClass;
 using J_Project.UI.SubWindow;
 using J_Project.UI.TestSeq.Execution;
-using J_Project.ViewModel.CommandClass;
 using J_Project.ViewModel.SubWindow;
 using J_Project.ViewModel.TestItem;
 using PropertyChanged;
@@ -20,9 +19,8 @@ using System.Text;
 using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Threading;
+using GalaSoft.MvvmLight.Command;
 using Timer = System.Timers.Timer;
 
 namespace J_Project.ViewModel
@@ -90,26 +88,26 @@ namespace J_Project.ViewModel
         public double ScrollViewportWidth { get; set; }
         public double ScrollHorizontalOffset { get; set; }
 
-        public ICommand TreeItemSelectedCommand { get; set; }
-        public ICommand ScrollView { get; set; }
+        public RelayCommand<object> TreeItemSelectedCommand { get; set; }
+        public RelayCommand<object> ScrollView { get; set; }
 
-        public ICommand AutoTestStartCommand { get; set; }
-        public ICommand AutoTestPauseCommand { get; set; }
-        public ICommand AutoTestStopCommand { get; set; }
+        public RelayCommand AutoTestStartCommand { get; set; }
+        public RelayCommand AutoTestPauseCommand { get; set; }
+        public RelayCommand AutoTestStopCommand { get; set; }
 
-        public ICommand AllCheckCommand { get; set; }
-        public ICommand AllUncheckCommand { get; set; }
+        public RelayCommand AllCheckCommand { get; set; }
+        public RelayCommand AllUncheckCommand { get; set; }
 
-        public ICommand ResetCommand { get; set; }
-        public ICommand CalResetCommand { get; set; }
-        public ICommand LogRenewalCommand { get; set; }
+        public RelayCommand ResetCommand { get; set; }
+        public RelayCommand CalResetCommand { get; set; }
+        public RelayCommand LogRenewalCommand { get; set; }
 
-        public ICommand NodeUpCommand { get; set; }
-        public ICommand NodeDownCommand { get; set; }
+        public RelayCommand<object> NodeUpCommand { get; set; }
+        public RelayCommand<object> NodeDownCommand { get; set; }
 
-        public ICommand FirstSendCommand { get; set; }
-        public ICommand SecondSendCommand { get; set; }
-        public ICommand CsvConverterCommand { get; set; }
+        public RelayCommand FirstSendCommand { get; set; }
+        public RelayCommand SecondSendCommand { get; set; }
+        public RelayCommand CsvConverterCommand { get; set; }
 
         public TestingPageVM(string testType)
         {
@@ -143,26 +141,26 @@ namespace J_Project.ViewModel
             PauseBtnBrush = Gray;
             StopBtnBrush  = Gray;
 
-            TreeItemSelectedCommand = new BaseObjCommand(TreeViewSelected);
-            ScrollView = new BaseObjCommand(AutoScrolling);
+            TreeItemSelectedCommand = new RelayCommand<object>(TreeViewSelected);
+            ScrollView = new RelayCommand<object>(AutoScrolling);
 
-            AutoTestStartCommand = new BaseCommand(StartClick);
-            AutoTestPauseCommand = new BaseCommand(PauseClick);
-            AutoTestStopCommand = new BaseCommand(StopClick);
+            AutoTestStartCommand = new RelayCommand(StartClick);
+            AutoTestPauseCommand = new RelayCommand(PauseClick);
+            AutoTestStopCommand = new RelayCommand(StopClick);
 
-            AllCheckCommand = new BaseCommand(TreeItemAllCheck);
-            AllUncheckCommand = new BaseCommand(TreeItemAllUnCheck);
+            AllCheckCommand = new RelayCommand(TreeItemAllCheck);
+            AllUncheckCommand = new RelayCommand(TreeItemAllUnCheck);
 
-            ResetCommand = new BaseCommand(RectResetCheck);
-            CalResetCommand = new BaseCommand(CalResetCheck);
-            LogRenewalCommand = new BaseCommand(LogRenewal);
+            ResetCommand = new RelayCommand(RectResetCheck);
+            CalResetCommand = new RelayCommand(CalResetCheck);
+            LogRenewalCommand = new RelayCommand(LogRenewal);
 
-            NodeUpCommand = new BaseObjCommand(NodeUp);
-            NodeDownCommand = new BaseObjCommand(NodeDown);
+            NodeUpCommand = new RelayCommand<object>(NodeUp);
+            NodeDownCommand = new RelayCommand<object>(NodeDown);
 
-            FirstSendCommand = new BaseCommand(FirstServerSend);
-            SecondSendCommand = new BaseCommand(SecondServerSend);
-            CsvConverterCommand = new BaseCommand(CsvConverter);
+            FirstSendCommand = new RelayCommand(FirstServerSend);
+            SecondSendCommand = new RelayCommand(SecondServerSend);
+            CsvConverterCommand = new RelayCommand(CsvConverter);
         }
 
         /**
@@ -716,18 +714,16 @@ namespace J_Project.ViewModel
 
             // CSV 파일 다듬기 /////////////////////////////////////////////////////////////
             List<string[]> csvList = csvReport.CsvReader(csvSavePath);
+            List<string> failList = csvReport.FailTest(csvSavePath);
 
             basicInfo.SwVersion = Rect.FwVersion.ToString();
             basicInfo.CheckDate = DateTime.Today.ToShortDateString();
-            basicInfo.TestResult = "합격";
-            for (int i = 1; i < csvList.Count; i++)
-            {
-                if (csvList[i].Contains("불합격"))
-                {
-                    basicInfo.TestResult = "불합격";
-                    break;
-                }
-            }
+
+
+            if (failList.Any())
+                basicInfo.TestResult = "불합격";
+            else
+                basicInfo.TestResult = "합격";
             
             string[] str = new string[] { "0", basicInfo.Checker, basicInfo.ModelName, basicInfo.ProductCode, basicInfo.SerialNumber,
                                  basicInfo.DcdcSerial, basicInfo.PfcSerial, basicInfo.McuSerial, basicInfo.CheckDate,
@@ -751,13 +747,12 @@ namespace J_Project.ViewModel
                 DcLoad.GetObj().LoadPowerCtrl(CtrlFlag.OFF);
             }
 
-            List<string> failTest = csvReport.FailTest(csvSavePath);
             StringBuilder endText = new StringBuilder();
 
             endText.AppendLine("테스트 완료\n");
-            endText.AppendLine("불합격 테스트 목록");
+            endText.AppendLine("[ 불합격 테스트 목록 ]");
 
-            foreach (var item in failTest)
+            foreach (var item in failList)
                 endText.AppendLine(item);
 
             MessageBox.Show(endText.ToString());
@@ -779,11 +774,12 @@ namespace J_Project.ViewModel
                 return;
             }
 
-            ReportSend reportSender = new ReportSend();
+            ReportSender reportSender = new ReportSender();
+            string result = reportSender.Reporsend(ReportSender.FIRST_TEST, csvSavePath);
 
-            reportSender.SetHttp();
-            byte[] a = reportSender.ConvertCvsToJson(ReportSend.FIRST_TEST, csvSavePath);
-            string result = reportSender.DataSend(a);
+            //reportSender.SetHttp();
+            //byte[] a = reportSender.ConvertCvsToJson(ReportSend.FIRST_TEST, csvSavePath);
+            //string result = reportSender.DataSend(a);
 
             if (!string.IsNullOrEmpty(result))
             {
@@ -791,10 +787,11 @@ namespace J_Project.ViewModel
                 return;
             }
 
-            result = reportSender.DataReceive();
-            reportSender.Deserialize(result, out string str1);
+            result = reportSender.AnswerReceive();
+            //result = reportSender.DataReceive();
+            //reportSender.Deserialize(result, out string str1);
 
-            MessageBox.Show($"시리얼 번호 : {basicInfo.SerialNumber}\n전송 결과 : {str1}");
+            MessageBox.Show($"시리얼 번호 : {basicInfo.SerialNumber}\n전송 결과 : {result}");
         }
 
         /**
@@ -813,11 +810,12 @@ namespace J_Project.ViewModel
                 return;
             }
 
-            ReportSend reportSender = new ReportSend();
+            ReportSender reportSender = new ReportSender();
+            string result = reportSender.Reporsend(ReportSender.SECOND_TEST, csvSavePath);
 
-            reportSender.SetHttp();
-            byte[] a = reportSender.ConvertCvsToJson(ReportSend.SECOND_TEST, csvSavePath);
-            string result = reportSender.DataSend(a);
+            //reportSender.SetHttp();
+            //byte[] a = reportSender.ConvertCvsToJson(ReportSender.SECOND_TEST, csvSavePath);
+            //string result = reportSender.DataSend(a);
 
             if (!string.IsNullOrEmpty(result))
             {
@@ -825,10 +823,11 @@ namespace J_Project.ViewModel
                 return;
             }
 
-            result = reportSender.DataReceive();
-            reportSender.Deserialize(result, out string str1);
+            result = reportSender.AnswerReceive();
+            //result = reportSender.DataReceive();
+            //reportSender.Deserialize(result, out string str1);
 
-            MessageBox.Show($"시리얼 번호 : {basicInfo.SerialNumber}\n전송 결과 : {str1}");
+            MessageBox.Show($"시리얼 번호 : {basicInfo.SerialNumber}\n전송 결과 : {result}");
         }
 
         /**

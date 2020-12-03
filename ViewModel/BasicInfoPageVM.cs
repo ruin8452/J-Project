@@ -1,7 +1,7 @@
-﻿using J_Project.Data;
+﻿using GalaSoft.MvvmLight.Command;
+using J_Project.Data;
 using J_Project.Equipment;
 using J_Project.Manager;
-using J_Project.ViewModel.CommandClass;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using PropertyChanged;
 using System;
@@ -31,11 +31,11 @@ namespace J_Project.ViewModel
 
         public Rectifier Rect { get; set; }
 
-        public ICommand FirstReportOpenClickCommand { get; set; }
-        public ICommand SecondReportOpenClickCommand { get; set; }
-        public ICommand ReportSaveClickCommand { get; set; }
+        public RelayCommand FirstReportOpenClickCommand { get; set; }
+        public RelayCommand SecondReportOpenClickCommand { get; set; }
+        public RelayCommand ReportSaveClickCommand { get; set; }
 
-        public ICommand BasicInfoSaveCommand { get; set; }
+        public RelayCommand BasicInfoSaveCommand { get; set; }
 
         public BasicInfoPageVM()
         {
@@ -45,11 +45,11 @@ namespace J_Project.ViewModel
 
             Rect = Rectifier.GetObj();
 
-            BasicInfoSaveCommand = new BaseCommand(SaveBasicInfo);
+            BasicInfoSaveCommand = new RelayCommand(SaveBasicInfo);
 
-            FirstReportOpenClickCommand = new BaseCommand(FirstReportOpenDialog);
-            SecondReportOpenClickCommand = new BaseCommand(SecondReportOpenDialog);
-            ReportSaveClickCommand = new BaseCommand(ReportSaveDialog);
+            FirstReportOpenClickCommand = new RelayCommand(FirstReportOpenDialog);
+            SecondReportOpenClickCommand = new RelayCommand(SecondReportOpenDialog);
+            ReportSaveClickCommand = new RelayCommand(ReportSaveDialog);
         }
 
         /**
