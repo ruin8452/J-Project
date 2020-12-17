@@ -49,8 +49,8 @@ namespace J_Project.ViewModel
         string filePath;    // 테스트 타입에 따른 저장경로
         string TestType;
 
-        Timer TestTimeView = new Timer();
-        Stopwatch TotalTestTimer = new Stopwatch();
+        Timer TestTimeView = new Timer();   // 일정주기마다 스톱워치의 시간을 UI로 갱신하는 타이머
+        Stopwatch TotalTestTimer = new Stopwatch(); // 총 테스트 시간 측정
 
         public ObservableCollection<TestItemUint> TreeTestItems { get; set; }
         public Page TestUi { get; set; }
@@ -235,18 +235,11 @@ namespace J_Project.ViewModel
         {
             // CSV 파일 다듬기 /////////////////////////////////////////////////////////////
             List<string[]> csvList = csvReport.CsvReader(csvSavePath);
+            List<string> failList = csvReport.FailTest(csvSavePath);
 
             basicInfo.SwVersion = Rect.FwVersion.ToString();
             basicInfo.CheckDate = DateTime.Today.ToShortDateString();
-            basicInfo.TestResult = "합격";
-            for (int i = 1; i < csvList.Count; i++)
-            {
-                if (csvList[i].Contains("불합격"))
-                {
-                    basicInfo.TestResult = "불합격";
-                    break;
-                }
-            }
+            basicInfo.TestResult = failList.Any() ? "불합격" : "합격";
 
             string[] str = new string[] { "0", basicInfo.Checker, basicInfo.ModelName, basicInfo.ProductCode, basicInfo.SerialNumber,
                                           basicInfo.DcdcSerial, basicInfo.PfcSerial, basicInfo.McuSerial, basicInfo.CheckDate, basicInfo.HwVersion, basicInfo.SwVersion,
@@ -256,10 +249,8 @@ namespace J_Project.ViewModel
             csvReport.ReportSave(csvSavePath, csvList);
             /////////////////////////////////////////////////////////////
 
-            if (TestType == "FirstTest")
-                csvReport.ReportConverter(csvSavePath, basicInfo.FirstReportOpenPath);
-            else
-                csvReport.ReportConverter(csvSavePath, basicInfo.SecondReportOpenPath);
+            if (TestType == "FirstTest") csvReport.ReportConverter(csvSavePath, basicInfo.FirstReportOpenPath);
+            else                         csvReport.ReportConverter(csvSavePath, basicInfo.SecondReportOpenPath);
         }
 
         /**
@@ -718,13 +709,9 @@ namespace J_Project.ViewModel
 
             basicInfo.SwVersion = Rect.FwVersion.ToString();
             basicInfo.CheckDate = DateTime.Today.ToShortDateString();
+            basicInfo.TestResult = failList.Any() ? "불합격" : "합격";
 
-
-            if (failList.Any())
-                basicInfo.TestResult = "불합격";
-            else
-                basicInfo.TestResult = "합격";
-            
+            // 기본정보 삽입
             string[] str = new string[] { "0", basicInfo.Checker, basicInfo.ModelName, basicInfo.ProductCode, basicInfo.SerialNumber,
                                  basicInfo.DcdcSerial, basicInfo.PfcSerial, basicInfo.McuSerial, basicInfo.CheckDate,
                                  basicInfo.HwVersion, basicInfo.SwVersion, basicInfo.TestResult, basicInfo.DcdcNumber, basicInfo.PfcNumber, basicInfo.McuNumber };
@@ -732,11 +719,9 @@ namespace J_Project.ViewModel
             csvList[0] = str;
             csvReport.ReportSave(csvSavePath, csvList);
             /////////////////////////////////////////////////////////////
-
-            if (TestType == "FirstTest")
-                csvReport.ReportConverter(csvSavePath, basicInfo.FirstReportOpenPath);
-            else
-                csvReport.ReportConverter(csvSavePath, basicInfo.SecondReportOpenPath);
+            
+            if (TestType == "FirstTest") csvReport.ReportConverter(csvSavePath, basicInfo.FirstReportOpenPath);
+            else                         csvReport.ReportConverter(csvSavePath, basicInfo.SecondReportOpenPath);
 
 
             // 테스트 종료 후 장비 OFF
@@ -880,20 +865,11 @@ namespace J_Project.ViewModel
             TestTimeView.Stop();
 
             List<string[]> csvList = csvReport.CsvReader(csvSavePath);
+            List<string> failList = csvReport.FailTest(csvSavePath);
 
             basicInfo.SwVersion = Rect.FwVersion.ToString();
             basicInfo.CheckDate = DateTime.Today.ToShortDateString();
-            basicInfo.TestResult = "합격";
-            for (int i = 1; i < csvList.Count; i++)
-            {
-                if (csvList[i].Contains("불합격"))
-                {
-                    basicInfo.TestResult = "불합격";
-                    break;
-                }
-            }
-            //csvReport.ReportSave(csvSavePath, "0", basicInfo.Checker, basicInfo.ModelName, basicInfo.ProductCode, basicInfo.SerialNumber, basicInfo.CheckDate,
-            //                     basicInfo.HwVersion, basicInfo.SwVersion, basicInfo.TestResult, basicInfo.DcdcNumber, basicInfo.PfcNumber, basicInfo.McuNumber);
+            basicInfo.TestResult = failList.Any() ? "불합격" : "합격";
 
             string[] str = new string[] { "0", basicInfo.Checker, basicInfo.ModelName, basicInfo.ProductCode, basicInfo.SerialNumber,
                                           basicInfo.DcdcSerial, basicInfo.PfcSerial, basicInfo.McuSerial, basicInfo.CheckDate,
@@ -902,14 +878,8 @@ namespace J_Project.ViewModel
             csvList[0] = str;
             csvReport.ReportSave(csvSavePath, csvList);
 
-            if (TestType == "FirstTest")
-            {
-                csvReport.ReportConverter(csvSavePath, basicInfo.FirstReportOpenPath);
-            }
-            else
-            {
-                csvReport.ReportConverter(csvSavePath, basicInfo.SecondReportOpenPath);
-            }
+            if (TestType == "FirstTest") csvReport.ReportConverter(csvSavePath, basicInfo.FirstReportOpenPath);
+            else                         csvReport.ReportConverter(csvSavePath, basicInfo.SecondReportOpenPath);
 
             TestRunningText = "테스트 정지";
 
