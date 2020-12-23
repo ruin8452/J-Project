@@ -324,15 +324,15 @@
 
                     <!--장비 통신 연결 모니터링-->
                     <Button Content="AC" Grid.Row="0" Grid.Column="0" IsDefault="{Binding AcSource.IsConnected}" Command="{Binding AcConnectCommand}"/>
-                    <Button Content="DC" Grid.Row="0" Grid.Column="1" IsDefault="{Binding DcSource.IsConnected}"/>
-                    <Button Content="부하" Grid.Row="0" Grid.Column="2" IsDefault="{Binding DcLoad.IsConnected}"/>
-                    <Button Content="PM" Grid.Row="0" Grid.Column="3" IsDefault="{Binding Powermeter.IsConnected}"/>
-                    <Button Content="OSC" Grid.Row="0" Grid.Column="4" IsDefault="{Binding Osc.IsConnected}"/>
+                    <Button Content="DC" Grid.Row="0" Grid.Column="1" IsDefault="{Binding DcSource.IsConnected}" Command="{Binding DcConnectCommand}"/>
+                    <Button Content="부하" Grid.Row="0" Grid.Column="2" IsDefault="{Binding DcLoad.IsConnected}" Command="{Binding LoadConnectCommand}"/>
+                    <Button Content="PM" Grid.Row="0" Grid.Column="3" IsDefault="{Binding Powermeter.IsConnected}" Command="{Binding PmConnectCommand}"/>
+                    <Button Content="OSC" Grid.Row="0" Grid.Column="4" IsDefault="{Binding Osc.IsConnected}" Command="{Binding OscConnectCommand}"/>
 
-                    <Button Content="DMM1" Grid.Row="1" Grid.Column="0" IsDefault="{Binding Dmm1.IsConnected}"/>
-                    <Button Content="DMM2" Grid.Row="1" Grid.Column="1" IsDefault="{Binding Dmm2.IsConnected}"/>
-                    <Button Content="정류기" Grid.Row="1" Grid.Column="2" IsDefault="{Binding Rect.IsConnected}"/>
-                    <Button Content="원격" Grid.Row="1" Grid.Column="3" IsDefault="{Binding Rmt.IsConnected}"/>
+                    <Button Content="DMM1" Grid.Row="1" Grid.Column="0" IsDefault="{Binding Dmm1.IsConnected}" Command="{Binding Dmm1ConnectCommand}"/>
+                    <Button Content="DMM2" Grid.Row="1" Grid.Column="1" IsDefault="{Binding Dmm2.IsConnected}" Command="{Binding Dmm2ConnectCommand}"/>
+                    <Button Content="정류기" Grid.Row="1" Grid.Column="2" IsDefault="{Binding Rect.IsConnected}" Command="{Binding RectConnectCommand}"/>
+                    <Button Content="원격" Grid.Row="1" Grid.Column="3" IsDefault="{Binding Rmt.IsConnected}" Command="{Binding RmtConnectCommand}"/>
                 </Grid>
             </StackPanel>
         </Grid>

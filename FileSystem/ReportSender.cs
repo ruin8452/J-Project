@@ -82,20 +82,20 @@ namespace J_Project.FileSystem
                 else
                     jDataArr.Add(JObject.FromObject(new
                     {
-                        B7 = temp[1],
-                        B5 = temp[2],
-                        D5 = temp[3],
-                        D6 = temp[4],
-                        B8 = temp[5],
-                        D8 = temp[6],
-                        H8 = temp[7],
-                        D7 = temp[8],
-                        H5 = temp[9],
-                        H6 = temp[10],
-                        H7 = temp[11],
-                        B9 = temp[12],
-                        D9 = temp[13],
-                        G9 = temp[14]
+                        B7 = temp[1],   // 검사자
+                        B5 = temp[2],   // 제품명
+                        D5 = temp[3],   // 제품코드
+                        D6 = temp[4],   // 시리얼 넘버
+                        B8 = temp[5],   // DCDC 시리얼
+                        D8 = temp[6],   // PFC 시리얼
+                        H8 = temp[7],   // MCU 시리얼
+                        D7 = temp[8],   // 검사일
+                        H5 = temp[9],   // 하드웨어 버전
+                        H6 = temp[10],  // 소프트웨어 버전
+                        H7 = temp[11],  // 검사 결과
+                        B9 = temp[12],  // DCDC 번호
+                        D9 = temp[13],  // PFC 번호
+                        G9 = temp[14]   // MCU 번호
                     }));
             }
 

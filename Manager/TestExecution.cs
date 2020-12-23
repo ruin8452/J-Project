@@ -32,7 +32,7 @@ namespace J_Project.Manager
 
         public TestExecution()
         {
-            AutoTestTimer.Interval = TimeSpan.FromMilliseconds(50);
+            AutoTestTimer.Interval = TimeSpan.FromMilliseconds(100);
             AutoTestTimer.Tick += new EventHandler((object send, EventArgs e) =>
             {
                 TestExecutionMethod();
@@ -146,7 +146,6 @@ namespace J_Project.Manager
                 case StateFlag.TEST_PAUSE:
                     TestPause();
                     break;
-
 
                 case StateFlag.INIT_END:
                 case StateFlag.TEST_END:

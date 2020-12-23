@@ -37,7 +37,7 @@ namespace J_Project.Equipment
                 OnDcVoltRenewal(EventArgs.Empty);
             });
 
-            EquiMonitoring.Interval = TimeSpan.FromMilliseconds(1000);
+            EquiMonitoring.Interval = TimeSpan.FromMilliseconds(700);
             EquiMonitoring.Tick += new EventHandler((object sender, EventArgs e) =>
             {
                 if (background.IsBusy == false)

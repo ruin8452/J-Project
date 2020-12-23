@@ -156,7 +156,7 @@ namespace J_Project.Communication.CommModule
                     Debug.WriteLine("ErrPos04 : " + e.Message);
                     continue;
                 }
-                Util.Delay(0.3);
+                Util.Delay(0.1);
 
                 return TryResultFlag.SUCCESS;
             }
@@ -208,7 +208,7 @@ namespace J_Project.Communication.CommModule
                     token = 0;
                     continue;
                 }
-                Util.Delay(0.3);
+                Util.Delay(0.1);
 
                 return TryResultFlag.SUCCESS;
             }

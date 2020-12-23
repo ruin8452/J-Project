@@ -35,7 +35,7 @@ namespace J_Project.ViewModel
 
         public DateTime PcTime { get; set; }
 
-        public string GuiVersion { get; set; } = "201211.1.1.2";    // 날짜.메인.서브.패치
+        public string GuiVersion { get; set; } = "201211.1.2.0";    // 날짜.메인.서브.패치
 
         public RelayCommand ClosingCommand { get; set; }
         public RelayCommand OpenCvsFolderCommand { get; set; }
@@ -87,7 +87,7 @@ namespace J_Project.ViewModel
             RectConnectCommand = new RelayCommand(RectConnect);
             RmtConnectCommand = new RelayCommand(RmtConnect);
 
-            DateMonitor.Interval = TimeSpan.FromMilliseconds(1000);
+            DateMonitor.Interval = TimeSpan.FromMilliseconds(700);
             DateMonitor.Tick += NowTime;
             DateMonitor.Start();
         }
@@ -216,8 +216,19 @@ namespace J_Project.ViewModel
          */
         private void AcConnect()
         {
+            string ConnectResult;
             if (AcSource.IsConnected == false)
-                AcSource.Connect(EquiConnectID.GetObj().AcSourceID, 9600);
+            {
+                if (EquiConnectID.GetObj().AcSourceID.StartsWith("COM", StringComparison.Ordinal) == true)
+                    ConnectResult = AcSource.Connect(EquiConnectID.GetObj().AcSourceID, 9600);
+                else
+                    ConnectResult = AcSource.Connect(EquiConnectID.GetObj().AcSourceID);
+
+                if (ConnectResult == "Connected!")
+                    AcSource.EquiCheck();
+
+
+            }
             else
                 AcSource.Disconnect();
         }
@@ -231,8 +242,13 @@ namespace J_Project.ViewModel
          */
         private void DcConnect()
         {
+            string ConnectResult;
             if (DcSource.IsConnected == false)
-                DcSource.Connect(EquiConnectID.GetObj().DcSourceID);
+            {
+                ConnectResult = DcSource.Connect(EquiConnectID.GetObj().DcSourceID);
+                if (ConnectResult == "Connected!")
+                    DcSource.EquiCheck();
+            }
             else
                 DcSource.Disconnect();
         }
@@ -246,8 +262,13 @@ namespace J_Project.ViewModel
          */
         private void LoadConnect()
         {
+            string ConnectResult;
             if (DcLoad.IsConnected == false)
-                DcLoad.Connect(EquiConnectID.GetObj().LoadID);
+            {
+                ConnectResult = DcLoad.Connect(EquiConnectID.GetObj().LoadID);
+                if (ConnectResult == "Connected!")
+                    DcLoad.EquiCheck();
+            }
             else
                 DcLoad.Disconnect();
         }
@@ -261,8 +282,13 @@ namespace J_Project.ViewModel
          */
         private void PmConnect()
         {
+            string ConnectResult;
             if (Powermeter.IsConnected == false)
-                Powermeter.Connect(EquiConnectID.GetObj().PmID);
+            {
+                ConnectResult = Powermeter.Connect(EquiConnectID.GetObj().PmID);
+                if (ConnectResult == "Connected!")
+                    Powermeter.EquiCheck();
+            }
             else
                 Powermeter.Disconnect();
         }
@@ -276,8 +302,13 @@ namespace J_Project.ViewModel
          */
         private void Dmm1Connect()
         {
+            string ConnectResult;
             if (Dmm1.IsConnected == false)
-                Dmm1.Connect(EquiConnectID.GetObj().Dmm1ID);
+            {
+                ConnectResult = Dmm1.Connect(EquiConnectID.GetObj().Dmm1ID);
+                if (ConnectResult == "Connected!")
+                    Dmm1.EquiCheck();
+            }
             else
                 Dmm1.Disconnect();
         }
@@ -291,8 +322,17 @@ namespace J_Project.ViewModel
          */
         private void Dmm2Connect()
         {
+            string ConnectResult;
             if (Dmm2.IsConnected == false)
-                Dmm2.Connect(EquiConnectID.GetObj().Dmm2ID);
+            {
+                if (EquiConnectID.GetObj().Dmm2ID.StartsWith("COM", StringComparison.Ordinal) == true)
+                    ConnectResult = Dmm2.Connect(EquiConnectID.GetObj().Dmm2ID, 9600);
+                else
+                    ConnectResult = Dmm2.Connect(EquiConnectID.GetObj().Dmm2ID);
+
+                if (ConnectResult == "Connected!")
+                    Dmm2.EquiCheck();
+            }
             else
                 Dmm2.Disconnect();
         }
@@ -306,8 +346,13 @@ namespace J_Project.ViewModel
          */
         private void OscConnect()
         {
+            string ConnectResult;
             if (Osc.IsConnected == false)
-                Osc.Connect(EquiConnectID.GetObj().OscID);
+            {
+                ConnectResult = Osc.Connect(EquiConnectID.GetObj().OscID);
+                if (ConnectResult == "Connected!")
+                    Osc.EquiCheck();
+            }
             else
                 Osc.Disconnect();
         }

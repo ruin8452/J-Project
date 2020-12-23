@@ -69,9 +69,6 @@ namespace J_Project.ViewModel.TestItem
             LoadPage = new RelayCommand(DataLoad);
             UnloadPage = new RelayCommand(DataSave);
             UnitTestCommand = new RelayCommand<object>(UnitTestClick);
-
-#warning 임시 삽입
-            ComportList = SerialPort.GetPortNames();
         }
 
         /**
@@ -221,7 +218,6 @@ namespace J_Project.ViewModel.TestItem
                     break;
 
                 case Seq.RECT_CONNECT:
-#warning 시리얼 포트 리스트 차집합으로 정류기 포트 산출 후 접속 기능 테스트 필요
                     string[] tempComport = SerialPort.GetPortNames();
                     EquiConnectID.GetObj().RectID = tempComport.Except(ComportList).ToArray().First();
 
