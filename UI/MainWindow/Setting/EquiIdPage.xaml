@@ -335,7 +335,7 @@
                     <Button Content="DC Off" Style="{StaticResource ButtonStyles}" FontSize="20" Grid.Column="1" Margin="5,0,0,0" Command="{Binding DcOffCommand}"/>
                 </Grid>
 
-                <TextBlock Text="ID Detail" Grid.Row="0" Grid.Column="2" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="DX하늘구름" FontSize="21"/>
+                <TextBlock Text="ID Detail" Grid.Row="0" Grid.Column="2" Foreground="White" FontFamily="DX하늘구름" FontSize="21"/>
                 <Grid Grid.RowSpan="5" Grid.Row="1" Grid.Column="2" Margin="15,15,0,15">
                     <TreeView Margin="0,-30,0,0" Background="{x:Null}" BorderBrush="#FF53609B" BorderThickness="1.5" Foreground="White" ItemsSource="{Binding EquiIdTreeItems}"/>
                 </Grid>

@@ -22,87 +22,25 @@ namespace J_Project.TestMethod
      */
     public class Cal_DC_출력전압 : Test
     {
-        public ObservableCollection<double> AcVolt       { get; set; }
-        public ObservableCollection<double> AcCurr       { get; set; }
-        public ObservableCollection<double> AcFreq       { get; set; }
+        public double AcVolt       { get; set; } = 0;
+        public double AcCurr       { get; set; } = 0;
+        public double AcFreq       { get; set; } = 0;
 
-        public ObservableCollection<double> LoadCurr     { get; set; }
+        public double LoadCurr     { get; set; } = 0;
 
-        public ObservableCollection<double> DacLowerRef  { get; set; }
-        public ObservableCollection<double> DacUpperRef  { get; set; }
+        public double DacLowerRef  { get; set; } = 0;
+        public double DacUpperRef  { get; set; } = 0;
 
-        public ObservableCollection<double> AdcLowerRef  { get; set; }
-        public ObservableCollection<double> AdcUpperRef  { get; set; }
-        
-        public ObservableCollection<double> DefaultRef   { get; set; }
-        
-        public ObservableCollection<double> Delay1       { get; set; }
-        public ObservableCollection<double> Delay2       { get; set; }
-        public ObservableCollection<double> Delay3       { get; set; }
-        public ObservableCollection<double> Delay4       { get; set; }
-        public ObservableCollection<double> Delay5       { get; set; }
-        public ObservableCollection<double> NextTestWait { get; set; }
+        public double AdcLowerRef  { get; set; } = 0;
+        public double AdcUpperRef  { get; set; } = 0;
 
-        #region 싱글톤 패턴 구현
-        private static Cal_DC_출력전압 SingleTonObj = null;
+        public double DefaultRef   { get; set; } = 0;
 
-        private Cal_DC_출력전압()
-        {
-            MaxCase = 1;
-            
-            AcVolt = new ObservableCollection<double>() { 0 };
-            AcCurr = new ObservableCollection<double>() { 0 };
-            AcFreq = new ObservableCollection<double>() { 0 };
-
-            LoadCurr = new ObservableCollection<double>() { 0 };
-
-            DacLowerRef = new ObservableCollection<double>() { 0 };
-            DacUpperRef = new ObservableCollection<double>() { 0 };
-
-            AdcLowerRef = new ObservableCollection<double>() { 0 };
-            AdcUpperRef = new ObservableCollection<double>() { 0 };
-
-            DefaultRef = new ObservableCollection<double>() { 0 };
-
-            Delay1 = new ObservableCollection<double>() { 0 };
-            Delay2 = new ObservableCollection<double>() { 0 };
-            Delay3 = new ObservableCollection<double>() { 0 };
-            Delay4 = new ObservableCollection<double>() { 0 };
-            Delay5 = new ObservableCollection<double>() { 0 };
-            NextTestWait = new ObservableCollection<double>() { 0 };
-        }
-
-        public static Cal_DC_출력전압 GetObj()
-        {
-            if (SingleTonObj == null) SingleTonObj = new Cal_DC_출력전압();
-            return SingleTonObj;
-        }
-        #endregion
-
-        /**
-         *  @brief 데이터 저장
-         *  @details 해당 테스트의 설정값을 ini파일에 저장한다
-         *  
-         *  @param
-         *  
-         *  @return
-         */
-        public static void Save()
-        {
-            Setting.WriteSetting(GetObj(), @"\Setting\TestSetting.ini");
-        }
-
-        /**
-         *  @brief 데이터 로드
-         *  @details ini파일에서 해당 테스트의 설정값을 불러온다
-         *  
-         *  @param
-         *  
-         *  @return
-         */
-        public static void Load()
-        {
-            Setting.ReadSetting(GetObj(), @"\Setting\TestSetting.ini");
-        }
+        public double Delay1       { get; set; } = 0;
+        public double Delay2       { get; set; } = 0;
+        public double Delay3       { get; set; } = 0;
+        public double Delay4       { get; set; } = 0;
+        public double Delay5       { get; set; } = 0;
+        public double NextTestWait { get; set; } = 0;
     }
 }

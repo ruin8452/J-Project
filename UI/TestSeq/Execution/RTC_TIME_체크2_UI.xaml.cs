@@ -7,11 +7,11 @@ namespace J_Project.UI.TestSeq.Execution
     /// </summary>
     public partial class RTC_TIME_체크2_UI : Page, ITestExeList
     {
-        public RTC_TIME_체크2_UI()
+        public RTC_TIME_체크2_UI(int caseNum)
         {
             InitializeComponent();
 
-            DataContext = new ViewModel.TestItem.RtcCheck2VM();
+            DataContext = new ViewModel.TestItem.RtcCheck2VM(caseNum);
         }
     }
 }

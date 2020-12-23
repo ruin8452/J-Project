@@ -7,11 +7,11 @@ namespace J_Project.UI.TestSeq.TestSetting
     /// </summary>
     public partial class Cal_DC_출력전압_Setting_UI : Page, ITestSettingList
     {
-        public Cal_DC_출력전압_Setting_UI()
+        public Cal_DC_출력전압_Setting_UI(int caseNum)
         {
             InitializeComponent();
 
-            DataContext = new ViewModel.TestItem.CalDcVoltVM();
+            DataContext = new ViewModel.TestItem.CalDcVoltVM(caseNum);
         }
     }
 }

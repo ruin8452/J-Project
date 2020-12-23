@@ -20,11 +20,11 @@ namespace J_Project.UI.TestSeq.Execution
     /// </summary>
     public partial class LocalSwitch_UI : Page
     {
-        public LocalSwitch_UI()
+        public LocalSwitch_UI(int caseNum)
         {
             InitializeComponent();
 
-            DataContext = new ViewModel.TestItem.LocalSwitchVM();
+            DataContext = new ViewModel.TestItem.LocalSwitchVM(caseNum);
         }
         public LocalSwitch_UI(object dataContext)
         {

@@ -32,8 +32,8 @@ namespace J_Project.ViewModel.TestItem
             END_TEST
         }
 
-        private int TestOrterNum = (int)SecondTestOrder.NoLoad;
         public static string TestName { get; } = "무부하 전원 ON";
+        public int CaseNum { get; set; }
         public 무부하_전원_ON NoLoad { get; set; }
         public TestOption Option { get; set; }
 
@@ -42,18 +42,21 @@ namespace J_Project.ViewModel.TestItem
         public RelayCommand UnloadPage { get; set; }
         public RelayCommand<object> UnitTestCommand { get; set; }
 
-        public NoLoad2VM()
+        public NoLoad2VM(int caseNum)
         {
+            CaseNum = caseNum;
             TestLog = new StringBuilder();
 
+            TestOrterNum = (int)SecondTestOrder.NoLoad + caseNum;
             TotalStepNum = (int)Seq.END_TEST + 1;
 
-            무부하_전원_ON.Load();
-            NoLoad = 무부하_전원_ON.GetObj();
+            NoLoad = new 무부하_전원_ON();
+            NoLoad = (무부하_전원_ON)Test.Load(NoLoad, CaseNum);
+
             Option = TestOption.GetObj();
             ButtonColor = new ObservableCollection<SolidColorBrush>();
 
-            SecondOrder[TestOrterNum] = new string[] { TestOrterNum.ToString(), TestName, "판단불가", "불합격" };
+            SecondOrder[TestOrterNum] = new string[] { TestOrterNum.ToString(), TestName + caseNum.ToString(), "판단불가", "NG(불합격)" };
 
             for (int i = 0; i < TotalStepNum; i++)
                 ButtonColor.Add(Brushes.White);
@@ -72,7 +75,7 @@ namespace J_Project.ViewModel.TestItem
          */
         private void DataSave()
         {
-            무부하_전원_ON.Save();
+            Test.Save(NoLoad, CaseNum);
         }
 
         /**
@@ -161,7 +164,7 @@ namespace J_Project.ViewModel.TestItem
 
                     double acVolt = PowerMeter.GetObj().AcVolt;
                     TestLog.AppendLine($"- AC : {acVolt}");
-                    if (Math.Abs(NoLoad.AcVolt[caseNumber] - acVolt) <= AC_ERR_RANGE)
+                    if (Math.Abs(NoLoad.AcVolt - acVolt) <= AC_ERR_RANGE)
                     {
                         result = StateFlag.PASS;
                         break;
@@ -169,7 +172,7 @@ namespace J_Project.ViewModel.TestItem
 
                     if (Option.IsFullAuto)
                     {
-                        result = AcSourceSet(NoLoad.AcVolt[caseNumber], NoLoad.AcCurr[caseNumber], NoLoad.AcFreq[caseNumber]);
+                        result = AcSourceSet(NoLoad.AcVolt, NoLoad.AcCurr, NoLoad.AcFreq);
                         TestLog.AppendLine($"- AC 세팅 결과 : {result}");
 
                         if (result != StateFlag.PASS)
@@ -188,7 +191,7 @@ namespace J_Project.ViewModel.TestItem
                     {
                         TestLog.AppendLine($"- AC 설정 팝업");
 
-                        AcCtrlViewModel.SetAcCheck(NoLoad.AcVolt[caseNumber], AC_ERR_RANGE, AcCheckMode.NORMAL);
+                        AcCtrlViewModel.SetAcCheck(NoLoad.AcVolt, AC_ERR_RANGE, AcCheckMode.NORMAL);
                         AcCtrlWindow acCtrlWindow = new AcCtrlWindow
                         {
                             Owner = Application.Current.MainWindow,
@@ -214,17 +217,17 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.DELAY1:
                     TestLog.AppendLine("[ 딜레이1 ]\n");
-                    Util.Delay(NoLoad.Delay1[caseNumber]);
+                    Util.Delay(NoLoad.Delay1);
                     result = StateFlag.PASS;
                     break;
 
                 case Seq.RESULT_CHECK: // 결과 판단 & 성적서 작성
                     TestLog.AppendLine("[ 기능 검사 ]");
-                    result = ConsumptionCurrTest(NoLoad.LimitCurrRms[caseNumber], ref resultData);
+                    result = ConsumptionCurrTest(NoLoad.LimitCurrRms, ref resultData);
 
                     // 실패시 수동 입력
                     if (result != StateFlag.PASS)
-                        result = ConsumptionCurrPassiveTest(NoLoad.LimitCurrRms[caseNumber], ref resultData);
+                        result = ConsumptionCurrPassiveTest(NoLoad.LimitCurrRms, ref resultData);
 
                     TestLog.AppendLine($"- 결과 : {result}\n");
                     break;
@@ -237,7 +240,7 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.NEXT_TEST_DELAY:
                     TestLog.AppendLine("[ 다음 테스트 딜레이 ]\n");
-                    Util.Delay(NoLoad.NextTestWait[caseNumber]);
+                    Util.Delay(NoLoad.NextTestWait);
                     result = StateFlag.PASS;
                     break;
 
@@ -273,13 +276,13 @@ namespace J_Project.ViewModel.TestItem
             if (currRms <= limitCurrRms)
             {
                 TestLog.AppendLine($"- 테스트 합격");
-                resultData = (currRms.ToString(), "합격");
+                resultData = (currRms.ToString(), "OK(합격)");
                 return StateFlag.PASS;
             }
             else
             {
                 TestLog.AppendLine($"- 테스트 불합격 : 제한수치 초과");
-                resultData = (currRms.ToString(), "불합격");
+                resultData = (currRms.ToString(), "NG(불합격)");
                 return StateFlag.CONDITION_FAIL;
             }
         }
@@ -312,13 +315,13 @@ namespace J_Project.ViewModel.TestItem
             if (currRms <= limitCurrRms)
             {
                 TestLog.AppendLine($"- 테스트 합격");
-                resultData = (currRms.ToString(), "합격");
+                resultData = (currRms.ToString(), "OK(합격)");
                 return StateFlag.PASS;
             }
             else
             {
                 TestLog.AppendLine($"- 테스트 불합격 : 제한수치 초과");
-                resultData = (currRms.ToString(), "불합격");
+                resultData = (currRms.ToString(), "NG(불합격)");
                 return StateFlag.CONDITION_FAIL;
             }
         }

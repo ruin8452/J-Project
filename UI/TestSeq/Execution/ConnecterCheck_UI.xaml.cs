@@ -7,11 +7,11 @@ namespace J_Project.UI.TestSeq.Execution
     /// </summary>
     public partial class ConnecterCheck_UI : Page
     {
-        public ConnecterCheck_UI()
+        public ConnecterCheck_UI(int caseNum)
         {
             InitializeComponent();
 
-            DataContext = new ViewModel.TestItem.ConnecterVM();
+            DataContext = new ViewModel.TestItem.ConnecterVM(caseNum);
         }
     }
 }

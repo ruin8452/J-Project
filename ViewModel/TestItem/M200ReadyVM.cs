@@ -31,6 +31,7 @@ namespace J_Project.ViewModel.TestItem
         }
 
         public static string TestName { get; } = "200V Mode 준비";
+        public int CaseNum { get; set; }
         public M200Ready M200 { get; set; }
         public TestOption Option { get; set; }
 
@@ -41,14 +42,16 @@ namespace J_Project.ViewModel.TestItem
         public RelayCommand UnloadPage { get; set; }
         public RelayCommand<object> UnitTestCommand { get; set; }
 
-        public M200ReadyVM()
+        public M200ReadyVM(int caseNum)
         {
+            CaseNum = caseNum;
             TestLog = new StringBuilder();
 
             TotalStepNum = (int)Seq.END_TEST + 1;
 
-            M200Ready.Load();
-            M200 = M200Ready.GetObj();
+            M200 = new M200Ready();
+            M200 = (M200Ready)Test.Load(M200, CaseNum);
+
             Option = TestOption.GetObj();
             ButtonColor = new ObservableCollection<SolidColorBrush>();
 
@@ -69,7 +72,7 @@ namespace J_Project.ViewModel.TestItem
          */
         private void DataSave()
         {
-            M200Ready.Save();
+            Test.Save(M200, CaseNum);
         }
 
         /**
@@ -158,7 +161,7 @@ namespace J_Project.ViewModel.TestItem
 
                     double acVolt = PowerMeter.GetObj().AcVolt;
                     TestLog.AppendLine($"- AC : {acVolt}");
-                    if (Math.Abs(M200.AcVolt[caseNumber] - acVolt) <= AC_ERR_RANGE)
+                    if (Math.Abs(M200.AcVolt - acVolt) <= AC_ERR_RANGE)
                     {
                         result = StateFlag.PASS;
                         break;
@@ -166,7 +169,7 @@ namespace J_Project.ViewModel.TestItem
 
                     if (Option.IsFullAuto)
                     {
-                        result = AcSourceSet(M200.AcVolt[caseNumber], M200.AcCurr[caseNumber], M200.AcFreq[caseNumber]);
+                        result = AcSourceSet(M200.AcVolt, M200.AcCurr, M200.AcFreq);
                         TestLog.AppendLine($"- AC 세팅 결과 : {result}");
 
                         if (result != StateFlag.PASS)
@@ -185,7 +188,7 @@ namespace J_Project.ViewModel.TestItem
                     {
                         TestLog.AppendLine($"- AC 설정 팝업");
 
-                        result = AcCtrlWin(M200.AcVolt[caseNumber], AC_ERR_RANGE, AcCheckMode.NORMAL);
+                        result = AcCtrlWin(M200.AcVolt, AC_ERR_RANGE, AcCheckMode.NORMAL);
                         TestLog.AppendLine($"- AC 전원 결과 : {result}\n");
 
                         if (result != StateFlag.PASS)
@@ -218,7 +221,7 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.NEXT_TEST_DELAY:
                     TestLog.AppendLine("[ 다음 테스트 딜레이 ]\n");
-                    Util.Delay(M200.NextTestWait[caseNumber]);
+                    Util.Delay(M200.NextTestWait);
                     result = StateFlag.PASS;
                     break;
 

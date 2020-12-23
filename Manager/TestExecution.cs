@@ -16,7 +16,7 @@ namespace J_Project.Manager
      */
     public class TestExecution
     {
-        List<TestItemUint> TestList = new List<TestItemUint>();
+        List<TestItemUnit> TestList = new List<TestItemUnit>();
 
         public event EventHandler<TestRunCheckEventArgs>  BeforeAutoTestStart;
         public event EventHandler<TestStartEventArgs>     AutoTestStart;
@@ -47,7 +47,7 @@ namespace J_Project.Manager
          *  
          *  @return
          */
-        public void TestStart(List<TestItemUint> testList)
+        public void TestStart(List<TestItemUnit> testList)
         {
             TestIndex = 0;
             AutoTestStepNum = 0;

@@ -7,11 +7,11 @@ namespace J_Project.UI.TestSeq.Execution
     /// </summary>
     public partial class 효율_UI : Page, ITestExeList
     {
-        public 효율_UI()
+        public 효율_UI(int caseNum)
         {
             InitializeComponent();
 
-            DataContext = new ViewModel.TestItem.EfficiencyVM();
+            DataContext = new ViewModel.TestItem.EfficiencyVM(caseNum);
         }
     }
 }

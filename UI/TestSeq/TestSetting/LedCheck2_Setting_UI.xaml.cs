@@ -7,11 +7,11 @@ namespace J_Project.UI.TestSeq.TestSetting
     /// </summary>
     public partial class LedCheck2_Setting_UI : Page, ITestSettingList
     {
-        public LedCheck2_Setting_UI()
+        public LedCheck2_Setting_UI(int caseNum)
         {
             InitializeComponent();
 
-            DataContext = new ViewModel.TestItem.LedCheck2VM();
+            DataContext = new ViewModel.TestItem.LedCheck2VM(caseNum);
         }
     }
 }

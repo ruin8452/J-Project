@@ -20,11 +20,11 @@ namespace J_Project.UI.TestSeq.Execution
     /// </summary>
     public partial class SerialSave_UI : Page
     {
-        public SerialSave_UI()
+        public SerialSave_UI(int caseNum)
         {
             InitializeComponent();
 
-            DataContext = new ViewModel.TestItem.SerialSaveVM();
+            DataContext = new ViewModel.TestItem.SerialSaveVM(caseNum);
         }
     }
 }

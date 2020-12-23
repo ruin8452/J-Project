@@ -41,14 +41,8 @@
                         <TextBlock Text="전압(V)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
                         <TextBlock Text="전류(A)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="1" />
 
-                        <TextBox x:Name="DcVolt" Style="{StaticResource TestList_SetValueStyle}" Text="{Binding Init.DcVolt[0], Mode=TwoWay}" Tag="{Binding IsRightText}" Grid.Column="0" Grid.Row="1">
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="TextChanged">
-                                    <i:InvokeCommandAction  Command="{Binding TextCheckCommand}" CommandParameter="{Binding ElementName=DcVolt, Path=Text}"/>
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                        </TextBox>
-                        <TextBox x:Name="DcCurr" Style="{StaticResource TestList_SetValueStyle}" Text="{Binding Init.DcCurr[0], Mode=TwoWay}" Grid.Column="1" Grid.Row="1"/>
+                        <TextBox x:Name="DcVolt" Style="{StaticResource TestList_SetValueStyle}" Text="{Binding Init.DcVolt, Mode=TwoWay}" Tag="{Binding IsRightText}" Grid.Column="0" Grid.Row="1"/>
+                        <TextBox x:Name="DcCurr" Style="{StaticResource TestList_SetValueStyle}" Text="{Binding Init.DcCurr, Mode=TwoWay}" Grid.Column="1" Grid.Row="1"/>
                     </Grid>
                 </StackPanel>
                 <!-- 화살표 이미지 -->
@@ -64,7 +58,7 @@
 
                         <TextBlock Text="대기(s)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
 
-                        <TextBox Style="{StaticResource TestList_SetValueStyle}" Text="{Binding Init.Delay1[0], Mode=TwoWay}" Grid.Column="0" Grid.Row="1" />
+                        <TextBox Style="{StaticResource TestList_SetValueStyle}" Text="{Binding Init.Delay1, Mode=TwoWay}" Grid.Column="0" Grid.Row="1" />
                     </Grid>
                 </StackPanel>
                 <!-- 화살표 이미지 -->
@@ -88,7 +82,7 @@
 
                         <TextBlock Text="대기(s)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
 
-                        <TextBox Style="{StaticResource TestList_SetValueStyle}" Text="{Binding Init.NextTestWait[0], Mode=TwoWay}" Grid.Column="0" Grid.Row="1" />
+                        <TextBox Style="{StaticResource TestList_SetValueStyle}" Text="{Binding Init.NextTestWait, Mode=TwoWay}" Grid.Column="0" Grid.Row="1" />
                     </Grid>
                 </StackPanel>
                 <!-- 화살표 이미지 -->

@@ -7,11 +7,11 @@ namespace J_Project.UI.TestSeq.Execution
     /// </summary>
     public partial class 무부하_전원_ON_UI : Page, ITestExeList
     {
-        public 무부하_전원_ON_UI()
+        public 무부하_전원_ON_UI(int caseNum)
         {
             InitializeComponent();
 
-            DataContext = new ViewModel.TestItem.NoLoadVM();
+            DataContext = new ViewModel.TestItem.NoLoadVM(caseNum);
         }
 
         public 무부하_전원_ON_UI(object dataContext)

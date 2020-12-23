@@ -32,8 +32,8 @@ namespace J_Project.ViewModel.TestItem
             END_TEST
         }
 
-        private int TestOrterNum = (int)SecondTestOrder.LocalSwitch;
         public static string TestName { get; } = "Local Switch 체크";
+        public int CaseNum { get; set; }
         public LocalSwitch LocalSwitch { get; set; }
         public TestOption Option { get; set; }
 
@@ -42,18 +42,21 @@ namespace J_Project.ViewModel.TestItem
         public RelayCommand UnloadPage { get; set; }
         public RelayCommand<object> UnitTestCommand { get; set; }
 
-        public LocalSwitch2VM()
+        public LocalSwitch2VM(int caseNum)
         {
             TestLog = new StringBuilder();
+            CaseNum = caseNum;
 
+            TestOrterNum = (int)SecondTestOrder.LocalSwitch + caseNum;
             TotalStepNum = (int)Seq.END_TEST + 1;
 
-            LocalSwitch.Load();
-            LocalSwitch = LocalSwitch.GetObj();
+            LocalSwitch = new LocalSwitch();
+            LocalSwitch = (LocalSwitch)Test.Load(LocalSwitch, CaseNum);
+
             Option = TestOption.GetObj();
             ButtonColor = new ObservableCollection<SolidColorBrush>();
 
-            SecondOrder[TestOrterNum] = new string[] { TestOrterNum.ToString(), TestName, "판단불가", "불합격" };
+            SecondOrder[TestOrterNum] = new string[] { TestOrterNum.ToString(), TestName + caseNum.ToString(), "판단불가", "NG(불합격)" };
 
             for (int i = 0; i < TotalStepNum; i++)
                 ButtonColor.Add(Brushes.White);
@@ -72,7 +75,7 @@ namespace J_Project.ViewModel.TestItem
          */
         private void DataSave()
         {
-            LocalSwitch.Save();
+            Test.Save(LocalSwitch, CaseNum);
         }
 
         /**
@@ -161,7 +164,7 @@ namespace J_Project.ViewModel.TestItem
 
                     double acVolt = PowerMeter.GetObj().AcVolt;
                     TestLog.AppendLine($"- AC : {acVolt}");
-                    if (Math.Abs(LocalSwitch.AcVolt[caseNumber] - acVolt) <= AC_ERR_RANGE)
+                    if (Math.Abs(LocalSwitch.AcVolt - acVolt) <= AC_ERR_RANGE)
                     {
                         result = StateFlag.PASS;
                         break;
@@ -169,7 +172,7 @@ namespace J_Project.ViewModel.TestItem
 
                     if (Option.IsFullAuto)
                     {
-                        result = AcSourceSet(LocalSwitch.AcVolt[caseNumber], LocalSwitch.AcCurr[caseNumber], LocalSwitch.AcFreq[caseNumber]);
+                        result = AcSourceSet(LocalSwitch.AcVolt, LocalSwitch.AcCurr, LocalSwitch.AcFreq);
                         TestLog.AppendLine($"- AC 세팅 결과 : {result}");
 
                         if (result != StateFlag.PASS)
@@ -188,7 +191,7 @@ namespace J_Project.ViewModel.TestItem
                     {
                         TestLog.AppendLine($"- AC 설정 팝업");
 
-                        result = AcCtrlWin(LocalSwitch.AcVolt[caseNumber], AC_ERR_RANGE, AcCheckMode.NORMAL);
+                        result = AcCtrlWin(LocalSwitch.AcVolt, AC_ERR_RANGE, AcCheckMode.NORMAL);
                         TestLog.AppendLine($"- AC 전원 결과 : {result}\n");
 
                         if (result != StateFlag.PASS)
@@ -226,13 +229,13 @@ namespace J_Project.ViewModel.TestItem
                     if (subWinResult == true)
                     {
                         TestLog.AppendLine($"- 테스트 합격\n");
-                        resultData = ("OK", "합격");
+                        resultData = ("OK", "OK(합격)");
                         result = StateFlag.PASS;
                     }
                     else if (subWinResult == false)
                     {
                         TestLog.AppendLine($"- 테스트 불합격\n");
-                        resultData = ("로컬 스위치 조작 오류", "불합격");
+                        resultData = ("로컬 스위치 조작 오류", "NG(불합격)");
                         result = StateFlag.LOCAL_SWITCH_ERR;
                     }
                     break;
@@ -245,7 +248,7 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.NEXT_TEST_DELAY:
                     TestLog.AppendLine("[ 다음 테스트 딜레이 ]\n");
-                    Util.Delay(LocalSwitch.NextTestWait[caseNumber]);
+                    Util.Delay(LocalSwitch.NextTestWait);
                     result = StateFlag.PASS;
                     break;
 

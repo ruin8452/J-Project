@@ -7,11 +7,11 @@ namespace J_Project.UI.TestSeq.Execution
     /// </summary>
     public partial class M100Ready_UI : Page, ITestExeList
     {
-        public M100Ready_UI()
+        public M100Ready_UI(int caseNum)
         {
             InitializeComponent();
 
-            DataContext = new ViewModel.TestItem.M100ReadyVM();
+            DataContext = new ViewModel.TestItem.M100ReadyVM(caseNum);
         }
     }
 }

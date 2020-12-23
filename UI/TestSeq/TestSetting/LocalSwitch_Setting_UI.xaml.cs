@@ -9,11 +9,11 @@ namespace J_Project.UI.TestSeq.TestSetting
     {
         //private List<TextBox> TextBoxList = new List<TextBox>();
 
-        public LocalSwitch_Setting_UI()
+        public LocalSwitch_Setting_UI(int caseNum)
         {
             InitializeComponent();
 
-            DataContext = new ViewModel.TestItem.LocalSwitchVM();
+            DataContext = new ViewModel.TestItem.LocalSwitchVM(caseNum);
         }
     }
 }

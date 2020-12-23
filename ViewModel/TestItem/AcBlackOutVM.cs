@@ -3,6 +3,7 @@ using J_Project.Equipment;
 using J_Project.Manager;
 using J_Project.TestMethod;
 using J_Project.ViewModel.SubWindow;
+using PropertyChanged;
 using System;
 using System.Collections.ObjectModel;
 using System.Text;
@@ -18,6 +19,7 @@ namespace J_Project.ViewModel.TestItem
      *  @date 2020.02.25
      *  @version 1.0.0
      */
+    [ImplementPropertyChanged]
     internal class AcBlackOutVM : AllTestVM
     {
         private enum Seq
@@ -36,32 +38,37 @@ namespace J_Project.ViewModel.TestItem
             END_TEST
         }
 
-        private int TestOrterNum = (int)FirstTestOrder.AcBlackOut;
         public static string TestName { get; } = "AC 정전전압 인식";
+        public int CaseNum { get; set; }
         public AC_정전전압_인식 AcBlackOut { get; set; }
         public TestOption Option { get; set; }
 
         public ObservableCollection<SolidColorBrush> ButtonColor { get; private set; }
 
+        public RelayCommand LoadPage { get; set; }
         public RelayCommand UnloadPage { get; set; }
         public RelayCommand<object> UnitTestCommand { get; set; }
 
-        public AcBlackOutVM()
+        public AcBlackOutVM(int caseNum)
         {
+            CaseNum = caseNum;
             TestLog = new StringBuilder();
 
+            TestOrterNum = (int)FirstTestOrder.AcBlackOut + caseNum;
             TotalStepNum = (int)Seq.END_TEST + 1;
 
-            AC_정전전압_인식.Load();
-            AcBlackOut = AC_정전전압_인식.GetObj();
+            AcBlackOut = new AC_정전전압_인식();
+            AcBlackOut = (AC_정전전압_인식)Test.Load(AcBlackOut, CaseNum);
+
             Option = TestOption.GetObj();
             ButtonColor = new ObservableCollection<SolidColorBrush>();
 
-            FirstOrder[TestOrterNum] = new string[] { TestOrterNum.ToString(), TestName, "판단불가", "불합격" };
+            FirstOrder[TestOrterNum] = new string[] { TestOrterNum.ToString(), TestName + caseNum.ToString(), "판단불가", "NG(불합격)" };
 
             for (int i = 0; i < TotalStepNum; i++)
                 ButtonColor.Add(Brushes.White);
 
+            LoadPage = new RelayCommand(DataLoad);
             UnloadPage = new RelayCommand(DataSave);
             UnitTestCommand = new RelayCommand<object>(UnitTestClick);
         }
@@ -76,7 +83,20 @@ namespace J_Project.ViewModel.TestItem
          */
         private void DataSave()
         {
-            AC_정전전압_인식.Save();
+            Test.Save(AcBlackOut, CaseNum);
+        }
+
+        /**
+         *  @brief 데이터 저장
+         *  @details 해당 테스트의 설정값을 저장한다
+         *  
+         *  @param
+         *  
+         *  @return
+         */
+        private void DataLoad()
+        {
+            AcBlackOut = (AC_정전전압_인식)Test.Load(AcBlackOut, CaseNum);
         }
 
         /**
@@ -167,7 +187,7 @@ namespace J_Project.ViewModel.TestItem
                     TestLog.AppendLine($"- AC : {acVolt}");
 
                     // 값이 오차 이내 인지 검사(오차 이내이면 값을 조정할 필요 없이 바로 다음 단계로)
-                    if (Math.Abs(AcBlackOut.AcVoltInit[caseNumber] - acVolt) <= AC_ERR_RANGE)
+                    if (Math.Abs(AcBlackOut.AcVoltInit - acVolt) <= AC_ERR_RANGE)
                     {
                         result = StateFlag.PASS;
                         break;
@@ -176,7 +196,7 @@ namespace J_Project.ViewModel.TestItem
                     // 자동, 반자동 분기
                     if (Option.IsFullAuto)
                     {
-                        result = AcSourceSet(AcBlackOut.AcVoltInit[caseNumber], AcBlackOut.AcCurrInit[caseNumber], AcBlackOut.AcFreqInit[caseNumber]);
+                        result = AcSourceSet(AcBlackOut.AcVoltInit, AcBlackOut.AcCurrInit, AcBlackOut.AcFreqInit);
                         TestLog.AppendLine($"- AC 세팅 결과 : {result}");
 
                         // AC 설정 실패 시 테스트 실패, 결과 저장 부분으로 점프
@@ -196,7 +216,7 @@ namespace J_Project.ViewModel.TestItem
                     {
                         TestLog.AppendLine($"- AC 설정 팝업");
 
-                        result = AcCtrlWin(AcBlackOut.AcVoltInit[caseNumber], AC_ERR_RANGE, AcCheckMode.NORMAL);
+                        result = AcCtrlWin(AcBlackOut.AcVoltInit, AC_ERR_RANGE, AcCheckMode.NORMAL);
                         TestLog.AppendLine($"- AC 전원 결과 : {result}\n");
 
                         // AC 설정 실패 시 테스트 실패, 결과 저장 부분으로 점프
@@ -207,7 +227,7 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.DELAY1:
                     TestLog.AppendLine("[ 딜레이1 ]\n");
-                    Util.Delay(AcBlackOut.Delay1[caseNumber]);
+                    Util.Delay(AcBlackOut.Delay1);
                     result = StateFlag.PASS;
                     break;
 
@@ -218,7 +238,7 @@ namespace J_Project.ViewModel.TestItem
                     TestLog.AppendLine($"- DC : {loadVolt}");
 
                     // 값이 오차 이내 인지 검사(오차 이내이면 값을 조정할 필요 없이 바로 다음 단계로)
-                    if (Math.Abs(AcBlackOut.LoadCurr[caseNumber] - loadVolt) <= LOAD_ERR_RANGE)
+                    if (Math.Abs(AcBlackOut.LoadCurr - loadVolt) <= LOAD_ERR_RANGE)
                     {
                         result = StateFlag.PASS;
                         break;
@@ -226,7 +246,7 @@ namespace J_Project.ViewModel.TestItem
 
                     if (Option.IsFullAuto)
                     {
-                        result = LoadCurrSet(AcBlackOut.LoadCurr[caseNumber]);
+                        result = LoadCurrSet(AcBlackOut.LoadCurr);
                         TestLog.AppendLine($"- 부하 세팅 결과 : {result}");
 
                         // 부하 설정 실패 시 테스트 실패, 결과 저장 부분으로 점프
@@ -246,7 +266,7 @@ namespace J_Project.ViewModel.TestItem
                     {
                         TestLog.AppendLine($"- 부하 설정 팝업");
 
-                        result = LoadCtrlWin(AcBlackOut.LoadCurr[caseNumber], LOAD_ERR_RANGE, LoadCheckMode.NORMAL);
+                        result = LoadCtrlWin(AcBlackOut.LoadCurr, LOAD_ERR_RANGE, LoadCheckMode.NORMAL);
                         TestLog.AppendLine($"- 부하 전원 결과 : {result}\n");
 
                         // 부하 설정 실패 시 테스트 실패, 결과 저장 부분으로 점프
@@ -257,7 +277,7 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.DELAY2:
                     TestLog.AppendLine("[ 딜레이2 ]\n");
-                    Util.Delay(AcBlackOut.Delay2[caseNumber]);
+                    Util.Delay(AcBlackOut.Delay2);
                     result = StateFlag.PASS;
                     break;
 
@@ -266,7 +286,7 @@ namespace J_Project.ViewModel.TestItem
 
                     if (Option.IsFullAuto)
                     {
-                        result = AcBlackOutCheck(caseNumber, AcBlackOut.AcVoltOut[caseNumber], AcBlackOut.AcErrRate[caseNumber], ref resultData);
+                        result = AcBlackOutCheck(caseNumber, AcBlackOut.AcVoltOut, AcBlackOut.AcErrRate, ref resultData);
                         TestLog.AppendLine($"- AC 세팅 결과 : {result}\n");
 
                         if (result != StateFlag.PASS)
@@ -276,22 +296,22 @@ namespace J_Project.ViewModel.TestItem
                     {
                         TestLog.AppendLine($"- AC 설정 팝업");
 
-                        result = AcCtrlWin(AcBlackOut.AcVoltOut[caseNumber], AC_ERR_RANGE, AcCheckMode.AC_BLACK_OUT);
+                        result = AcCtrlWin(AcBlackOut.AcVoltOut, AC_ERR_RANGE, AcCheckMode.AC_BLACK_OUT);
                         TestLog.AppendLine($"- AC 전원 결과 : {result}\n");
 
                         if (result != StateFlag.PASS)
                         {
-                            resultData = ("정전 알람 인식 불가", "불합격");
+                            resultData = ("정전 알람 인식 불가", "NG(불합격)");
                             jumpStepNum = (int)Seq.RESULT_SAVE;
                             return result;
                         }
-                        resultData = ("OK", "합격");
+                        resultData = ("OK", "OK(합격)");
                     }
                     break;
 
                 case Seq.DELAY3:
                     TestLog.AppendLine("[ 딜레이3 ]\n");
-                    Util.Delay(AcBlackOut.Delay3[caseNumber]);
+                    Util.Delay(AcBlackOut.Delay3);
                     result = StateFlag.PASS;
                     break;
 
@@ -300,7 +320,7 @@ namespace J_Project.ViewModel.TestItem
 
                     if (Option.IsFullAuto)
                     {
-                        result = AcSourceSet(AcBlackOut.AcVoltReturn[caseNumber]);
+                        result = AcSourceSet(AcBlackOut.AcVoltReturn);
                         TestLog.AppendLine($"- AC 세팅 결과 : {result}\n");
 
                         if (result != StateFlag.PASS)
@@ -310,7 +330,7 @@ namespace J_Project.ViewModel.TestItem
                     {
                         TestLog.AppendLine($"- AC 설정 팝업");
 
-                        result = AcCtrlWin(AcBlackOut.AcVoltReturn[caseNumber], AC_ERR_RANGE, AcCheckMode.NORMAL);
+                        result = AcCtrlWin(AcBlackOut.AcVoltReturn, AC_ERR_RANGE, AcCheckMode.NORMAL);
                         TestLog.AppendLine($"- AC 전원 결과 : {result}\n");
 
                         if (result != StateFlag.PASS)
@@ -320,7 +340,7 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.RESULT_CHECK: // 결과 판단
                     TestLog.AppendLine("[ 기능 검사 ]");
-                    result = VoltCheckTest(caseNumber, AcBlackOut.CheckTiming[caseNumber], AcBlackOut.LimitMaxVolt[caseNumber], AcBlackOut.LimitMinVolt[caseNumber], ref resultData);
+                    result = VoltCheckTest(caseNumber, AcBlackOut.CheckTiming, AcBlackOut.LimitMaxVolt, AcBlackOut.LimitMinVolt, ref resultData);
                     TestLog.AppendLine($"- 결과 : {result}\n");
                     break;
 
@@ -359,7 +379,7 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.NEXT_TEST_DELAY:
                     TestLog.AppendLine("[ 다음 테스트 딜레이 ]\n");
-                    Util.Delay(AcBlackOut.NextTestWait[caseNumber]);
+                    Util.Delay(AcBlackOut.NextTestWait);
                     result = StateFlag.PASS;
                     break;
 
@@ -410,14 +430,14 @@ namespace J_Project.ViewModel.TestItem
                 if (faultFlag == false)
                 {
                     TestLog.AppendLine($"- AC 정전 인식 : {pm.AcVolt}");
-                    resultData = ("OK", "합격");
+                    resultData = ("OK", "OK(합격)");
                     return StateFlag.PASS;
                 }
 
                 Util.Delay(1);
             }
 
-            resultData = ("정전 알람 인식 불가", "불합격");
+            resultData = ("정전 알람 인식 불가", "NG(불합격)");
             TestLog.AppendLine($"- 테스트 불합격 : 검사 범위 내 AC 정전 인식 실패");
             return StateFlag.CONDITION_FAIL;
         }
@@ -463,7 +483,7 @@ namespace J_Project.ViewModel.TestItem
             else
             {
                 TestLog.AppendLine($"- 테스트 불합격 : 제한 시간 내에 출력 전압 복귀 실패");
-                resultData = ("출력 전압 오류", "불합격");
+                resultData = ("출력 전압 오류", "NG(불합격)");
                 return StateFlag.CONDITION_FAIL;
             }
         }

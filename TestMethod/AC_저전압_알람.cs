@@ -20,89 +20,25 @@ namespace J_Project.TestMethod
      */
     public class AC_저전압_알람 : Test
     {
-        public ObservableCollection<double> AcVoltInit   { get; set; }
-        public ObservableCollection<double> AcCurrInit   { get; set; }
-        public ObservableCollection<double> AcFreqInit   { get; set; }
+        public double AcVoltInit   { get; set; } = 0;
+        public double AcCurrInit   { get; set; } = 0;
+        public double AcFreqInit   { get; set; } = 0;
 
-        public ObservableCollection<double> AcVoltDrop   { get; set; }
-        public ObservableCollection<double> AcErrRate    { get; set; }
+        public double AcVoltDrop   { get; set; } = 0;
+        public double AcErrRate    { get; set; } = 0;
 
-        public ObservableCollection<double> AcVoltReturn { get; set; }
+        public double AcVoltReturn { get; set; } = 0;
 
-        public ObservableCollection<double> LoadCurr     { get; set; }
+        public double LoadCurr     { get; set; } = 0;
 
-        public ObservableCollection<double> CheckTiming  { get; set; }
-        public ObservableCollection<double> LimitMaxVolt { get; set; }
-        public ObservableCollection<double> LimitMinVolt { get; set; }
+        public double CheckTiming  { get; set; } = 0;
+        public double LimitMaxVolt { get; set; } = 0;
+        public double LimitMinVolt { get; set; } = 0;
 
-        public ObservableCollection<double> Delay1       { get; set; }
-        public ObservableCollection<double> Delay2       { get; set; }
-        public ObservableCollection<double> Delay3       { get; set; }
-        public ObservableCollection<double> Delay4       { get; set; }
-        public ObservableCollection<double> NextTestWait { get; set; }
-
-        #region 싱글톤 패턴 구현
-        private static AC_저전압_알람 SingleTonObj = null;
-
-        private AC_저전압_알람()
-        {
-            MaxCase = 2;
-
-            AcVoltInit = new ObservableCollection<double>() { 0, 0 };
-            AcCurrInit = new ObservableCollection<double>() { 0, 0 };
-            AcFreqInit = new ObservableCollection<double>() { 0, 0 };
-
-            Delay1 = new ObservableCollection<double>() { 0, 0 };
-
-            LoadCurr = new ObservableCollection<double>() { 0, 0 };
-
-            Delay2 = new ObservableCollection<double>() { 0, 0 };
-            Delay3 = new ObservableCollection<double>() { 0, 0 };
-            Delay4 = new ObservableCollection<double>() { 0, 0 };
-
-            AcVoltDrop = new ObservableCollection<double>() { 0, 0 };
-            AcErrRate = new ObservableCollection<double>() { 0, 0 };
-
-            AcVoltReturn = new ObservableCollection<double>() { 0, 0 };
-
-            CheckTiming = new ObservableCollection<double>() { 0, 0 };
-            LimitMaxVolt = new ObservableCollection<double>() { 0, 0 };
-            LimitMinVolt = new ObservableCollection<double>() { 0, 0 };
-
-            NextTestWait = new ObservableCollection<double>() { 0, 0 };
-        }
-
-        public static AC_저전압_알람 GetObj()
-        {
-            if (SingleTonObj == null) SingleTonObj = new AC_저전압_알람();
-            return SingleTonObj;
-        }
-        #endregion
-
-        /**
-         *  @brief 데이터 저장
-         *  @details 해당 테스트의 설정값을 ini파일에 저장한다
-         *  
-         *  @param
-         *  
-         *  @return
-         */
-        public static void Save()
-        {
-            Setting.WriteSetting(GetObj(), @"\Setting\TestSetting.ini");
-        }
-
-        /**
-         *  @brief 데이터 로드
-         *  @details ini파일에서 해당 테스트의 설정값을 불러온다
-         *  
-         *  @param
-         *  
-         *  @return
-         */
-        public static void Load()
-        {
-            Setting.ReadSetting(GetObj(), @"\Setting\TestSetting.ini");
-        }
+        public double Delay1       { get; set; } = 0;
+        public double Delay2       { get; set; } = 0;
+        public double Delay3       { get; set; } = 0;
+        public double Delay4       { get; set; } = 0;
+        public double NextTestWait { get; set; } = 0;
     }
 }

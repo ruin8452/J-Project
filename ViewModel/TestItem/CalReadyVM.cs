@@ -34,6 +34,7 @@ namespace J_Project.ViewModel.TestItem
         }
 
         public static string TestName { get; } = "캘리브레이션 준비";
+        public int CaseNum { get; set; }
         public CalReady Cal { get; set; }
         public TestOption Option { get; set; }
 
@@ -44,14 +45,16 @@ namespace J_Project.ViewModel.TestItem
         public RelayCommand UnloadPage { get; set; }
         public RelayCommand<object> UnitTestCommand { get; set; }
 
-        public CalReadyVM()
+        public CalReadyVM(int caseNum)
         {
+            CaseNum = caseNum;
             TestLog = new StringBuilder();
 
             TotalStepNum = (int)Seq.END_TEST + 1;
 
-            CalReady.Load();
-            Cal = CalReady.GetObj();
+            Cal = new CalReady();
+            Cal = (CalReady)Test.Load(Cal, CaseNum);
+
             Option = TestOption.GetObj();
             ButtonColor = new ObservableCollection<SolidColorBrush>();
 
@@ -72,7 +75,7 @@ namespace J_Project.ViewModel.TestItem
          */
         private void DataSave()
         {
-            CalReady.Save();
+            Test.Save(Cal, CaseNum);
         }
 
         /**
@@ -162,7 +165,7 @@ namespace J_Project.ViewModel.TestItem
                     // 팝업 전 확인 후 통과
                     double acVolt = PowerMeter.GetObj().AcVolt;
                     TestLog.AppendLine($"- AC : {acVolt}");
-                    if (Math.Abs(Cal.AcVolt[caseNumber] - acVolt) <= AC_ERR_RANGE)
+                    if (Math.Abs(Cal.AcVolt - acVolt) <= AC_ERR_RANGE)
                     {
                         result = StateFlag.PASS;
                         break;
@@ -170,7 +173,7 @@ namespace J_Project.ViewModel.TestItem
 
                     if (Option.IsFullAuto)
                     {
-                        result = AcSourceSet(Cal.AcVolt[caseNumber], Cal.AcCurr[caseNumber], Cal.AcFreq[caseNumber]);
+                        result = AcSourceSet(Cal.AcVolt, Cal.AcCurr, Cal.AcFreq);
                         TestLog.AppendLine($"- AC 세팅 결과 : {result}");
 
                         if (result != StateFlag.PASS)
@@ -189,7 +192,7 @@ namespace J_Project.ViewModel.TestItem
                     {
                         TestLog.AppendLine($"- AC 설정 팝업");
 
-                        result = AcCtrlWin(Cal.AcVolt[caseNumber], AC_ERR_RANGE, AcCheckMode.NORMAL);
+                        result = AcCtrlWin(Cal.AcVolt, AC_ERR_RANGE, AcCheckMode.NORMAL);
                         TestLog.AppendLine($"- AC 전원 결과 : {result}\n");
 
                         if (result != StateFlag.PASS)
@@ -199,7 +202,7 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.DELAY1:
                     TestLog.AppendLine("[ 딜레이1 ]\n");
-                    Util.Delay(Cal.Delay1[caseNumber]);
+                    Util.Delay(Cal.Delay1);
                     result = StateFlag.PASS;
                     break;
 
@@ -236,7 +239,7 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.NEXT_TEST_DELAY:
                     TestLog.AppendLine("[ 다음 테스트 딜레이 ]\n");
-                    Util.Delay(Cal.NextTestWait[caseNumber]);
+                    Util.Delay(Cal.NextTestWait);
                     result = StateFlag.PASS;
                     break;
 

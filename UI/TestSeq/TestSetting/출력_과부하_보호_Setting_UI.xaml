@@ -38,13 +38,9 @@
                         <TextBlock Text="전류(A)"    Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="2" />
                         <TextBlock Text="주파수(Hz)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="3" />
 
-                        <TextBox Style="{StaticResource TestList_SetValueStyle}" Text="{Binding OutputOver.AcVolt[0], Mode=TwoWay}" Grid.Column="1" Grid.Row="1" />
-                        <TextBox Style="{StaticResource TestList_SetValueStyle}" Text="{Binding OutputOver.AcCurr[0], Mode=TwoWay}" Grid.Column="2" Grid.Row="1" />
-                        <TextBox Style="{StaticResource TestList_SetValueStyle}" Text="{Binding OutputOver.AcFreq[0], Mode=TwoWay}" Grid.Column="3" Grid.Row="1" />
-
-                        <TextBox Style="{StaticResource TestList_SetValueStyle}" Text="{Binding OutputOver.AcVolt[1], Mode=TwoWay}" Grid.Column="1" Grid.Row="2" />
-                        <TextBox Style="{StaticResource TestList_SetValueStyle}" Text="{Binding OutputOver.AcCurr[1], Mode=TwoWay}" Grid.Column="2" Grid.Row="2" />
-                        <TextBox Style="{StaticResource TestList_SetValueStyle}" Text="{Binding OutputOver.AcFreq[1], Mode=TwoWay}" Grid.Column="3" Grid.Row="2" />
+                        <TextBox Style="{StaticResource TestList_SetValueStyle}" Text="{Binding OutputOver.AcVolt, Mode=TwoWay}" Grid.Column="1" Grid.Row="1" />
+                        <TextBox Style="{StaticResource TestList_SetValueStyle}" Text="{Binding OutputOver.AcCurr, Mode=TwoWay}" Grid.Column="2" Grid.Row="1" />
+                        <TextBox Style="{StaticResource TestList_SetValueStyle}" Text="{Binding OutputOver.AcFreq, Mode=TwoWay}" Grid.Column="3" Grid.Row="1" />
                     </Grid>
                 </StackPanel>
                 <!-- 화살표 이미지 -->
@@ -61,8 +57,7 @@
 
                         <TextBlock Text="대기(s)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
 
-                        <TextBox Style="{StaticResource TestList_SetValueStyle}" Text="{Binding OutputOver.Delay1[0], Mode=TwoWay}" Grid.Column="0" Grid.Row="1" />
-                        <TextBox Style="{StaticResource TestList_SetValueStyle}" Text="{Binding OutputOver.Delay1[1], Mode=TwoWay}" Grid.Column="0" Grid.Row="2" />
+                        <TextBox Style="{StaticResource TestList_SetValueStyle}" Text="{Binding OutputOver.Delay1, Mode=TwoWay}" Grid.Column="0" Grid.Row="1" />
                     </Grid>
                 </StackPanel>
                 <!-- 화살표 이미지 -->
@@ -81,8 +76,7 @@
                         </Grid.ColumnDefinitions>
                         <TextBlock Text="전류(A)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
 
-                        <TextBox Style="{StaticResource TestList_SetValueStyle}" Text="{Binding OutputOver.OverLoadCurr[0], Mode=TwoWay}" Grid.Column="0" Grid.Row="1" />
-                        <TextBox Style="{StaticResource TestList_SetValueStyle}" Text="{Binding OutputOver.OverLoadCurr[1], Mode=TwoWay}" Grid.Column="0" Grid.Row="2" />
+                        <TextBox Style="{StaticResource TestList_SetValueStyle}" Text="{Binding OutputOver.OverLoadCurr, Mode=TwoWay}" Grid.Column="0" Grid.Row="1" />
                     </Grid>
                 </StackPanel>
                 <!-- 화살표 이미지 -->
@@ -99,8 +93,7 @@
 
                         <TextBlock Text="대기(s)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
 
-                        <TextBox Style="{StaticResource TestList_SetValueStyle}" Text="{Binding OutputOver.Delay2[0], Mode=TwoWay}" Grid.Column="0" Grid.Row="1" />
-                        <TextBox Style="{StaticResource TestList_SetValueStyle}" Text="{Binding OutputOver.Delay2[1], Mode=TwoWay}" Grid.Column="0" Grid.Row="2" />
+                        <TextBox Style="{StaticResource TestList_SetValueStyle}" Text="{Binding OutputOver.Delay2, Mode=TwoWay}" Grid.Column="0" Grid.Row="1" />
                     </Grid>
                 </StackPanel>
                 <!-- 화살표 이미지 -->
@@ -121,8 +114,7 @@
 
                         <TextBlock Text="대기(s)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
 
-                        <TextBox Style="{StaticResource TestList_SetValueStyle}" Text="{Binding OutputOver.Delay3[0], Mode=TwoWay}" Grid.Column="0" Grid.Row="1" />
-                        <TextBox Style="{StaticResource TestList_SetValueStyle}" Text="{Binding OutputOver.Delay3[1], Mode=TwoWay}" Grid.Column="0" Grid.Row="2" />
+                        <TextBox Style="{StaticResource TestList_SetValueStyle}" Text="{Binding OutputOver.Delay3, Mode=TwoWay}" Grid.Column="0" Grid.Row="1" />
                     </Grid>
                 </StackPanel>
                 <!-- 화살표 이미지 -->
@@ -146,13 +138,9 @@
                         <TextBlock Text="출력전압(V)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="1" />
                         <TextBlock Text="오차범위(V)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="2" />
 
-                        <TextBox Style="{StaticResource TestList_SetValueStyle}" Text="{Binding OutputOver.CheckTiming[0],  Mode=TwoWay}" Grid.Column="0" Grid.Row="1" Width="70" />
-                        <TextBox Style="{StaticResource TestList_SetValueStyle}" Text="{Binding OutputOver.DcOutVolt[0],  Mode=TwoWay}" Grid.Column="1" Grid.Row="1" Width="70" />
-                        <TextBox Style="{StaticResource TestList_SetValueStyle}" Text="{Binding OutputOver.VoltErrRate[0], Mode=TwoWay}" Grid.Column="2" Grid.Row="1" Width="70" />
-
-                        <TextBox Style="{StaticResource TestList_SetValueStyle}" Text="{Binding OutputOver.CheckTiming[1],  Mode=TwoWay}" Grid.Column="0" Grid.Row="2" Width="70" />
-                        <TextBox Style="{StaticResource TestList_SetValueStyle}" Text="{Binding OutputOver.DcOutVolt[1],  Mode=TwoWay}" Grid.Column="1" Grid.Row="2" Width="70" />
-                        <TextBox Style="{StaticResource TestList_SetValueStyle}" Text="{Binding OutputOver.VoltErrRate[1], Mode=TwoWay}" Grid.Column="2" Grid.Row="2" Width="70" />
+                        <TextBox Style="{StaticResource TestList_SetValueStyle}" Text="{Binding OutputOver.CheckTiming,  Mode=TwoWay}" Grid.Column="0" Grid.Row="1" Width="70" />
+                        <TextBox Style="{StaticResource TestList_SetValueStyle}" Text="{Binding OutputOver.DcOutVolt,  Mode=TwoWay}" Grid.Column="1" Grid.Row="1" Width="70" />
+                        <TextBox Style="{StaticResource TestList_SetValueStyle}" Text="{Binding OutputOver.VoltErrRate, Mode=TwoWay}" Grid.Column="2" Grid.Row="1" Width="70" />
                     </Grid>
                 </StackPanel>
                 <!-- 화살표 이미지 -->
@@ -173,8 +161,7 @@
 
                         <TextBlock Text="대기(s)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
 
-                        <TextBox Style="{StaticResource TestList_SetValueStyle}" Text="{Binding OutputOver.NextTestWait[0], Mode=TwoWay}" Grid.Column="0" Grid.Row="1" />
-                        <TextBox Style="{StaticResource TestList_SetValueStyle}" Text="{Binding OutputOver.NextTestWait[1], Mode=TwoWay}" Grid.Column="0" Grid.Row="2" />
+                        <TextBox Style="{StaticResource TestList_SetValueStyle}" Text="{Binding OutputOver.NextTestWait, Mode=TwoWay}" Grid.Column="0" Grid.Row="1" />
                     </Grid>
                 </StackPanel>
                 <!-- 화살표 이미지 -->

@@ -7,11 +7,11 @@ namespace J_Project.UI.TestSeq.TestSetting
     /// </summary>
     public partial class SerialSave_Setting_UI : Page, ITestSettingList
     {
-        public SerialSave_Setting_UI()
+        public SerialSave_Setting_UI(int caseNum)
         {
             InitializeComponent();
 
-            DataContext = new ViewModel.TestItem.SerialSaveVM();
+            DataContext = new ViewModel.TestItem.SerialSaveVM(caseNum);
         }
     }
 }

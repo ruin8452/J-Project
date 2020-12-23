@@ -61,13 +61,13 @@
                         <TextBlock Text="주파수(Hz)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="2" />
 
                         <Border Grid.Column="0" Grid.Row="1" Style="{StaticResource SettingDataViewBorder}">
-                            <TextBlock Text="{Binding Noise.AcVolt[0]}" Style="{StaticResource TestList_ViewValueStyle}" />
+                            <TextBlock Text="{Binding Noise.AcVolt}" Style="{StaticResource TestList_ViewValueStyle}" />
                         </Border>
                         <Border Grid.Column="1" Grid.Row="1" Style="{StaticResource SettingDataViewBorder}">
-                            <TextBlock Text="{Binding Noise.AcCurr[0]}" Style="{StaticResource TestList_ViewValueStyle}" />
+                            <TextBlock Text="{Binding Noise.AcCurr}" Style="{StaticResource TestList_ViewValueStyle}" />
                         </Border>
                         <Border Grid.Column="2" Grid.Row="1" Style="{StaticResource SettingDataViewBorder}">
-                            <TextBlock Text="{Binding Noise.AcFreq[0]}" Style="{StaticResource TestList_ViewValueStyle}" />
+                            <TextBlock Text="{Binding Noise.AcFreq}" Style="{StaticResource TestList_ViewValueStyle}" />
                         </Border>
                     </Grid>
                 </StackPanel>
@@ -97,7 +97,7 @@
                         <TextBlock Text="대기(s)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
 
                         <Border Grid.Column="0" Grid.Row="1" Style="{StaticResource SettingDataViewBorder}">
-                            <TextBlock Text="{Binding Noise.Delay1[0]}" Style="{StaticResource TestList_ViewValueStyle}" />
+                            <TextBlock Text="{Binding Noise.Delay1}" Style="{StaticResource TestList_ViewValueStyle}" />
                         </Border>
                     </Grid>
                 </StackPanel>
@@ -130,7 +130,7 @@
                         <TextBlock Text="전류(A)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
 
                         <Border Grid.Column="0" Grid.Row="1" Style="{StaticResource SettingDataViewBorder}">
-                            <TextBlock Text="{Binding Noise.LoadCurr[0]}" Style="{StaticResource TestList_ViewValueStyle}" />
+                            <TextBlock Text="{Binding Noise.LoadCurr}" Style="{StaticResource TestList_ViewValueStyle}" />
                         </Border>
                     </Grid>
                 </StackPanel>
@@ -160,7 +160,7 @@
                         <TextBlock Text="대기(s)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
 
                         <Border Grid.Column="0" Grid.Row="1" Style="{StaticResource SettingDataViewBorder}">
-                            <TextBlock Text="{Binding Noise.Delay2[0]}" Style="{StaticResource TestList_ViewValueStyle}" />
+                            <TextBlock Text="{Binding Noise.Delay2}" Style="{StaticResource TestList_ViewValueStyle}" />
                         </Border>
                     </Grid>
                 </StackPanel>
@@ -194,7 +194,7 @@
                         <TextBlock Text="잡음전압(mVp-p)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" Grid.ColumnSpan="2" />
 
                         <Border Grid.Column="0" Grid.Row="1" Style="{StaticResource SettingDataViewBorder}">
-                            <TextBlock Text="{Binding Noise.LimitNoiseVolt[0]}" Style="{StaticResource TestList_ViewValueStyle}" />
+                            <TextBlock Text="{Binding Noise.LimitNoiseVolt}" Style="{StaticResource TestList_ViewValueStyle}" />
                         </Border>
                         <TextBlock Text="이하" Grid.Row="1" Grid.Column="1" Foreground="White" Margin="0,0,1,0" HorizontalAlignment="Center" />
                     </Grid>
@@ -253,7 +253,7 @@
                         <TextBlock Text="대기(s)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
 
                         <Border Grid.Column="0" Grid.Row="1" Style="{StaticResource SettingDataViewBorder}">
-                            <TextBlock Text="{Binding Noise.NextTestWait[0]}" Style="{StaticResource TestList_ViewValueStyle}" />
+                            <TextBlock Text="{Binding Noise.NextTestWait}" Style="{StaticResource TestList_ViewValueStyle}" />
                         </Border>
                     </Grid>
                 </StackPanel>

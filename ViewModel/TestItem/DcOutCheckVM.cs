@@ -40,8 +40,8 @@ namespace J_Project.ViewModel.TestItem
 
         private const double ERR_RATE = 0.05;
 
-        private int TestOrterNum = (int)SecondTestOrder.OutputCheck;
         public static string TestName { get; } = "출력전압 체크";
+        public int CaseNum { get; set; }
         public DcOutCheck DcCheck { get; set; }
         public TestOption Option { get; set; }
 
@@ -50,18 +50,21 @@ namespace J_Project.ViewModel.TestItem
         public RelayCommand UnloadPage { get; set; }
         public RelayCommand<object> UnitTestCommand { get; set; }
 
-        public DcOutCheckVM()
+        public DcOutCheckVM(int caseNum)
         {
+            CaseNum = caseNum;
             TestLog = new StringBuilder();
 
+            TestOrterNum = (int)SecondTestOrder.OutputCheck + caseNum;
             TotalStepNum = (int)Seq.END_TEST + 1;
 
-            DcOutCheck.Load();
-            DcCheck = DcOutCheck.GetObj();
+            DcCheck = new DcOutCheck();
+            DcCheck = (DcOutCheck)Test.Load(DcCheck, CaseNum);
+
             Option = TestOption.GetObj();
             ButtonColor = new ObservableCollection<SolidColorBrush>();
 
-            SecondOrder[TestOrterNum] = new string[] { TestOrterNum.ToString(), TestName, "판단불가", "불합격" };
+            SecondOrder[TestOrterNum] = new string[] { TestOrterNum.ToString(), TestName + caseNum.ToString(), "판단불가", "NG(불합격)" };
 
             for (int i = 0; i < TotalStepNum; i++)
                 ButtonColor.Add(Brushes.White);
@@ -80,7 +83,7 @@ namespace J_Project.ViewModel.TestItem
          */
         private void DataSave()
         {
-            DcOutCheck.Save();
+            Test.Save(DcCheck, CaseNum);
         }
 
         /**
@@ -169,7 +172,7 @@ namespace J_Project.ViewModel.TestItem
 
                     double acVolt = PowerMeter.GetObj().AcVolt;
                     TestLog.AppendLine($"- AC : {acVolt}");
-                    if (Math.Abs(DcCheck.AcVolt[caseNumber] - acVolt) <= AC_ERR_RANGE)
+                    if (Math.Abs(DcCheck.AcVolt - acVolt) <= AC_ERR_RANGE)
                     {
                         result = StateFlag.PASS;
                         break;
@@ -177,7 +180,7 @@ namespace J_Project.ViewModel.TestItem
 
                     if (Option.IsFullAuto)
                     {
-                        result = AcSourceSet(DcCheck.AcVolt[caseNumber], DcCheck.AcCurr[caseNumber], DcCheck.AcFreq[caseNumber]);
+                        result = AcSourceSet(DcCheck.AcVolt, DcCheck.AcCurr, DcCheck.AcFreq);
                         TestLog.AppendLine($"- AC 세팅 결과 : {result}");
 
                         if (result != StateFlag.PASS)
@@ -196,7 +199,7 @@ namespace J_Project.ViewModel.TestItem
                     {
                         TestLog.AppendLine($"- AC 설정 팝업");
 
-                        result = AcCtrlWin(DcCheck.AcVolt[caseNumber], AC_ERR_RANGE, AcCheckMode.NORMAL);
+                        result = AcCtrlWin(DcCheck.AcVolt, AC_ERR_RANGE, AcCheckMode.NORMAL);
                         TestLog.AppendLine($"- AC 전원 결과 : {result}\n");
 
                         if (result != StateFlag.PASS)
@@ -206,7 +209,7 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.DELAY1:
                     TestLog.AppendLine("[ 딜레이1 ]\n");
-                    Util.Delay(DcCheck.Delay1[caseNumber]);
+                    Util.Delay(DcCheck.Delay1);
                     result = StateFlag.PASS;
                     break;
 
@@ -226,7 +229,7 @@ namespace J_Project.ViewModel.TestItem
                         if (msgResult == MessageBoxResult.Cancel)
                         {
                             TestLog.AppendLine($"- 스위치 체크 실패\n");
-                            resultData = ("스위치 조작 오류", "불합격");
+                            resultData = ("스위치 조작 오류", "NG(불합격)");
                             result = StateFlag.LOCAL_SWITCH_ERR;
                             jumpStepNum = (int)Seq.RESULT_SAVE;
                         }
@@ -239,7 +242,7 @@ namespace J_Project.ViewModel.TestItem
                     TestLog.AppendLine("[ 출력 체크 ]");
 
                     TestLog.AppendLine("[ 기본값 세팅 ]");
-                    result = DefaultRefSet(DcCheck.DefaultRef[caseNumber]);
+                    result = DefaultRefSet(DcCheck.DefaultRef);
                     TestLog.AppendLine($"- 결과 : {result}\n");
 
                     TestLog.AppendLine($"- 정상 출력값 : 53.3");
@@ -250,13 +253,13 @@ namespace J_Project.ViewModel.TestItem
                     if (Math.Abs(53.3 - Rectifier.GetObj().DcOutputVolt) <= 1)
                     {
                         TestLog.AppendLine($"- 테스트 합격\n");
-                        resultData = ((-Rectifier.GetObj().DcOutputVolt).ToString(), "합격");
+                        resultData = ((-Rectifier.GetObj().DcOutputVolt).ToString(), "OK(합격)");
                         result = StateFlag.PASS;
                     }
                     else
                     {
                         TestLog.AppendLine($"- 테스트 불합격\n");
-                        resultData = ((-Rectifier.GetObj().DcOutputVolt).ToString(), "불합격");
+                        resultData = ((-Rectifier.GetObj().DcOutputVolt).ToString(), "NG(불합격)");
                         result = StateFlag.NORMAL_ERR;
                     }
                     break;
@@ -269,7 +272,7 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.NEXT_TEST_DELAY:
                     TestLog.AppendLine("[ 다음 테스트 딜레이 ]\n");
-                    Util.Delay(DcCheck.NextTestWait[caseNumber]);
+                    Util.Delay(DcCheck.NextTestWait);
                     result = StateFlag.PASS;
                     break;
 

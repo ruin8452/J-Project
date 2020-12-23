@@ -7,11 +7,11 @@ namespace J_Project.UI.TestSeq.TestSetting
     /// </summary>
     public partial class RemoteComm_Setting_UI : Page, ITestSettingList
     {
-        public RemoteComm_Setting_UI()
+        public RemoteComm_Setting_UI(int caseNum)
         {
             InitializeComponent();
 
-            DataContext = new ViewModel.TestItem.RemoteCommVM();
+            DataContext = new ViewModel.TestItem.RemoteCommVM(caseNum);
         }
     }
 }

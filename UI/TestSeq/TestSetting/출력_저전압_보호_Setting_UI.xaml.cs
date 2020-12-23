@@ -7,11 +7,11 @@ namespace J_Project.UI.TestSeq.TestSetting
     /// </summary>
     public partial class 출력_저전압_보호_Setting_UI : Page, ITestSettingList
     {
-        public 출력_저전압_보호_Setting_UI()
+        public 출력_저전압_보호_Setting_UI(int caseNum)
         {
             InitializeComponent();
 
-            DataContext = new ViewModel.TestItem.OutputLowVM();
+            DataContext = new ViewModel.TestItem.OutputLowVM(caseNum);
         }
     }
 }

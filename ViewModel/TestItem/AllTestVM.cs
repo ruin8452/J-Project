@@ -17,29 +17,43 @@ namespace J_Project.ViewModel.TestItem
         IsolRes = 1,   // 절연저항
         IsolPress,     // 절연내압
         PowerSupply,   // 전원 공급
+        Inrush,        // 돌입전류
         IdSet,         // ID 세팅
+        Temp,          // 온도센서 점검
+        Leakage,       // 누설전류
         LocalSwitch,   // 로컬 스위치 확인
         Remote,        // 리모트 통신 확인
         Battery,       // 배터리 통신 확인
-        Temp,          // 온도센서 점검
-        NoLoad,        // 무부하
-        LoadReg0,      // 로드 레귤레이션0
-        LoadReg1,      // 로드 레귤레이션1
-        LoadReg2,      // 로드 레귤레이션2
-        LineReg0,      // 라인 레귤레이션0
-        LineReg1,      // 라인 레귤레이션1
-        LineReg2,      // 라인 레귤레이션2
+        LedCheck,      // LED 검사
+        Regul200V_0,   // 레귤레이션 200V 0
+        Regul200V_1,   // 레귤레이션 200V 1
+        Regul200V_2,   // 레귤레이션 200V 2
+        Regul200V_3,   // 레귤레이션 200V 3
+        Regul200V_4,   // 레귤레이션 200V 4
+        Regul200V_5,   // 레귤레이션 200V 5
+        Regul200V_6,   // 레귤레이션 200V 6
+        Regul200V_7,   // 레귤레이션 200V 7
+        Regul200V_8,   // 레귤레이션 200V 8
         Noise,         // 리플 노이즈
         PowerFacter,   // 역률
         Efficiency,    // 효율
         OutputLow,     // 출력 저전압
         OutputHigh,    // 출력 고전압
-        AcLow0,        // AC 저전압0
-        AcLow1,        // AC 저전압1
+        AcLow0,        // AC 저전압 200V
+        AcLow1,        // AC 저전압 100V
         AcHigh,        // AC 고전압
+        OverLoad0,     // 출력 과부하 200V
+        OverLoad1,     // 출력 과부하 100V
+        Regul100V_0,   // 레귤레이션 100V 0
+        Regul100V_1,   // 레귤레이션 100V 1
+        Regul100V_2,   // 레귤레이션 100V 2
+        Regul100V_3,   // 레귤레이션 100V 3
+        Regul100V_4,   // 레귤레이션 100V 4
+        Regul100V_5,   // 레귤레이션 100V 5
+        Regul100V_6,   // 레귤레이션 100V 6
+        Regul100V_7,   // 레귤레이션 100V 7
+        Regul100V_8,   // 레귤레이션 100V 8
         AcBlackOut,    // AC 정전
-        OverLoad0,     // 출력 과부하
-        OverLoad1,     // 출력 과부하
         Rtc            // RTC
     }
 
@@ -68,6 +82,7 @@ namespace J_Project.ViewModel.TestItem
         protected const int AC_ERR_RANGE = 5;
         protected const int LOAD_ERR_RANGE = 3;
 
+        protected int TestOrterNum;
         public int TotalStepNum;
         public static string ReportSavePath;
 
@@ -77,7 +92,7 @@ namespace J_Project.ViewModel.TestItem
         public static string[][] FirstOrder = new string[FirstOrderCnt][];
         public static string[][] SecondOrder = new string[SecondOrderCnt][];
 
-        protected (string, string) resultData = ("판단 불가", "불합격");
+        protected (string, string) resultData = ("판단 불가", "NG(불합격)");
         public StringBuilder TestLog;
 
         /**
@@ -94,7 +109,7 @@ namespace J_Project.ViewModel.TestItem
             for(int i = 4; i < FirstOrderCnt; i++)
             {
                 FirstOrder[i][2] = "판단 불가";
-                FirstOrder[i][3] = "불합격";
+                FirstOrder[i][3] = "NG(불합격)";
             }
         }
         /**
@@ -110,7 +125,7 @@ namespace J_Project.ViewModel.TestItem
             for (int i = 1; i < SecondOrderCnt; i++)
             {
                 SecondOrder[i][2] = "판단 불가";
-                SecondOrder[i][3] = "불합격";
+                SecondOrder[i][3] = "NG(불합격)";
             }
         }
 

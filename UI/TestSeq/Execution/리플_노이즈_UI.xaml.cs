@@ -7,11 +7,11 @@ namespace J_Project.UI.TestSeq.Execution
     /// </summary>
     public partial class 리플_노이즈_UI : Page, ITestExeList
     {
-        public 리플_노이즈_UI()
+        public 리플_노이즈_UI(int caseNum)
         {
             InitializeComponent();
 
-            DataContext = new ViewModel.TestItem.NoiseVM();
+            DataContext = new ViewModel.TestItem.NoiseVM(caseNum);
         }
         public 리플_노이즈_UI(object dataContext)
         {

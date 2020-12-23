@@ -34,8 +34,8 @@ namespace J_Project.ViewModel.TestItem
             END_TEST
         }
 
-        private int TestOrterNum = (int)SecondTestOrder.Remote;
         public static string TestName { get; } = "Remote 통신 테스트";
+        public int CaseNum { get; set; }
         public RemoteComm RemoteComm { get; set; }
         public TestOption Option { get; set; }
 
@@ -44,18 +44,21 @@ namespace J_Project.ViewModel.TestItem
         public RelayCommand UnloadPage { get; set; }
         public RelayCommand<object> UnitTestCommand { get; set; }
 
-        public RemoteComm2VM()
+        public RemoteComm2VM(int caseNum)
         {
+            CaseNum = caseNum;
             TestLog = new StringBuilder();
 
+            TestOrterNum = (int)SecondTestOrder.Remote + caseNum;
             TotalStepNum = (int)Seq.END_TEST + 1;
 
-            RemoteComm.Load();
-            RemoteComm = RemoteComm.GetObj();
+            RemoteComm = new RemoteComm();
+            RemoteComm = (RemoteComm)Test.Load(RemoteComm, CaseNum);
+
             Option = TestOption.GetObj();
             ButtonColor = new ObservableCollection<SolidColorBrush>();
 
-            SecondOrder[TestOrterNum] = new string[] { TestOrterNum.ToString(), TestName, "판단불가", "불합격" };
+            SecondOrder[TestOrterNum] = new string[] { TestOrterNum.ToString(), TestName + caseNum.ToString(), "판단불가", "NG(불합격)" };
 
             for (int i = 0; i < TotalStepNum; i++)
                 ButtonColor.Add(Brushes.White);
@@ -74,7 +77,7 @@ namespace J_Project.ViewModel.TestItem
          */
         private void DataSave()
         {
-            RemoteComm.Save();
+            Test.Save(RemoteComm, CaseNum);
         }
 
         /**
@@ -163,7 +166,7 @@ namespace J_Project.ViewModel.TestItem
 
                     double acVolt = PowerMeter.GetObj().AcVolt;
                     TestLog.AppendLine($"- AC : {acVolt}");
-                    if (Math.Abs(RemoteComm.AcVolt[caseNumber] - acVolt) <= AC_ERR_RANGE)
+                    if (Math.Abs(RemoteComm.AcVolt - acVolt) <= AC_ERR_RANGE)
                     {
                         result = StateFlag.PASS;
                         break;
@@ -171,7 +174,7 @@ namespace J_Project.ViewModel.TestItem
 
                     if (Option.IsFullAuto)
                     {
-                        result = AcSourceSet(RemoteComm.AcVolt[caseNumber], RemoteComm.AcCurr[caseNumber], RemoteComm.AcFreq[caseNumber]);
+                        result = AcSourceSet(RemoteComm.AcVolt, RemoteComm.AcCurr, RemoteComm.AcFreq);
                         TestLog.AppendLine($"- AC 세팅 결과 : {result}");
 
                         if (result != StateFlag.PASS)
@@ -190,7 +193,7 @@ namespace J_Project.ViewModel.TestItem
                     {
                         TestLog.AppendLine($"- AC 설정 팝업");
 
-                        result = AcCtrlWin(RemoteComm.AcVolt[caseNumber], AC_ERR_RANGE, AcCheckMode.NORMAL);
+                        result = AcCtrlWin(RemoteComm.AcVolt, AC_ERR_RANGE, AcCheckMode.NORMAL);
                         TestLog.AppendLine($"- AC 전원 결과 : {result}\n");
 
                         if (result != StateFlag.PASS)
@@ -235,7 +238,7 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.NEXT_TEST_DELAY:
                     TestLog.AppendLine("[ 다음 테스트 딜레이 ]\n");
-                    Util.Delay(RemoteComm.NextTestWait[caseNumber]);
+                    Util.Delay(RemoteComm.NextTestWait);
                     result = StateFlag.PASS;
                     break;
 
@@ -264,7 +267,7 @@ namespace J_Project.ViewModel.TestItem
             Rectifier rect = Rectifier.GetObj();
             Remote rmt = Remote.GetObj();
 
-            resultData = ("원격 통신 실패", "불합격");
+            resultData = ("원격 통신 실패", "NG(불합격)");
 
             TestLog.AppendLine($"- 리모트 통신 접속");
             if (!rmt.IsConnected)
@@ -347,7 +350,7 @@ namespace J_Project.ViewModel.TestItem
             }
 
             TestLog.AppendLine($"- 테스트 합격");
-            resultData = ("OK", "합격");
+            resultData = ("OK", "OK(합격)");
             rmt.Disconnect();
             return StateFlag.PASS;
         }
@@ -366,7 +369,7 @@ namespace J_Project.ViewModel.TestItem
             Rectifier rect = Rectifier.GetObj();
             Remote rmt = Remote.GetObj();
 
-            resultData = ("원격 통신 실패", "불합격");
+            resultData = ("원격 통신 실패", "NG(불합격)");
 
             TestLog.AppendLine($"- 리모트 통신 접속");
             if (!rmt.IsConnected)
@@ -449,7 +452,7 @@ namespace J_Project.ViewModel.TestItem
             }
 
             TestLog.AppendLine($"- 테스트 합격");
-            resultData = ("OK", "합격");
+            resultData = ("OK", "OK(합격)");
             rmt.Disconnect();
             return StateFlag.PASS;
         }

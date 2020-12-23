@@ -33,8 +33,8 @@ namespace J_Project.ViewModel.TestItem
             END_TEST
         }
 
-        private int TestOrterNum = (int)FirstTestOrder.Temp;
         public static string TestName { get; } = "온도센서 점검";
+        public int CaseNum { get; set; }
         public 온도센서_점검 TempCheck { get; set; }
         public TestOption Option { get; set; }
 
@@ -45,18 +45,21 @@ namespace J_Project.ViewModel.TestItem
         public RelayCommand UnloadPage { get; set; }
         public RelayCommand<object> UnitTestCommand { get; set; }
 
-        public TempVM()
+        public TempVM(int caseNum)
         {
+            CaseNum = caseNum;
             TestLog = new StringBuilder();
 
+            TestOrterNum = (int)FirstTestOrder.Temp + caseNum;
             TotalStepNum = (int)Seq.END_TEST + 1;
 
-            온도센서_점검.Load();
-            TempCheck = 온도센서_점검.GetObj();
+            TempCheck = new 온도센서_점검();
+            TempCheck = (온도센서_점검)Test.Load(TempCheck, CaseNum);
+
             Option = TestOption.GetObj();
             ButtonColor = new ObservableCollection<SolidColorBrush>();
 
-            FirstOrder[TestOrterNum] = new string[] { TestOrterNum.ToString(), TestName, "판단불가", "불합격" };
+            FirstOrder[TestOrterNum] = new string[] { TestOrterNum.ToString(), TestName + caseNum.ToString(), "판단불가", "NG(불합격)" };
 
             for (int i = 0; i < TotalStepNum; i++)
                 ButtonColor.Add(Brushes.White);
@@ -75,7 +78,7 @@ namespace J_Project.ViewModel.TestItem
          */
         private void DataSave()
         {
-            온도센서_점검.Save();
+            Test.Save(TempCheck, CaseNum);
         }
 
         /**
@@ -175,7 +178,7 @@ namespace J_Project.ViewModel.TestItem
 
                     double acVolt = PowerMeter.GetObj().AcVolt;
                     TestLog.AppendLine($"- AC : {acVolt}");
-                    if (Math.Abs(TempCheck.AcVolt[caseNumber] - acVolt) <= AC_ERR_RANGE)
+                    if (Math.Abs(TempCheck.AcVolt - acVolt) <= AC_ERR_RANGE)
                     {
                         result = StateFlag.PASS;
                         break;
@@ -183,7 +186,7 @@ namespace J_Project.ViewModel.TestItem
 
                     if (Option.IsFullAuto)
                     {
-                        result = AcSourceSet(TempCheck.AcVolt[caseNumber], TempCheck.AcCurr[caseNumber], TempCheck.AcFreq[caseNumber]);
+                        result = AcSourceSet(TempCheck.AcVolt, TempCheck.AcCurr, TempCheck.AcFreq);
                         TestLog.AppendLine($"- AC 세팅 결과 : {result}");
 
                         if (result != StateFlag.PASS)
@@ -202,7 +205,7 @@ namespace J_Project.ViewModel.TestItem
                     {
                         TestLog.AppendLine($"- AC 설정 팝업");
 
-                        result = AcCtrlWin(TempCheck.AcVolt[caseNumber], AC_ERR_RANGE, AcCheckMode.NORMAL);
+                        result = AcCtrlWin(TempCheck.AcVolt, AC_ERR_RANGE, AcCheckMode.NORMAL);
                         TestLog.AppendLine($"- AC 전원 결과 : {result}\n");
 
                         if (result != StateFlag.PASS)
@@ -212,13 +215,13 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.DELAY1:
                     TestLog.AppendLine("[ 딜레이1 ]\n");
-                    Util.Delay(TempCheck.Delay1[caseNumber]);
+                    Util.Delay(TempCheck.Delay1);
                     result = StateFlag.PASS;
                     break;
 
                 case Seq.RESULT_CHECK: // 결과 판단 & 성적서 작성
                     TestLog.AppendLine("[ 기능 검사 ]");
-                    result = TempSensingTest(TempCheck.RoomTemp[caseNumber], TempCheck.ErrorRate[caseNumber], ref resultData);
+                    result = TempSensingTest(TempCheck.RoomTemp, TempCheck.ErrorRate, ref resultData);
                     TestLog.AppendLine($"- 결과 : {result}\n");
                     break;
 
@@ -230,7 +233,7 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.NEXT_TEST_DELAY:
                     TestLog.AppendLine("[ 다음 테스트 딜레이 ]\n");
-                    Util.Delay(TempCheck.NextTestWait[caseNumber]);
+                    Util.Delay(TempCheck.NextTestWait);
                     result = StateFlag.PASS;
                     break;
 
@@ -266,13 +269,13 @@ namespace J_Project.ViewModel.TestItem
             if (Math.Abs(roomTemp - rectifierTemp) <= errorRate)
             {
                 TestLog.AppendLine($"- 테스트 합격");
-                resultData = (rectifierTemp.ToString(), "합격");
+                resultData = (rectifierTemp.ToString(), "OK(합격)");
                 return StateFlag.PASS;
             }
             else
             {
                 TestLog.AppendLine($"- 테스트 불합격 : 허용범위 이탈");
-                resultData = (rectifierTemp.ToString(), "불합격");
+                resultData = (rectifierTemp.ToString(), "NG(불합격)");
                 return StateFlag.CONDITION_FAIL;
             }
         }

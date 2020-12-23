@@ -12,12 +12,13 @@ namespace J_Project.ViewModel.TestItem
      */
     internal class IsolResVM : AllTestVM
     {
-        private int TestOrterNum = (int)FirstTestOrder.IsolRes;
         public static string TestName { get; } = "절연저항(TNR 제거)";
 
-        public IsolResVM()
+        public IsolResVM(int caseNum)
         {
-            FirstOrder[TestOrterNum] = new string[] { TestOrterNum.ToString(), TestName, "OK", "합격" };
+            TestOrterNum = (int)FirstTestOrder.IsolRes + caseNum;
+
+            FirstOrder[TestOrterNum] = new string[] { TestOrterNum.ToString(), TestName, "OK", "OK(합격)" };
         }
 
         /**

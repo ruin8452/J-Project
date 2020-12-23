@@ -61,13 +61,13 @@
                         <TextBlock Text="주파수(Hz)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="2" />
 
                         <Border Grid.Column="0" Grid.Row="1" Style="{StaticResource SettingDataViewBorder}">
-                            <TextBlock Text="{Binding RtcCheck.AcVolt[0]}" Style="{StaticResource TestList_ViewValueStyle}" />
+                            <TextBlock Text="{Binding RtcCheck.AcVolt}" Style="{StaticResource TestList_ViewValueStyle}" />
                         </Border>
                         <Border Grid.Column="1" Grid.Row="1" Style="{StaticResource SettingDataViewBorder}">
-                            <TextBlock Text="{Binding RtcCheck.AcCurr[0]}" Style="{StaticResource TestList_ViewValueStyle}" />
+                            <TextBlock Text="{Binding RtcCheck.AcCurr}" Style="{StaticResource TestList_ViewValueStyle}" />
                         </Border>
                         <Border Grid.Column="2" Grid.Row="1" Style="{StaticResource SettingDataViewBorder}">
-                            <TextBlock Text="{Binding RtcCheck.AcFreq[0]}" Style="{StaticResource TestList_ViewValueStyle}" />
+                            <TextBlock Text="{Binding RtcCheck.AcFreq}" Style="{StaticResource TestList_ViewValueStyle}" />
                         </Border>
                     </Grid>
                 </StackPanel>
@@ -95,7 +95,7 @@
                         <TextBlock Text="대기(s)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
 
                         <Border Grid.Column="0" Grid.Row="1" Style="{StaticResource SettingDataViewBorder}">
-                            <TextBlock Text="{Binding RtcCheck.Delay1[0]}" Style="{StaticResource TestList_ViewValueStyle}" />
+                            <TextBlock Text="{Binding RtcCheck.Delay1}" Style="{StaticResource TestList_ViewValueStyle}" />
                         </Border>
                     </Grid>
                 </StackPanel>
@@ -126,7 +126,7 @@
                         <TextBlock Text="오차범위(s)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
 
                         <Border Grid.Column="0" Grid.Row="1" Style="{StaticResource SettingDataViewBorder}">
-                            <TextBlock Text="{Binding RtcCheck.TimeErrRate[0]}" Style="{StaticResource TestList_ViewValueStyle}" />
+                            <TextBlock Text="{Binding RtcCheck.TimeErrRate}" Style="{StaticResource TestList_ViewValueStyle}" />
                         </Border>
                     </Grid>
                 </StackPanel>
@@ -171,7 +171,7 @@
                         <TextBlock Text="전류(A)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
 
                         <Border Grid.Column="0" Grid.Row="1" Style="{StaticResource SettingDataViewBorder}">
-                            <TextBlock Text="{Binding RtcCheck.LoadCurr[0]}" Style="{StaticResource TestList_ViewValueStyle}" />
+                            <TextBlock Text="{Binding RtcCheck.LoadCurr}" Style="{StaticResource TestList_ViewValueStyle}" />
                         </Border>
                     </Grid>
                 </StackPanel>
@@ -199,7 +199,7 @@
                         <TextBlock Text="대기(s)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
 
                         <Border Grid.Column="0" Grid.Row="1" Style="{StaticResource SettingDataViewBorder}">
-                            <TextBlock Text="{Binding RtcCheck.Delay2[0]}" Style="{StaticResource TestList_ViewValueStyle}" />
+                            <TextBlock Text="{Binding RtcCheck.Delay2}" Style="{StaticResource TestList_ViewValueStyle}" />
                         </Border>
                     </Grid>
                 </StackPanel>
@@ -230,7 +230,7 @@
                         <TextBlock Text="허용오차(s)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
 
                         <Border Grid.Column="0" Grid.Row="1" Style="{StaticResource SettingDataViewBorder}">
-                            <TextBlock Text="{Binding RtcCheck.TimeErrRate2[0]}" Style="{StaticResource TestList_ViewValueStyle}" />
+                            <TextBlock Text="{Binding RtcCheck.TimeErrRate2}" Style="{StaticResource TestList_ViewValueStyle}" />
                         </Border>
                     </Grid>
                 </StackPanel>
@@ -286,7 +286,7 @@
                         <TextBlock Text="대기(s)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
 
                         <Border Grid.Column="0" Grid.Row="1" Style="{StaticResource SettingDataViewBorder}">
-                            <TextBlock Text="{Binding RtcCheck.NextTestWait[0]}" Style="{StaticResource TestList_ViewValueStyle}" />
+                            <TextBlock Text="{Binding RtcCheck.NextTestWait}" Style="{StaticResource TestList_ViewValueStyle}" />
                         </Border>
                     </Grid>
                 </StackPanel>

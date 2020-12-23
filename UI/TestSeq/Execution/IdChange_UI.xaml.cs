@@ -20,11 +20,11 @@ namespace J_Project.UI.TestSeq.Execution
     /// </summary>
     public partial class IdChange_UI : Page
     {
-        public IdChange_UI()
+        public IdChange_UI(int caseNum)
         {
             InitializeComponent();
 
-            DataContext = new ViewModel.TestItem.IdChangeVM();
+            DataContext = new ViewModel.TestItem.IdChangeVM(caseNum);
         }
     }
 }

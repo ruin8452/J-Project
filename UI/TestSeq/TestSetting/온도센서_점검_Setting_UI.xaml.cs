@@ -9,11 +9,11 @@ namespace J_Project.UI.TestSeq.TestSetting
     {
         //private List<TextBox> TextBoxList = new List<TextBox>();
 
-        public 온도센서_점검_Setting_UI()
+        public 온도센서_점검_Setting_UI(int caseNum)
         {
             InitializeComponent();
 
-            DataContext = new ViewModel.TestItem.TempVM();
+            DataContext = new ViewModel.TestItem.TempVM(caseNum);
         }
     }
 }

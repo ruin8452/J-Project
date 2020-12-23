@@ -261,7 +261,7 @@
                             </i:Interaction.Triggers>
 
                             <TreeView.ItemTemplate>
-                                <HierarchicalDataTemplate DataType="{x:Type manager:TestItemUint}" ItemsSource="{Binding Child}">
+                                <HierarchicalDataTemplate DataType="{x:Type manager:TestItemUnit}" ItemsSource="{Binding Child}">
                                     <StackPanel Orientation="Horizontal">
                                         <CheckBox Margin="0,0,10,0" VerticalAlignment="Center" IsChecked="{Binding Checked}" Click="ClickTreeCheckBox"/>
                                         <TextBlock Text="{Binding TestName}"/>

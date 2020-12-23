@@ -7,11 +7,11 @@ namespace J_Project.UI.TestSeq.TestSetting
     /// </summary>
     public partial class AC_정전전압_인식_Setting_UI : Page, ITestSettingList
     {
-        public AC_정전전압_인식_Setting_UI()
+        public AC_정전전압_인식_Setting_UI(int caseNum)
         {
             InitializeComponent();
 
-            DataContext = new ViewModel.TestItem.AcBlackOutVM();
+            DataContext = new ViewModel.TestItem.AcBlackOutVM(caseNum);
         }
     }
 }

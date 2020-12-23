@@ -7,11 +7,11 @@ namespace J_Project.UI.TestSeq.TestSetting
     /// </summary>
     public partial class 무부하_전원_ON_Setting_UI : Page, ITestSettingList
     {
-        public 무부하_전원_ON_Setting_UI()
+        public 무부하_전원_ON_Setting_UI(int caseNum)
         {
             InitializeComponent();
 
-            DataContext = new ViewModel.TestItem.NoLoadVM();
+            DataContext = new ViewModel.TestItem.NoLoadVM(caseNum);
         }
     }
 }

@@ -7,11 +7,11 @@ namespace J_Project.UI.TestSeq.TestSetting
     /// </summary>
     public partial class AC_저전압_알람_Setting_UI : Page, ITestSettingList
     {
-        public AC_저전압_알람_Setting_UI()
+        public AC_저전압_알람_Setting_UI(int caseNum)
         {
             InitializeComponent();
 
-            DataContext = new ViewModel.TestItem.AcLowVM();
+            DataContext = new ViewModel.TestItem.AcLowVM(caseNum);
         }
     }
 }

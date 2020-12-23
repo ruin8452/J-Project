@@ -190,7 +190,7 @@ namespace J_Project.FileSystem
 
             foreach (var data in CsvReader(path))
             {
-                if (data.Contains("불합격"))
+                if (data.Contains("NG(불합격)"))
                     TestName.Add(data[1]);
             }
 

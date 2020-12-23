@@ -36,9 +36,9 @@
                         <TextBlock Text="전류(A)"    Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="1" />
                         <TextBlock Text="주파수(Hz)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="2" />
 
-                        <TextBox Style="{StaticResource TestList_SetValueStyle}" Text="{Binding Cal.AcVolt[0], Mode=TwoWay}" Grid.Column="0" Grid.Row="1" />
-                        <TextBox Style="{StaticResource TestList_SetValueStyle}" Text="{Binding Cal.AcCurr[0], Mode=TwoWay}" Grid.Column="1" Grid.Row="1" />
-                        <TextBox Style="{StaticResource TestList_SetValueStyle}" Text="{Binding Cal.AcFreq[0], Mode=TwoWay}" Grid.Column="2" Grid.Row="1" />
+                        <TextBox Style="{StaticResource TestList_SetValueStyle}" Text="{Binding Cal.AcVolt, Mode=TwoWay}" Grid.Column="0" Grid.Row="1" />
+                        <TextBox Style="{StaticResource TestList_SetValueStyle}" Text="{Binding Cal.AcCurr, Mode=TwoWay}" Grid.Column="1" Grid.Row="1" />
+                        <TextBox Style="{StaticResource TestList_SetValueStyle}" Text="{Binding Cal.AcFreq, Mode=TwoWay}" Grid.Column="2" Grid.Row="1" />
                     </Grid>
                 </StackPanel>
                 <!-- 화살표 이미지 -->
@@ -54,7 +54,7 @@
 
                         <TextBlock Text="대기(s)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
 
-                        <TextBox Style="{StaticResource TestList_SetValueStyle}" Text="{Binding Cal.Delay1[0], Mode=TwoWay}" Grid.Column="0" Grid.Row="1" />
+                        <TextBox Style="{StaticResource TestList_SetValueStyle}" Text="{Binding Cal.Delay1, Mode=TwoWay}" Grid.Column="0" Grid.Row="1" />
                     </Grid>
                 </StackPanel>
                 <!-- 화살표 이미지 -->
@@ -78,7 +78,7 @@
 
                         <TextBlock Text="대기(s)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
 
-                        <TextBox Style="{StaticResource TestList_SetValueStyle}" Text="{Binding Cal.NextTestWait[0], Mode=TwoWay}" Grid.Column="0" Grid.Row="1" />
+                        <TextBox Style="{StaticResource TestList_SetValueStyle}" Text="{Binding Cal.NextTestWait, Mode=TwoWay}" Grid.Column="0" Grid.Row="1" />
                     </Grid>
                 </StackPanel>
                 <!-- 화살표 이미지 -->

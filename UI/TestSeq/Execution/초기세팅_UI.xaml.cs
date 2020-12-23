@@ -7,11 +7,11 @@ namespace J_Project.UI.TestSeq.Execution
     /// </summary>
     public partial class 초기세팅_UI : Page, ITestExeList
     {
-        public 초기세팅_UI()
+        public 초기세팅_UI(int caseNum)
         {
             InitializeComponent();
 
-            DataContext = new ViewModel.TestItem.InitVM();
+            DataContext = new ViewModel.TestItem.InitVM(caseNum);
         }
     }
 }

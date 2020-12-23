@@ -389,10 +389,6 @@ namespace J_Project.ViewModel.SubWindow
         {
             PassOrFail = true;
 
-            MessageBoxResult result = MessageBox.Show("12V 전원을 꺼주세요.", "12V 전원 OFF", MessageBoxButton.OKCancel);
-            if (result == MessageBoxResult.Cancel)
-                return;
-
             GreenLight();
             window.Close();
         }

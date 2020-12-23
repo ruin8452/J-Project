@@ -13,66 +13,14 @@ namespace J_Project.TestMethod
      */
     public class DcOutCheck : Test
     {
-        public ObservableCollection<double> AcVolt { get; set; }
-        public ObservableCollection<double> AcCurr { get; set; }
-        public ObservableCollection<double> AcFreq { get; set; }
+        public double AcVolt { get; set; } = 0;
+        public double AcCurr { get; set; } = 0;
+        public double AcFreq { get; set; } = 0;
 
-        public ObservableCollection<double> Delay1 { get; set; }
+        public double Delay1 { get; set; } = 0;
 
-        public ObservableCollection<double> DefaultRef { get; set; }
+        public double DefaultRef { get; set; } = 0;
 
-        public ObservableCollection<double> NextTestWait { get; set; }
-
-        #region 싱글톤 패턴 구현
-
-        private static DcOutCheck SingleTonObj = null;
-
-        private DcOutCheck()
-        {
-            MaxCase = 1;
-            AcVolt = new ObservableCollection<double>() { 0 };
-            AcCurr = new ObservableCollection<double>() { 0 };
-            AcFreq = new ObservableCollection<double>() { 0 };
-
-            Delay1 = new ObservableCollection<double>() { 0 };
-
-            DefaultRef = new ObservableCollection<double>() { 0 };
-
-            NextTestWait = new ObservableCollection<double>() { 0 };
-        }
-
-        public static DcOutCheck GetObj()
-        {
-            if (SingleTonObj == null) SingleTonObj = new DcOutCheck();
-            return SingleTonObj;
-        }
-
-        #endregion 싱글톤 패턴 구현
-
-        /**
-         *  @brief 데이터 저장
-         *  @details 해당 테스트의 설정값을 ini파일에 저장한다
-         *  
-         *  @param
-         *  
-         *  @return
-         */
-        public static void Save()
-        {
-            Setting.WriteSetting(GetObj(), @"\Setting\TestSetting.ini");
-        }
-
-        /**
-         *  @brief 데이터 로드
-         *  @details ini파일에서 해당 테스트의 설정값을 불러온다
-         *  
-         *  @param
-         *  
-         *  @return
-         */
-        public static void Load()
-        {
-            Setting.ReadSetting(GetObj(), @"\Setting\TestSetting.ini");
-        }
+        public double NextTestWait { get; set; } = 0;
     }
 }

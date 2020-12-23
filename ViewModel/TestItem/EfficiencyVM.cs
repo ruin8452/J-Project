@@ -35,8 +35,8 @@ namespace J_Project.ViewModel.TestItem
             END_TEST
         }
 
-        private int TestOrterNum = (int)FirstTestOrder.Efficiency;
         public static string TestName { get; } = "효율";
+        public int CaseNum { get; set; }
         public 효율 Efficiency { get; set; }
         public TestOption Option { get; set; }
 
@@ -45,18 +45,21 @@ namespace J_Project.ViewModel.TestItem
         public RelayCommand UnloadPage { get; set; }
         public RelayCommand<object> UnitTestCommand { get; set; }
 
-        public EfficiencyVM()
+        public EfficiencyVM(int caseNum)
         {
+            CaseNum = caseNum;
             TestLog = new StringBuilder();
 
+            TestOrterNum = (int)FirstTestOrder.Efficiency + caseNum;
             TotalStepNum = (int)Seq.END_TEST + 1;
 
-            효율.Load();
-            Efficiency = 효율.GetObj();
+            Efficiency = new 효율();
+            Efficiency = (효율)Test.Load(Efficiency, CaseNum);
+
             Option = TestOption.GetObj();
             ButtonColor = new ObservableCollection<SolidColorBrush>();
 
-            FirstOrder[TestOrterNum] = new string[] { TestOrterNum.ToString(), TestName, "판단불가", "불합격" };
+            FirstOrder[TestOrterNum] = new string[] { TestOrterNum.ToString(), TestName + caseNum.ToString(), "판단불가", "NG(불합격)" };
 
             for (int i = 0; i < TotalStepNum; i++)
                 ButtonColor.Add(Brushes.White);
@@ -75,7 +78,7 @@ namespace J_Project.ViewModel.TestItem
          */
         private void DataSave()
         {
-            효율.Save();
+            Test.Save(Efficiency, CaseNum);
         }
 
         /**
@@ -164,7 +167,7 @@ namespace J_Project.ViewModel.TestItem
 
                     double acVolt = PowerMeter.GetObj().AcVolt;
                     TestLog.AppendLine($"- AC : {acVolt}");
-                    if (Math.Abs(Efficiency.AcVolt[caseNumber] - acVolt) <= AC_ERR_RANGE)
+                    if (Math.Abs(Efficiency.AcVolt - acVolt) <= AC_ERR_RANGE)
                     {
                         result = StateFlag.PASS;
                         break;
@@ -172,7 +175,7 @@ namespace J_Project.ViewModel.TestItem
 
                     if (Option.IsFullAuto)
                     {
-                        result = AcSourceSet(Efficiency.AcVolt[caseNumber], Efficiency.AcCurr[caseNumber], Efficiency.AcFreq[caseNumber]);
+                        result = AcSourceSet(Efficiency.AcVolt, Efficiency.AcCurr, Efficiency.AcFreq);
                         TestLog.AppendLine($"- AC 세팅 결과 : {result}");
 
                         if (result != StateFlag.PASS)
@@ -191,7 +194,7 @@ namespace J_Project.ViewModel.TestItem
                     {
                         TestLog.AppendLine($"- AC 설정 팝업");
 
-                        result = AcCtrlWin(Efficiency.AcVolt[caseNumber], AC_ERR_RANGE, AcCheckMode.NORMAL);
+                        result = AcCtrlWin(Efficiency.AcVolt, AC_ERR_RANGE, AcCheckMode.NORMAL);
                         TestLog.AppendLine($"- AC 전원 결과 : {result}\n");
 
                         if (result != StateFlag.PASS)
@@ -201,7 +204,7 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.DELAY1:
                     TestLog.AppendLine("[ 딜레이1 ]\n");
-                    Util.Delay(Efficiency.Delay1[caseNumber]);
+                    Util.Delay(Efficiency.Delay1);
                     result = StateFlag.PASS;
                     break;
 
@@ -210,7 +213,7 @@ namespace J_Project.ViewModel.TestItem
 
                     double loadVolt = Dmm2.GetObj().DcVolt;
                     TestLog.AppendLine($"- Load : {loadVolt}");
-                    if (Math.Abs(Efficiency.LoadCurr[caseNumber] - loadVolt) <= LOAD_ERR_RANGE)
+                    if (Math.Abs(Efficiency.LoadCurr - loadVolt) <= LOAD_ERR_RANGE)
                     {
                         result = StateFlag.PASS;
                         break;
@@ -218,7 +221,7 @@ namespace J_Project.ViewModel.TestItem
 
                     if (Option.IsFullAuto)
                     {
-                        result = LoadCurrSet(Efficiency.LoadCurr[caseNumber]);
+                        result = LoadCurrSet(Efficiency.LoadCurr);
                         TestLog.AppendLine($"- 부하 세팅 결과 : {result}");
 
                         if (result != StateFlag.PASS)
@@ -237,7 +240,7 @@ namespace J_Project.ViewModel.TestItem
                     {
                         TestLog.AppendLine($"- 부하 설정 팝업");
 
-                        result = LoadCtrlWin(Efficiency.LoadCurr[caseNumber], LOAD_ERR_RANGE, LoadCheckMode.NORMAL);
+                        result = LoadCtrlWin(Efficiency.LoadCurr, LOAD_ERR_RANGE, LoadCheckMode.NORMAL);
                         TestLog.AppendLine($"- 부하 전원 결과 : {result}\n");
 
                         if (result != StateFlag.PASS)
@@ -247,17 +250,17 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.DELAY2:
                     TestLog.AppendLine("[ 딜레이2 ]\n");
-                    Util.Delay(Efficiency.Delay2[caseNumber]);
+                    Util.Delay(Efficiency.Delay2);
                     result = StateFlag.PASS;
                     break;
 
                 case Seq.RESULT_CHECK: // 결과 판단 & 성적서 작성
                     TestLog.AppendLine("[ 기능 검사 ]");
-                    result = EfficiencyTest(Efficiency.LimitEfficiency[caseNumber], ref resultData);
+                    result = EfficiencyTest(Efficiency.LimitEfficiency, ref resultData);
 
                     // 실패시 수동 입력
                     if (result != StateFlag.PASS)
-                        result = EfficiencyPassiveCheckTest(Efficiency.LimitEfficiency[caseNumber], ref resultData);
+                        result = EfficiencyPassiveCheckTest(Efficiency.LimitEfficiency, ref resultData);
 
                     TestLog.AppendLine($"- 결과 : {result}\n");
                     break;
@@ -305,7 +308,7 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.NEXT_TEST_DELAY:
                     TestLog.AppendLine("[ 다음 테스트 딜레이 ]\n");
-                    Util.Delay(Efficiency.NextTestWait[caseNumber]);
+                    Util.Delay(Efficiency.NextTestWait);
                     result = StateFlag.PASS;
                     break;
 
@@ -359,13 +362,13 @@ namespace J_Project.ViewModel.TestItem
             if (limitEfficiency <= efficiency && efficiency <= 100)
             {
                 TestLog.AppendLine($"- 테스트 합격");
-                resultData = (efficiency.ToString(), "합격");
+                resultData = (efficiency.ToString(), "OK(합격)");
                 return StateFlag.PASS;
             }
             else
             {
                 TestLog.AppendLine($"- 테스트 불합격 : 제한수치 미달");
-                resultData = (efficiency.ToString(), "불합격");
+                resultData = (efficiency.ToString(), "NG(불합격)");
                 return StateFlag.CONDITION_FAIL;
             }
         }
@@ -411,13 +414,13 @@ namespace J_Project.ViewModel.TestItem
             if (limitEfficiency <= efficiency && efficiency <= 100)
             {
                 TestLog.AppendLine($"- 테스트 합격");
-                resultData = (efficiency.ToString(), "합격");
+                resultData = (efficiency.ToString(), "OK(합격)");
                 return StateFlag.PASS;
             }
             else
             {
                 TestLog.AppendLine($"- 테스트 불합격 : 제한수치 미달");
-                resultData = (efficiency.ToString(), "불합격");
+                resultData = (efficiency.ToString(), "NG(불합격)");
                 return StateFlag.CONDITION_FAIL;
             }
         }

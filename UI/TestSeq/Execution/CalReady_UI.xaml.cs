@@ -7,11 +7,11 @@ namespace J_Project.UI.TestSeq.Execution
     /// </summary>
     public partial class CalReady_UI : Page, ITestExeList
     {
-        public CalReady_UI()
+        public CalReady_UI(int caseNum)
         {
             InitializeComponent();
 
-            DataContext = new ViewModel.TestItem.CalReadyVM();
+            DataContext = new ViewModel.TestItem.CalReadyVM(caseNum);
         }
     }
 }

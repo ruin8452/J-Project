@@ -1,4 +1,4 @@
-﻿using System.Windows.Controls;
+using System.Windows.Controls;
 
 namespace J_Project.UI.TestSeq.TestSetting
 {
@@ -7,11 +7,11 @@ namespace J_Project.UI.TestSeq.TestSetting
     /// </summary>
     public partial class 효율_Setting_UI : Page, ITestSettingList
     {
-        public 효율_Setting_UI()
+        public 효율_Setting_UI(int caseNum)
         {
             InitializeComponent();
 
-            DataContext = new ViewModel.TestItem.EfficiencyVM();
+            DataContext = new ViewModel.TestItem.EfficiencyVM(caseNum);
         }
     }
 }

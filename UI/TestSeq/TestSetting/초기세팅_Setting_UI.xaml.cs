@@ -9,11 +9,11 @@ namespace J_Project.UI.TestSeq.TestSetting
     {
         //private List<TextBox> TextBoxList = new List<TextBox>();
 
-        public 초기세팅_Setting_UI()
+        public 초기세팅_Setting_UI(int caseNum)
         {
             InitializeComponent();
 
-            DataContext = new ViewModel.TestItem.InitVM();
+            DataContext = new ViewModel.TestItem.InitVM(caseNum);
         }
     }
 }

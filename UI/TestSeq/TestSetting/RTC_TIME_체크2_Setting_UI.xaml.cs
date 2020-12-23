@@ -7,11 +7,11 @@ namespace J_Project.UI.TestSeq.TestSetting
     /// </summary>
     public partial class RTC_TIME_체크2_Setting_UI : Page, ITestSettingList
     {
-        public RTC_TIME_체크2_Setting_UI()
+        public RTC_TIME_체크2_Setting_UI(int caseNum)
         {
             InitializeComponent();
 
-            DataContext = new ViewModel.TestItem.RtcCheck2VM();
+            DataContext = new ViewModel.TestItem.RtcCheck2VM(caseNum);
         }
     }
 }

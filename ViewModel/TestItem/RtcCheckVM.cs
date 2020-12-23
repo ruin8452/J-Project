@@ -35,8 +35,8 @@ namespace J_Project.ViewModel.TestItem
             END_TEST
         }
 
-        private int TestOrterNum = (int)FirstTestOrder.Rtc;
         public static string TestName { get; } = "RTC TIME 체크";
+        public int CaseNum { get; set; }
         public RTC_TIME_체크 RtcCheck { get; set; }
         public TestOption Option { get; set; }
 
@@ -45,18 +45,21 @@ namespace J_Project.ViewModel.TestItem
         public RelayCommand UnloadPage { get; set; }
         public RelayCommand<object> UnitTestCommand { get; set; }
 
-        public RtcCheckVM()
+        public RtcCheckVM(int caseNum)
         {
+            CaseNum = caseNum;
             TestLog = new StringBuilder();
 
+            TestOrterNum = (int)FirstTestOrder.Rtc + caseNum;
             TotalStepNum = (int)Seq.END_TEST + 1;
 
-            RTC_TIME_체크.Load();
-            RtcCheck = RTC_TIME_체크.GetObj();
+            RtcCheck = new RTC_TIME_체크();
+            RtcCheck = (RTC_TIME_체크)Test.Load(RtcCheck, CaseNum);
+
             Option = TestOption.GetObj();
             ButtonColor = new ObservableCollection<SolidColorBrush>();
 
-            FirstOrder[TestOrterNum] = new string[] { TestOrterNum.ToString(), TestName, "판단불가", "불합격" };
+            FirstOrder[TestOrterNum] = new string[] { TestOrterNum.ToString(), TestName + caseNum.ToString(), "판단불가", "NG(불합격)" };
 
             for (int i = 0; i < TotalStepNum; i++)
                 ButtonColor.Add(Brushes.White);
@@ -75,7 +78,7 @@ namespace J_Project.ViewModel.TestItem
          */
         private void DataSave()
         {
-            RTC_TIME_체크.Save();
+            Test.Save(RtcCheck, CaseNum);
         }
 
         /**
@@ -164,7 +167,7 @@ namespace J_Project.ViewModel.TestItem
 
                     double acVolt = PowerMeter.GetObj().AcVolt;
                     TestLog.AppendLine($"- AC : {acVolt}");
-                    if (Math.Abs(RtcCheck.AcVolt[caseNumber] - acVolt) <= AC_ERR_RANGE)
+                    if (Math.Abs(RtcCheck.AcVolt - acVolt) <= AC_ERR_RANGE)
                     {
                         result = StateFlag.PASS;
                         break;
@@ -172,7 +175,7 @@ namespace J_Project.ViewModel.TestItem
 
                     if (Option.IsFullAuto)
                     {
-                        result = AcSourceSet(RtcCheck.AcVolt[caseNumber], RtcCheck.AcCurr[caseNumber], RtcCheck.AcFreq[caseNumber]);
+                        result = AcSourceSet(RtcCheck.AcVolt, RtcCheck.AcCurr, RtcCheck.AcFreq);
                         TestLog.AppendLine($"- AC 세팅 결과 : {result}");
 
                         if (result != StateFlag.PASS)
@@ -191,7 +194,7 @@ namespace J_Project.ViewModel.TestItem
                     {
                         TestLog.AppendLine($"- AC 설정 팝업");
 
-                        result = AcCtrlWin(RtcCheck.AcVolt[caseNumber], AC_ERR_RANGE, AcCheckMode.NORMAL);
+                        result = AcCtrlWin(RtcCheck.AcVolt, AC_ERR_RANGE, AcCheckMode.NORMAL);
                         TestLog.AppendLine($"- AC 전원 결과 : {result}\n");
 
                         if (result != StateFlag.PASS)
@@ -201,13 +204,13 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.DELAY1:
                     TestLog.AppendLine("[ 딜레이1 ]\n");
-                    Util.Delay(RtcCheck.Delay1[caseNumber]);
+                    Util.Delay(RtcCheck.Delay1);
                     result = StateFlag.PASS;
                     break;
 
                 case Seq.RTC_CHECK: // RTC 검사
                     TestLog.AppendLine("[ RTC 검사 ]");
-                    result = RtcCheckTest(RtcCheck.TimeErrRate[caseNumber]);
+                    result = RtcCheckTest(RtcCheck.TimeErrRate);
                     TestLog.AppendLine($"- 결과 : {result}\n");
 
                     if (result != StateFlag.PASS)
@@ -228,7 +231,7 @@ namespace J_Project.ViewModel.TestItem
 
                     double loadVolt = Dmm2.GetObj().DcVolt;
                     TestLog.AppendLine($"- Load : {loadVolt}");
-                    if (Math.Abs(RtcCheck.LoadCurr[caseNumber] - loadVolt) <= LOAD_ERR_RANGE)
+                    if (Math.Abs(RtcCheck.LoadCurr - loadVolt) <= LOAD_ERR_RANGE)
                     {
                         result = StateFlag.PASS;
                         break;
@@ -236,7 +239,7 @@ namespace J_Project.ViewModel.TestItem
 
                     if (Option.IsFullAuto)
                     {
-                        result = LoadCurrSet(RtcCheck.LoadCurr[caseNumber]);
+                        result = LoadCurrSet(RtcCheck.LoadCurr);
                         TestLog.AppendLine($"- 부하 세팅 결과 : {result}");
 
                         if (result != StateFlag.PASS)
@@ -255,7 +258,7 @@ namespace J_Project.ViewModel.TestItem
                     {
                         TestLog.AppendLine($"- 부하 설정 팝업");
 
-                        result = LoadCtrlWin(RtcCheck.LoadCurr[caseNumber], LOAD_ERR_RANGE, LoadCheckMode.NORMAL);
+                        result = LoadCtrlWin(RtcCheck.LoadCurr, LOAD_ERR_RANGE, LoadCheckMode.NORMAL);
                         TestLog.AppendLine($"- 부하 전원 결과 : {result}\n");
 
                         if (result != StateFlag.PASS)
@@ -265,13 +268,13 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.DELAY2:
                     TestLog.AppendLine("[ 딜레이2 ]\n");
-                    Util.Delay(RtcCheck.Delay2[caseNumber]);
+                    Util.Delay(RtcCheck.Delay2);
                     result = StateFlag.PASS;
                     break;
 
                 case Seq.RTC_CHECK2: // RTC 검사
                     TestLog.AppendLine("[ RTC 검사 ]");
-                    result = RtcCheckTest(RtcCheck.TimeErrRate2[caseNumber]);
+                    result = RtcCheckTest(RtcCheck.TimeErrRate2);
                     TestLog.AppendLine($"- 결과 : {result}\n");
                     break;
 
@@ -303,7 +306,7 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.NEXT_TEST_DELAY:
                     TestLog.AppendLine("[ 다음 테스트 딜레이 ]\n");
-                    Util.Delay(RtcCheck.NextTestWait[caseNumber]);
+                    Util.Delay(RtcCheck.NextTestWait);
                     result = StateFlag.PASS;
                     break;
 
@@ -378,13 +381,13 @@ namespace J_Project.ViewModel.TestItem
                 if (errRateDb < timeErrRate)
                 {
                     TestLog.AppendLine($"- 테스트 합격");
-                    resultData = ("OK", "합격");
+                    resultData = ("OK", "OK(합격)");
                     return StateFlag.PASS;
                 }
             }
 
             TestLog.AppendLine($"- 테스트 불합격");
-            resultData = ("허용오차 초과", "불합격");
+            resultData = ("허용오차 초과", "NG(불합격)");
             return StateFlag.CONDITION_FAIL;
         }
     }

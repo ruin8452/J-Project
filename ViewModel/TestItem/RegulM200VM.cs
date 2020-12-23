@@ -11,14 +11,14 @@ using System.Windows.Media;
 namespace J_Project.ViewModel.TestItem
 {
     /**
-     *  @brief 라인 레귤레이션 테스트 클래스
-     *  @details 라인 레귤레이션과 관련된 시퀀스 및 UI관련을 담당하는 클래스
+     *  @brief 레귤레이션 M200 테스트 클래스
+     *  @details 레귤레이션 M200과 관련된 시퀀스 및 UI관련을 담당하는 클래스
      *
      *  @author SSW
      *  @date 2020.02.25
      *  @version 1.0.0
      */
-    internal class LineRegVM : AllTestVM
+    internal class RegulM200VM : AllTestVM
     {
         private enum Seq
         {
@@ -33,11 +33,9 @@ namespace J_Project.ViewModel.TestItem
             END_TEST
         }
 
-        private int TestOrterNum = (int)FirstTestOrder.LineReg0;
-        private int TestOrterNum1 = (int)FirstTestOrder.LineReg1;
-        private int TestOrterNum2 = (int)FirstTestOrder.LineReg2;
-        public static string TestName { get; } = "라인 레귤레이션";
-        public 라인_레귤레이션 LineReg { get; set; }
+        public static string TestName { get; } = "레귤레이션 M200";
+        public int CaseNum { get; set; }
+        public 레귤레이션_M200 Regul200 { get; set; }
         public TestOption Option { get; set; }
 
         public ObservableCollection<SolidColorBrush> ButtonColor { get; private set; }
@@ -45,20 +43,21 @@ namespace J_Project.ViewModel.TestItem
         public RelayCommand UnloadPage { get; set; }
         public RelayCommand<object> UnitTestCommand { get; set; }
 
-        public LineRegVM()
+        public RegulM200VM(int caseNum)
         {
+            CaseNum = caseNum;
             TestLog = new StringBuilder();
 
+            TestOrterNum = (int)FirstTestOrder.Regul200V_0 + caseNum;
             TotalStepNum = (int)Seq.END_TEST + 1;
 
-            라인_레귤레이션.Load();
-            LineReg = 라인_레귤레이션.GetObj();
+            Regul200 = new 레귤레이션_M200();
+            Regul200 = (레귤레이션_M200)Test.Load(Regul200, CaseNum);
+
             Option = TestOption.GetObj();
             ButtonColor = new ObservableCollection<SolidColorBrush>();
 
-            FirstOrder[TestOrterNum] = new string[] { TestOrterNum.ToString(), TestName + "1", "판단불가", "불합격" };
-            FirstOrder[TestOrterNum1] = new string[] { TestOrterNum1.ToString(), TestName + "2", "판단불가", "불합격" };
-            FirstOrder[TestOrterNum2] = new string[] { TestOrterNum2.ToString(), TestName + "3", "판단불가", "불합격" };
+            FirstOrder[TestOrterNum] = new string[] { TestOrterNum.ToString(), TestName + caseNum.ToString(), "판단불가", "NG(불합격)" };
 
             for (int i = 0; i < TotalStepNum; i++)
                 ButtonColor.Add(Brushes.White);
@@ -77,7 +76,7 @@ namespace J_Project.ViewModel.TestItem
          */
         private void DataSave()
         {
-            라인_레귤레이션.Save();
+            Test.Save(Regul200, CaseNum);
         }
 
         /**
@@ -166,7 +165,7 @@ namespace J_Project.ViewModel.TestItem
 
                     double loadVolt = Dmm2.GetObj().DcVolt;
                     TestLog.AppendLine($"- Load : {loadVolt}");
-                    if (Math.Abs(LineReg.LoadCurr[caseNumber] - loadVolt) <= LOAD_ERR_RANGE)
+                    if (Math.Abs(Regul200.LoadCurr - loadVolt) <= LOAD_ERR_RANGE)
                     {
                         result = StateFlag.PASS;
                         break;
@@ -174,7 +173,7 @@ namespace J_Project.ViewModel.TestItem
 
                     if (Option.IsFullAuto)
                     {
-                        result = LoadCurrSet(LineReg.LoadCurr[caseNumber]);
+                        result = LoadCurrSet(Regul200.LoadCurr);
                         TestLog.AppendLine($"- 부하 세팅 결과 : {result}");
 
                         if (result != StateFlag.PASS)
@@ -193,7 +192,7 @@ namespace J_Project.ViewModel.TestItem
                     {
                         TestLog.AppendLine($"- 부하 설정 팝업");
 
-                        result = LoadCtrlWin(LineReg.LoadCurr[caseNumber], LOAD_ERR_RANGE, LoadCheckMode.NORMAL);
+                        result = LoadCtrlWin(Regul200.LoadCurr, LOAD_ERR_RANGE, LoadCheckMode.NORMAL);
                         TestLog.AppendLine($"- 부하 전원 결과 : {result}\n");
 
                         if (result != StateFlag.PASS)
@@ -203,7 +202,7 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.DELAY1:
                     TestLog.AppendLine("[ 딜레이1 ]\n");
-                    Util.Delay(LineReg.Delay1[caseNumber]);
+                    Util.Delay(Regul200.Delay1);
                     result = StateFlag.PASS;
                     break;
 
@@ -212,7 +211,7 @@ namespace J_Project.ViewModel.TestItem
 
                     double acVolt = PowerMeter.GetObj().AcVolt;
                     TestLog.AppendLine($"- AC : {acVolt}");
-                    if (Math.Abs(LineReg.AcVolt[caseNumber] - acVolt) <= AC_ERR_RANGE)
+                    if (Math.Abs(Regul200.AcVolt - acVolt) <= AC_ERR_RANGE)
                     {
                         result = StateFlag.PASS;
                         break;
@@ -220,7 +219,7 @@ namespace J_Project.ViewModel.TestItem
 
                     if (Option.IsFullAuto)
                     {
-                        result = AcSourceSet(LineReg.AcVolt[caseNumber], LineReg.AcCurr[caseNumber], LineReg.AcFreq[caseNumber]);
+                        result = AcSourceSet(Regul200.AcVolt, Regul200.AcCurr, Regul200.AcFreq);
                         TestLog.AppendLine($"- AC 세팅 결과 : {result}");
 
                         if (result != StateFlag.PASS)
@@ -239,7 +238,7 @@ namespace J_Project.ViewModel.TestItem
                     {
                         TestLog.AppendLine($"- AC 설정 팝업");
 
-                        result = AcCtrlWin(LineReg.AcVolt[caseNumber], AC_ERR_RANGE, AcCheckMode.NORMAL);
+                        result = AcCtrlWin(Regul200.AcVolt, AC_ERR_RANGE, AcCheckMode.NORMAL);
                         TestLog.AppendLine($"- AC 전원 결과 : {result}\n");
 
                         if (result != StateFlag.PASS)
@@ -249,24 +248,20 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.DELAY2:
                     TestLog.AppendLine("[ 딜레이2 ]\n");
-                    Util.Delay(LineReg.Delay2[caseNumber]);
+                    Util.Delay(Regul200.Delay2);
                     result = StateFlag.PASS;
                     break;
 
                 case Seq.RESULT_CHECK: // 결과 판단 & 성적서 작성
                     TestLog.AppendLine("[ 기능 검사 ]");
-                    result = VoltCheckTest(caseNumber, LineReg.CheckTiming[caseNumber], LineReg.LimitMaxVolt[caseNumber], LineReg.LimitMinVolt[caseNumber], ref resultData);
+                    result = VoltCheckTest(caseNumber, Regul200.CheckTiming, Regul200.LimitMaxVolt, Regul200.LimitMinVolt, ref resultData);
                     TestLog.AppendLine($"- 결과 : {result}\n");
                     break;
 
                 case Seq.RESULT_SAVE: // 결과 저장
                     TestLog.AppendLine("[ 결과 저장 ]");
-                    if (caseNumber == 0)
-                        result = ResultDataSave(TestOrterNum, resultData);
-                    else if (caseNumber == 1)
-                        result = ResultDataSave(TestOrterNum1, resultData);
-                    else
-                        result = ResultDataSave(TestOrterNum2, resultData);
+
+                    result = ResultDataSave(TestOrterNum, resultData);
                     TestLog.AppendLine($"- 결과 : {result}\n");
                     break;
 
@@ -282,7 +277,7 @@ namespace J_Project.ViewModel.TestItem
 
                     loadVolt = Dmm2.GetObj().DcVolt;
                     TestLog.AppendLine($"- Load : {loadVolt}");
-                    if (Math.Abs(LineReg.LoadCurr[caseNumber] - loadVolt) <= LOAD_ERR_RANGE)
+                    if (Math.Abs(Regul200.LoadCurr - loadVolt) <= LOAD_ERR_RANGE)
                     {
                         result = StateFlag.PASS;
                         break;
@@ -307,7 +302,7 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.NEXT_TEST_DELAY:
                     TestLog.AppendLine("[ 다음 테스트 딜레이 ]\n");
-                    Util.Delay(LineReg.NextTestWait[caseNumber]);
+                    Util.Delay(Regul200.NextTestWait);
                     result = StateFlag.PASS;
                     break;
 
@@ -358,13 +353,13 @@ namespace J_Project.ViewModel.TestItem
             if (minVolt <= voltCheck && voltCheck <= maxVolt)
             {
                 TestLog.AppendLine($"- 테스트 합격");
-                resultData = ((-voltCheck).ToString(), "합격");
+                resultData = ((-voltCheck).ToString(), "OK(합격)");
                 return StateFlag.PASS;
             }
             else
             {
                 TestLog.AppendLine($"- 테스트 불합격 : 제한 시간 내에 출력 전압 복귀 실패");
-                resultData = ((-voltCheck).ToString(), "불합격");
+                resultData = ((-voltCheck).ToString(), "NG(불합격)");
                 return StateFlag.CONDITION_FAIL;
             }
         }

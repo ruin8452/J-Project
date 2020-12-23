@@ -36,9 +36,9 @@
                         <TextBlock Text="전류(A)"    Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="1" />
                         <TextBlock Text="주파수(Hz)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="2" />
 
-                        <TextBox Text="{Binding DcOutCurrCal.M200AcVolt[0]}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="0" Grid.Row="1"/>
-                        <TextBox Text="{Binding DcOutCurrCal.M200AcCurr[0]}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="1" Grid.Row="1"/>
-                        <TextBox Text="{Binding DcOutCurrCal.M200AcFreq[0]}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="2" Grid.Row="1"/>
+                        <TextBox Text="{Binding DcOutCurrCal.M200AcVolt}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="0" Grid.Row="1"/>
+                        <TextBox Text="{Binding DcOutCurrCal.M200AcCurr}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="1" Grid.Row="1"/>
+                        <TextBox Text="{Binding DcOutCurrCal.M200AcFreq}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="2" Grid.Row="1"/>
                     </Grid>
                 </StackPanel>
                 <!-- 화살표 이미지 -->
@@ -58,7 +58,7 @@
 
                         <TextBlock Text="대기(s)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
 
-                        <TextBox Text="{Binding DcOutCurrCal.Delay1[0]}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="0" Grid.Row="1"/>
+                        <TextBox Text="{Binding DcOutCurrCal.Delay1}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="0" Grid.Row="1"/>
                     </Grid>
                 </StackPanel>
                 <!-- 화살표 이미지 -->
@@ -77,7 +77,7 @@
 
                         <TextBlock Text="전류(A)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
 
-                        <TextBox Text="{Binding DcOutCurrCal.DacLoadCurr[0]}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="0" Grid.Row="1"/>
+                        <TextBox Text="{Binding DcOutCurrCal.DacLoadCurr}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="0" Grid.Row="1"/>
                     </Grid>
                 </StackPanel>
                 <!-- 화살표 이미지 -->
@@ -93,7 +93,7 @@
 
                         <TextBlock Text="대기(s)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
 
-                        <TextBox Text="{Binding DcOutCurrCal.Delay2[0]}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="0" Grid.Row="1"/>
+                        <TextBox Text="{Binding DcOutCurrCal.Delay2}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="0" Grid.Row="1"/>
                     </Grid>
                 </StackPanel>
                 <!-- 화살표 이미지 -->
@@ -114,8 +114,8 @@
                         <TextBlock Text="하한(A)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
                         <TextBlock Text="상한(A)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="1" />
 
-                        <TextBox Text="{Binding DcOutCurrCal.DacLowerRef[0]}" Style="{StaticResource TestList_SetValueStyle}" Grid.Row="1" Grid.Column="0"/>
-                        <TextBox Text="{Binding DcOutCurrCal.DacUpperRef[0]}" Style="{StaticResource TestList_SetValueStyle}" Grid.Row="1" Grid.Column="1"/>
+                        <TextBox Text="{Binding DcOutCurrCal.DacLowerRef}" Style="{StaticResource TestList_SetValueStyle}" Grid.Row="1" Grid.Column="0"/>
+                        <TextBox Text="{Binding DcOutCurrCal.DacUpperRef}" Style="{StaticResource TestList_SetValueStyle}" Grid.Row="1" Grid.Column="1"/>
                     </Grid>
                 </StackPanel>
                 <!-- 화살표 이미지 -->
@@ -133,7 +133,7 @@
 
                         <TextBlock Text="대기(s)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
 
-                        <TextBox Text="{Binding DcOutCurrCal.Delay3[0]}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="0" Grid.Row="1"/>
+                        <TextBox Text="{Binding DcOutCurrCal.Delay3}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="0" Grid.Row="1"/>
                     </Grid>
                 </StackPanel>
                 <!-- 화살표 이미지 -->
@@ -152,7 +152,7 @@
 
                         <TextBlock Text="전류(A)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
 
-                        <TextBox Text="{Binding DcOutCurrCal.DefaultM200Ref[0]}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="0" Grid.Row="1"/>
+                        <TextBox Text="{Binding DcOutCurrCal.DefaultM200Ref}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="0" Grid.Row="1"/>
                     </Grid>
                 </StackPanel>
                 <!-- 화살표 이미지 -->
@@ -170,7 +170,7 @@
 
                         <TextBlock Text="대기(s)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
 
-                        <TextBox Text="{Binding DcOutCurrCal.Delay4[0]}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="0" Grid.Row="1"/>
+                        <TextBox Text="{Binding DcOutCurrCal.Delay4}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="0" Grid.Row="1"/>
                     </Grid>
                 </StackPanel>
                 <!-- 화살표 이미지 -->
@@ -189,7 +189,7 @@
 
                         <TextBlock Text="전류(A)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
 
-                        <TextBox Text="{Binding DcOutCurrCal.AdcLoadCurr[0]}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="0" Grid.Row="1"/>
+                        <TextBox Text="{Binding DcOutCurrCal.AdcLoadCurr}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="0" Grid.Row="1"/>
                     </Grid>
                 </StackPanel>
                 <!-- 화살표 이미지 -->
@@ -207,7 +207,7 @@
 
                         <TextBlock Text="대기(s)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
 
-                        <TextBox Text="{Binding DcOutCurrCal.Delay5[0]}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="0" Grid.Row="1"/>
+                        <TextBox Text="{Binding DcOutCurrCal.Delay5}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="0" Grid.Row="1"/>
                     </Grid>
                 </StackPanel>
                 <!-- 화살표 이미지 -->
@@ -226,7 +226,7 @@
 
                         <TextBlock Text="전류(A)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
 
-                        <TextBox Text="{Binding DcOutCurrCal.AdcUpperRef[0]}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="0" Grid.Row="1"/>
+                        <TextBox Text="{Binding DcOutCurrCal.AdcUpperRef}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="0" Grid.Row="1"/>
                     </Grid>
                 </StackPanel>
                 <!-- 화살표 이미지 -->
@@ -244,7 +244,7 @@
 
                         <TextBlock Text="대기(s)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
 
-                        <TextBox Text="{Binding DcOutCurrCal.Delay6[0]}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="0" Grid.Row="1"/>
+                        <TextBox Text="{Binding DcOutCurrCal.Delay6}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="0" Grid.Row="1"/>
                     </Grid>
                 </StackPanel>
                 <!-- 화살표 이미지 -->
@@ -266,7 +266,7 @@
 
                         <TextBlock Text="대기(s)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
 
-                        <TextBox Text="{Binding DcOutCurrCal.Delay7[0]}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="0" Grid.Row="1"/>
+                        <TextBox Text="{Binding DcOutCurrCal.Delay7}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="0" Grid.Row="1"/>
                     </Grid>
                 </StackPanel>
                 <!-- 화살표 이미지 -->
@@ -285,7 +285,7 @@
 
                         <TextBlock Text="전류(A)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
 
-                        <TextBox Text="{Binding DcOutCurrCal.AdcLowerRef[0]}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="0" Grid.Row="1"/>
+                        <TextBox Text="{Binding DcOutCurrCal.AdcLowerRef}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="0" Grid.Row="1"/>
                     </Grid>
                 </StackPanel>
                 <!-- 화살표 이미지 -->
@@ -307,9 +307,9 @@
                         <TextBlock Text="전류(A)"    Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="1" />
                         <TextBlock Text="주파수(Hz)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="2" />
 
-                        <TextBox Text="{Binding DcOutCurrCal.M100AcVolt[0]}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="0" Grid.Row="1"/>
-                        <TextBox Text="{Binding DcOutCurrCal.M100AcCurr[0]}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="1" Grid.Row="1"/>
-                        <TextBox Text="{Binding DcOutCurrCal.M100AcFreq[0]}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="2" Grid.Row="1"/>
+                        <TextBox Text="{Binding DcOutCurrCal.M100AcVolt}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="0" Grid.Row="1"/>
+                        <TextBox Text="{Binding DcOutCurrCal.M100AcCurr}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="1" Grid.Row="1"/>
+                        <TextBox Text="{Binding DcOutCurrCal.M100AcFreq}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="2" Grid.Row="1"/>
                     </Grid>
                 </StackPanel>
                 <!-- 화살표 이미지 -->
@@ -335,7 +335,7 @@
 
                         <TextBlock Text="대기(s)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
 
-                        <TextBox Text="{Binding DcOutCurrCal.Delay8[0]}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="0" Grid.Row="1"/>
+                        <TextBox Text="{Binding DcOutCurrCal.Delay8}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="0" Grid.Row="1"/>
                     </Grid>
                 </StackPanel>
                 <!-- 화살표 이미지 -->
@@ -354,7 +354,7 @@
 
                         <TextBlock Text="전류(A)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
 
-                        <TextBox Text="{Binding DcOutCurrCal.M100LoadCurr[0]}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="0" Grid.Row="1"/>
+                        <TextBox Text="{Binding DcOutCurrCal.M100LoadCurr}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="0" Grid.Row="1"/>
                     </Grid>
                 </StackPanel>
                 <!-- 화살표 이미지 -->
@@ -372,7 +372,7 @@
 
                         <TextBlock Text="대기(s)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
 
-                        <TextBox Text="{Binding DcOutCurrCal.Delay9[0]}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="0" Grid.Row="1"/>
+                        <TextBox Text="{Binding DcOutCurrCal.Delay9}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="0" Grid.Row="1"/>
                     </Grid>
                 </StackPanel>
                 <!-- 화살표 이미지 -->
@@ -391,7 +391,7 @@
 
                         <TextBlock Text="전류(A)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
 
-                        <TextBox Text="{Binding DcOutCurrCal.DefaultM100Ref[0]}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="0" Grid.Row="1"/>
+                        <TextBox Text="{Binding DcOutCurrCal.DefaultM100Ref}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="0" Grid.Row="1"/>
                     </Grid>
                 </StackPanel>
                 <!-- 화살표 이미지 -->
@@ -415,7 +415,7 @@
 
                         <TextBlock Text="대기(s)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
 
-                        <TextBox Text="{Binding DcOutCurrCal.NextTestWait[0]}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="0" Grid.Row="1"/>
+                        <TextBox Text="{Binding DcOutCurrCal.NextTestWait}" Style="{StaticResource TestList_SetValueStyle}" Grid.Column="0" Grid.Row="1"/>
                     </Grid>
                 </StackPanel>
                 <!-- 화살표 이미지 -->

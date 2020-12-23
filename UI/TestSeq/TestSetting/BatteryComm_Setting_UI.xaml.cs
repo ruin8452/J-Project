@@ -7,11 +7,11 @@ namespace J_Project.UI.TestSeq.TestSetting
     /// </summary>
     public partial class BatteryComm_Setting_UI : Page, ITestSettingList
     {
-        public BatteryComm_Setting_UI()
+        public BatteryComm_Setting_UI(int caseNum)
         {
             InitializeComponent();
 
-            DataContext = new ViewModel.TestItem.BatteryCommVM();
+            DataContext = new ViewModel.TestItem.BatteryCommVM(caseNum);
         }
     }
 }

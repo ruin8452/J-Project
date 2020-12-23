@@ -20,11 +20,11 @@ namespace J_Project.UI.TestSeq.Execution
     /// </summary>
     public partial class BatteryComm_UI : Page
     {
-        public BatteryComm_UI()
+        public BatteryComm_UI(int caseNum)
         {
             InitializeComponent();
 
-            DataContext = new ViewModel.TestItem.BatteryCommVM();
+            DataContext = new ViewModel.TestItem.BatteryCommVM(caseNum);
         }
         public BatteryComm_UI(object dataContext)
         {

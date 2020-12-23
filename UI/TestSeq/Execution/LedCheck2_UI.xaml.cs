@@ -20,11 +20,11 @@ namespace J_Project.UI.TestSeq.Execution
     /// </summary>
     public partial class LedCheck2_UI : Page
     {
-        public LedCheck2_UI()
+        public LedCheck2_UI(int caseNum)
         {
             InitializeComponent();
 
-            DataContext = new ViewModel.TestItem.LedCheck2VM();
+            DataContext = new ViewModel.TestItem.LedCheck2VM(caseNum);
         }
         public LedCheck2_UI(object dataContext)
         {

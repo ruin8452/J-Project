@@ -9,11 +9,11 @@ namespace J_Project.UI.TestSeq.TestSetting
     {
         //private List<TextBox> TextBoxList = new List<TextBox>();
 
-        public ConnecterCheck_Setting_UI()
+        public ConnecterCheck_Setting_UI(int caseNum)
         {
             InitializeComponent();
 
-            DataContext = new ViewModel.TestItem.ConnecterVM();
+            DataContext = new ViewModel.TestItem.ConnecterVM(caseNum);
         }
     }
 }

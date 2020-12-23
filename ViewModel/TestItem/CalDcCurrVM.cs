@@ -67,6 +67,7 @@ namespace J_Project.ViewModel.TestItem
         private const double ERR_RATE = 1;
 
         public static string TestName { get; } = "Cal DC 출력전류";
+        public int CaseNum { get; set; }
         public Cal_DC_출력전류 DcOutCurrCal { get; set; }
         public TestOption Option { get; set; }
 
@@ -75,14 +76,16 @@ namespace J_Project.ViewModel.TestItem
         public RelayCommand UnloadPage { get; set; }
         public RelayCommand<object> UnitTestCommand { get; set; }
 
-        public CalDcCurrVM()
+        public CalDcCurrVM(int caseNum)
         {
+            CaseNum = caseNum;
             TestLog = new StringBuilder();
 
             TotalStepNum = (int)Seq.END_TEST + 1;
 
-            Cal_DC_출력전류.Load();
-            DcOutCurrCal = Cal_DC_출력전류.GetObj();
+            DcOutCurrCal = new Cal_DC_출력전류();
+            DcOutCurrCal = (Cal_DC_출력전류)Test.Load(DcOutCurrCal, CaseNum);
+
             Option = TestOption.GetObj();
             ButtonColor = new ObservableCollection<SolidColorBrush>();
 
@@ -103,7 +106,7 @@ namespace J_Project.ViewModel.TestItem
          */
         private void DataSave()
         {
-            Cal_DC_출력전류.Save();
+            Test.Save(DcOutCurrCal, CaseNum);
         }
 
         /**
@@ -193,7 +196,7 @@ namespace J_Project.ViewModel.TestItem
                     // 팝업 전 확인 후 통과
                     double acVolt = PowerMeter.GetObj().AcVolt;
                     TestLog.AppendLine($"- AC : {acVolt}");
-                    if (Math.Abs(DcOutCurrCal.M200AcVolt[caseNumber] - acVolt) <= AC_ERR_RANGE)
+                    if (Math.Abs(DcOutCurrCal.M200AcVolt - acVolt) <= AC_ERR_RANGE)
                     {
                         result = StateFlag.PASS;
                         break;
@@ -201,7 +204,7 @@ namespace J_Project.ViewModel.TestItem
 
                     if (Option.IsFullAuto)
                     {
-                        result = AcSourceSet(DcOutCurrCal.M200AcVolt[caseNumber], DcOutCurrCal.M200AcCurr[caseNumber], DcOutCurrCal.M200AcFreq[caseNumber]);
+                        result = AcSourceSet(DcOutCurrCal.M200AcVolt, DcOutCurrCal.M200AcCurr, DcOutCurrCal.M200AcFreq);
                         TestLog.AppendLine($"- AC 세팅 결과 : {result}");
 
                         if (result != StateFlag.PASS)
@@ -217,7 +220,7 @@ namespace J_Project.ViewModel.TestItem
                     {
                         TestLog.AppendLine($"- AC 설정 팝업");
 
-                        result = AcCtrlWin(DcOutCurrCal.M200AcVolt[caseNumber], AC_ERR_RANGE, AcCheckMode.NORMAL);
+                        result = AcCtrlWin(DcOutCurrCal.M200AcVolt, AC_ERR_RANGE, AcCheckMode.NORMAL);
                         TestLog.AppendLine($"- AC 전원 결과 : {result}\n");
 
                         if (result != StateFlag.PASS)
@@ -245,7 +248,7 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.DELAY1:
                     TestLog.AppendLine("[ 딜레이1 ]\n");
-                    Util.Delay(DcOutCurrCal.Delay1[caseNumber]);
+                    Util.Delay(DcOutCurrCal.Delay1);
                     result = StateFlag.PASS;
                     break;
 
@@ -254,7 +257,7 @@ namespace J_Project.ViewModel.TestItem
 
                     double loadVolt = Dmm2.GetObj().DcVolt;
                     TestLog.AppendLine($"- DC : {loadVolt}");
-                    if (Math.Abs(DcOutCurrCal.DacLoadCurr[caseNumber] - loadVolt) <= LOAD_ERR_RANGE)
+                    if (Math.Abs(DcOutCurrCal.DacLoadCurr - loadVolt) <= LOAD_ERR_RANGE)
                     {
                         result = StateFlag.PASS;
                         break;
@@ -262,7 +265,7 @@ namespace J_Project.ViewModel.TestItem
 
                     if (Option.IsFullAuto)
                     {
-                        result = LoadCurrSet(DcOutCurrCal.DacLoadCurr[caseNumber]);
+                        result = LoadCurrSet(DcOutCurrCal.DacLoadCurr);
                         TestLog.AppendLine($"- 부하 세팅 결과 : {result}");
                         if (result != StateFlag.PASS)
                         {
@@ -279,7 +282,7 @@ namespace J_Project.ViewModel.TestItem
                     {
                         TestLog.AppendLine($"- 부하 설정 팝업");
 
-                        result = LoadCtrlWin(DcOutCurrCal.DacLoadCurr[caseNumber], LOAD_ERR_RANGE, LoadCheckMode.NORMAL);
+                        result = LoadCtrlWin(DcOutCurrCal.DacLoadCurr, LOAD_ERR_RANGE, LoadCheckMode.NORMAL);
                         TestLog.AppendLine($"- 부하 전원 결과 : {result}\n");
 
                         if (result != StateFlag.PASS)
@@ -289,13 +292,13 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.DELAY2:
                     TestLog.AppendLine("[ 딜레이2 ]\n");
-                    Util.Delay(DcOutCurrCal.Delay2[caseNumber]);
+                    Util.Delay(DcOutCurrCal.Delay2);
                     result = StateFlag.PASS;
                     break;
 
                 case Seq.DAC_CAL:
                     TestLog.AppendLine("[ DAC CAL ]");
-                    result = DacCal(DcOutCurrCal.DacLowerRef[caseNumber], DcOutCurrCal.DacUpperRef[caseNumber]);
+                    result = DacCal(DcOutCurrCal.DacLowerRef, DcOutCurrCal.DacUpperRef);
                     TestLog.AppendLine($"- 결과 : {result}\n");
 
                     if (result != StateFlag.PASS)
@@ -304,19 +307,19 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.DELAY3:
                     TestLog.AppendLine("[ 딜레이3 ]\n");
-                    Util.Delay(DcOutCurrCal.Delay3[caseNumber]);
+                    Util.Delay(DcOutCurrCal.Delay3);
                     result = StateFlag.PASS;
                     break;
 
                 case Seq.DEFAULT_M200_REF_SET:
                     TestLog.AppendLine("[ 200V 모드 기본값 세팅 ]");
-                    result = DefaultRefSet(DcOutCurrCal.DefaultM200Ref[caseNumber]);
+                    result = DefaultRefSet(DcOutCurrCal.DefaultM200Ref);
                     TestLog.AppendLine($"- 결과 : {result}\n");
                     break;
 
                 case Seq.DELAY4:
                     TestLog.AppendLine("[ 딜레이4 ]\n");
-                    Util.Delay(DcOutCurrCal.Delay4[caseNumber]);
+                    Util.Delay(DcOutCurrCal.Delay4);
                     result = StateFlag.PASS;
                     break;
 
@@ -325,7 +328,7 @@ namespace J_Project.ViewModel.TestItem
 
                     loadVolt = Dmm2.GetObj().DcVolt;
                     TestLog.AppendLine($"- DC : {loadVolt}");
-                    if (Math.Abs(DcOutCurrCal.AdcLoadCurr[caseNumber] - loadVolt) <= LOAD_ERR_RANGE)
+                    if (Math.Abs(DcOutCurrCal.AdcLoadCurr - loadVolt) <= LOAD_ERR_RANGE)
                     {
                         result = StateFlag.PASS;
                         break;
@@ -333,7 +336,7 @@ namespace J_Project.ViewModel.TestItem
 
                     if (Option.IsFullAuto)
                     {
-                        result = LoadCurrSet(DcOutCurrCal.AdcLoadCurr[caseNumber]);
+                        result = LoadCurrSet(DcOutCurrCal.AdcLoadCurr);
                         TestLog.AppendLine($"- 부하 세팅 결과 : {result}");
                         if (result != StateFlag.PASS)
                         {
@@ -350,7 +353,7 @@ namespace J_Project.ViewModel.TestItem
                     {
                         TestLog.AppendLine($"- 부하 설정 팝업");
 
-                        result = LoadCtrlWin(DcOutCurrCal.AdcLoadCurr[caseNumber], LOAD_ERR_RANGE, LoadCheckMode.NORMAL);
+                        result = LoadCtrlWin(DcOutCurrCal.AdcLoadCurr, LOAD_ERR_RANGE, LoadCheckMode.NORMAL);
                         TestLog.AppendLine($"- 부하 전원 결과 : {result}\n");
 
                         if (result != StateFlag.PASS)
@@ -360,13 +363,13 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.DELAY5:
                     TestLog.AppendLine("[ 딜레이5 ]\n");
-                    Util.Delay(DcOutCurrCal.Delay5[caseNumber]);
+                    Util.Delay(DcOutCurrCal.Delay5);
                     result = StateFlag.PASS;
                     break;
 
                 case Seq.UPPER_ADC_CAL:
                     TestLog.AppendLine("[ ADC 상한 CAL ]");
-                    result = AdcCalCheck((int)CalPoint.HIGH_POINT, DcOutCurrCal.AdcUpperRef[caseNumber]);
+                    result = AdcCalCheck((int)CalPoint.HIGH_POINT, DcOutCurrCal.AdcUpperRef);
                     TestLog.AppendLine($"- CAL 결과 : {result}\n");
 
                     if (result != StateFlag.PASS)
@@ -375,7 +378,7 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.DELAY6:
                     TestLog.AppendLine("[ 딜레이6 ]\n");
-                    Util.Delay(DcOutCurrCal.Delay6[caseNumber]);
+                    Util.Delay(DcOutCurrCal.Delay6);
                     result = StateFlag.PASS;
                     break;
 
@@ -402,13 +405,13 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.DELAY7:
                     TestLog.AppendLine("[ 딜레이7 ]\n");
-                    Util.Delay(DcOutCurrCal.Delay7[caseNumber]);
+                    Util.Delay(DcOutCurrCal.Delay7);
                     result = StateFlag.PASS;
                     break;
 
                 case Seq.LOWER_ADC_CAL:
                     TestLog.AppendLine("[ ADC 하한 CAL ]");
-                    result = AdcCalCheck((int)CalPoint.LOW_POINT, DcOutCurrCal.AdcLowerRef[caseNumber]);
+                    result = AdcCalCheck((int)CalPoint.LOW_POINT, DcOutCurrCal.AdcLowerRef);
                     TestLog.AppendLine($"- CAL 결과 : {result}\n");
 
                     if (result != StateFlag.PASS)
@@ -420,7 +423,7 @@ namespace J_Project.ViewModel.TestItem
 
                     if (Option.IsFullAuto)
                     {
-                        result = AcSourceSet(DcOutCurrCal.M100AcVolt[caseNumber], DcOutCurrCal.M100AcCurr[caseNumber], DcOutCurrCal.M100AcFreq[caseNumber]);
+                        result = AcSourceSet(DcOutCurrCal.M100AcVolt, DcOutCurrCal.M100AcCurr, DcOutCurrCal.M100AcFreq);
                         TestLog.AppendLine($"- AC 세팅 결과 : {result}");
 
                         if (result != StateFlag.PASS)
@@ -436,7 +439,7 @@ namespace J_Project.ViewModel.TestItem
                     {
                         TestLog.AppendLine($"- AC 설정 팝업");
 
-                        result = AcCtrlWin(DcOutCurrCal.M100AcVolt[caseNumber], AC_ERR_RANGE, AcCheckMode.NORMAL);
+                        result = AcCtrlWin(DcOutCurrCal.M100AcVolt, AC_ERR_RANGE, AcCheckMode.NORMAL);
                         TestLog.AppendLine($"- AC 전원 결과 : {result}\n");
 
                         if (result != StateFlag.PASS)
@@ -484,14 +487,14 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.DELAY8:
                     TestLog.AppendLine("[ 딜레이8 ]\n");
-                    Util.Delay(DcOutCurrCal.Delay8[caseNumber]);
+                    Util.Delay(DcOutCurrCal.Delay8);
                     result = StateFlag.PASS;
                     break;
 
                 case Seq.M100_LOAD_ON:
                     if (Option.IsFullAuto)
                     {
-                        result = LoadCurrSet(DcOutCurrCal.M100LoadCurr[caseNumber]);
+                        result = LoadCurrSet(DcOutCurrCal.M100LoadCurr);
                         TestLog.AppendLine($"- 부하 세팅 결과 : {result}");
                         if (result != StateFlag.PASS)
                         {
@@ -508,7 +511,7 @@ namespace J_Project.ViewModel.TestItem
                     {
                         TestLog.AppendLine($"- 부하 설정 팝업");
 
-                        result = LoadCtrlWin(DcOutCurrCal.M100LoadCurr[caseNumber], LOAD_ERR_RANGE, LoadCheckMode.NORMAL);
+                        result = LoadCtrlWin(DcOutCurrCal.M100LoadCurr, LOAD_ERR_RANGE, LoadCheckMode.NORMAL);
                         TestLog.AppendLine($"- 부하 전원 결과 : {result}\n");
 
                         if (result != StateFlag.PASS)
@@ -518,13 +521,13 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.DELAY9:
                     TestLog.AppendLine("[ 딜레이9 ]\n");
-                    Util.Delay(DcOutCurrCal.Delay9[caseNumber]);
+                    Util.Delay(DcOutCurrCal.Delay9);
                     result = StateFlag.PASS;
                     break;
 
                 case Seq.DEFAULT_M100_REF_SET: // 정류기 연결 및 값 설정
                     TestLog.AppendLine("[ 100V 모드 기본값 세팅 ]");
-                    result = DefaultRefSet(DcOutCurrCal.DefaultM100Ref[caseNumber]);
+                    result = DefaultRefSet(DcOutCurrCal.DefaultM100Ref);
                     TestLog.AppendLine($"- 결과 : {result}\n");
                     break;
 
@@ -570,7 +573,7 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.NEXT_TEST_DELAY:
                     TestLog.AppendLine("[ 다음 테스트 딜레이 ]\n");
-                    Util.Delay(DcOutCurrCal.NextTestWait[caseNumber]);
+                    Util.Delay(DcOutCurrCal.NextTestWait);
                     result = StateFlag.PASS;
                     break;
 

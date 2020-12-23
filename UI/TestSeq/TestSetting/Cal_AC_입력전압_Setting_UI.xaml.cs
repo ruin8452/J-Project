@@ -7,11 +7,11 @@ namespace J_Project.UI.TestSeq.TestSetting
     /// </summary>
     public partial class Cal_AC_입력전압_Setting_UI : Page, ITestSettingList
     {
-        public Cal_AC_입력전압_Setting_UI()
+        public Cal_AC_입력전압_Setting_UI(int caseNum)
         {
             InitializeComponent();
 
-            DataContext = new ViewModel.TestItem.CalAcVM();
+            DataContext = new ViewModel.TestItem.CalAcVM(caseNum);
         }
     }
 }

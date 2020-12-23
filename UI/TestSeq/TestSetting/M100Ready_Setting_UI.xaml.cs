@@ -7,11 +7,11 @@ namespace J_Project.UI.TestSeq.TestSetting
     /// </summary>
     public partial class M100Ready_Setting_UI : Page, ITestSettingList
     {
-        public M100Ready_Setting_UI()
+        public M100Ready_Setting_UI(int caseNum)
         {
             InitializeComponent();
 
-            DataContext = new ViewModel.TestItem.M100ReadyVM();
+            DataContext = new ViewModel.TestItem.M100ReadyVM(caseNum);
         }
     }
 }

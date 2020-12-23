@@ -31,8 +31,8 @@ namespace J_Project.ViewModel.TestItem
             END_TEST
         }
 
-        private int TestOrterNum = (int)FirstTestOrder.IdSet;
         public static string TestName { get; } = "ID-Set 확인";
+        public int CaseNum { get; set; }
         public IdChange IdChange { get; set; }
         public TestOption Option { get; set; }
 
@@ -41,18 +41,21 @@ namespace J_Project.ViewModel.TestItem
         public RelayCommand UnloadPage { get; set; }
         public RelayCommand<object> UnitTestCommand { get; set; }
 
-        public IdChangeVM()
+        public IdChangeVM(int caseNum)
         {
+            CaseNum = caseNum;
             TestLog = new StringBuilder();
 
+            TestOrterNum = (int)FirstTestOrder.IdSet + caseNum;
             TotalStepNum = (int)Seq.END_TEST + 1;
 
-            IdChange.Load();
-            IdChange = IdChange.GetObj();
+            IdChange = new IdChange();
+            IdChange = (IdChange)Test.Load(IdChange, CaseNum);
+
             Option = TestOption.GetObj();
             ButtonColor = new ObservableCollection<SolidColorBrush>();
 
-            FirstOrder[TestOrterNum] = new string[] { TestOrterNum.ToString(), TestName, "판단불가", "불합격" };
+            FirstOrder[TestOrterNum] = new string[] { TestOrterNum.ToString(), TestName + caseNum.ToString(), "판단불가", "NG(불합격)" };
 
             for (int i = 0; i < TotalStepNum; i++)
                 ButtonColor.Add(Brushes.White);
@@ -71,7 +74,7 @@ namespace J_Project.ViewModel.TestItem
          */
         private void DataSave()
         {
-            IdChange.Save();
+            Test.Save(IdChange, CaseNum);
         }
 
         /**
@@ -160,7 +163,7 @@ namespace J_Project.ViewModel.TestItem
 
                     double acVolt = PowerMeter.GetObj().AcVolt;
                     TestLog.AppendLine($"- AC : {acVolt}");
-                    if (Math.Abs(IdChange.AcVolt[caseNumber] - acVolt) <= AC_ERR_RANGE)
+                    if (Math.Abs(IdChange.AcVolt - acVolt) <= AC_ERR_RANGE)
                     {
                         result = StateFlag.PASS;
                         break;
@@ -168,7 +171,7 @@ namespace J_Project.ViewModel.TestItem
 
                     if (Option.IsFullAuto)
                     {
-                        result = AcSourceSet(IdChange.AcVolt[caseNumber], IdChange.AcCurr[caseNumber], IdChange.AcFreq[caseNumber]);
+                        result = AcSourceSet(IdChange.AcVolt, IdChange.AcCurr, IdChange.AcFreq);
                         TestLog.AppendLine($"- AC 세팅 결과 : {result}");
 
                         if (result != StateFlag.PASS)
@@ -187,7 +190,7 @@ namespace J_Project.ViewModel.TestItem
                     {
                         TestLog.AppendLine($"- AC 설정 팝업");
 
-                        result = AcCtrlWin(IdChange.AcVolt[caseNumber], AC_ERR_RANGE, AcCheckMode.NORMAL);
+                        result = AcCtrlWin(IdChange.AcVolt, AC_ERR_RANGE, AcCheckMode.NORMAL);
                         TestLog.AppendLine($"- AC 전원 결과 : {result}\n");
 
                         if (result != StateFlag.PASS)
@@ -211,13 +214,13 @@ namespace J_Project.ViewModel.TestItem
                     if (subWinResult == true)
                     {
                         TestLog.AppendLine($"- 테스트 합격\n");
-                        resultData = ("OK", "합격");
+                        resultData = ("OK", "OK(합격)");
                         result = StateFlag.PASS;
                     }
                     else if (subWinResult == false)
                     {
                         TestLog.AppendLine($"- 테스트 불합격\n");
-                        resultData = ("ID 변경 오류", "불합격");
+                        resultData = ("ID 변경 오류", "NG(불합격)");
                         result = StateFlag.ID_ERROR;
                     }
                     break;
@@ -230,7 +233,7 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.NEXT_TEST_DELAY:
                     TestLog.AppendLine("[ 다음 테스트 딜레이 ]\n");
-                    Util.Delay(IdChange.NextTestWait[caseNumber]);
+                    Util.Delay(IdChange.NextTestWait);
                     result = StateFlag.PASS;
                     break;
 

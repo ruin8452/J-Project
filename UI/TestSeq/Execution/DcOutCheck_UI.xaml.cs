@@ -7,11 +7,11 @@ namespace J_Project.UI.TestSeq.Execution
     /// </summary>
     public partial class DcOutCheck_UI : Page, ITestExeList
     {
-        public DcOutCheck_UI()
+        public DcOutCheck_UI(int caseNum)
         {
             InitializeComponent();
 
-            DataContext = new ViewModel.TestItem.DcOutCheckVM();
+            DataContext = new ViewModel.TestItem.DcOutCheckVM(caseNum);
         }
     }
 }

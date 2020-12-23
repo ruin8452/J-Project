@@ -64,10 +64,6 @@
       <HintPath>packages\SharpZipLib.1.0.0\lib\net45\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="Ivi.Visa, Version=5.11.0.0, Culture=neutral, PublicKeyToken=a128c98f1d7717c1, processorArchitecture=MSIL" />
-    <Reference Include="Microsoft.Expression.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\Program Files (x86)\Microsoft SDKs\Expression\Blend\.NETFramework\v4.0\Libraries\Microsoft.Expression.Drawing.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Office.Interop.Excel.15.0.4795.1000\lib\net20\Microsoft.Office.Interop.Excel.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
@@ -176,7 +172,8 @@
     <Compile Include="Manager\EventArgsClass\UnitTestStartEventArgs.cs" />
     <Compile Include="Manager\Fault.cs" />
     <Compile Include="Manager\TestExecution.cs" />
-    <Compile Include="Manager\TestItemUint.cs" />
+    <Compile Include="Manager\TestItemSetUnit.cs" />
+    <Compile Include="Manager\TestItemUnit.cs" />
     <Compile Include="Manager\TestOption.cs" />
     <Compile Include="Manager\Util.cs" />
     <Compile Include="TestMethod\BatteryComm.cs" />
@@ -197,8 +194,8 @@
     <Compile Include="TestMethod\EventArgsClass\ResultCheckEventArgs.cs" />
     <Compile Include="TestMethod\Test.cs" />
     <Compile Include="TestMethod\ConnecterCheck.cs" />
-    <Compile Include="TestMethod\라인_레귤레이션.cs" />
-    <Compile Include="TestMethod\로드_레귤레이션.cs" />
+    <Compile Include="TestMethod\레귤레이션_M200.cs" />
+    <Compile Include="TestMethod\레귤레이션_M100.cs" />
     <Compile Include="TestMethod\리플_노이즈.cs" />
     <Compile Include="TestMethod\DcOutCheck.cs" />
     <Compile Include="TestMethod\무부하_전원_ON.cs" />
@@ -294,11 +291,8 @@
     <Compile Include="UI\TestSeq\Execution\AC_고전압_알람_UI.xaml.cs">
       <DependentUpon>AC_고전압_알람_UI.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\TestSeq\Execution\AC_저전압_알람1_UI.xaml.cs">
-      <DependentUpon>AC_저전압_알람1_UI.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\TestSeq\Execution\AC_저전압_알람2_UI.xaml.cs">
-      <DependentUpon>AC_저전압_알람2_UI.xaml</DependentUpon>
+    <Compile Include="UI\TestSeq\Execution\AC_저전압_알람_UI.xaml.cs">
+      <DependentUpon>AC_저전압_알람_UI.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\TestSeq\Execution\AC_정전전압_인식_UI.xaml.cs">
       <DependentUpon>AC_정전전압_인식_UI.xaml</DependentUpon>
@@ -316,26 +310,11 @@
     <Compile Include="UI\TestSeq\Execution\RTC_TIME_체크2_UI.xaml.cs">
       <DependentUpon>RTC_TIME_체크2_UI.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\TestSeq\Execution\라인_레귤레이션1_UI.xaml.cs">
-      <DependentUpon>라인_레귤레이션1_UI.xaml</DependentUpon>
+    <Compile Include="UI\TestSeq\Execution\레귤레이션_200V_UI.xaml.cs">
+      <DependentUpon>레귤레이션_200V_UI.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\TestSeq\Execution\라인_레귤레이션2_UI.xaml.cs">
-      <DependentUpon>라인_레귤레이션2_UI.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\TestSeq\Execution\라인_레귤레이션3_UI.xaml.cs">
-      <DependentUpon>라인_레귤레이션3_UI.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\TestSeq\Execution\라인_레귤레이션4_UI.xaml.cs">
-      <DependentUpon>라인_레귤레이션4_UI.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\TestSeq\Execution\로드_레귤레이션1_UI.xaml.cs">
-      <DependentUpon>로드_레귤레이션1_UI.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\TestSeq\Execution\로드_레귤레이션2_UI.xaml.cs">
-      <DependentUpon>로드_레귤레이션2_UI.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\TestSeq\Execution\로드_레귤레이션3_UI.xaml.cs">
-      <DependentUpon>로드_레귤레이션3_UI.xaml</DependentUpon>
+    <Compile Include="UI\TestSeq\Execution\레귤레이션_100V_UI.xaml.cs">
+      <DependentUpon>레귤레이션_100V_UI.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\TestSeq\Execution\리플_노이즈_UI.xaml.cs">
       <DependentUpon>리플_노이즈_UI.xaml</DependentUpon>
@@ -358,11 +337,8 @@
     <Compile Include="UI\TestSeq\Execution\출력_고전압_보호_UI.xaml.cs">
       <DependentUpon>출력_고전압_보호_UI.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\TestSeq\Execution\출력_과부하_보호1_UI.xaml.cs">
-      <DependentUpon>출력_과부하_보호1_UI.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\TestSeq\Execution\출력_과부하_보호2_UI.xaml.cs">
-      <DependentUpon>출력_과부하_보호2_UI.xaml</DependentUpon>
+    <Compile Include="UI\TestSeq\Execution\출력_과부하_보호_UI.xaml.cs">
+      <DependentUpon>출력_과부하_보호_UI.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\TestSeq\Execution\출력_저전압_보호_UI.xaml.cs">
       <DependentUpon>출력_저전압_보호_UI.xaml</DependentUpon>
@@ -434,11 +410,11 @@
     <Compile Include="UI\TestSeq\TestSetting\RTC_TIME_체크2_Setting_UI.xaml.cs">
       <DependentUpon>RTC_TIME_체크2_Setting_UI.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\TestSeq\TestSetting\라인_레귤레이션_Setting_UI.xaml.cs">
-      <DependentUpon>라인_레귤레이션_Setting_UI.xaml</DependentUpon>
+    <Compile Include="UI\TestSeq\TestSetting\레귤레이션_200V_Setting_UI.xaml.cs">
+      <DependentUpon>레귤레이션_200V_Setting_UI.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\TestSeq\TestSetting\로드_레귤레이션_Setting_UI.xaml.cs">
-      <DependentUpon>로드_레귤레이션_Setting_UI.xaml</DependentUpon>
+    <Compile Include="UI\TestSeq\TestSetting\레귤레이션_100V_Setting_UI.xaml.cs">
+      <DependentUpon>레귤레이션_100V_Setting_UI.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\TestSeq\TestSetting\리플_노이즈_Setting_UI.xaml.cs">
       <DependentUpon>리플_노이즈_Setting_UI.xaml</DependentUpon>
@@ -497,7 +473,9 @@
     <Compile Include="ViewModel\SubWindow\ReportProcessViewModel.cs" />
     <Compile Include="ViewModel\SettingPageVM.cs" />
     <Compile Include="ViewModel\TestingPageVM.cs" />
+    <Compile Include="ViewModel\TestItem\InrushVM.cs" />
     <Compile Include="ViewModel\TestItem\IsolPressVM.cs" />
+    <Compile Include="ViewModel\TestItem\Leakage.cs" />
     <Compile Include="ViewModel\TestItem\PowerSupplyVM.cs" />
     <Compile Include="ViewModel\TestItem\IsolResVM.cs" />
     <Compile Include="ViewModel\TestItem\AcHighVM.cs" />
@@ -523,8 +501,8 @@
     <Compile Include="ViewModel\TestItem\LedCheckVM.cs" />
     <Compile Include="ViewModel\TestItem\ConnecterVM.cs" />
     <Compile Include="ViewModel\TestItem\RtcCheck2VM.cs" />
-    <Compile Include="ViewModel\TestItem\LineRegVM.cs" />
-    <Compile Include="ViewModel\TestItem\LoadRegVM.cs" />
+    <Compile Include="ViewModel\TestItem\RegulM200VM.cs" />
+    <Compile Include="ViewModel\TestItem\RegulM100VM.cs" />
     <Compile Include="ViewModel\TestItem\Noise2VM.cs" />
     <Compile Include="ViewModel\TestItem\NoiseVM.cs" />
     <Compile Include="ViewModel\TestItem\NoLoad2VM.cs" />
@@ -672,11 +650,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UI\TestSeq\Execution\AC_저전압_알람1_UI.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UI\TestSeq\Execution\AC_저전압_알람2_UI.xaml">
+    <Page Include="UI\TestSeq\Execution\AC_저전압_알람_UI.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -700,31 +674,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UI\TestSeq\Execution\라인_레귤레이션1_UI.xaml">
+    <Page Include="UI\TestSeq\Execution\레귤레이션_200V_UI.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UI\TestSeq\Execution\라인_레귤레이션2_UI.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UI\TestSeq\Execution\라인_레귤레이션3_UI.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UI\TestSeq\Execution\라인_레귤레이션4_UI.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UI\TestSeq\Execution\로드_레귤레이션1_UI.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UI\TestSeq\Execution\로드_레귤레이션2_UI.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UI\TestSeq\Execution\로드_레귤레이션3_UI.xaml">
+    <Page Include="UI\TestSeq\Execution\레귤레이션_100V_UI.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -756,11 +710,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UI\TestSeq\Execution\출력_과부하_보호1_UI.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UI\TestSeq\Execution\출력_과부하_보호2_UI.xaml">
+    <Page Include="UI\TestSeq\Execution\출력_과부하_보호_UI.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -856,11 +806,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UI\TestSeq\TestSetting\라인_레귤레이션_Setting_UI.xaml">
+    <Page Include="UI\TestSeq\TestSetting\레귤레이션_200V_Setting_UI.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UI\TestSeq\TestSetting\로드_레귤레이션_Setting_UI.xaml">
+    <Page Include="UI\TestSeq\TestSetting\레귤레이션_100V_Setting_UI.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

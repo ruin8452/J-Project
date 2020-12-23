@@ -52,7 +52,7 @@ namespace J_Project.ViewModel
         Timer TestTimeView = new Timer();   // 일정주기마다 스톱워치의 시간을 UI로 갱신하는 타이머
         Stopwatch TotalTestTimer = new Stopwatch(); // 총 테스트 시간 측정
 
-        public ObservableCollection<TestItemUint> TreeTestItems { get; set; }
+        public ObservableCollection<TestItemUnit> TreeTestItems { get; set; }
         public Page TestUi { get; set; }
         ScrollViewer Viewer;
         
@@ -173,7 +173,7 @@ namespace J_Project.ViewModel
          */
         private void TreeViewSelected(object selectedItem)
         {
-            TestItemUint Item = selectedItem as TestItemUint;
+            TestItemUnit Item = selectedItem as TestItemUnit;
             try
             {
                 TestUi = Item.TestExeUi;
@@ -239,7 +239,7 @@ namespace J_Project.ViewModel
 
             basicInfo.SwVersion = Rect.FwVersion.ToString();
             basicInfo.CheckDate = DateTime.Today.ToShortDateString();
-            basicInfo.TestResult = failList.Any() ? "불합격" : "합격";
+            basicInfo.TestResult = failList.Any() ? "NG" : "OK";
 
             string[] str = new string[] { "0", basicInfo.Checker, basicInfo.ModelName, basicInfo.ProductCode, basicInfo.SerialNumber,
                                           basicInfo.DcdcSerial, basicInfo.PfcSerial, basicInfo.McuSerial, basicInfo.CheckDate, basicInfo.HwVersion, basicInfo.SwVersion,
@@ -266,7 +266,7 @@ namespace J_Project.ViewModel
             if (selectedItem == null) return;
 
             //TreeTestItems;
-            TestItemUint node = selectedItem as TestItemUint;
+            TestItemUnit node = selectedItem as TestItemUnit;
 
             // 부모노드가 존재할 경우
             if (node.Parents != null)
@@ -302,7 +302,7 @@ namespace J_Project.ViewModel
             if (selectedItem == null) return;
 
             //TreeTestItems;
-            TestItemUint node = selectedItem as TestItemUint;
+            TestItemUnit node = selectedItem as TestItemUnit;
 
             // 부모노드가 존재할 경우
             if (node.Parents != null)
@@ -396,13 +396,13 @@ namespace J_Project.ViewModel
             }
 
 
-            List<TestItemUint> source = MakeList(TreeTestItems);
+            List<TestItemUnit> source = MakeList(TreeTestItems);
 
             var selectedItems = from tempItem in source
                                 where tempItem.Checked != false
                                 select tempItem;
 
-            List<TestItemUint> runableTestList = selectedItems.ToList();
+            List<TestItemUnit> runableTestList = selectedItems.ToList();
 
 
             // 양식 경로 유효성 검사
@@ -554,7 +554,7 @@ namespace J_Project.ViewModel
          */
         private void BeforeTestStart(object sender, TestRunCheckEventArgs e)
         {
-            List<TestItemUint> source = MakeList(TreeTestItems);
+            List<TestItemUnit> source = MakeList(TreeTestItems);
 
             foreach (var item in source)
             {
@@ -589,7 +589,7 @@ namespace J_Project.ViewModel
          */
         private void TestStart(object sender, TestStartEventArgs e)
         {
-            List<TestItemUint> source = MakeList(TreeTestItems);
+            List<TestItemUnit> source = MakeList(TreeTestItems);
 
             var itemUi = from temp in source
                        where temp.TestIndex == e.TestIndex && temp.CaseIndex == e.CaseIndex
@@ -642,14 +642,14 @@ namespace J_Project.ViewModel
          */
         private void TestUnitItemStop(object sender, UnitTestEndEventArgs e)
         {
-            List<TestItemUint> source = MakeList(TreeTestItems);
+            List<TestItemUnit> source = MakeList(TreeTestItems);
 
             var testItem = from item in source
                            where item.TestIndex == e.TestIndex && item.CaseIndex == e.CaseIndex
                            select item;
 
             // 유닛테스트 항목의 결과에 따른 색 변경
-            TestItemUint testInfo = testItem.First();
+            TestItemUnit testInfo = testItem.First();
             AllTestVM unitItem = testInfo.TestExeUi.DataContext as AllTestVM;
 
             unitItem.TextColorChange(e.CurrentSeqNumer, e.Result);
@@ -666,7 +666,7 @@ namespace J_Project.ViewModel
          */
         private void TestEndCheck(object sender, TestEndEventArgs e)
         {
-            List<TestItemUint> source = MakeList(TreeTestItems);
+            List<TestItemUnit> source = MakeList(TreeTestItems);
 
             var testItem = from item in source
                            where item.TestIndex == e.TestIndex && item.CaseIndex == e.CaseIndex
@@ -709,7 +709,7 @@ namespace J_Project.ViewModel
 
             basicInfo.SwVersion = Rect.FwVersion.ToString();
             basicInfo.CheckDate = DateTime.Today.ToShortDateString();
-            basicInfo.TestResult = failList.Any() ? "불합격" : "합격";
+            basicInfo.TestResult = failList.Any() ? "NG" : "OK";
 
             // 기본정보 삽입
             string[] str = new string[] { "0", basicInfo.Checker, basicInfo.ModelName, basicInfo.ProductCode, basicInfo.SerialNumber,
@@ -869,7 +869,7 @@ namespace J_Project.ViewModel
 
             basicInfo.SwVersion = Rect.FwVersion.ToString();
             basicInfo.CheckDate = DateTime.Today.ToShortDateString();
-            basicInfo.TestResult = failList.Any() ? "불합격" : "합격";
+            basicInfo.TestResult = failList.Any() ? "NG" : "OK";
 
             string[] str = new string[] { "0", basicInfo.Checker, basicInfo.ModelName, basicInfo.ProductCode, basicInfo.SerialNumber,
                                           basicInfo.DcdcSerial, basicInfo.PfcSerial, basicInfo.McuSerial, basicInfo.CheckDate,
@@ -894,112 +894,135 @@ namespace J_Project.ViewModel
          *  
          *  @return ObservableCollection<TestItemUint> - 테스트 트리뷰 소스
          */
-        private ObservableCollection<TestItemUint> MakeTree()
+        private ObservableCollection<TestItemUnit> MakeTree()
         {
             int index = 0;
-            ObservableCollection<TestItemUint> TestTree = new ObservableCollection<TestItemUint>();
+            ObservableCollection<TestItemUnit> TestTree = new ObservableCollection<TestItemUnit>();
 
             if(TestType == "FirstTest")
             {
-                TestItemUint cal  = new TestItemUint() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = CalReadyVM.TestName,  TestExeUi = new CalReady_UI() };
-                TestItemUint M200 = new TestItemUint() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = M200ReadyVM.TestName, TestExeUi = new M200Ready_UI() };
-                TestItemUint M100 = new TestItemUint() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = M100ReadyVM.TestName, TestExeUi = new M100Ready_UI() };
+                TestItemUnit cal  = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = CalReadyVM.TestName,  TestExeUi = new CalReady_UI(0) };
+                TestItemUnit M200 = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = M200ReadyVM.TestName, TestExeUi = new M200Ready_UI(0) };
+                TestItemUnit M100 = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = M100ReadyVM.TestName, TestExeUi = new M100Ready_UI(0) };
 
-                TestItemUint isoReg = new TestItemUint() { TestIndex = 0, CaseIndex = 0, Checked = false, TestName = IsolResVM.TestName, Parents = null, remark = new IsolResVM() };
-                TestItemUint isoPress = new TestItemUint() { TestIndex = 0, CaseIndex = 0, Checked = false, TestName = IsolPressVM.TestName, Parents = null, remark = new IsolPressVM() };
-                TestItemUint PowerSup = new TestItemUint() { TestIndex = 0, CaseIndex = 0, Checked = false, TestName = PowerSupplyVM.TestName, Parents = null, remark = new PowerSupplyVM() };
+                TestItemUnit init = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = InitVM.TestName, TestExeUi = new 초기세팅_UI(0) };
 
-                TestItemUint init = new TestItemUint() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = InitVM.TestName, TestExeUi = new 초기세팅_UI() };
+                TestItemUnit acCal = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = cal, TestName = CalAcVM.TestName, TestExeUi = new Cal_AC_입력전압_UI(0) };
+                TestItemUnit voltCal = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = cal, TestName = CalDcVoltVM.TestName, TestExeUi = new Cal_DC_출력전압_UI(0) };
+                TestItemUnit currCal = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = cal, TestName = CalDcCurrVM.TestName, TestExeUi = new Cal_DC_출력전류_UI(0) };
 
-                TestItemUint acCal = new TestItemUint() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = cal, TestName = CalAcVM.TestName, TestExeUi = new Cal_AC_입력전압_UI() };
-                TestItemUint voltCal = new TestItemUint() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = cal, TestName = CalDcVoltVM.TestName, TestExeUi = new Cal_DC_출력전압_UI() };
-                TestItemUint currCal = new TestItemUint() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = cal, TestName = CalDcCurrVM.TestName, TestExeUi = new Cal_DC_출력전류_UI() };
+                TestItemUnit isoReg = new TestItemUnit() { TestIndex = 0, CaseIndex = 0, Checked = false, TestName = IsolResVM.TestName, Parents = null, remark = new IsolResVM(0) };
+                TestItemUnit isoPress = new TestItemUnit() { TestIndex = 0, CaseIndex = 0, Checked = false, TestName = IsolPressVM.TestName, Parents = null, remark = new IsolPressVM(0) };
+                TestItemUnit PowerSup = new TestItemUnit() { TestIndex = 0, CaseIndex = 0, Checked = false, TestName = PowerSupplyVM.TestName, Parents = null, remark = new PowerSupplyVM(0) };
+                TestItemUnit inrush = new TestItemUnit() { TestIndex = 0, CaseIndex = 0, Checked = false, TestName = PowerSupplyVM.TestName, Parents = null, remark = new InrushVM(0) };
+                TestItemUnit id = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = IdChangeVM.TestName, TestExeUi = new IdChange_UI(0) };
+                TestItemUnit temp = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = TempVM.TestName, TestExeUi = new 온도센서_점검_UI(0) };
+                TestItemUnit leakage = new TestItemUnit() { TestIndex = 0, CaseIndex = 0, Checked = false, TestName = PowerSupplyVM.TestName, Parents = null, remark = new Leakage(0) };
+                TestItemUnit local = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = LocalSwitchVM.TestName, TestExeUi = new LocalSwitch_UI(0) };
+                TestItemUnit remote = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = RemoteCommVM.TestName, TestExeUi = new RemoteComm_UI(0) };
+                TestItemUnit bat = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = BatteryCommVM.TestName, TestExeUi = new BatteryComm_UI(0) };
+                TestItemUnit led = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = LedCheckVM.TestName, TestExeUi = new LedCheck_UI(0) };
 
-                TestItemUint led = new TestItemUint() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = LedCheckVM.TestName, TestExeUi = new LedCheck_UI() };
-                TestItemUint id = new TestItemUint() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = IdChangeVM.TestName, TestExeUi = new IdChange_UI() };
-                TestItemUint local = new TestItemUint() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = LocalSwitchVM.TestName, TestExeUi = new LocalSwitch_UI() };
-                TestItemUint remote = new TestItemUint() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = RemoteCommVM.TestName, TestExeUi = new RemoteComm_UI() };
-                TestItemUint bat = new TestItemUint() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = BatteryCommVM.TestName, TestExeUi = new BatteryComm_UI() };
+                //TestItemUnit noload = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = M200, TestName = NoLoadVM.TestName, TestExeUi = new 무부하_전원_ON_UI(0) };
 
-                TestItemUint temp = new TestItemUint() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = M200, TestName = TempVM.TestName, TestExeUi = new 온도센서_점검_UI() };
-                TestItemUint noload = new TestItemUint() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = M200, TestName = NoLoadVM.TestName, TestExeUi = new 무부하_전원_ON_UI() };
+                TestItemUnit Reg200_1 = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = M200, TestName = RegulM200VM.TestName + " 1", TestExeUi = new 레귤레이션_200V_UI(0) };
+                TestItemUnit Reg200_2 = new TestItemUnit() { TestIndex = index++, CaseIndex = 1, Checked = false, Parents = M200, TestName = RegulM200VM.TestName + " 2", TestExeUi = new 레귤레이션_200V_UI(1) };
+                TestItemUnit Reg200_3 = new TestItemUnit() { TestIndex = index++, CaseIndex = 2, Checked = false, Parents = M200, TestName = RegulM200VM.TestName + " 3", TestExeUi = new 레귤레이션_200V_UI(2) };
+                TestItemUnit Reg200_4 = new TestItemUnit() { TestIndex = index++, CaseIndex = 3, Checked = false, Parents = M200, TestName = RegulM200VM.TestName + " 4", TestExeUi = new 레귤레이션_200V_UI(3) };
+                TestItemUnit Reg200_5 = new TestItemUnit() { TestIndex = index++, CaseIndex = 4, Checked = false, Parents = M200, TestName = RegulM200VM.TestName + " 5", TestExeUi = new 레귤레이션_200V_UI(4) };
+                TestItemUnit Reg200_6 = new TestItemUnit() { TestIndex = index++, CaseIndex = 5, Checked = false, Parents = M200, TestName = RegulM200VM.TestName + " 6", TestExeUi = new 레귤레이션_200V_UI(5) };
+                TestItemUnit Reg200_7 = new TestItemUnit() { TestIndex = index++, CaseIndex = 6, Checked = false, Parents = M200, TestName = RegulM200VM.TestName + " 7", TestExeUi = new 레귤레이션_200V_UI(6) };
+                TestItemUnit Reg200_8 = new TestItemUnit() { TestIndex = index++, CaseIndex = 7, Checked = false, Parents = M200, TestName = RegulM200VM.TestName + " 8", TestExeUi = new 레귤레이션_200V_UI(7) };
+                TestItemUnit Reg200_9 = new TestItemUnit() { TestIndex = index++, CaseIndex = 8, Checked = false, Parents = M200, TestName = RegulM200VM.TestName + " 9", TestExeUi = new 레귤레이션_200V_UI(8) };
 
-                TestItemUint outLow = new TestItemUint() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = M200, TestName = OutputLowVM.TestName, TestExeUi = new 출력_저전압_보호_UI() };
-                TestItemUint outHigh = new TestItemUint() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = M200, TestName = OutputHighVM.TestName, TestExeUi = new 출력_고전압_보호_UI() };
+                TestItemUnit noise = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = M200, TestName = NoiseVM.TestName, TestExeUi = new 리플_노이즈_UI(0) };
+                TestItemUnit pf = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = M200, TestName = PowerFactorVM.TestName, TestExeUi = new 역률_UI(0) };
+                TestItemUnit effic = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = M200, TestName = EfficiencyVM.TestName, TestExeUi = new 효율_UI(0) };
+                TestItemUnit outLow = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = M200, TestName = OutputLowVM.TestName, TestExeUi = new 출력_저전압_보호_UI(0) };
+                TestItemUnit outHigh = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = M200, TestName = OutputHighVM.TestName, TestExeUi = new 출력_고전압_보호_UI(0) };
+                TestItemUnit acLow1 = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = M100, TestName = AcLowVM.TestName + " 1", TestExeUi = new AC_저전압_알람_UI(0) };
+                TestItemUnit acHigh = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = M200, TestName = AcHighVM.TestName, TestExeUi = new AC_고전압_알람_UI(0) };
+                TestItemUnit outOver1 = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = M200, TestName = OutputOverVM.TestName + " 1", TestExeUi = new 출력_과부하_보호_UI(0) };
 
-                TestItemUint loadReg1 = new TestItemUint() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = M200, TestName = LoadRegVM.TestName + " 1", TestExeUi = new 로드_레귤레이션1_UI() };
-                TestItemUint loadReg2 = new TestItemUint() { TestIndex = index++, CaseIndex = 1, Checked = false, Parents = M200, TestName = LoadRegVM.TestName + " 2", TestExeUi = new 로드_레귤레이션2_UI() };
-                TestItemUint loadReg3 = new TestItemUint() { TestIndex = index++, CaseIndex = 2, Checked = false, Parents = M200, TestName = LoadRegVM.TestName + " 3", TestExeUi = new 로드_레귤레이션3_UI() };
-                TestItemUint lineReg1 = new TestItemUint() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = M100, TestName = LineRegVM.TestName + " 1", TestExeUi = new 라인_레귤레이션1_UI() };
-                TestItemUint lineReg2 = new TestItemUint() { TestIndex = index++, CaseIndex = 1, Checked = false, Parents = M200, TestName = LineRegVM.TestName + " 2", TestExeUi = new 라인_레귤레이션2_UI() };
-                TestItemUint lineReg3 = new TestItemUint() { TestIndex = index++, CaseIndex = 2, Checked = false, Parents = M200, TestName = LineRegVM.TestName + " 3", TestExeUi = new 라인_레귤레이션3_UI() };
-                //TestItemUint test18 = new TestItemUint() { TestIndex = index++, CaseIndex = 3, Checked = false, TestName = "라인 레귤레이션 4", Parents = M200, TestExeUi = new 라인_레귤레이션4_UI() };
+                TestItemUnit Reg100_1 = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = M100, TestName = RegulM100VM.TestName + " 1", TestExeUi = new 레귤레이션_100V_UI(0) };
+                TestItemUnit Reg100_2 = new TestItemUnit() { TestIndex = index++, CaseIndex = 1, Checked = false, Parents = M100, TestName = RegulM100VM.TestName + " 2", TestExeUi = new 레귤레이션_100V_UI(1) };
+                TestItemUnit Reg100_3 = new TestItemUnit() { TestIndex = index++, CaseIndex = 2, Checked = false, Parents = M100, TestName = RegulM100VM.TestName + " 3", TestExeUi = new 레귤레이션_100V_UI(2) };
+                TestItemUnit Reg100_4 = new TestItemUnit() { TestIndex = index++, CaseIndex = 3, Checked = false, Parents = M100, TestName = RegulM100VM.TestName + " 4", TestExeUi = new 레귤레이션_100V_UI(3) };
+                TestItemUnit Reg100_5 = new TestItemUnit() { TestIndex = index++, CaseIndex = 4, Checked = false, Parents = M100, TestName = RegulM100VM.TestName + " 5", TestExeUi = new 레귤레이션_100V_UI(4) };
+                TestItemUnit Reg100_6 = new TestItemUnit() { TestIndex = index++, CaseIndex = 5, Checked = false, Parents = M100, TestName = RegulM100VM.TestName + " 6", TestExeUi = new 레귤레이션_100V_UI(5) };
+                TestItemUnit Reg100_7 = new TestItemUnit() { TestIndex = index++, CaseIndex = 6, Checked = false, Parents = M100, TestName = RegulM100VM.TestName + " 7", TestExeUi = new 레귤레이션_100V_UI(6) };
+                TestItemUnit Reg100_8 = new TestItemUnit() { TestIndex = index++, CaseIndex = 7, Checked = false, Parents = M100, TestName = RegulM100VM.TestName + " 8", TestExeUi = new 레귤레이션_100V_UI(7) };
+                TestItemUnit Reg100_9 = new TestItemUnit() { TestIndex = index++, CaseIndex = 8, Checked = false, Parents = M100, TestName = RegulM100VM.TestName + " 9", TestExeUi = new 레귤레이션_100V_UI(8) };
 
-                TestItemUint noise = new TestItemUint() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = M200, TestName = NoiseVM.TestName, TestExeUi = new 리플_노이즈_UI() };
-                TestItemUint pf = new TestItemUint() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = M200, TestName = PowerFactorVM.TestName, TestExeUi = new 역률_UI() };
-                TestItemUint effic = new TestItemUint() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = M200, TestName = EfficiencyVM.TestName,  TestExeUi = new 효율_UI() };
-
-                TestItemUint acLow1 = new TestItemUint() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = M100, TestName = AcLowVM.TestName + " 1", TestExeUi = new AC_저전압_알람1_UI() };
-                TestItemUint acLow2 = new TestItemUint() { TestIndex = index++, CaseIndex = 1, Checked = false, Parents = M200, TestName = AcLowVM.TestName + " 2", TestExeUi = new AC_저전압_알람2_UI() };
-
-                TestItemUint acHigh = new TestItemUint() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = M200, TestName = AcHighVM.TestName, TestExeUi = new AC_고전압_알람_UI() };
-                TestItemUint acOut = new TestItemUint() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = M100, TestName = AcBlackOutVM.TestName, TestExeUi = new AC_정전전압_인식_UI() };
-
-                TestItemUint outOver1 = new TestItemUint() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = M100, TestName = OutputOverVM.TestName + " 1", TestExeUi = new 출력_과부하_보호1_UI() };
-                TestItemUint outOver2 = new TestItemUint() { TestIndex = index++, CaseIndex = 1, Checked = false, Parents = M200, TestName = OutputOverVM.TestName + " 2", TestExeUi = new 출력_과부하_보호2_UI() };
-
-                TestItemUint rtc = new TestItemUint() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = M200, TestName = RtcCheckVM.TestName, TestExeUi = new RTC_TIME_체크_UI() };
+                TestItemUnit acLow2 = new TestItemUnit() { TestIndex = index++, CaseIndex = 1, Checked = false, Parents = M200, TestName = AcLowVM.TestName + " 2", TestExeUi = new AC_저전압_알람_UI(1) };
+                TestItemUnit acOut = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = M100, TestName = AcBlackOutVM.TestName, TestExeUi = new AC_정전전압_인식_UI(0) };
+                TestItemUnit outOver2 = new TestItemUnit() { TestIndex = index++, CaseIndex = 1, Checked = false, Parents = M100, TestName = OutputOverVM.TestName + " 2", TestExeUi = new 출력_과부하_보호_UI(1) };
+                TestItemUnit rtc = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = M200, TestName = RtcCheckVM.TestName, TestExeUi = new RTC_TIME_체크_UI(0) };
 
 
                 cal.Child.Add(acCal);    // 입력 CAL
                 cal.Child.Add(voltCal);    // 출력 전압 CAL
                 cal.Child.Add(currCal);    // 출력 전류 CAL
 
-                M200.Child.Add(temp);
-                M200.Child.Add(noload);
-                M200.Child.Add(outLow);
-                M200.Child.Add(outHigh);
-                M200.Child.Add(loadReg1);
-                M200.Child.Add(loadReg2);
-                M200.Child.Add(loadReg3);
+                //M200.Child.Add(temp);
+                M200.Child.Add(Reg200_1);
+                M200.Child.Add(Reg200_2);
+                M200.Child.Add(Reg200_3);
+                M200.Child.Add(Reg200_4);
+                M200.Child.Add(Reg200_5);
+                M200.Child.Add(Reg200_6);
+                M200.Child.Add(Reg200_7);
+                M200.Child.Add(Reg200_8);
+                M200.Child.Add(Reg200_9);
                 M200.Child.Add(noise);
                 M200.Child.Add(pf);
-                M200.Child.Add(lineReg2);
-                M200.Child.Add(lineReg3);
-                M200.Child.Add(acLow2);
-                M200.Child.Add(acHigh);
-                M200.Child.Add(outOver2);
                 M200.Child.Add(effic);
-                M200.Child.Add(rtc);
+                M200.Child.Add(outLow);
+                M200.Child.Add(outHigh);
+                M200.Child.Add(acLow1);
+                M200.Child.Add(acHigh);
+                M200.Child.Add(outOver1);
 
-                M100.Child.Add(lineReg1);
-                M100.Child.Add(acLow1);
+                M100.Child.Add(Reg100_1);
+                M100.Child.Add(Reg100_2);
+                M100.Child.Add(Reg100_3);
+                M100.Child.Add(Reg100_4);
+                M100.Child.Add(Reg100_5);
+                M100.Child.Add(Reg100_6);
+                M100.Child.Add(Reg100_7);
+                M100.Child.Add(Reg100_8);
+                M100.Child.Add(Reg100_9);
+                M100.Child.Add(acLow2);
                 M100.Child.Add(acOut);
-                M100.Child.Add(outOver1);
+                M100.Child.Add(outOver2);
+                M100.Child.Add(rtc);
 
                 TestTree.Add(init); // 초기세팅
-                TestTree.Add(led); // LED
+                //TestTree.Add(inrush); // 돌입전류
                 TestTree.Add(id); // ID 변경
+                TestTree.Add(temp); // 온도
+                //TestTree.Add(leakage); // 누설전류
                 TestTree.Add(local); // Local Switch
                 TestTree.Add(remote); // 리모트 통신
                 TestTree.Add(bat); // 배터리 통신
+                TestTree.Add(led); // LED
                 TestTree.Add(cal);   // CAL
-                TestTree.Add(M100);  // 100V Mode
                 TestTree.Add(M200);  // 200V Mode
+                TestTree.Add(M100);  // 100V Mode
             }
             else
             {
-                TestItemUint test0 = new TestItemUint() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = NoLoadVM.TestName,       TestExeUi = new 무부하_전원_ON_UI(new NoLoad2VM()) };
-                TestItemUint test1 = new TestItemUint() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = DcOutCheckVM.TestName,   TestExeUi = new DcOutCheck_UI() };
-                TestItemUint test2 = new TestItemUint() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = LedCheck2VM.TestName,    TestExeUi = new LedCheck2_UI(new LedCheck2VM()) };
-                TestItemUint test3 = new TestItemUint() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = RemoteCommVM.TestName,   TestExeUi = new RemoteComm_UI(new RemoteComm2VM()) };
-                TestItemUint test4 = new TestItemUint() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = BatteryCommVM.TestName,  TestExeUi = new BatteryComm_UI(new BatteryComm2VM()) };
-                TestItemUint test5 = new TestItemUint() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = LocalSwitch2VM.TestName, TestExeUi = new LocalSwitch_UI(new LocalSwitch2VM()) };
-                TestItemUint test6 = new TestItemUint() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = ConnecterVM.TestName,    TestExeUi = new ConnecterCheck_UI() };
-                TestItemUint test7 = new TestItemUint() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = PowerFactorVM.TestName,  TestExeUi = new 역률_UI(new PowerFactor2VM()) };
-                TestItemUint test8 = new TestItemUint() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = NoiseVM.TestName,        TestExeUi = new 리플_노이즈_UI(new Noise2VM()) };
-                TestItemUint test9 = new TestItemUint() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = RtcCheck2VM.TestName,    TestExeUi = new RTC_TIME_체크2_UI() };
-                TestItemUint test10 = new TestItemUint() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = SerialSaveVM.TestName,  TestExeUi = new SerialSave_UI() };
+                TestItemUnit test0 = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = NoLoadVM.TestName,       TestExeUi = new 무부하_전원_ON_UI(new NoLoad2VM(0)) };
+                TestItemUnit test1 = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = DcOutCheckVM.TestName,   TestExeUi = new DcOutCheck_UI(0) };
+                TestItemUnit test2 = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = LedCheck2VM.TestName,    TestExeUi = new LedCheck2_UI(new LedCheck2VM(0)) };
+                TestItemUnit test3 = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = RemoteCommVM.TestName,   TestExeUi = new RemoteComm_UI(new RemoteComm2VM(0)) };
+                TestItemUnit test4 = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = BatteryCommVM.TestName,  TestExeUi = new BatteryComm_UI(new BatteryComm2VM(0)) };
+                TestItemUnit test5 = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = LocalSwitch2VM.TestName, TestExeUi = new LocalSwitch_UI(new LocalSwitch2VM(0)) };
+                TestItemUnit test6 = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = ConnecterVM.TestName,    TestExeUi = new ConnecterCheck_UI(0) };
+                TestItemUnit test7 = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = PowerFactorVM.TestName,  TestExeUi = new 역률_UI(new PowerFactor2VM(0)) };
+                TestItemUnit test8 = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = NoiseVM.TestName,        TestExeUi = new 리플_노이즈_UI(new Noise2VM(0)) };
+                TestItemUnit test9 = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = RtcCheck2VM.TestName,    TestExeUi = new RTC_TIME_체크2_UI(0) };
+                TestItemUnit test10 = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = SerialSaveVM.TestName,  TestExeUi = new SerialSave_UI(0) };
 
                 TestTree.Add(test0);
                 TestTree.Add(test1);
@@ -1025,9 +1048,9 @@ namespace J_Project.ViewModel
          *  
          *  @return ObservableCollection<TestItemUint> - 테스트 트리뷰 소스
          */
-        private List<TestItemUint> MakeList(ObservableCollection<TestItemUint> source)
+        private List<TestItemUnit> MakeList(ObservableCollection<TestItemUnit> source)
         {
-            List<TestItemUint> tempList = new List<TestItemUint>();
+            List<TestItemUnit> tempList = new List<TestItemUnit>();
 
             foreach (var item in source)
             {

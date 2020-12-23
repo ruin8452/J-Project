@@ -1,4 +1,4 @@
-﻿<Page x:Class="J_Project.UI.TestSeq.Execution.출력_과부하_보호2_UI"
+﻿<Page x:Class="J_Project.UI.TestSeq.Execution.레귤레이션_200V_UI"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -8,23 +8,22 @@
       xmlns:sys="clr-namespace:System;assembly=mscorlib"
       xmlns:fa="clr-namespace:FontAwesome.WPF;assembly=FontAwesome.WPF"
       mc:Ignorable="d"
-      x:Name="OutputOver"
-      Title="출력_과부하_보호2_UI"
-      Tag="1"> <!--Tag - 케이스 번호-->
+      x:Name="Regul200ulation"
+      Title="레귤레이션_200V_UI"
+      Tag="{Binding CaseNum}"> <!--Tag - 케이스 번호-->
 
     <Page.Resources>
         <converter:PassThroughConverter x:Key="UnitTestConverter"/>
         
-        <sys:Int32 x:Key="AcIdx">        0</sys:Int32>
-        <sys:Int32 x:Key="Delay1Idx">    1</sys:Int32>
-        <sys:Int32 x:Key="OverLoadIdx">  2</sys:Int32>
-        <sys:Int32 x:Key="Delay2Idx">    3</sys:Int32>
-        <sys:Int32 x:Key="LoadOffIdx">   4</sys:Int32>
-        <sys:Int32 x:Key="Delay3Idx">    5</sys:Int32>
-        <sys:Int32 x:Key="CheckIdx">     6</sys:Int32>
-        <sys:Int32 x:Key="SaveIdx">      7</sys:Int32>
-        <sys:Int32 x:Key="NextDelayIdx"> 8</sys:Int32>
-        <sys:Int32 x:Key="NextIdx">      9</sys:Int32>
+        <sys:Int32 x:Key="LoadIdx">     0</sys:Int32>
+        <sys:Int32 x:Key="Delay1Idx">   1</sys:Int32>
+        <sys:Int32 x:Key="AcIdx">       2</sys:Int32>
+        <sys:Int32 x:Key="Delay2Idx">   3</sys:Int32>
+        <sys:Int32 x:Key="CheckIdx">    4</sys:Int32>
+        <sys:Int32 x:Key="SaveIdx">     5</sys:Int32>
+        <sys:Int32 x:Key="LoadOffIdx">  6</sys:Int32>
+        <sys:Int32 x:Key="NextDelayIdx">7</sys:Int32>
+        <sys:Int32 x:Key="NextIdx">     8</sys:Int32>
     </Page.Resources>
 
     <Grid>
@@ -32,19 +31,19 @@
             <!-- 테스트명-->
             <TextBlock Style="{StaticResource TestList_TestNameStyle}">
                 <Run Text="{Binding TestName, Mode=OneWay}"/>
-                <Run FontSize="18">( Case 2 )</Run>
+                <!--<Run FontSize="18" Text="( Case"/> <Run FontSize="18" Text="{Binding CaseNum}"/> <Run FontSize="18" Text=")"/>-->
             </TextBlock>
             <StackPanel Orientation="Horizontal" Margin="5">
-                <!-- AC 설정-->
+                <!-- 부하 설정 -->
                 <StackPanel>
-                    <Button Content=" AC "
+                    <Button Content=" 부하 "
                             Foreground="{Binding ButtonColor[0]}"
                             Style="{StaticResource TestList_ItemNameButtonStyle}"
                             Command="{Binding UnitTestCommand}">
                         <Button.CommandParameter>
                             <MultiBinding Converter="{StaticResource UnitTestConverter}">
-                                <Binding ElementName="OutputOver" Path="Tag"/>
-                                <Binding Source="{StaticResource AcIdx}"/>
+                                <Binding ElementName="Regul200ulation" Path="Tag"/>
+                                <Binding Source="{StaticResource LoadIdx}"/>
                             </MultiBinding>
                         </Button.CommandParameter>
                     </Button>
@@ -53,25 +52,17 @@
                             <RowDefinition Height="*" />
                             <RowDefinition Height="*" />
                             <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <TextBlock Text="전압(V)"    Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
-                        <TextBlock Text="전류(A)"    Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="1" />
-                        <TextBlock Text="주파수(Hz)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="2" />
+
+                        <TextBlock Text="전류(A)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
 
                         <Border Grid.Column="0" Grid.Row="1" Style="{StaticResource SettingDataViewBorder}">
-                            <TextBlock Text="{Binding OutputOver.AcVolt[1]}" Style="{StaticResource TestList_ViewValueStyle}" />
-                        </Border>
-                        <Border Grid.Column="1" Grid.Row="1" Style="{StaticResource SettingDataViewBorder}">
-                            <TextBlock Text="{Binding OutputOver.AcCurr[1]}" Style="{StaticResource TestList_ViewValueStyle}" />
-                        </Border>
-                        <Border Grid.Column="2" Grid.Row="1" Style="{StaticResource SettingDataViewBorder}">
-                            <TextBlock Text="{Binding OutputOver.AcFreq[1]}" Style="{StaticResource TestList_ViewValueStyle}" />
+                            <TextBlock Text="{Binding Regul200.LoadCurr}" Style="{StaticResource TestList_ViewValueStyle}" />
                         </Border>
                     </Grid>
                 </StackPanel>
@@ -85,7 +76,7 @@
                             Command="{Binding UnitTestCommand}">
                         <Button.CommandParameter>
                             <MultiBinding Converter="{StaticResource UnitTestConverter}">
-                                <Binding ElementName="OutputOver" Path="Tag"/>
+                                <Binding ElementName="Regul200ulation" Path="Tag"/>
                                 <Binding Source="{StaticResource Delay1Idx}"/>
                             </MultiBinding>
                         </Button.CommandParameter>
@@ -95,27 +86,28 @@
                             <RowDefinition Height="*" />
                             <RowDefinition Height="*" />
                             <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
 
                         <TextBlock Text="대기(s)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
 
                         <Border Grid.Column="0" Grid.Row="1" Style="{StaticResource SettingDataViewBorder}">
-                            <TextBlock Text="{Binding OutputOver.Delay1[1]}" Style="{StaticResource TestList_ViewValueStyle}" />
+                            <TextBlock Text="{Binding Regul200.Delay1}" Style="{StaticResource TestList_ViewValueStyle}" />
                         </Border>
                     </Grid>
                 </StackPanel>
                 <!-- 화살표 이미지 -->
                 <fa:ImageAwesome Style="{StaticResource Allow}"/>
-                <!-- Load 상승 설정-->
+                <!-- AC 설정-->
                 <StackPanel>
-                    <Button Content=" 과부하 설정 "
+                    <Button Content=" AC "
                             Foreground="{Binding ButtonColor[2]}"
                             Style="{StaticResource TestList_ItemNameButtonStyle}"
                             Command="{Binding UnitTestCommand}">
                         <Button.CommandParameter>
                             <MultiBinding Converter="{StaticResource UnitTestConverter}">
-                                <Binding ElementName="OutputOver" Path="Tag"/>
-                                <Binding Source="{StaticResource OverLoadIdx}"/>
+                                <Binding ElementName="Regul200ulation" Path="Tag"/>
+                                <Binding Source="{StaticResource AcIdx}"/>
                             </MultiBinding>
                         </Button.CommandParameter>
                     </Button>
@@ -124,14 +116,27 @@
                             <RowDefinition Height="*" />
                             <RowDefinition Height="*" />
                             <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <TextBlock Text="전류(A)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
+
+                        <TextBlock Text="전압(V)"    Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
+                        <TextBlock Text="전류(A)"    Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="1" />
+                        <TextBlock Text="주파수(Hz)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="2" />
 
                         <Border Grid.Column="0" Grid.Row="1" Style="{StaticResource SettingDataViewBorder}">
-                            <TextBlock Text="{Binding OutputOver.OverLoadCurr[1]}" Style="{StaticResource TestList_ViewValueStyle}" />
+                            <TextBlock Text="{Binding Regul200.AcVolt}" Style="{StaticResource TestList_ViewValueStyle}" />
+                        </Border>
+                        <Border Grid.Column="1" Grid.Row="1" Style="{StaticResource SettingDataViewBorder}">
+                            <TextBlock Text="{Binding Regul200.AcCurr}" Style="{StaticResource TestList_ViewValueStyle}" />
+                        </Border>
+                        <Border Grid.Column="2" Grid.Row="1" Style="{StaticResource SettingDataViewBorder}">
+                            <TextBlock Text="{Binding Regul200.AcFreq}" Style="{StaticResource TestList_ViewValueStyle}" />
                         </Border>
                     </Grid>
                 </StackPanel>
@@ -145,7 +150,7 @@
                             Command="{Binding UnitTestCommand}">
                         <Button.CommandParameter>
                             <MultiBinding Converter="{StaticResource UnitTestConverter}">
-                                <Binding ElementName="OutputOver" Path="Tag"/>
+                                <Binding ElementName="Regul200ulation" Path="Tag"/>
                                 <Binding Source="{StaticResource Delay2Idx}"/>
                             </MultiBinding>
                         </Button.CommandParameter>
@@ -155,55 +160,13 @@
                             <RowDefinition Height="*" />
                             <RowDefinition Height="*" />
                             <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
-
-                        <TextBlock Text="대기(s)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
-
-                        <Border Grid.Column="0" Grid.Row="1" Style="{StaticResource SettingDataViewBorder}">
-                            <TextBlock Text="{Binding OutputOver.Delay2[1]}" Style="{StaticResource TestList_ViewValueStyle}" />
-                        </Border>
-                    </Grid>
-                </StackPanel>
-                <!-- 화살표 이미지 -->
-                <fa:ImageAwesome Style="{StaticResource Allow}"/>
-                <!-- 부하 OFF -->
-                <Button Content=" 부하 OFF "
-                        Foreground="{Binding ButtonColor[4]}"
-                        Style="{StaticResource TestList_ItemNameButtonStyle}"
-                        Command="{Binding UnitTestCommand}">
-                    <Button.CommandParameter>
-                        <MultiBinding Converter="{StaticResource UnitTestConverter}">
-                            <Binding ElementName="OutputOver" Path="Tag"/>
-                            <Binding Source="{StaticResource LoadOffIdx}"/>
-                        </MultiBinding>
-                    </Button.CommandParameter>
-                </Button>
-                <!-- 화살표 이미지 -->
-                <fa:ImageAwesome Style="{StaticResource Allow}"/>
-                <!-- 지연 시간 -->
-                <StackPanel>
-                    <Button Content=" 지연시간 "
-                            Foreground="{Binding ButtonColor[5]}"
-                            Style="{StaticResource TestList_ItemNameButtonStyle}"
-                            Command="{Binding UnitTestCommand}">
-                        <Button.CommandParameter>
-                            <MultiBinding Converter="{StaticResource UnitTestConverter}">
-                                <Binding ElementName="OutputOver" Path="Tag"/>
-                                <Binding Source="{StaticResource Delay3Idx}"/>
-                            </MultiBinding>
-                        </Button.CommandParameter>
-                    </Button>
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="*" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
 
                         <TextBlock Text="대기(s)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
 
                         <Border Grid.Column="0" Grid.Row="1" Style="{StaticResource SettingDataViewBorder}">
-                            <TextBlock Text="{Binding OutputOver.Delay3[1]}" Style="{StaticResource TestList_ViewValueStyle}" />
+                            <TextBlock Text="{Binding Regul200.Delay2}" Style="{StaticResource TestList_ViewValueStyle}" />
                         </Border>
                     </Grid>
                 </StackPanel>
@@ -212,16 +175,17 @@
                 <!-- 합격 기준 -->
                 <StackPanel>
                     <Button Content=" 합격 기준 "
-                            Foreground="{Binding ButtonColor[6]}"
+                            Foreground="{Binding ButtonColor[4]}"
                             Style="{StaticResource TestList_ItemNameButtonStyle}"
                             Command="{Binding UnitTestCommand}">
                         <Button.CommandParameter>
                             <MultiBinding Converter="{StaticResource UnitTestConverter}">
-                                <Binding ElementName="OutputOver" Path="Tag"/>
+                                <Binding ElementName="Regul200ulation" Path="Tag"/>
                                 <Binding Source="{StaticResource CheckIdx}"/>
                             </MultiBinding>
                         </Button.CommandParameter>
                     </Button>
+
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
@@ -233,33 +197,46 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-
                         <TextBlock Text="검사시간(s)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
-                        <TextBlock Text="출력전압(V)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="1" />
-                        <TextBlock Text="오차범위(V)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="2" />
+                        <TextBlock Text="최대전압(V)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="1" />
+                        <TextBlock Text="최소전압(V)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="2" />
 
                         <Border Grid.Column="0" Grid.Row="1" Width="70" Style="{StaticResource SettingDataViewBorder}">
-                            <TextBlock Text="{Binding OutputOver.CheckTiming[1]}" Style="{StaticResource TestList_ViewValueStyle}" />
+                            <TextBlock Text="{Binding Regul200.CheckTiming}" Style="{StaticResource TestList_ViewValueStyle}" />
                         </Border>
                         <Border Grid.Column="1" Grid.Row="1" Width="70" Style="{StaticResource SettingDataViewBorder}">
-                            <TextBlock Text="{Binding OutputOver.DcOutVolt[1]}" Style="{StaticResource TestList_ViewValueStyle}" />
+                            <TextBlock Text="{Binding Regul200.LimitMaxVolt}" Style="{StaticResource TestList_ViewValueStyle}" />
                         </Border>
                         <Border Grid.Column="2" Grid.Row="1" Width="70" Style="{StaticResource SettingDataViewBorder}">
-                            <TextBlock Text="{Binding OutputOver.VoltErrRate[1]}" Style="{StaticResource TestList_ViewValueStyle}" />
+                            <TextBlock Text="{Binding Regul200.LimitMinVolt}" Style="{StaticResource TestList_ViewValueStyle}" />
                         </Border>
                     </Grid>
                 </StackPanel>
                 <!-- 화살표 이미지 -->
                 <fa:ImageAwesome Style="{StaticResource Allow}"/>
                 <!-- 결과 저장 -->
-                <Button Content=" 결과 저장 "
-                        Foreground="{Binding ButtonColor[7]}"
+                <Button Content=" 결과 저장 " 
+                        Foreground="{Binding ButtonColor[5]}"
                         Style="{StaticResource TestList_ItemNameButtonStyle}"
                         Command="{Binding UnitTestCommand}">
                     <Button.CommandParameter>
                         <MultiBinding Converter="{StaticResource UnitTestConverter}">
-                            <Binding ElementName="OutputOver" Path="Tag"/>
+                            <Binding ElementName="Regul200ulation" Path="Tag"/>
                             <Binding Source="{StaticResource SaveIdx}"/>
+                        </MultiBinding>
+                    </Button.CommandParameter>
+                </Button>
+                <!-- 화살표 이미지 -->
+                <fa:ImageAwesome Style="{StaticResource Allow}"/>
+                <!-- 부하 OFF -->
+                <Button Content=" 부하 OFF "
+                        Foreground="{Binding ButtonColor[6]}"
+                        Style="{StaticResource TestList_ItemNameButtonStyle}"
+                        Command="{Binding UnitTestCommand}">
+                    <Button.CommandParameter>
+                        <MultiBinding Converter="{StaticResource UnitTestConverter}">
+                            <Binding ElementName="Regul200ulation" Path="Tag"/>
+                            <Binding Source="{StaticResource LoadOffIdx}"/>
                         </MultiBinding>
                     </Button.CommandParameter>
                 </Button>
@@ -268,12 +245,12 @@
                 <!-- 지연 시간 -->
                 <StackPanel>
                     <Button Content=" 지연시간 "
-                            Foreground="{Binding ButtonColor[8]}"
+                            Foreground="{Binding ButtonColor[7]}"
                             Style="{StaticResource TestList_ItemNameButtonStyle}"
                             Command="{Binding UnitTestCommand}">
                         <Button.CommandParameter>
                             <MultiBinding Converter="{StaticResource UnitTestConverter}">
-                                <Binding ElementName="OutputOver" Path="Tag"/>
+                                <Binding ElementName="Regul200ulation" Path="Tag"/>
                                 <Binding Source="{StaticResource NextDelayIdx}"/>
                             </MultiBinding>
                         </Button.CommandParameter>
@@ -283,12 +260,14 @@
                             <RowDefinition Height="*" />
                             <RowDefinition Height="*" />
                             <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
 
                         <TextBlock Text="대기(s)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
 
                         <Border Grid.Column="0" Grid.Row="1" Style="{StaticResource SettingDataViewBorder}">
-                            <TextBlock Text="{Binding OutputOver.NextTestWait[1]}" Style="{StaticResource TestList_ViewValueStyle}" />
+                            <TextBlock Text="{Binding Regul200.NextTestWait}" Style="{StaticResource TestList_ViewValueStyle}" />
                         </Border>
                     </Grid>
                 </StackPanel>
@@ -296,12 +275,12 @@
                 <fa:ImageAwesome Style="{StaticResource Allow}"/>
                 <!-- 테스트명-->
                 <Button Content=" 다음 테스트 "
-                        Foreground="{Binding ButtonColor[9]}"
+                        Foreground="{Binding ButtonColor[8]}"
                         Style="{StaticResource TestList_ItemNameButtonStyle}"
                         Command="{Binding UnitTestCommand}">
                     <Button.CommandParameter>
                         <MultiBinding Converter="{StaticResource UnitTestConverter}">
-                            <Binding ElementName="OutputOver" Path="Tag"/>
+                            <Binding ElementName="Regul200ulation" Path="Tag"/>
                             <Binding Source="{StaticResource NextIdx}"/>
                         </MultiBinding>
                     </Button.CommandParameter>

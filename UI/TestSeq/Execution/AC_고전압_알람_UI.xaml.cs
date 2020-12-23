@@ -9,11 +9,11 @@ namespace J_Project.UI.TestSeq.Execution
     /// </summary>
     public partial class AC_고전압_알람_UI : Page, ITestExeList
     {
-        public AC_고전압_알람_UI()
+        public AC_고전압_알람_UI(int caseNum)
         {
             InitializeComponent();
 
-            DataContext = new ViewModel.TestItem.AcHighVM();
+            DataContext = new ViewModel.TestItem.AcHighVM(caseNum);
         }
     }
 }

@@ -7,11 +7,11 @@ namespace J_Project.UI.TestSeq.Execution
     /// </summary>
     public partial class 온도센서_점검_UI : Page, ITestExeList
     {
-        public 온도센서_점검_UI()
+        public 온도센서_점검_UI(int caseNum)
         {
             InitializeComponent();
 
-            DataContext = new ViewModel.TestItem.TempVM();
+            DataContext = new ViewModel.TestItem.TempVM(caseNum);
         }
     }
 }

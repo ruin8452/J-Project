@@ -30,8 +30,8 @@ namespace J_Project.ViewModel.TestItem
             END_TEST
         }
 
-        private int TestOrterNum = (int)FirstTestOrder.Battery;
         public static string TestName { get; } = "배터리 통신 확인";
+        public int CaseNum { get; set; }
         public BatteryComm BatComm { get; set; }
         public TestOption Option { get; set; }
 
@@ -40,18 +40,21 @@ namespace J_Project.ViewModel.TestItem
         public RelayCommand UnloadPage { get; set; }
         public RelayCommand<object> UnitTestCommand { get; set; }
 
-        public BatteryCommVM()
+        public BatteryCommVM(int caseNum)
         {
             TestLog = new StringBuilder();
+            CaseNum = caseNum;
 
+            TestOrterNum = (int)FirstTestOrder.Battery + caseNum;
             TotalStepNum = (int)Seq.END_TEST + 1;
 
-            BatteryComm.Load();
-            BatComm = BatteryComm.GetObj();
+            BatComm = new BatteryComm();
+            BatComm = (BatteryComm)Test.Load(BatComm, CaseNum);
+
             Option = TestOption.GetObj();
             ButtonColor = new ObservableCollection<SolidColorBrush>();
 
-            FirstOrder[TestOrterNum] = new string[] { TestOrterNum.ToString(), TestName, "판단불가", "불합격" };
+            FirstOrder[TestOrterNum] = new string[] { TestOrterNum.ToString(), TestName + caseNum.ToString(), "판단불가", "NG(불합격)" };
 
             for (int i = 0; i < TotalStepNum; i++)
                 ButtonColor.Add(Brushes.White);
@@ -70,7 +73,7 @@ namespace J_Project.ViewModel.TestItem
          */
         private void DataSave()
         {
-            BatteryComm.Save();
+            Test.Save(BatComm, CaseNum);
         }
 
         /**
@@ -159,7 +162,7 @@ namespace J_Project.ViewModel.TestItem
 
                     double acVolt = PowerMeter.GetObj().AcVolt;
                     TestLog.AppendLine($"- AC : {acVolt}");
-                    if (Math.Abs(BatComm.AcVolt[caseNumber] - acVolt) <= AC_ERR_RANGE)
+                    if (Math.Abs(BatComm.AcVolt - acVolt) <= AC_ERR_RANGE)
                     {
                         result = StateFlag.PASS;
                         break;
@@ -168,7 +171,7 @@ namespace J_Project.ViewModel.TestItem
                     // 자동, 반자동 분기
                     if (Option.IsFullAuto)
                     {
-                        result = AcSourceSet(BatComm.AcVolt[caseNumber], BatComm.AcCurr[caseNumber], BatComm.AcFreq[caseNumber]);
+                        result = AcSourceSet(BatComm.AcVolt, BatComm.AcCurr, BatComm.AcFreq);
                         TestLog.AppendLine($"- AC 세팅 결과 : {result}");
 
                         if (result != StateFlag.PASS)
@@ -187,7 +190,7 @@ namespace J_Project.ViewModel.TestItem
                     {
                         TestLog.AppendLine($"- AC 설정 팝업");
 
-                        result = AcCtrlWin(BatComm.AcVolt[caseNumber], AC_ERR_RANGE, AcCheckMode.NORMAL);
+                        result = AcCtrlWin(BatComm.AcVolt, AC_ERR_RANGE, AcCheckMode.NORMAL);
                         TestLog.AppendLine($"- AC 전원 결과 : {result}\n");
 
                         if (result != StateFlag.PASS)
@@ -197,7 +200,7 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.DELAY1:
                     TestLog.AppendLine("[ 딜레이1 ]\n");
-                    Util.Delay(BatComm.Delay1[caseNumber]);
+                    Util.Delay(BatComm.Delay1);
                     result = StateFlag.PASS;
                     break;
 
@@ -215,7 +218,7 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.NEXT_TEST_DELAY:
                     TestLog.AppendLine("[ 다음 테스트 딜레이 ]\n");
-                    Util.Delay(BatComm.NextTestWait[caseNumber]);
+                    Util.Delay(BatComm.NextTestWait);
                     result = StateFlag.PASS;
                     break;
 
@@ -255,7 +258,7 @@ namespace J_Project.ViewModel.TestItem
             if (!connState)
             {
                 TestLog.AppendLine($"- 테스트 불합격 : 연결된 배터리 없음");
-                resultData = ("연결된 배터리 없음", "불합격");
+                resultData = ("연결된 배터리 없음", "NG(불합격)");
                 return StateFlag.BATTERY_COMM_ERR;
             }
 
@@ -286,13 +289,13 @@ namespace J_Project.ViewModel.TestItem
                         rect.RectCommand(CommandList.BATTERY_TEST, 0, batCmd); // 0 : 자동모드
 
                         TestLog.AppendLine($"- 테스트 합격");
-                        resultData = ("OK", "합격");
+                        resultData = ("OK", "OK(합격)");
                         return StateFlag.PASS;
                     }
                 }
             }
 
-            resultData = ("배터리 통신 실패", "불합격");
+            resultData = ("배터리 통신 실패", "NG(불합격)");
             TestLog.AppendLine($"- 테스트 불합격");
             return StateFlag.BATTERY_COMM_ERR;
         }

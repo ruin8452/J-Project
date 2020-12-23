@@ -35,8 +35,8 @@ namespace J_Project.ViewModel.TestItem
             END_TEST
         }
 
-        private int TestOrterNum = (int)SecondTestOrder.Connecter;
         public static string TestName { get; } = "출력 커넥터 체크";
+        public int CaseNum { get; set; }
         public ConnecterCheck ConnCheck { get; set; }
         public TestOption Option { get; set; }
 
@@ -45,18 +45,21 @@ namespace J_Project.ViewModel.TestItem
         public RelayCommand UnloadPage { get; set; }
         public RelayCommand<object> UnitTestCommand { get; set; }
 
-        public ConnecterVM()
+        public ConnecterVM(int caseNum)
         {
+            CaseNum = caseNum;
             TestLog = new StringBuilder();
 
+            TestOrterNum = (int)SecondTestOrder.Connecter + caseNum;
             TotalStepNum = (int)Seq.END_TEST + 1;
 
-            ConnecterCheck.Load();
-            ConnCheck = ConnecterCheck.GetObj();
+            ConnCheck = new ConnecterCheck();
+            ConnCheck = (ConnecterCheck)Test.Load(ConnCheck, CaseNum);
+
             Option = TestOption.GetObj();
             ButtonColor = new ObservableCollection<SolidColorBrush>();
 
-            SecondOrder[TestOrterNum] = new string[] { TestOrterNum.ToString(), TestName, "판단불가", "불합격" };
+            SecondOrder[TestOrterNum] = new string[] { TestOrterNum.ToString(), TestName + caseNum.ToString(), "판단불가", "NG(불합격)" };
 
             for (int i = 0; i < TotalStepNum; i++)
                 ButtonColor.Add(Brushes.White);
@@ -75,7 +78,7 @@ namespace J_Project.ViewModel.TestItem
          */
         private void DataSave()
         {
-            ConnecterCheck.Save();
+            Test.Save(ConnCheck, CaseNum);
         }
 
         /**
@@ -165,7 +168,7 @@ namespace J_Project.ViewModel.TestItem
                     // 팝업 전 확인 후 통과
                     double acVolt = PowerMeter.GetObj().AcVolt;
                     TestLog.AppendLine($"- AC : {acVolt}");
-                    if (Math.Abs(ConnCheck.AcVolt[caseNumber] - acVolt) <= AC_ERR_RANGE)
+                    if (Math.Abs(ConnCheck.AcVolt - acVolt) <= AC_ERR_RANGE)
                     {
                         result = StateFlag.PASS;
                         break;
@@ -173,7 +176,7 @@ namespace J_Project.ViewModel.TestItem
 
                     if (Option.IsFullAuto)
                     {
-                        result = AcSourceSet(ConnCheck.AcVolt[caseNumber], ConnCheck.AcCurr[caseNumber], ConnCheck.AcFreq[caseNumber]);
+                        result = AcSourceSet(ConnCheck.AcVolt, ConnCheck.AcCurr, ConnCheck.AcFreq);
                         TestLog.AppendLine($"- AC 세팅 결과 : {result}");
 
                         if (result != StateFlag.PASS)
@@ -192,7 +195,7 @@ namespace J_Project.ViewModel.TestItem
                     {
                         TestLog.AppendLine($"- AC 설정 팝업");
 
-                        result = AcCtrlWin(ConnCheck.AcVolt[caseNumber], AC_ERR_RANGE, AcCheckMode.NORMAL);
+                        result = AcCtrlWin(ConnCheck.AcVolt, AC_ERR_RANGE, AcCheckMode.NORMAL);
                         TestLog.AppendLine($"- AC 전원 결과 : {result}\n");
 
                         if (result != StateFlag.PASS)
@@ -202,7 +205,7 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.DELAY1:
                     TestLog.AppendLine("[ 딜레이1 ]\n");
-                    Util.Delay(ConnCheck.Delay1[caseNumber]);
+                    Util.Delay(ConnCheck.Delay1);
                     result = StateFlag.PASS;
                     break;
 
@@ -211,7 +214,7 @@ namespace J_Project.ViewModel.TestItem
 
                     double loadVolt = Dmm2.GetObj().DcVolt;
                     TestLog.AppendLine($"- Load : {loadVolt}");
-                    if (Math.Abs(ConnCheck.LoadCurr[caseNumber] - loadVolt) <= LOAD_ERR_RANGE)
+                    if (Math.Abs(ConnCheck.LoadCurr - loadVolt) <= LOAD_ERR_RANGE)
                     {
                         result = StateFlag.PASS;
                         break;
@@ -220,7 +223,7 @@ namespace J_Project.ViewModel.TestItem
                     // 팝업 전 확인 후 통과
                     double LoadCurr = Rectifier.GetObj().DcOutputCurr;
                     TestLog.AppendLine($"- 부하 : {LoadCurr}");
-                    if (Math.Abs(ConnCheck.LoadCurr[caseNumber] - LoadCurr) <= LOAD_ERR_RANGE)
+                    if (Math.Abs(ConnCheck.LoadCurr - LoadCurr) <= LOAD_ERR_RANGE)
                     {
                         result = StateFlag.PASS;
                         break;
@@ -228,7 +231,7 @@ namespace J_Project.ViewModel.TestItem
 
                     if (Option.IsFullAuto)
                     {
-                        result = LoadCurrSet(ConnCheck.LoadCurr[caseNumber]);
+                        result = LoadCurrSet(ConnCheck.LoadCurr);
                         TestLog.AppendLine($"- 부하 세팅 결과 : {result}");
 
                         if (result != StateFlag.PASS)
@@ -247,7 +250,7 @@ namespace J_Project.ViewModel.TestItem
                     {
                         TestLog.AppendLine($"- 부하 설정 팝업");
 
-                        result = LoadCtrlWin2(ConnCheck.LoadCurr[caseNumber], LOAD_ERR_RANGE, LoadCheckMode.SECOND_TEST);
+                        result = LoadCtrlWin2(ConnCheck.LoadCurr, LOAD_ERR_RANGE, LoadCheckMode.SECOND_TEST);
                         TestLog.AppendLine($"- 부하 전원 결과 : {result}\n");
 
                         if (result != StateFlag.PASS)
@@ -257,7 +260,7 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.DELAY2:
                     TestLog.AppendLine("[ 딜레이2 ]\n");
-                    Util.Delay(ConnCheck.Delay2[caseNumber]);
+                    Util.Delay(ConnCheck.Delay2);
                     result = StateFlag.PASS;
                     break;
 
@@ -277,13 +280,13 @@ namespace J_Project.ViewModel.TestItem
                     if (subWinResult == true)
                     {
                         TestLog.AppendLine($"- 테스트 합격\n");
-                        resultData = ("OK", "합격");
+                        resultData = ("OK", "OK(합격)");
                         result = StateFlag.PASS;
                     }
                     else if (subWinResult == false)
                     {
                         TestLog.AppendLine($"- 테스트 불합격\n");
-                        resultData = ("커넥터 오류", "불합격");
+                        resultData = ("커넥터 오류", "NG(불합격)");
                         result = StateFlag.ID_ERROR;
                     }
                     break;
@@ -332,7 +335,7 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.NEXT_TEST_DELAY:
                     TestLog.AppendLine("[ 다음 테스트 딜레이 ]\n");
-                    Util.Delay(ConnCheck.NextTestWait[caseNumber]);
+                    Util.Delay(ConnCheck.NextTestWait);
                     result = StateFlag.PASS;
                     break;
 

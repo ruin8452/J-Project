@@ -7,11 +7,11 @@ namespace J_Project.UI.TestSeq.Execution
     /// </summary>
     public partial class 출력_고전압_보호_UI : Page, ITestExeList
     {
-        public 출력_고전압_보호_UI()
+        public 출력_고전압_보호_UI(int caseNum)
         {
             InitializeComponent();
 
-            DataContext = new ViewModel.TestItem.OutputHighVM();
+            DataContext = new ViewModel.TestItem.OutputHighVM(caseNum);
         }
     }
 }

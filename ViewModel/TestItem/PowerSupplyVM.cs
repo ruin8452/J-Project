@@ -12,12 +12,13 @@ namespace J_Project.ViewModel.TestItem
      */
     internal class PowerSupplyVM : AllTestVM
     {
-        private int TestOrterNum = (int)FirstTestOrder.PowerSupply;
         public static string TestName { get; } = "배터리 전원 공급 확인";
 
-        public PowerSupplyVM()
+        public PowerSupplyVM(int caseNum)
         {
-            FirstOrder[TestOrterNum] = new string[] { TestOrterNum.ToString(), TestName, "OK", "합격" };
+            TestOrterNum = (int)FirstTestOrder.PowerSupply + caseNum;
+
+            FirstOrder[TestOrterNum] = new string[] { TestOrterNum.ToString(), TestName, "OK", "OK(합격)" };
         }
 
         /**

@@ -32,8 +32,8 @@ namespace J_Project.ViewModel.TestItem
             END_TEST
         }
 
-        private int TestOrterNum = (int)FirstTestOrder.OutputHigh;
         public static string TestName { get; } = "출력 고전압 보호";
+        public int CaseNum { get; set; }
         public 출력_고전압_보호 OutputHigh { get; set; }
         public TestOption Option { get; set; }
 
@@ -42,18 +42,21 @@ namespace J_Project.ViewModel.TestItem
         public RelayCommand UnloadPage { get; set; }
         public RelayCommand<object> UnitTestCommand { get; set; }
 
-        public OutputHighVM()
+        public OutputHighVM(int caseNum)
         {
             TestLog = new StringBuilder();
+            CaseNum = caseNum;
 
+            TestOrterNum = (int)FirstTestOrder.OutputHigh + caseNum;
             TotalStepNum = (int)Seq.END_TEST + 1;
 
-            출력_고전압_보호.Load();
-            OutputHigh = 출력_고전압_보호.GetObj();
+            OutputHigh = new 출력_고전압_보호();
+            OutputHigh = (출력_고전압_보호)Test.Load(OutputHigh, CaseNum);
+
             Option = TestOption.GetObj();
             ButtonColor = new ObservableCollection<SolidColorBrush>();
 
-            FirstOrder[TestOrterNum] = new string[] { TestOrterNum.ToString(), TestName, "판단불가", "불합격" };
+            FirstOrder[TestOrterNum] = new string[] { TestOrterNum.ToString(), TestName + caseNum.ToString(), "판단불가", "NG(불합격)" };
 
             for (int i = 0; i < TotalStepNum; i++)
                 ButtonColor.Add(Brushes.White);
@@ -72,7 +75,7 @@ namespace J_Project.ViewModel.TestItem
          */
         private void DataSave()
         {
-            출력_고전압_보호.Save();
+            Test.Save(OutputHigh, CaseNum);
         }
 
         /**
@@ -161,7 +164,7 @@ namespace J_Project.ViewModel.TestItem
 
                     double acVolt = PowerMeter.GetObj().AcVolt;
                     TestLog.AppendLine($"- AC : {acVolt}");
-                    if (Math.Abs(OutputHigh.AcVolt[caseNumber] - acVolt) <= AC_ERR_RANGE)
+                    if (Math.Abs(OutputHigh.AcVolt - acVolt) <= AC_ERR_RANGE)
                     {
                         result = StateFlag.PASS;
                         break;
@@ -169,7 +172,7 @@ namespace J_Project.ViewModel.TestItem
 
                     if (Option.IsFullAuto)
                     {
-                        result = AcSourceSet(OutputHigh.AcVolt[caseNumber], OutputHigh.AcCurr[caseNumber], OutputHigh.AcFreq[caseNumber]);
+                        result = AcSourceSet(OutputHigh.AcVolt, OutputHigh.AcCurr, OutputHigh.AcFreq);
                         TestLog.AppendLine($"- AC 세팅 결과 : {result}");
 
                         if (result != StateFlag.PASS)
@@ -188,7 +191,7 @@ namespace J_Project.ViewModel.TestItem
                     {
                         TestLog.AppendLine($"- AC 설정 팝업");
 
-                        result = AcCtrlWin(OutputHigh.AcVolt[caseNumber], AC_ERR_RANGE, AcCheckMode.NORMAL);
+                        result = AcCtrlWin(OutputHigh.AcVolt, AC_ERR_RANGE, AcCheckMode.NORMAL);
                         TestLog.AppendLine($"- AC 전원 결과 : {result}\n");
 
                         if (result != StateFlag.PASS)
@@ -198,13 +201,13 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.DELAY1:
                     TestLog.AppendLine("[ 딜레이1 ]\n");
-                    Util.Delay(OutputHigh.Delay1[caseNumber]);
+                    Util.Delay(OutputHigh.Delay1);
                     result = StateFlag.PASS;
                     break;
 
                 case Seq.OUT_HIGH_CHECK:
                     TestLog.AppendLine("[ 기능 검사 ]");
-                    result = RectOutHighCheck(caseNumber, OutputHigh.DcOutVolt[caseNumber], OutputHigh.DcErrRate[caseNumber], ref resultData);
+                    result = RectOutHighCheck(caseNumber, OutputHigh.DcOutVolt, OutputHigh.DcErrRate, ref resultData);
                     TestLog.AppendLine($"- 결과 : {result}\n");
                     if (result != StateFlag.PASS)
                         jumpStepNum = (int)Seq.RECT_RESET;
@@ -212,7 +215,7 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.DELAY2:
                     TestLog.AppendLine("[ 딜레이2 ]\n");
-                    Util.Delay(OutputHigh.Delay2[caseNumber]);
+                    Util.Delay(OutputHigh.Delay2);
                     result = StateFlag.PASS;
                     break;
 
@@ -244,7 +247,7 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.NEXT_TEST_DELAY:
                     TestLog.AppendLine("[ 다음 테스트 딜레이 ]\n");
-                    Util.Delay(OutputHigh.NextTestWait[caseNumber]);
+                    Util.Delay(OutputHigh.NextTestWait);
                     result = StateFlag.PASS;
                     break;
 
@@ -301,7 +304,7 @@ namespace J_Project.ViewModel.TestItem
                 {
                     dmmVolt += 0.1;
                     TestLog.AppendLine($"- 출력 고전압 인식 : {dmmVolt}");
-                    resultData = ("OK", "합격");
+                    resultData = ("OK", "OK(합격)");
 
                     dmm1.MonitoringStart();
                     rect.MonitoringStart();
@@ -315,7 +318,7 @@ namespace J_Project.ViewModel.TestItem
             rect.MonitoringStart();
 
             TestLog.AppendLine($"- 테스트 불합격 : 검사 범위 내 출력 고전압 인식 실패");
-            resultData = ("테스트 실패", "불합격");
+            resultData = ("테스트 실패", "NG(불합격)");
 
             return StateFlag.OUTPUT_ERR;
         }

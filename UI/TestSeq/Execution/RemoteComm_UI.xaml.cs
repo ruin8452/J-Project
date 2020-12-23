@@ -20,11 +20,11 @@ namespace J_Project.UI.TestSeq.Execution
     /// </summary>
     public partial class RemoteComm_UI : Page
     {
-        public RemoteComm_UI()
+        public RemoteComm_UI(int caseNum)
         {
             InitializeComponent();
 
-            DataContext = new ViewModel.TestItem.RemoteCommVM();
+            DataContext = new ViewModel.TestItem.RemoteCommVM(caseNum);
         }
         public RemoteComm_UI(object dataContext)
         {

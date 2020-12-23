@@ -22,15 +22,18 @@ namespace J_Project.ViewModel.TestItem
      */
     internal class LedCheckVM : AllTestVM
     {
+#warning LED 검사 결과 저장 추가
         private enum Seq
         {
             AC_ON,
             LED_CHECK,
+            RESULT_SAVE,
             NEXT_TEST_DELAY,
             END_TEST
         }
 
         public static string TestName { get; } = "LED 체크";
+        public int CaseNum { get; set; }
         public LedCheck LedCheck { get; set; }
         public TestOption Option { get; set; }
 
@@ -39,16 +42,21 @@ namespace J_Project.ViewModel.TestItem
         public RelayCommand UnloadPage { get; set; }
         public RelayCommand<object> UnitTestCommand { get; set; }
 
-        public LedCheckVM()
+        public LedCheckVM(int caseNum)
         {
             TestLog = new StringBuilder();
+            CaseNum = caseNum;
 
+            TestOrterNum = (int)FirstTestOrder.LedCheck + caseNum;
             TotalStepNum = (int)Seq.END_TEST + 1;
 
-            LedCheck.Load();
-            LedCheck = LedCheck.GetObj();
+            LedCheck = new LedCheck();
+            LedCheck = (LedCheck)Test.Load(LedCheck, CaseNum);
+
             Option = TestOption.GetObj();
             ButtonColor = new ObservableCollection<SolidColorBrush>();
+
+            FirstOrder[TestOrterNum] = new string[] { TestOrterNum.ToString(), TestName + caseNum.ToString(), "판단불가", "NG(불합격)" };
 
             for (int i = 0; i < TotalStepNum; i++)
                 ButtonColor.Add(Brushes.White);
@@ -67,7 +75,7 @@ namespace J_Project.ViewModel.TestItem
          */
         private void DataSave()
         {
-            LedCheck.Save();
+            Test.Save(LedCheck, CaseNum);
         }
 
         /**
@@ -156,7 +164,7 @@ namespace J_Project.ViewModel.TestItem
 
                     double acVolt = PowerMeter.GetObj().AcVolt;
                     TestLog.AppendLine($"- AC : {acVolt}");
-                    if (Math.Abs(LedCheck.AcVolt[caseNumber] - acVolt) <= AC_ERR_RANGE)
+                    if (Math.Abs(LedCheck.AcVolt - acVolt) <= AC_ERR_RANGE)
                     {
                         result = StateFlag.PASS;
                         break;
@@ -164,7 +172,7 @@ namespace J_Project.ViewModel.TestItem
 
                     if (Option.IsFullAuto)
                     {
-                        result = AcSourceSet(LedCheck.AcVolt[caseNumber], LedCheck.AcCurr[caseNumber], LedCheck.AcFreq[caseNumber]);
+                        result = AcSourceSet(LedCheck.AcVolt, LedCheck.AcCurr, LedCheck.AcFreq);
                         TestLog.AppendLine($"- AC 세팅 결과 : {result}");
 
                         if (result != StateFlag.PASS)
@@ -183,7 +191,7 @@ namespace J_Project.ViewModel.TestItem
                     {
                         TestLog.AppendLine($"- AC 설정 팝업");
 
-                        result = AcCtrlWin(LedCheck.AcVolt[caseNumber], AC_ERR_RANGE, AcCheckMode.NORMAL);
+                        result = AcCtrlWin(LedCheck.AcVolt, AC_ERR_RANGE, AcCheckMode.NORMAL);
                         TestLog.AppendLine($"- AC 전원 결과 : {result}\n");
 
                         if (result != StateFlag.PASS)
@@ -207,19 +215,28 @@ namespace J_Project.ViewModel.TestItem
                     if (subWinResult == true)
                     {
                         TestLog.AppendLine($"- LED 정상\n");
+                        resultData = ("OK", "OK(합격)");
                         result = StateFlag.PASS;
                     }
                     else if (subWinResult == false)
                     {
                         TestLog.AppendLine($"- LED 비정상\n");
+                        resultData = ("LED 비정상", "NG(불합격)");
                         result = StateFlag.LED_ERROR;
                         jumpStepNum = (int)Seq.END_TEST;
                     }
                     break;
 
+                case Seq.RESULT_SAVE: // 결과 저장
+                    TestLog.AppendLine("[ 결과 저장 ]");
+
+                    result = ResultDataSave(TestOrterNum, resultData);
+                    TestLog.AppendLine($"- 결과 : {result}\n");
+                    break;
+
                 case Seq.NEXT_TEST_DELAY:
                     TestLog.AppendLine("[ 다음 테스트 딜레이 ]\n");
-                    Util.Delay(LedCheck.NextTestWait[caseNumber]);
+                    Util.Delay(LedCheck.NextTestWait);
                     result = StateFlag.PASS;
                     break;
 

@@ -35,8 +35,8 @@ namespace J_Project.ViewModel.TestItem
             END_TEST
         }
 
-        private int TestOrterNum = (int)SecondTestOrder.Noise;
         public static string TestName { get; } = "리플 노이즈";
+        public int CaseNum { get; set; }
         public 리플_노이즈 Noise { get; set; }
         public TestOption Option { get; set; }
 
@@ -45,18 +45,21 @@ namespace J_Project.ViewModel.TestItem
         public RelayCommand UnloadPage { get; set; }
         public RelayCommand<object> UnitTestCommand { get; set; }
 
-        public Noise2VM()
+        public Noise2VM(int caseNum)
         {
+            CaseNum = caseNum;
             TestLog = new StringBuilder();
 
+            TestOrterNum = (int)SecondTestOrder.Noise + caseNum;
             TotalStepNum = (int)Seq.END_TEST + 1;
 
-            리플_노이즈.Load();
-            Noise = 리플_노이즈.GetObj();
+            Noise = new 리플_노이즈();
+            Noise = (리플_노이즈)Test.Load(Noise, CaseNum);
+
             Option = TestOption.GetObj();
             ButtonColor = new ObservableCollection<SolidColorBrush>();
 
-            SecondOrder[TestOrterNum] = new string[] { TestOrterNum.ToString(), TestName, "판단불가", "불합격" };
+            SecondOrder[TestOrterNum] = new string[] { TestOrterNum.ToString(), TestName + caseNum.ToString(), "판단불가", "NG(불합격)" };
 
             for (int i = 0; i < TotalStepNum; i++)
                 ButtonColor.Add(Brushes.White);
@@ -75,7 +78,7 @@ namespace J_Project.ViewModel.TestItem
          */
         private void DataSave()
         {
-            리플_노이즈.Save();
+            Test.Save(Noise, CaseNum);
         }
 
         /**
@@ -164,7 +167,7 @@ namespace J_Project.ViewModel.TestItem
 
                     double acVolt = PowerMeter.GetObj().AcVolt;
                     TestLog.AppendLine($"- AC : {acVolt}");
-                    if (Math.Abs(Noise.AcVolt[caseNumber] - acVolt) <= AC_ERR_RANGE)
+                    if (Math.Abs(Noise.AcVolt - acVolt) <= AC_ERR_RANGE)
                     {
                         result = StateFlag.PASS;
                         break;
@@ -172,7 +175,7 @@ namespace J_Project.ViewModel.TestItem
 
                     if (Option.IsFullAuto)
                     {
-                        result = AcSourceSet(Noise.AcVolt[caseNumber], Noise.AcCurr[caseNumber], Noise.AcFreq[caseNumber]);
+                        result = AcSourceSet(Noise.AcVolt, Noise.AcCurr, Noise.AcFreq);
                         TestLog.AppendLine($"- AC 세팅 결과 : {result}");
 
                         if (result != StateFlag.PASS)
@@ -191,7 +194,7 @@ namespace J_Project.ViewModel.TestItem
                     {
                         TestLog.AppendLine($"- AC 설정 팝업");
 
-                        result = AcCtrlWin(Noise.AcVolt[caseNumber], AC_ERR_RANGE, AcCheckMode.NORMAL);
+                        result = AcCtrlWin(Noise.AcVolt, AC_ERR_RANGE, AcCheckMode.NORMAL);
                         TestLog.AppendLine($"- AC 전원 결과 : {result}\n");
 
                         if (result != StateFlag.PASS)
@@ -201,7 +204,7 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.DELAY1:
                     TestLog.AppendLine("[ 딜레이1 ]\n");
-                    Util.Delay(Noise.Delay1[caseNumber]);
+                    Util.Delay(Noise.Delay1);
                     result = StateFlag.PASS;
                     break;
 
@@ -211,7 +214,7 @@ namespace J_Project.ViewModel.TestItem
                     // 팝업 전 확인 후 통과
                     double LoadCurr = Rectifier.GetObj().DcOutputCurr;
                     TestLog.AppendLine($"- 부하 : {LoadCurr}");
-                    if (Math.Abs(Noise.LoadCurr[caseNumber] - LoadCurr) <= LOAD_ERR_RANGE)
+                    if (Math.Abs(Noise.LoadCurr - LoadCurr) <= LOAD_ERR_RANGE)
                     {
                         result = StateFlag.PASS;
                         break;
@@ -219,7 +222,7 @@ namespace J_Project.ViewModel.TestItem
 
                     if (Option.IsFullAuto)
                     {
-                        result = LoadCurrSet(Noise.LoadCurr[caseNumber]);
+                        result = LoadCurrSet(Noise.LoadCurr);
                         TestLog.AppendLine($"- 부하 세팅 결과 : {result}");
 
                         if (result != StateFlag.PASS)
@@ -238,7 +241,7 @@ namespace J_Project.ViewModel.TestItem
                     {
                         TestLog.AppendLine($"- 부하 설정 팝업");
 
-                        result = LoadCtrlWin2(Noise.LoadCurr[caseNumber], LOAD_ERR_RANGE, LoadCheckMode.SECOND_TEST);
+                        result = LoadCtrlWin2(Noise.LoadCurr, LOAD_ERR_RANGE, LoadCheckMode.SECOND_TEST);
                         TestLog.AppendLine($"- 부하 전원 결과 : {result}\n");
 
                         if (result != StateFlag.PASS)
@@ -248,17 +251,17 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.DELAY2:
                     TestLog.AppendLine("[ 딜레이2 ]\n");
-                    Util.Delay(Noise.Delay2[caseNumber]);
+                    Util.Delay(Noise.Delay2);
                     result = StateFlag.PASS;
                     break;
 
                 case Seq.RESULT_CHECK: // 결과 판단 & 성적서 작성
                     TestLog.AppendLine("[ 기능 검사 ]");
-                    result = NoiseCheckTest(Noise.LimitNoiseVolt[caseNumber], ref resultData);
+                    result = NoiseCheckTest(Noise.LimitNoiseVolt, ref resultData);
 
                     // 실패시 수동 입력
                     if (result != StateFlag.PASS)
-                        result = NoisePassiveCheckTest(Noise.LimitNoiseVolt[caseNumber], ref resultData);
+                        result = NoisePassiveCheckTest(Noise.LimitNoiseVolt, ref resultData);
 
                     TestLog.AppendLine($"- 결과 : {result}\n");
                     break;
@@ -307,7 +310,7 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.NEXT_TEST_DELAY:
                     TestLog.AppendLine("[ 다음 테스트 딜레이 ]\n");
-                    Util.Delay(Noise.NextTestWait[caseNumber]);
+                    Util.Delay(Noise.NextTestWait);
                     result = StateFlag.PASS;
                     break;
 
@@ -332,7 +335,7 @@ namespace J_Project.ViewModel.TestItem
          *  
          *  @return StateFlag - 수행 결과
          */
-        private StateFlag NoiseCheckTest(int limitNoiseVolt, ref (string, string) resultData)
+        private StateFlag NoiseCheckTest(double limitNoiseVolt, ref (string, string) resultData)
         {
             Oscilloscope osc = Oscilloscope.GetObj();
             double noiseVolt = osc.RealPk2pk();
@@ -343,13 +346,13 @@ namespace J_Project.ViewModel.TestItem
             if (noiseVolt <= limitNoiseVolt)
             {
                 TestLog.AppendLine($"- 테스트 합격");
-                resultData = (noiseVolt.ToString(), "합격");
+                resultData = (noiseVolt.ToString(), "OK(합격)");
                 return StateFlag.PASS;
             }
             else
             {
                 TestLog.AppendLine($"- 테스트 불합격 : 제한수치 초과");
-                resultData = (noiseVolt.ToString(), "불합격");
+                resultData = (noiseVolt.ToString(), "NG(불합격)");
                 return StateFlag.CONDITION_FAIL;
             }
         }
@@ -364,7 +367,7 @@ namespace J_Project.ViewModel.TestItem
          *  
          *  @return StateFlag - 수행 결과
          */
-        private StateFlag NoisePassiveCheckTest(int limitNoiseVolt, ref (string, string) resultData)
+        private StateFlag NoisePassiveCheckTest(double limitNoiseVolt, ref (string, string) resultData)
         {
             TestLog.AppendLine($"- 노이즈 팝업");
 
@@ -381,13 +384,13 @@ namespace J_Project.ViewModel.TestItem
             if (noiseVolt <= limitNoiseVolt)
             {
                 TestLog.AppendLine($"- 테스트 합격");
-                resultData = (noiseVolt.ToString(), "합격");
+                resultData = (noiseVolt.ToString(), "OK(합격)");
                 return StateFlag.PASS;
             }
             else
             {
                 TestLog.AppendLine($"- 테스트 불합격 : 제한수치 초과");
-                resultData = (noiseVolt.ToString(), "불합격");
+                resultData = (noiseVolt.ToString(), "NG(불합격)");
                 return StateFlag.CONDITION_FAIL;
             }
         }

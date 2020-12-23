@@ -7,11 +7,11 @@ namespace J_Project.UI.TestSeq.Execution
     /// </summary>
     public partial class Cal_DC_출력전류_UI : Page, ITestExeList
     {
-        public Cal_DC_출력전류_UI()
+        public Cal_DC_출력전류_UI(int caseNum)
         {
             InitializeComponent();
 
-            DataContext = new ViewModel.TestItem.CalDcCurrVM();
+            DataContext = new ViewModel.TestItem.CalDcCurrVM(caseNum);
         }
     }
 }

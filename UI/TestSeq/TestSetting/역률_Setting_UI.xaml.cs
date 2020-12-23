@@ -7,11 +7,11 @@ namespace J_Project.UI.TestSeq.TestSetting
     /// </summary>
     public partial class 역률_Setting_UI : Page, ITestSettingList
     {
-        public 역률_Setting_UI()
+        public 역률_Setting_UI(int caseNum)
         {
             InitializeComponent();
 
-            DataContext = new ViewModel.TestItem.PowerFactorVM();
+            DataContext = new ViewModel.TestItem.PowerFactorVM(caseNum);
         }
     }
 }

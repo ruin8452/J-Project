@@ -9,11 +9,11 @@ namespace J_Project.UI.TestSeq.TestSetting
     {
         //private List<TextBox> TextBoxList = new List<TextBox>();
 
-        public LedCheck_Setting_UI()
+        public LedCheck_Setting_UI(int caseNum)
         {
             InitializeComponent();
 
-            DataContext = new ViewModel.TestItem.LedCheckVM();
+            DataContext = new ViewModel.TestItem.LedCheckVM(caseNum);
         }
     }
 }

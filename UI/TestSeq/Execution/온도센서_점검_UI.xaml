@@ -59,13 +59,13 @@
                         <TextBlock Text="주파수(Hz)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="2" />
 
                         <Border Grid.Column="0" Grid.Row="1" Style="{StaticResource SettingDataViewBorder}">
-                            <TextBlock Text="{Binding TempCheck.AcVolt[0]}" Style="{StaticResource TestList_ViewValueStyle}" />
+                            <TextBlock Text="{Binding TempCheck.AcVolt}" Style="{StaticResource TestList_ViewValueStyle}" />
                         </Border>
                         <Border Grid.Column="1" Grid.Row="1" Style="{StaticResource SettingDataViewBorder}">
-                            <TextBlock Text="{Binding TempCheck.AcCurr[0]}" Style="{StaticResource TestList_ViewValueStyle}" />
+                            <TextBlock Text="{Binding TempCheck.AcCurr}" Style="{StaticResource TestList_ViewValueStyle}" />
                         </Border>
                         <Border Grid.Column="2" Grid.Row="1" Style="{StaticResource SettingDataViewBorder}">
-                            <TextBlock Text="{Binding TempCheck.AcFreq[0]}" Style="{StaticResource TestList_ViewValueStyle}" />
+                            <TextBlock Text="{Binding TempCheck.AcFreq}" Style="{StaticResource TestList_ViewValueStyle}" />
                         </Border>
                     </Grid>
                 </StackPanel>
@@ -95,7 +95,7 @@
                         <TextBlock Text="대기(s)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
 
                         <Border Grid.Column="0" Grid.Row="1" Style="{StaticResource SettingDataViewBorder}">
-                            <TextBlock Text="{Binding TempCheck.Delay1[0]}" Style="{StaticResource TestList_ViewValueStyle}" />
+                            <TextBlock Text="{Binding TempCheck.Delay1}" Style="{StaticResource TestList_ViewValueStyle}" />
                         </Border>
                     </Grid>
                 </StackPanel>
@@ -128,10 +128,10 @@
                         <TextBlock Text="오차(℃)"      Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="1" />
 
                         <Border Grid.Column="0" Grid.Row="1" Width="80" Style="{StaticResource SettingDataViewBorder}">
-                            <TextBlock Text="{Binding TempCheck.RoomTemp[0]}" Style="{StaticResource TestList_ViewValueStyle}" />
+                            <TextBlock Text="{Binding TempCheck.RoomTemp}" Style="{StaticResource TestList_ViewValueStyle}" />
                         </Border>
                         <Border Grid.Column="1" Grid.Row="1" Style="{StaticResource SettingDataViewBorder}">
-                            <TextBlock Text="{Binding TempCheck.ErrorRate[0]}" Style="{StaticResource TestList_ViewValueStyle}" />
+                            <TextBlock Text="{Binding TempCheck.ErrorRate}" Style="{StaticResource TestList_ViewValueStyle}" />
                         </Border>
                     </Grid>
                 </StackPanel>
@@ -173,7 +173,7 @@
                         <TextBlock Text="대기(s)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
 
                         <Border Grid.Column="0" Grid.Row="1" Style="{StaticResource SettingDataViewBorder}">
-                            <TextBlock Text="{Binding TempCheck.NextTestWait[0]}" Style="{StaticResource TestList_ViewValueStyle}" />
+                            <TextBlock Text="{Binding TempCheck.NextTestWait}" Style="{StaticResource TestList_ViewValueStyle}" />
                         </Border>
                     </Grid>
                 </StackPanel>

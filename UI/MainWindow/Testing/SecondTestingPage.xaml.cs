@@ -21,7 +21,7 @@ namespace J_Project.UI.MainWindow.Testing
 
         private void ClickTreeCheckBox(object sender, RoutedEventArgs e)
         {
-            TestItemUint checkItem = ((CheckBox)sender).DataContext as TestItemUint;
+            TestItemUnit checkItem = ((CheckBox)sender).DataContext as TestItemUnit;
 
             if(checkItem.Parents == null) //부모 아이템
             {

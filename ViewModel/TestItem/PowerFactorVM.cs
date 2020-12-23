@@ -35,8 +35,8 @@ namespace J_Project.ViewModel.TestItem
             END_TEST
         }
 
-        private int TestOrterNum = (int)FirstTestOrder.PowerFacter;
         public static string TestName { get; } = "역률";
+        public int CaseNum { get; set; }
         public 역률 PowerFactor { get; set; }
         public TestOption Option { get; set; }
 
@@ -45,18 +45,21 @@ namespace J_Project.ViewModel.TestItem
         public RelayCommand UnloadPage { get; set; }
         public RelayCommand<object> UnitTestCommand { get; set; }
 
-        public PowerFactorVM()
+        public PowerFactorVM(int caseNum)
         {
+            CaseNum = caseNum;
             TestLog = new StringBuilder();
 
+            TestOrterNum = (int)FirstTestOrder.PowerFacter + caseNum;
             TotalStepNum = (int)Seq.END_TEST + 1;
 
-            역률.Load();
-            PowerFactor = 역률.GetObj();
+            PowerFactor = new 역률();
+            PowerFactor = (역률)Test.Load(PowerFactor, CaseNum);
+
             Option = TestOption.GetObj();
             ButtonColor = new ObservableCollection<SolidColorBrush>();
 
-            FirstOrder[TestOrterNum] = new string[] { TestOrterNum.ToString(), TestName, "판단불가", "불합격" };
+            FirstOrder[TestOrterNum] = new string[] { TestOrterNum.ToString(), TestName + caseNum.ToString(), "판단불가", "NG(불합격)" };
 
             for (int i = 0; i < TotalStepNum; i++)
                 ButtonColor.Add(Brushes.White);
@@ -75,7 +78,7 @@ namespace J_Project.ViewModel.TestItem
          */
         private void DataSave()
         {
-            역률.Save();
+            Test.Save(PowerFactor, CaseNum);
         }
 
         /**
@@ -164,7 +167,7 @@ namespace J_Project.ViewModel.TestItem
 
                     double acVolt = PowerMeter.GetObj().AcVolt;
                     TestLog.AppendLine($"- AC : {acVolt}");
-                    if (Math.Abs(PowerFactor.AcVolt[caseNumber] - acVolt) <= AC_ERR_RANGE)
+                    if (Math.Abs(PowerFactor.AcVolt - acVolt) <= AC_ERR_RANGE)
                     {
                         result = StateFlag.PASS;
                         break;
@@ -172,7 +175,7 @@ namespace J_Project.ViewModel.TestItem
 
                     if (Option.IsFullAuto)
                     {
-                        result = AcSourceSet(PowerFactor.AcVolt[caseNumber], PowerFactor.AcCurr[caseNumber], PowerFactor.AcFreq[caseNumber]);
+                        result = AcSourceSet(PowerFactor.AcVolt, PowerFactor.AcCurr, PowerFactor.AcFreq);
                         TestLog.AppendLine($"- AC 세팅 결과 : {result}");
 
                         if (result != StateFlag.PASS)
@@ -191,7 +194,7 @@ namespace J_Project.ViewModel.TestItem
                     {
                         TestLog.AppendLine($"- AC 설정 팝업");
 
-                        result = AcCtrlWin(PowerFactor.AcVolt[caseNumber], AC_ERR_RANGE, AcCheckMode.NORMAL);
+                        result = AcCtrlWin(PowerFactor.AcVolt, AC_ERR_RANGE, AcCheckMode.NORMAL);
                         TestLog.AppendLine($"- AC 전원 결과 : {result}\n");
 
                         if (result != StateFlag.PASS)
@@ -201,7 +204,7 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.DELAY1:
                     TestLog.AppendLine("[ 딜레이1 ]\n");
-                    Util.Delay(PowerFactor.Delay1[caseNumber]);
+                    Util.Delay(PowerFactor.Delay1);
                     result = StateFlag.PASS;
                     break;
 
@@ -210,7 +213,7 @@ namespace J_Project.ViewModel.TestItem
 
                     double loadVolt = Dmm2.GetObj().DcVolt;
                     TestLog.AppendLine($"- Load : {loadVolt}");
-                    if (Math.Abs(PowerFactor.LoadCurr[caseNumber] - loadVolt) <= LOAD_ERR_RANGE)
+                    if (Math.Abs(PowerFactor.LoadCurr - loadVolt) <= LOAD_ERR_RANGE)
                     {
                         result = StateFlag.PASS;
                         break;
@@ -218,7 +221,7 @@ namespace J_Project.ViewModel.TestItem
 
                     if (Option.IsFullAuto)
                     {
-                        result = LoadCurrSet(PowerFactor.LoadCurr[caseNumber]);
+                        result = LoadCurrSet(PowerFactor.LoadCurr);
                         TestLog.AppendLine($"- 부하 세팅 결과 : {result}");
 
                         if (result != StateFlag.PASS)
@@ -237,7 +240,7 @@ namespace J_Project.ViewModel.TestItem
                     {
                         TestLog.AppendLine($"- 부하 설정 팝업");
 
-                        result = LoadCtrlWin(PowerFactor.LoadCurr[caseNumber], LOAD_ERR_RANGE, LoadCheckMode.NORMAL);
+                        result = LoadCtrlWin(PowerFactor.LoadCurr, LOAD_ERR_RANGE, LoadCheckMode.NORMAL);
                         TestLog.AppendLine($"- 부하 전원 결과 : {result}\n");
 
                         if (result != StateFlag.PASS)
@@ -247,17 +250,17 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.DELAY2:
                     TestLog.AppendLine("[ 딜레이2 ]\n");
-                    Util.Delay(PowerFactor.Delay2[caseNumber]);
+                    Util.Delay(PowerFactor.Delay2);
                     result = StateFlag.PASS;
                     break;
 
                 case Seq.RESULT_CHECK: // 결과 판단 & 성적서 작성
                     TestLog.AppendLine("[ 기능 검사 ]");
-                    result = PowerFactorCheckTest(PowerFactor.LimitPowerFactor[caseNumber], ref resultData);
+                    result = PowerFactorCheckTest(PowerFactor.LimitPowerFactor, ref resultData);
 
                     // 실패시 수동 입력
                     if (result != StateFlag.PASS)
-                        result = PowerFactorPassiveCheckTest(PowerFactor.LimitPowerFactor[caseNumber], ref resultData);
+                        result = PowerFactorPassiveCheckTest(PowerFactor.LimitPowerFactor, ref resultData);
 
                     TestLog.AppendLine($"- 결과 : {result}\n");
                     break;
@@ -305,7 +308,7 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.NEXT_TEST_DELAY:
                     TestLog.AppendLine("[ 다음 테스트 딜레이 ]\n");
-                    Util.Delay(PowerFactor.NextTestWait[caseNumber]);
+                    Util.Delay(PowerFactor.NextTestWait);
                     result = StateFlag.PASS;
                     break;
 
@@ -347,13 +350,13 @@ namespace J_Project.ViewModel.TestItem
             if (limitPowerFactor <= powerFactor && powerFactor <= 1)
             {
                 TestLog.AppendLine($"- 테스트 합격");
-                resultData = (powerFactor.ToString(), "합격");
+                resultData = (powerFactor.ToString(), "OK(합격)");
                 return StateFlag.PASS;
             }
             else
             {
                 TestLog.AppendLine($"- 테스트 불합격 : 제한수치 미달");
-                resultData = (powerFactor.ToString(), "불합격");
+                resultData = (powerFactor.ToString(), "NG(불합격)");
                 return StateFlag.CONDITION_FAIL;
             }
         }
@@ -385,13 +388,13 @@ namespace J_Project.ViewModel.TestItem
             if (limitPowerFactor <= powerFactor && powerFactor <= 1)
             {
                 TestLog.AppendLine($"- 테스트 합격");
-                resultData = (powerFactor.ToString(), "합격");
+                resultData = (powerFactor.ToString(), "OK(합격)");
                 return StateFlag.PASS;
             }
             else
             {
                 TestLog.AppendLine($"- 테스트 불합격 : 제한수치 초과");
-                resultData = (powerFactor.ToString(), "불합격");
+                resultData = (powerFactor.ToString(), "NG(불합격)");
                 return StateFlag.CONDITION_FAIL;
             }
         }

@@ -36,6 +36,7 @@ namespace J_Project.ViewModel.TestItem
         }
 
         public static string TestName { get; } = "초기세팅";
+        public int CaseNum { get; set; }
         public 초기세팅 Init { get; set; }
         public TestOption Option { get; set; }
 
@@ -43,27 +44,34 @@ namespace J_Project.ViewModel.TestItem
 
         public ObservableCollection<SolidColorBrush> ButtonColor { get; private set; }
 
+        public RelayCommand LoadPage { get; set; }
         public RelayCommand UnloadPage { get; set; }
         public RelayCommand<object> UnitTestCommand { get; set; }
 
         private string[] ComportList;
 
-        public InitVM()
+        public InitVM(int caseNum)
         {
+            CaseNum = caseNum;
             TestLog = new StringBuilder();
 
             TotalStepNum = (int)Seq.END_TEST + 1;
 
-            초기세팅.Load();
-            Init = 초기세팅.GetObj();
+            //Init = new 초기세팅();
+            Init = (초기세팅)Test.Load(new 초기세팅(), CaseNum);
+
             Option = TestOption.GetObj();
             ButtonColor = new ObservableCollection<SolidColorBrush>();
 
             for (int i = 0; i < TotalStepNum; i++)
                 ButtonColor.Add(Brushes.White);
 
+            LoadPage = new RelayCommand(DataLoad);
             UnloadPage = new RelayCommand(DataSave);
             UnitTestCommand = new RelayCommand<object>(UnitTestClick);
+
+#warning 임시 삽입
+            ComportList = SerialPort.GetPortNames();
         }
 
         /**
@@ -76,7 +84,20 @@ namespace J_Project.ViewModel.TestItem
          */
         private void DataSave()
         {
-            초기세팅.Save();
+            Test.Save(Init, CaseNum);
+        }
+
+        /**
+         *  @brief 데이터 저장
+         *  @details 해당 테스트의 설정값을 저장한다
+         *  
+         *  @param
+         *  
+         *  @return
+         */
+        private void DataLoad()
+        {
+            Init = (초기세팅)Test.Load(Init, CaseNum);
         }
 
         /**
@@ -176,7 +197,7 @@ namespace J_Project.ViewModel.TestItem
 
                     TestLog.AppendLine("[ DC ]");
 
-                    result = DcSourceSet(Init.DcVolt[caseNumber], Init.DcCurr[caseNumber]);
+                    result = DcSourceSet(Init.DcVolt, Init.DcCurr);
                     TestLog.AppendLine($"- DC 세팅 결과 : {result}");
 
                     if (result != StateFlag.PASS)
@@ -195,14 +216,14 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.DELAY1:
                     TestLog.AppendLine("[ 딜레이1 ]\n");
-                    Util.Delay(Init.Delay1[caseNumber]);
+                    Util.Delay(Init.Delay1);
                     result = StateFlag.PASS;
                     break;
 
                 case Seq.RECT_CONNECT:
 #warning 시리얼 포트 리스트 차집합으로 정류기 포트 산출 후 접속 기능 테스트 필요
                     string[] tempComport = SerialPort.GetPortNames();
-                    var except = tempComport.Except(ComportList);
+                    EquiConnectID.GetObj().RectID = tempComport.Except(ComportList).ToArray().First();
 
                     TestLog.AppendLine("[ 정류기 접속 ]");
                     if (Rectifier.GetObj().IsConnected)
@@ -214,6 +235,7 @@ namespace J_Project.ViewModel.TestItem
 
                     TestLog.Append("- 접속 시도 -> ");
                     Rectifier.GetObj().Connect(EquiConnectID.GetObj().RectID, 9600);
+                    //Rectifier.GetObj().Connect(except, 9600);
                     Util.Delay(3);
 
                     if (Rectifier.GetObj().IsConnected)
@@ -240,7 +262,7 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.NEXT_TEST_DELAY:
                     TestLog.AppendLine("[ 다음 테스트 딜레이 ]\n");
-                    Util.Delay(Init.NextTestWait[caseNumber]);
+                    Util.Delay(Init.NextTestWait);
                     result = StateFlag.PASS;
                     break;
 

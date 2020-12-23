@@ -20,129 +20,7 @@
     </i:Interaction.Triggers>
 
     <Page.Resources>
-        <ui:AC_고전압_알람_Setting_UI x:Key="AcHigh"/>
-        <ui:AC_저전압_알람_Setting_UI x:Key="AcLow"/>
-        <ui:AC_정전전압_인식_Setting_UI x:Key="AcOut"/>
-        <ui:BatteryComm_Setting_UI x:Key="BatComm"/>
-        <ui:Cal_AC_입력전압_Setting_UI x:Key="AcCal"/>
-        <ui:Cal_DC_출력전류_Setting_UI x:Key="DcCurrCal"/>
-        <ui:Cal_DC_출력전압_Setting_UI x:Key="DcVoltCal"/>
-        <ui:CalReady_Setting_UI x:Key="CalReady"/>
-        <ui:IdChange_Setting_UI x:Key="IdChange"/>
-        <ui:LedCheck_Setting_UI x:Key="LedCheck"/>
-        <ui:LocalSwitch_Setting_UI x:Key="SwitchCheck"/>
-        <ui:M100Ready_Setting_UI x:Key="M100Ready"/>
-        <ui:M200Ready_Setting_UI x:Key="M200Ready"/>
-        <ui:RTC_TIME_체크_Setting_UI x:Key="RtcCheck"/>
-        <ui:라인_레귤레이션_Setting_UI x:Key="Line"/>
-        <ui:로드_레귤레이션_Setting_UI x:Key="Load"/>
-        <ui:리플_노이즈_Setting_UI x:Key="Noise"/>
-        <ui:무부하_전원_ON_Setting_UI x:Key="NoLoad"/>
-        <ui:SerialSave_Setting_UI x:Key="Serial"/>
-        <ui:역률_Setting_UI x:Key="PFactor"/>
-        <ui:온도센서_점검_Setting_UI x:Key="Temp"/>
-        <ui:RemoteComm_Setting_UI x:Key="RemoteComm"/>
-        <ui:초기세팅_Setting_UI x:Key="Init"/>
-        <ui:출력_고전압_보호_Setting_UI x:Key="OutHigh"/>
-        <ui:출력_과부하_보호_Setting_UI x:Key="OutOver"/>
-        <ui:출력_저전압_보호_Setting_UI x:Key="OutLow"/>
-        <ui:DcOutCheck_Setting_UI x:Key="OutCheck"/>
-        <ui:ConnecterCheck_Setting_UI x:Key="ConnCheck"/>
-        <ui:효율_Setting_UI x:Key="Effic"/>
-        
-        <Style TargetType="Frame">
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding ElementName=AcHighRadio, Path=IsChecked}" Value="True">
-                    <Setter Property="Content" Value="{StaticResource AcHigh}"/>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding ElementName=AcLowRadio, Path=IsChecked}" Value="True">
-                    <Setter Property="Content" Value="{StaticResource AcLow}"/>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding ElementName=AcOutRadio, Path=IsChecked}" Value="True">
-                    <Setter Property="Content" Value="{StaticResource AcOut}"/>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding ElementName=AcCalRadio, Path=IsChecked}" Value="True">
-                    <Setter Property="Content" Value="{StaticResource AcCal}"/>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding ElementName=DcCurrCalRadio, Path=IsChecked}" Value="True">
-                    <Setter Property="Content" Value="{StaticResource DcCurrCal}"/>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding ElementName=DcVoltCalRadio, Path=IsChecked}" Value="True">
-                    <Setter Property="Content" Value="{StaticResource DcVoltCal}"/>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding ElementName=CalReadyRadio, Path=IsChecked}" Value="True">
-                    <Setter Property="Content" Value="{StaticResource CalReady}"/>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding ElementName=M100ReadyRadio, Path=IsChecked}" Value="True">
-                    <Setter Property="Content" Value="{StaticResource M100Ready}"/>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding ElementName=M200ReadyRadio, Path=IsChecked}" Value="True">
-                    <Setter Property="Content" Value="{StaticResource M200Ready}"/>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding ElementName=RtcCheckRadio, Path=IsChecked}" Value="True">
-                    <Setter Property="Content" Value="{StaticResource RtcCheck}"/>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding ElementName=LineRadio, Path=IsChecked}" Value="True">
-                    <Setter Property="Content" Value="{StaticResource Line}"/>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding ElementName=LoadRadio, Path=IsChecked}" Value="True">
-                    <Setter Property="Content" Value="{StaticResource Load}"/>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding ElementName=NoiseRadio, Path=IsChecked}" Value="True">
-                    <Setter Property="Content" Value="{StaticResource Noise}"/>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding ElementName=NoLoadRadio, Path=IsChecked}" Value="True">
-                    <Setter Property="Content" Value="{StaticResource NoLoad}"/>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding ElementName=PFactorRadio, Path=IsChecked}" Value="True">
-                    <Setter Property="Content" Value="{StaticResource PFactor}"/>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding ElementName=TempRadio, Path=IsChecked}" Value="True">
-                    <Setter Property="Content" Value="{StaticResource Temp}"/>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding ElementName=InitRadio, Path=IsChecked}" Value="True">
-                    <Setter Property="Content" Value="{StaticResource Init}"/>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding ElementName=OutHighRadio, Path=IsChecked}" Value="True">
-                    <Setter Property="Content" Value="{StaticResource OutHigh}"/>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding ElementName=OutOverRadio, Path=IsChecked}" Value="True">
-                    <Setter Property="Content" Value="{StaticResource OutOver}"/>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding ElementName=OutLowRadio, Path=IsChecked}" Value="True">
-                    <Setter Property="Content" Value="{StaticResource OutLow}"/>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding ElementName=EfficRadio, Path=IsChecked}" Value="True">
-                    <Setter Property="Content" Value="{StaticResource Effic}"/>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding ElementName=IdChangeRadio, Path=IsChecked}" Value="True">
-                    <Setter Property="Content" Value="{StaticResource IdChange}"/>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding ElementName=LedCheckRadio, Path=IsChecked}" Value="True">
-                    <Setter Property="Content" Value="{StaticResource LedCheck}"/>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding ElementName=LocalSwitchRadio, Path=IsChecked}" Value="True">
-                    <Setter Property="Content" Value="{StaticResource SwitchCheck}"/>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding ElementName=RemoteCommRadio, Path=IsChecked}" Value="True">
-                    <Setter Property="Content" Value="{StaticResource RemoteComm}"/>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding ElementName=BatCommRadio, Path=IsChecked}" Value="True">
-                    <Setter Property="Content" Value="{StaticResource BatComm}"/>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding ElementName=OutCheckRadio, Path=IsChecked}" Value="True">
-                    <Setter Property="Content" Value="{StaticResource OutCheck}"/>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding ElementName=ConnCheckRadio, Path=IsChecked}" Value="True">
-                    <Setter Property="Content" Value="{StaticResource ConnCheck}"/>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding ElementName=SerialRadio, Path=IsChecked}" Value="True">
-                    <Setter Property="Content" Value="{StaticResource Serial}"/>
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
-        
-        <Style BasedOn="{StaticResource {x:Type ToggleButton}}" TargetType="RadioButton">
+        <!--<Style BasedOn="{StaticResource {x:Type ToggleButton}}" TargetType="RadioButton">
             <Setter Property="Background" Value="#FF1B1E2B"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="FontSize" Value="15"/>
@@ -210,7 +88,7 @@
                     </BeginStoryboard>
                 </EventTrigger>
             </Style.Triggers>
-        </Style>
+        </Style>-->
         
         <Style x:Key="ButtonStyle" TargetType="Button" BasedOn="{StaticResource BtnBaseNormal}">
             <Setter Property="Width" Value="70"/>
@@ -309,44 +187,27 @@
                     </Grid>
                 </StackPanel>
             </Grid>
-            
-            <WrapPanel>
-                <RadioButton x:Name="AcHighRadio" Content="AC 고전압" IsChecked="True"/>
-                <RadioButton x:Name="AcLowRadio" Content="AC 저전압"/>
-                <RadioButton x:Name="AcOutRadio" Content="AC 정전인식"/>
-                <RadioButton x:Name="AcCalRadio" Content="AC 입력 Cal"/>
-                <RadioButton x:Name="DcCurrCalRadio" Content="DC 출력전류 Cal"/>
-                <RadioButton x:Name="DcVoltCalRadio" Content="DC 출력전압 Cal"/>
-                <RadioButton x:Name="CalReadyRadio" Content="Cal 준비"/>
-                <RadioButton x:Name="M100ReadyRadio" Content="100V Mode 준비"/>
-                <RadioButton x:Name="M200ReadyRadio" Content="200V Mode 준비"/>
-                <RadioButton x:Name="IdChangeRadio" Content="ID 변경"/>
-                <RadioButton x:Name="LedCheckRadio" Content="LED 점검"/>
-                <RadioButton x:Name="RtcCheckRadio" Content="RTC Time 체크"/>
-                <RadioButton x:Name="LineRadio" Content="라인 레귤레이션"/>
-                <RadioButton x:Name="LoadRadio" Content="로드 레귤레이션"/>
-                <RadioButton x:Name="LocalSwitchRadio" Content="로컬 스위치 점검"/>
-                <RadioButton x:Name="NoiseRadio" Content="리플 노이즈"/>
-                <RadioButton x:Name="NoLoadRadio" Content="무부하 전원"/>
-                <RadioButton x:Name="BatCommRadio" Content="배터리 통신"/>
-                <RadioButton x:Name="SerialRadio" Content="시리얼 저장"/>
-                <RadioButton x:Name="PFactorRadio" Content="역률"/>
-                <RadioButton x:Name="TempRadio" Content="온도센서 점검"/>
-                <RadioButton x:Name="RemoteCommRadio" Content="원격 통신"/>
-                <RadioButton x:Name="InitRadio" Content="초기 세팅"/>
-                <RadioButton x:Name="OutHighRadio" Content="출력 고전압 보호"/>
-                <RadioButton x:Name="OutOverRadio" Content="출력 과부하 보호"/>
-                <RadioButton x:Name="OutLowRadio" Content="출력 저전압 보호"/>
-                <RadioButton x:Name="OutCheckRadio" Content="출력전압 체크"/>
-                <RadioButton x:Name="ConnCheckRadio" Content="출력 커넥터 체크"/>
-                <RadioButton x:Name="EfficRadio" Content="효율"/>
-            </WrapPanel>
 
-            <Border BorderBrush="#FF53609B" BorderThickness="2.5" CornerRadius="10" Margin="0,30,0,0" Padding="15" Height="200" >
-                <ScrollViewer x:Name="SeqViewer" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Auto" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" PreviewMouseWheel="SeqViewer_PreviewMouseWheel" >
-                    <Frame NavigationUIVisibility="Hidden"/>
-                </ScrollViewer>
-            </Border>
+            <Grid Height="200">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.2*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <ListView x:Name="TestListView" BorderBrush="Transparent" Background="Transparent" Foreground="White" FontSize="14" FontFamily="NanumGothic Light" Grid.Column="0" ItemsSource="{Binding ListTestItems}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction  Command="{Binding ListSelectedCommand}" CommandParameter="{Binding SelectedItem, ElementName=TestListView}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </ListView>
+
+                <Border BorderBrush="#FF53609B" BorderThickness="2.5" CornerRadius="10" Margin="15,0,0,0" Padding="15" Grid.Column="1">
+                    <ScrollViewer x:Name="SeqViewer" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Auto" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" PreviewMouseWheel="SeqViewer_PreviewMouseWheel" >
+                        <Frame NavigationUIVisibility="Hidden" Content="{Binding TestUi}"/>
+                    </ScrollViewer>
+                </Border>
+            </Grid>
         </StackPanel>
     </StackPanel>
 </Page>
