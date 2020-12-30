@@ -17,8 +17,9 @@
 
         <sys:Int32 x:Key="AcIdx">0</sys:Int32>
         <sys:Int32 x:Key="LedCheckIdx">1</sys:Int32>
-        <sys:Int32 x:Key="NextDelayIdx">2</sys:Int32>
-        <sys:Int32 x:Key="NextIdx">3</sys:Int32>
+        <sys:Int32 x:Key="SaveIdx">2</sys:Int32>
+        <sys:Int32 x:Key="NextDelayIdx">3</sys:Int32>
+        <sys:Int32 x:Key="NextIdx">4</sys:Int32>
     </Page.Resources>
     
     <Grid>
@@ -31,13 +32,8 @@
                     <Button Content=" AC "
                             Foreground="{Binding ButtonColor[0]}"
                             Style="{StaticResource TestList_ItemNameButtonStyle}"
-                            Command="{Binding UnitTestCommand}">
-                        <Button.CommandParameter>
-                            <MultiBinding Converter="{StaticResource UnitTestConverter}">
-                                <Binding ElementName="LedCheck" Path="Tag"/>
-                                <Binding Source="{StaticResource AcIdx}"/>
-                            </MultiBinding>
-                        </Button.CommandParameter>
+                            Command="{Binding UnitTestCommand}"
+                            CommandParameter="{Binding Source={StaticResource AcIdx}}">
                     </Button>
                     <Grid>
                         <Grid.RowDefinitions>
@@ -70,28 +66,27 @@
                 <Button Content=" LED 점검 "
                         Foreground="{Binding ButtonColor[1]}"
                         Style="{StaticResource TestList_ItemNameButtonStyle}"
-                        Command="{Binding UnitTestCommand}">
-                    <Button.CommandParameter>
-                        <MultiBinding Converter="{StaticResource UnitTestConverter}">
-                            <Binding ElementName="LedCheck" Path="Tag"/>
-                            <Binding Source="{StaticResource LedCheckIdx}"/>
-                        </MultiBinding>
-                    </Button.CommandParameter>
+                        Command="{Binding UnitTestCommand}"
+                        CommandParameter="{Binding Source={StaticResource LedCheckIdx}}">
+                </Button>
+                <!-- 화살표 이미지 -->
+                <fa:ImageAwesome Style="{StaticResource Allow}"/>
+                <!-- 결과 저장 -->
+                <Button Content=" 결과 저장 "
+                        Foreground="{Binding ButtonColor[2]}"
+                        Style="{StaticResource TestList_ItemNameButtonStyle}"
+                        Command="{Binding UnitTestCommand}"
+                        CommandParameter="{Binding Source={StaticResource SaveIdx}}">
                 </Button>
                 <!-- 화살표 이미지 -->
                 <fa:ImageAwesome Style="{StaticResource Allow}"/>
                 <!-- 지연 시간 -->
                 <StackPanel>
                     <Button Content=" 지연시간 "
-                            Foreground="{Binding ButtonColor[2]}"
+                            Foreground="{Binding ButtonColor[3]}"
                             Style="{StaticResource TestList_ItemNameButtonStyle}"
-                            Command="{Binding UnitTestCommand}">
-                        <Button.CommandParameter>
-                            <MultiBinding Converter="{StaticResource UnitTestConverter}">
-                                <Binding ElementName="LedCheck" Path="Tag"/>
-                                <Binding Source="{StaticResource NextDelayIdx}"/>
-                            </MultiBinding>
-                        </Button.CommandParameter>
+                            Command="{Binding UnitTestCommand}"
+                            CommandParameter="{Binding Source={StaticResource NextDelayIdx}}">
                     </Button>
                     <Grid>
                         <Grid.RowDefinitions>
@@ -110,15 +105,10 @@
                 <fa:ImageAwesome Style="{StaticResource Allow}"/>
                 <!-- 테스트명-->
                 <Button Content=" 다음 테스트 "
-                        Foreground="{Binding ButtonColor[3]}"
+                        Foreground="{Binding ButtonColor[4]}"
                         Style="{StaticResource TestList_ItemNameButtonStyle}"
-                        Command="{Binding UnitTestCommand}">
-                    <Button.CommandParameter>
-                        <MultiBinding Converter="{StaticResource UnitTestConverter}">
-                            <Binding ElementName="LedCheck" Path="Tag"/>
-                            <Binding Source="{StaticResource NextIdx}"/>
-                        </MultiBinding>
-                    </Button.CommandParameter>
+                        Command="{Binding UnitTestCommand}"
+                        CommandParameter="{Binding Source={StaticResource NextIdx}}">
                 </Button>
             </StackPanel>
         </StackPanel>

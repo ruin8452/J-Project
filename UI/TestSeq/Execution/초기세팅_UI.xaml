@@ -39,13 +39,8 @@
                     <Button Content=" DC "
                             Foreground="{Binding ButtonColor[0]}"
                             Style="{StaticResource TestList_ItemNameButtonStyle}"
-                            Command="{Binding UnitTestCommand}">
-                        <Button.CommandParameter>
-                            <MultiBinding Converter="{StaticResource UnitTestConverter}">
-                                <Binding ElementName="Init" Path="Tag"/>
-                                <Binding Source="{StaticResource DcIdx}"/>
-                            </MultiBinding>
-                        </Button.CommandParameter>
+                            Command="{Binding UnitTestCommand}"
+                            CommandParameter="{Binding Source={StaticResource DcIdx}}">
                     </Button>
                     <Grid>
                         <Grid.RowDefinitions>
@@ -76,13 +71,8 @@
                     <Button Content=" 지연시간 "
                             Foreground="{Binding ButtonColor[1]}"
                             Style="{StaticResource TestList_ItemNameButtonStyle}"
-                            Command="{Binding UnitTestCommand}">
-                        <Button.CommandParameter>
-                            <MultiBinding Converter="{StaticResource UnitTestConverter}">
-                                <Binding ElementName="Init" Path="Tag"/>
-                                <Binding Source="{StaticResource Delay1Idx}"/>
-                            </MultiBinding>
-                        </Button.CommandParameter>
+                            Command="{Binding UnitTestCommand}"
+                            CommandParameter="{Binding Source={StaticResource Delay1Idx}}">
                     </Button>
                     <Grid>
                         <Grid.RowDefinitions>
@@ -103,13 +93,8 @@
                 <Button Content=" 정류기 접속 "
                         Foreground="{Binding ButtonColor[2]}"
                         Style="{StaticResource TestList_ItemNameButtonStyle}"
-                        Command="{Binding UnitTestCommand}">
-                    <Button.CommandParameter>
-                        <MultiBinding Converter="{StaticResource UnitTestConverter}">
-                            <Binding ElementName="Init" Path="Tag"/>
-                            <Binding Source="{StaticResource RectIdx}"/>
-                        </MultiBinding>
-                    </Button.CommandParameter>
+                        Command="{Binding UnitTestCommand}"
+                        CommandParameter="{Binding Source={StaticResource RectIdx}}">
                 </Button>
                 <!-- 화살표 이미지 -->
                 <fa:ImageAwesome Style="{StaticResource Allow}"/>
@@ -117,13 +102,8 @@
                 <Button Content=" RTC 설정 "
                         Foreground="{Binding ButtonColor[3]}"
                         Style="{StaticResource TestList_ItemNameButtonStyle}"
-                        Command="{Binding UnitTestCommand}">
-                    <Button.CommandParameter>
-                        <MultiBinding Converter="{StaticResource UnitTestConverter}">
-                            <Binding ElementName="Init" Path="Tag"/>
-                            <Binding Source="{StaticResource RtcSetIdx}"/>
-                        </MultiBinding>
-                    </Button.CommandParameter>
+                        Command="{Binding UnitTestCommand}"
+                        CommandParameter="{Binding Source={StaticResource RtcSetIdx}}">
                 </Button>
                 <!-- 화살표 이미지 -->
                 <fa:ImageAwesome Style="{StaticResource Allow}"/>
@@ -132,13 +112,8 @@
                     <Button Content=" 지연시간 "
                             Foreground="{Binding ButtonColor[4]}"
                             Style="{StaticResource TestList_ItemNameButtonStyle}"
-                            Command="{Binding UnitTestCommand}">
-                        <Button.CommandParameter>
-                            <MultiBinding Converter="{StaticResource UnitTestConverter}">
-                                <Binding ElementName="Init" Path="Tag"/>
-                                <Binding Source="{StaticResource NextDelayIdx}"/>
-                            </MultiBinding>
-                        </Button.CommandParameter>
+                            Command="{Binding UnitTestCommand}"
+                            CommandParameter="{Binding Source={StaticResource NextDelayIdx}}">
                     </Button>
                     <Grid>
                         <Grid.RowDefinitions>
@@ -159,13 +134,8 @@
                 <Button Content=" 다음 테스트 "
                         Foreground="{Binding ButtonColor[5]}"
                         Style="{StaticResource TestList_ItemNameButtonStyle}"
-                        Command="{Binding UnitTestCommand}">
-                    <Button.CommandParameter>
-                        <MultiBinding Converter="{StaticResource UnitTestConverter}">
-                            <Binding ElementName="Init" Path="Tag"/>
-                            <Binding Source="{StaticResource NextIdx}"/>
-                        </MultiBinding>
-                    </Button.CommandParameter>
+                        Command="{Binding UnitTestCommand}"
+                        CommandParameter="{Binding Source={StaticResource NextIdx}}">
                 </Button>
             </StackPanel>
         </StackPanel>

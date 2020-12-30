@@ -227,6 +227,7 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.RESULT_SAVE: // 결과 저장
                     TestLog.AppendLine("[ 결과 저장 ]");
+                    
                     result = ResultDataSave(TestOrterNum, resultData);
                     TestLog.AppendLine($"- 결과 : {result}\n");
                     break;

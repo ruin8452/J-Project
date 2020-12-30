@@ -84,6 +84,8 @@ namespace J_Project.ViewModel.SubWindow
         {
             if (obj is Window window)
                 this.window = window;
+
+            CtrlResult = false;
         }
 
         /**

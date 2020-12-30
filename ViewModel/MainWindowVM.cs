@@ -9,6 +9,8 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
 using GalaSoft.MvvmLight.Command;
+using J_Project.UI.SubWindow;
+using J_Project.ViewModel.SubWindow;
 
 namespace J_Project.ViewModel
 {
@@ -38,6 +40,7 @@ namespace J_Project.ViewModel
         public string GuiVersion { get; set; } = "201211.1.2.0";    // 날짜.메인.서브.패치
 
         public RelayCommand ClosingCommand { get; set; }
+        public RelayCommand SerialSaveCommand { get; set; }
         public RelayCommand OpenCvsFolderCommand { get; set; }
         public RelayCommand OpenExcelFolderCommand { get; set; }
         public RelayCommand OpenCvsFolder2Command { get; set; }
@@ -72,6 +75,7 @@ namespace J_Project.ViewModel
             Rmt = Remote.GetObj();
 
             ClosingCommand = new RelayCommand(ClosingClick);
+            SerialSaveCommand = new RelayCommand(SerialSave);
             OpenCvsFolderCommand = new RelayCommand(OpenCvsFolder);
             OpenExcelFolderCommand = new RelayCommand(OpenExcelFolder);
             OpenCvsFolder2Command = new RelayCommand(OpenCvsFolder2);
@@ -90,6 +94,24 @@ namespace J_Project.ViewModel
             DateMonitor.Interval = TimeSpan.FromMilliseconds(700);
             DateMonitor.Tick += NowTime;
             DateMonitor.Start();
+        }
+
+        private void SerialSave()
+        {
+            bool subWinResult;
+
+            SerialWindow textWindow = new SerialWindow
+            {
+                Owner = Application.Current.MainWindow,
+                WindowStartupLocation = WindowStartupLocation.CenterOwner
+            };
+            textWindow.ShowDialog();
+            subWinResult = SerialViewModel.CtrlResult;
+
+            if (subWinResult == true)
+                MessageBox.Show("시리얼 번호 저장 완료");
+            else
+                MessageBox.Show("시리얼 번호 저장 실패");
         }
 
         /**

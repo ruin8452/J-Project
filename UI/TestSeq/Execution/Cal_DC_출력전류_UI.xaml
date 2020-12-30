@@ -54,13 +54,8 @@
                     <Button Content=" M200 AC "
                             Foreground="{Binding ButtonColor[0]}"
                             Style="{StaticResource TestList_ItemNameButtonStyle}"
-                            Command="{Binding UnitTestCommand}">
-                        <Button.CommandParameter>
-                            <MultiBinding Converter="{StaticResource UnitTestConverter}">
-                                <Binding ElementName="DcOutCurrCal" Path="Tag"/>
-                                <Binding Source="{StaticResource Ac200Idx}"/>
-                            </MultiBinding>
-                        </Button.CommandParameter>
+                            Command="{Binding UnitTestCommand}"
+                            CommandParameter="{Binding Source={StaticResource Ac200Idx}}">
                     </Button>
                     <Grid>
                         <Grid.RowDefinitions>
@@ -93,13 +88,8 @@
                 <Button Content=" 저전압 알람 해제 "
                         Foreground="{Binding ButtonColor[1]}"
                         Style="{StaticResource TestList_ItemNameButtonStyle}"
-                        Command="{Binding UnitTestCommand}">
-                    <Button.CommandParameter>
-                        <MultiBinding Converter="{StaticResource UnitTestConverter}">
-                            <Binding ElementName="DcOutCurrCal" Path="Tag"/>
-                            <Binding Source="{StaticResource AlramOff1Idx}"/>
-                        </MultiBinding>
-                    </Button.CommandParameter>
+                        Command="{Binding UnitTestCommand}"
+                        CommandParameter="{Binding Source={StaticResource AlramOff1Idx}}">
                 </Button>
                 <!-- 화살표 이미지 -->
                 <fa:ImageAwesome Style="{StaticResource Allow}"/>
@@ -108,13 +98,8 @@
                     <Button Content=" 지연시간 "
                             Foreground="{Binding ButtonColor[2]}"
                             Style="{StaticResource TestList_ItemNameButtonStyle}"
-                            Command="{Binding UnitTestCommand}">
-                        <Button.CommandParameter>
-                            <MultiBinding Converter="{StaticResource UnitTestConverter}">
-                                <Binding ElementName="DcOutCurrCal" Path="Tag"/>
-                                <Binding Source="{StaticResource Delay1Idx}"/>
-                            </MultiBinding>
-                        </Button.CommandParameter>
+                            Command="{Binding UnitTestCommand}"
+                            CommandParameter="{Binding Source={StaticResource Delay1Idx}}">
                     </Button>
                     <Grid>
                         <Grid.RowDefinitions>
@@ -136,13 +121,8 @@
                     <Button Content=" 부하 "
                             Foreground="{Binding ButtonColor[3]}"
                             Style="{StaticResource TestList_ItemNameButtonStyle}"
-                            Command="{Binding UnitTestCommand}">
-                        <Button.CommandParameter>
-                            <MultiBinding Converter="{StaticResource UnitTestConverter}">
-                                <Binding ElementName="DcOutCurrCal" Path="Tag"/>
-                                <Binding Source="{StaticResource Load1Idx}"/>
-                            </MultiBinding>
-                        </Button.CommandParameter>
+                            Command="{Binding UnitTestCommand}"
+                            CommandParameter="{Binding Source={StaticResource Load1Idx}}">
                     </Button>
                     <Grid>
                         <Grid.RowDefinitions>
@@ -167,13 +147,8 @@
                     <Button Content=" 지연시간 "
                             Foreground="{Binding ButtonColor[4]}"
                             Style="{StaticResource TestList_ItemNameButtonStyle}"
-                            Command="{Binding UnitTestCommand}">
-                        <Button.CommandParameter>
-                            <MultiBinding Converter="{StaticResource UnitTestConverter}">
-                                <Binding ElementName="DcOutCurrCal" Path="Tag"/>
-                                <Binding Source="{StaticResource Delay2Idx}"/>
-                            </MultiBinding>
-                        </Button.CommandParameter>
+                            Command="{Binding UnitTestCommand}"
+                            CommandParameter="{Binding Source={StaticResource Delay2Idx}}">
                     </Button>
                     <Grid>
                         <Grid.RowDefinitions>
@@ -195,13 +170,8 @@
                     <Button Content=" DAC CAL "
                             Foreground="{Binding ButtonColor[5]}"
                             Style="{StaticResource TestList_ItemNameButtonStyle}"
-                            Command="{Binding UnitTestCommand}">
-                        <Button.CommandParameter>
-                            <MultiBinding Converter="{StaticResource UnitTestConverter}">
-                                <Binding ElementName="DcOutCurrCal" Path="Tag"/>
-                                <Binding Source="{StaticResource DacCalIdx}"/>
-                            </MultiBinding>
-                        </Button.CommandParameter>
+                            Command="{Binding UnitTestCommand}"
+                            CommandParameter="{Binding Source={StaticResource DacCalIdx}}">
                     </Button>
                     <Grid>
                         <Grid.RowDefinitions>
@@ -231,13 +201,8 @@
                     <Button Content=" 지연시간 "
                             Foreground="{Binding ButtonColor[6]}"
                             Style="{StaticResource TestList_ItemNameButtonStyle}"
-                            Command="{Binding UnitTestCommand}">
-                        <Button.CommandParameter>
-                            <MultiBinding Converter="{StaticResource UnitTestConverter}">
-                                <Binding ElementName="DcOutCurrCal" Path="Tag"/>
-                                <Binding Source="{StaticResource Delay3Idx}"/>
-                            </MultiBinding>
-                        </Button.CommandParameter>
+                            Command="{Binding UnitTestCommand}"
+                            CommandParameter="{Binding Source={StaticResource Delay3Idx}}">
                     </Button>
                     <Grid>
                         <Grid.RowDefinitions>
@@ -261,13 +226,8 @@
                     <Button Content=" M200 기본값 설정 "
                             Foreground="{Binding ButtonColor[7]}"
                             Style="{StaticResource TestList_ItemNameButtonStyle}"
-                            Command="{Binding UnitTestCommand}">
-                        <Button.CommandParameter>
-                            <MultiBinding Converter="{StaticResource UnitTestConverter}">
-                                <Binding ElementName="DcOutCurrCal" Path="Tag"/>
-                                <Binding Source="{StaticResource Default200Idx}"/>
-                            </MultiBinding>
-                        </Button.CommandParameter>
+                            Command="{Binding UnitTestCommand}"
+                            CommandParameter="{Binding Source={StaticResource Default200Idx}}">
                     </Button>
                     <Grid>
                         <Grid.RowDefinitions>
@@ -292,13 +252,8 @@
                     <Button Content=" 지연시간 "
                             Foreground="{Binding ButtonColor[8]}"
                             Style="{StaticResource TestList_ItemNameButtonStyle}"
-                            Command="{Binding UnitTestCommand}">
-                        <Button.CommandParameter>
-                            <MultiBinding Converter="{StaticResource UnitTestConverter}">
-                                <Binding ElementName="DcOutCurrCal" Path="Tag"/>
-                                <Binding Source="{StaticResource Delay4Idx}"/>
-                            </MultiBinding>
-                        </Button.CommandParameter>
+                            Command="{Binding UnitTestCommand}"
+                            CommandParameter="{Binding Source={StaticResource Delay4Idx}}">
                     </Button>
                     <Grid>
                         <Grid.RowDefinitions>
@@ -322,13 +277,8 @@
                     <Button Content=" 부하 "
                             Foreground="{Binding ButtonColor[9]}"
                             Style="{StaticResource TestList_ItemNameButtonStyle}"
-                            Command="{Binding UnitTestCommand}">
-                        <Button.CommandParameter>
-                            <MultiBinding Converter="{StaticResource UnitTestConverter}">
-                                <Binding ElementName="DcOutCurrCal" Path="Tag"/>
-                                <Binding Source="{StaticResource Load2Idx}"/>
-                            </MultiBinding>
-                        </Button.CommandParameter>
+                            Command="{Binding UnitTestCommand}"
+                            CommandParameter="{Binding Source={StaticResource Load2Idx}}">
                     </Button>
                     <Grid>
                         <Grid.RowDefinitions>
@@ -353,13 +303,8 @@
                     <Button Content=" 지연시간 "
                             Foreground="{Binding ButtonColor[10]}"
                             Style="{StaticResource TestList_ItemNameButtonStyle}"
-                            Command="{Binding UnitTestCommand}">
-                        <Button.CommandParameter>
-                            <MultiBinding Converter="{StaticResource UnitTestConverter}">
-                                <Binding ElementName="DcOutCurrCal" Path="Tag"/>
-                                <Binding Source="{StaticResource Delay5Idx}"/>
-                            </MultiBinding>
-                        </Button.CommandParameter>
+                            Command="{Binding UnitTestCommand}"
+                            CommandParameter="{Binding Source={StaticResource Delay5Idx}}">
                     </Button>
                     <Grid>
                         <Grid.RowDefinitions>
@@ -383,13 +328,8 @@
                     <Button Content=" 상한 ADC CAL "
                             Foreground="{Binding ButtonColor[11]}"
                             Style="{StaticResource TestList_ItemNameButtonStyle}"
-                            Command="{Binding UnitTestCommand}">
-                        <Button.CommandParameter>
-                            <MultiBinding Converter="{StaticResource UnitTestConverter}">
-                                <Binding ElementName="DcOutCurrCal" Path="Tag"/>
-                                <Binding Source="{StaticResource UpAdcCalIdx}"/>
-                            </MultiBinding>
-                        </Button.CommandParameter>
+                            Command="{Binding UnitTestCommand}"
+                            CommandParameter="{Binding Source={StaticResource UpAdcCalIdx}}">
                     </Button>
                     <Grid>
                         <Grid.RowDefinitions>
@@ -414,13 +354,8 @@
                     <Button Content=" 지연시간 "
                             Foreground="{Binding ButtonColor[12]}"
                             Style="{StaticResource TestList_ItemNameButtonStyle}"
-                            Command="{Binding UnitTestCommand}">
-                        <Button.CommandParameter>
-                            <MultiBinding Converter="{StaticResource UnitTestConverter}">
-                                <Binding ElementName="DcOutCurrCal" Path="Tag"/>
-                                <Binding Source="{StaticResource Delay6Idx}"/>
-                            </MultiBinding>
-                        </Button.CommandParameter>
+                            Command="{Binding UnitTestCommand}"
+                            CommandParameter="{Binding Source={StaticResource Delay6Idx}}">
                     </Button>
                     <Grid>
                         <Grid.RowDefinitions>
@@ -443,13 +378,8 @@
                 <Button Content=" 부하 OFF "
                         Foreground="{Binding ButtonColor[13]}"
                         Style="{StaticResource TestList_ItemNameButtonStyle}"
-                        Command="{Binding UnitTestCommand}">
-                    <Button.CommandParameter>
-                        <MultiBinding Converter="{StaticResource UnitTestConverter}">
-                            <Binding ElementName="DcOutCurrCal" Path="Tag"/>
-                            <Binding Source="{StaticResource LoadOff1Idx}"/>
-                        </MultiBinding>
-                    </Button.CommandParameter>
+                        Command="{Binding UnitTestCommand}"
+                        CommandParameter="{Binding Source={StaticResource LoadOff1Idx}}">
                 </Button>
                 <!-- 화살표 이미지 -->
                 <fa:ImageAwesome Style="{StaticResource Allow}"/>
@@ -458,13 +388,8 @@
                     <Button Content=" 지연시간 "
                             Foreground="{Binding ButtonColor[14]}"
                             Style="{StaticResource TestList_ItemNameButtonStyle}"
-                            Command="{Binding UnitTestCommand}">
-                        <Button.CommandParameter>
-                            <MultiBinding Converter="{StaticResource UnitTestConverter}">
-                                <Binding ElementName="DcOutCurrCal" Path="Tag"/>
-                                <Binding Source="{StaticResource Delay7Idx}"/>
-                            </MultiBinding>
-                        </Button.CommandParameter>
+                            Command="{Binding UnitTestCommand}"
+                            CommandParameter="{Binding Source={StaticResource Delay7Idx}}">
                     </Button>
                     <Grid>
                         <Grid.RowDefinitions>
@@ -488,13 +413,8 @@
                     <Button Content=" 하한 ADC CAL "
                             Foreground="{Binding ButtonColor[15]}"
                             Style="{StaticResource TestList_ItemNameButtonStyle}"
-                            Command="{Binding UnitTestCommand}">
-                        <Button.CommandParameter>
-                            <MultiBinding Converter="{StaticResource UnitTestConverter}">
-                                <Binding ElementName="DcOutCurrCal" Path="Tag"/>
-                                <Binding Source="{StaticResource LowAdcCalIdx}"/>
-                            </MultiBinding>
-                        </Button.CommandParameter>
+                            Command="{Binding UnitTestCommand}"
+                            CommandParameter="{Binding Source={StaticResource LowAdcCalIdx}}">
                     </Button>
                     <Grid>
                         <Grid.RowDefinitions>
@@ -519,13 +439,8 @@
                     <Button Content=" M100 AC "
                             Foreground="{Binding ButtonColor[16]}"
                             Style="{StaticResource TestList_ItemNameButtonStyle}"
-                            Command="{Binding UnitTestCommand}">
-                        <Button.CommandParameter>
-                            <MultiBinding Converter="{StaticResource UnitTestConverter}">
-                                <Binding ElementName="DcOutCurrCal" Path="Tag"/>
-                                <Binding Source="{StaticResource Ac100Idx}"/>
-                            </MultiBinding>
-                        </Button.CommandParameter>
+                            Command="{Binding UnitTestCommand}"
+                            CommandParameter="{Binding Source={StaticResource Ac100Idx}}">
                     </Button>
                     <Grid>
                         <Grid.RowDefinitions>
@@ -558,13 +473,8 @@
                 <Button Content=" 정류기 리셋 "
                         Foreground="{Binding ButtonColor[17]}"
                         Style="{StaticResource TestList_ItemNameButtonStyle}"
-                        Command="{Binding UnitTestCommand}">
-                    <Button.CommandParameter>
-                        <MultiBinding Converter="{StaticResource UnitTestConverter}">
-                            <Binding ElementName="DcOutCurrCal" Path="Tag"/>
-                            <Binding Source="{StaticResource RectResetIdx}"/>
-                        </MultiBinding>
-                    </Button.CommandParameter>
+                        Command="{Binding UnitTestCommand}"
+                        CommandParameter="{Binding Source={StaticResource RectResetIdx}}">
                 </Button>
                 <!-- 화살표 이미지 -->
                 <fa:ImageAwesome Style="{StaticResource Allow}"/>
@@ -572,13 +482,8 @@
                 <Button Content=" 저전압 알람 해제 "
                         Foreground="{Binding ButtonColor[18]}"
                         Style="{StaticResource TestList_ItemNameButtonStyle}"
-                        Command="{Binding UnitTestCommand}">
-                    <Button.CommandParameter>
-                        <MultiBinding Converter="{StaticResource UnitTestConverter}">
-                            <Binding ElementName="DcOutCurrCal" Path="Tag"/>
-                            <Binding Source="{StaticResource AlramOff2Idx}"/>
-                        </MultiBinding>
-                    </Button.CommandParameter>
+                        Command="{Binding UnitTestCommand}"
+                        CommandParameter="{Binding Source={StaticResource AlramOff2Idx}}">
                 </Button>
                 <!-- 화살표 이미지 -->
                 <fa:ImageAwesome Style="{StaticResource Allow}"/>
@@ -587,13 +492,8 @@
                     <Button Content=" 지연시간 "
                             Foreground="{Binding ButtonColor[19]}"
                             Style="{StaticResource TestList_ItemNameButtonStyle}"
-                            Command="{Binding UnitTestCommand}">
-                        <Button.CommandParameter>
-                            <MultiBinding Converter="{StaticResource UnitTestConverter}">
-                                <Binding ElementName="DcOutCurrCal" Path="Tag"/>
-                                <Binding Source="{StaticResource Delay8Idx}"/>
-                            </MultiBinding>
-                        </Button.CommandParameter>
+                            Command="{Binding UnitTestCommand}"
+                            CommandParameter="{Binding Source={StaticResource Delay8Idx}}">
                     </Button>
                     <Grid>
                         <Grid.RowDefinitions>
@@ -617,13 +517,8 @@
                     <Button Content=" 부하 "
                             Foreground="{Binding ButtonColor[20]}"
                             Style="{StaticResource TestList_ItemNameButtonStyle}"
-                            Command="{Binding UnitTestCommand}">
-                        <Button.CommandParameter>
-                            <MultiBinding Converter="{StaticResource UnitTestConverter}">
-                                <Binding ElementName="DcOutCurrCal" Path="Tag"/>
-                                <Binding Source="{StaticResource Load3Idx}"/>
-                            </MultiBinding>
-                        </Button.CommandParameter>
+                            Command="{Binding UnitTestCommand}"
+                            CommandParameter="{Binding Source={StaticResource Load3Idx}}">
                     </Button>
                     <Grid>
                         <Grid.RowDefinitions>
@@ -648,13 +543,8 @@
                     <Button Content=" 지연시간 "
                             Foreground="{Binding ButtonColor[21]}"
                             Style="{StaticResource TestList_ItemNameButtonStyle}"
-                            Command="{Binding UnitTestCommand}">
-                        <Button.CommandParameter>
-                            <MultiBinding Converter="{StaticResource UnitTestConverter}">
-                                <Binding ElementName="DcOutCurrCal" Path="Tag"/>
-                                <Binding Source="{StaticResource Delay9Idx}"/>
-                            </MultiBinding>
-                        </Button.CommandParameter>
+                            Command="{Binding UnitTestCommand}"
+                            CommandParameter="{Binding Source={StaticResource Delay9Idx}}">
                     </Button>
                     <Grid>
                         <Grid.RowDefinitions>
@@ -678,13 +568,8 @@
                     <Button Content=" M100 기본값 설정 "
                             Foreground="{Binding ButtonColor[22]}"
                             Style="{StaticResource TestList_ItemNameButtonStyle}"
-                            Command="{Binding UnitTestCommand}">
-                        <Button.CommandParameter>
-                            <MultiBinding Converter="{StaticResource UnitTestConverter}">
-                                <Binding ElementName="DcOutCurrCal" Path="Tag"/>
-                                <Binding Source="{StaticResource Default100Idx}"/>
-                            </MultiBinding>
-                        </Button.CommandParameter>
+                            Command="{Binding UnitTestCommand}"
+                            CommandParameter="{Binding Source={StaticResource Default100Idx}}">
                     </Button>
                     <Grid>
                         <Grid.RowDefinitions>
@@ -708,13 +593,8 @@
                 <Button Content=" 부하 OFF "
                         Foreground="{Binding ButtonColor[23]}"
                         Style="{StaticResource TestList_ItemNameButtonStyle}"
-                        Command="{Binding UnitTestCommand}">
-                    <Button.CommandParameter>
-                        <MultiBinding Converter="{StaticResource UnitTestConverter}">
-                            <Binding ElementName="DcOutCurrCal" Path="Tag"/>
-                            <Binding Source="{StaticResource LoadOff2Idx}"/>
-                        </MultiBinding>
-                    </Button.CommandParameter>
+                        Command="{Binding UnitTestCommand}"
+                        CommandParameter="{Binding Source={StaticResource LoadOff2Idx}}">
                 </Button>
                 <!-- 화살표 이미지 -->
                 <fa:ImageAwesome Style="{StaticResource Allow}"/>
@@ -722,13 +602,8 @@
                 <Button Content=" 정류기 리셋 "
                         Foreground="{Binding ButtonColor[24]}"
                         Style="{StaticResource TestList_ItemNameButtonStyle}"
-                        Command="{Binding UnitTestCommand}">
-                    <Button.CommandParameter>
-                        <MultiBinding Converter="{StaticResource UnitTestConverter}">
-                            <Binding ElementName="DcOutCurrCal" Path="Tag"/>
-                            <Binding Source="{StaticResource RectReset2Idx}"/>
-                        </MultiBinding>
-                    </Button.CommandParameter>
+                        Command="{Binding UnitTestCommand}"
+                        CommandParameter="{Binding Source={StaticResource RectReset2Idx}}">
                 </Button>
                 <!-- 화살표 이미지 -->
                 <fa:ImageAwesome Style="{StaticResource Allow}"/>
@@ -737,13 +612,8 @@
                     <Button Content=" 지연시간 "
                             Foreground="{Binding ButtonColor[25]}"
                             Style="{StaticResource TestList_ItemNameButtonStyle}"
-                            Command="{Binding UnitTestCommand}">
-                        <Button.CommandParameter>
-                            <MultiBinding Converter="{StaticResource UnitTestConverter}">
-                                <Binding ElementName="DcOutCurrCal" Path="Tag"/>
-                                <Binding Source="{StaticResource NextDelayIdx}"/>
-                            </MultiBinding>
-                        </Button.CommandParameter>
+                            Command="{Binding UnitTestCommand}"
+                            CommandParameter="{Binding Source={StaticResource NextDelayIdx}}">
                     </Button>
                     <Grid>
                         <Grid.RowDefinitions>
@@ -764,13 +634,8 @@
                 <Button Content=" 다음 테스트 "
                         Foreground="{Binding ButtonColor[26]}"
                         Style="{StaticResource TestList_ItemNameButtonStyle}"
-                        Command="{Binding UnitTestCommand}">
-                    <Button.CommandParameter>
-                        <MultiBinding Converter="{StaticResource UnitTestConverter}">
-                            <Binding ElementName="DcOutCurrCal" Path="Tag"/>
-                            <Binding Source="{StaticResource NextIdx}"/>
-                        </MultiBinding>
-                    </Button.CommandParameter>
+                        Command="{Binding UnitTestCommand}"
+                        CommandParameter="{Binding Source={StaticResource NextIdx}}">
                 </Button>
             </StackPanel>
         </StackPanel>

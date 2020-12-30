@@ -35,13 +35,8 @@
                     <Button Content=" AC "
                             Foreground="{Binding ButtonColor[0]}"
                             Style="{StaticResource TestList_ItemNameButtonStyle}"
-                            Command="{Binding UnitTestCommand}">
-                        <Button.CommandParameter>
-                            <MultiBinding Converter="{StaticResource UnitTestConverter}">
-                                <Binding ElementName="RemoteComm" Path="Tag"/>
-                                <Binding Source="{StaticResource AcIdx}"/>
-                            </MultiBinding>
-                        </Button.CommandParameter>
+                            Command="{Binding UnitTestCommand}"
+                            CommandParameter="{Binding Source={StaticResource AcIdx}}">
                     </Button>
                     <Grid>
                         <Grid.RowDefinitions>
@@ -74,13 +69,8 @@
                 <Button Content=" 리모트 변경 "
                         Foreground="{Binding ButtonColor[1]}"
                         Style="{StaticResource TestList_ItemNameButtonStyle}"
-                        Command="{Binding UnitTestCommand}">
-                    <Button.CommandParameter>
-                        <MultiBinding Converter="{StaticResource UnitTestConverter}">
-                            <Binding ElementName="RemoteComm" Path="Tag"/>
-                            <Binding Source="{StaticResource ChangeIdx}"/>
-                        </MultiBinding>
-                    </Button.CommandParameter>
+                        Command="{Binding UnitTestCommand}"
+                        CommandParameter="{Binding Source={StaticResource ChangeIdx}}">
                 </Button>
                 <!-- 화살표 이미지 -->
                 <fa:ImageAwesome Style="{StaticResource Allow}"/>
@@ -88,13 +78,8 @@
                 <Button Content=" 통신 점검 "
                         Foreground="{Binding ButtonColor[2]}"
                         Style="{StaticResource TestList_ItemNameButtonStyle}"
-                        Command="{Binding UnitTestCommand}">
-                    <Button.CommandParameter>
-                        <MultiBinding Converter="{StaticResource UnitTestConverter}">
-                            <Binding ElementName="RemoteComm" Path="Tag"/>
-                            <Binding Source="{StaticResource CommCheckIdx}"/>
-                        </MultiBinding>
-                    </Button.CommandParameter>
+                        Command="{Binding UnitTestCommand}"
+                        CommandParameter="{Binding Source={StaticResource CommCheckIdx}}">
                 </Button>
                 <!-- 화살표 이미지 -->
                 <fa:ImageAwesome Style="{StaticResource Allow}"/>
@@ -102,13 +87,8 @@
                 <Button Content=" 커넥터 변경 "
                         Foreground="{Binding ButtonColor[3]}"
                         Style="{StaticResource TestList_ItemNameButtonStyle}"
-                        Command="{Binding UnitTestCommand}">
-                    <Button.CommandParameter>
-                        <MultiBinding Converter="{StaticResource UnitTestConverter}">
-                            <Binding ElementName="RemoteComm" Path="Tag"/>
-                            <Binding Source="{StaticResource ConnChangeIdx}"/>
-                        </MultiBinding>
-                    </Button.CommandParameter>
+                        Command="{Binding UnitTestCommand}"
+                        CommandParameter="{Binding Source={StaticResource ConnChangeIdx}}">
                 </Button>
                 <!-- 화살표 이미지 -->
                 <fa:ImageAwesome Style="{StaticResource Allow}"/>
@@ -116,13 +96,8 @@
                 <Button Content=" 통신 점검 "
                         Foreground="{Binding ButtonColor[4]}"
                         Style="{StaticResource TestList_ItemNameButtonStyle}"
-                        Command="{Binding UnitTestCommand}">
-                    <Button.CommandParameter>
-                        <MultiBinding Converter="{StaticResource UnitTestConverter}">
-                            <Binding ElementName="RemoteComm" Path="Tag"/>
-                            <Binding Source="{StaticResource CommCheck2Idx}"/>
-                        </MultiBinding>
-                    </Button.CommandParameter>
+                        Command="{Binding UnitTestCommand}"
+                        CommandParameter="{Binding Source={StaticResource CommCheck2Idx}}">
                 </Button>
                 <!-- 화살표 이미지 -->
                 <fa:ImageAwesome Style="{StaticResource Allow}"/>
@@ -130,13 +105,8 @@
                 <Button Content=" 결과 저장 "
                         Foreground="{Binding ButtonColor[5]}"
                         Style="{StaticResource TestList_ItemNameButtonStyle}"
-                        Command="{Binding UnitTestCommand}">
-                    <Button.CommandParameter>
-                        <MultiBinding Converter="{StaticResource UnitTestConverter}">
-                            <Binding ElementName="RemoteComm" Path="Tag"/>
-                            <Binding Source="{StaticResource SaveIdx}"/>
-                        </MultiBinding>
-                    </Button.CommandParameter>
+                        Command="{Binding UnitTestCommand}"
+                        CommandParameter="{Binding Source={StaticResource SaveIdx}}">
                 </Button>
                 <!-- 화살표 이미지 -->
                 <fa:ImageAwesome Style="{StaticResource Allow}"/>
@@ -145,13 +115,8 @@
                     <Button Content=" 지연시간 "
                             Foreground="{Binding ButtonColor[6]}"
                             Style="{StaticResource TestList_ItemNameButtonStyle}"
-                            Command="{Binding UnitTestCommand}">
-                        <Button.CommandParameter>
-                            <MultiBinding Converter="{StaticResource UnitTestConverter}">
-                                <Binding ElementName="RemoteComm" Path="Tag"/>
-                                <Binding Source="{StaticResource NextDelayIdx}"/>
-                            </MultiBinding>
-                        </Button.CommandParameter>
+                            Command="{Binding UnitTestCommand}"
+                            CommandParameter="{Binding Source={StaticResource NextDelayIdx}}">
                     </Button>
                     <Grid>
                         <Grid.RowDefinitions>
@@ -172,13 +137,8 @@
                 <Button Content=" 다음 테스트 "
                         Foreground="{Binding ButtonColor[7]}"
                         Style="{StaticResource TestList_ItemNameButtonStyle}"
-                        Command="{Binding UnitTestCommand}">
-                    <Button.CommandParameter>
-                        <MultiBinding Converter="{StaticResource UnitTestConverter}">
-                            <Binding ElementName="RemoteComm" Path="Tag"/>
-                            <Binding Source="{StaticResource NextIdx}"/>
-                        </MultiBinding>
-                    </Button.CommandParameter>
+                        Command="{Binding UnitTestCommand}"
+                        CommandParameter="{Binding Source={StaticResource NextIdx}}">
                 </Button>
             </StackPanel>
         </StackPanel>

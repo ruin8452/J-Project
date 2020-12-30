@@ -180,10 +180,10 @@ namespace J_Project.ViewModel
             TestItemSetUnit currCal     = new TestItemSetUnit(CalDcCurrVM.TestName, new Cal_DC_출력전류_Setting_UI(0));
             TestItemSetUnit m200        = new TestItemSetUnit(M200ReadyVM.TestName, new M200Ready_Setting_UI(0));
             TestItemSetUnit m100        = new TestItemSetUnit(M100ReadyVM.TestName, new M100Ready_Setting_UI(0));
-            //TestItemSetUnit inrush    = new TestItemSetUnit(InitVM.TestName, new 초기세팅_Setting_UI(0));
+            TestItemSetUnit inrush      = new TestItemSetUnit(InrushVM.TestName, new 돌입전류_Setting_UI(0));
             TestItemSetUnit id          = new TestItemSetUnit(IdChangeVM.TestName, new IdChange_Setting_UI(0));
             TestItemSetUnit temp        = new TestItemSetUnit(TempVM.TestName, new 온도센서_점검_Setting_UI(0));
-            //TestItemSetUnit leakage   = new TestItemSetUnit(IdChangeVM.TestName, new IdChange_Setting_UI(0));
+            TestItemSetUnit leakage     = new TestItemSetUnit(LeakageVM.TestName, new 누설전류_Setting_UI(0));
             TestItemSetUnit local       = new TestItemSetUnit(LocalSwitchVM.TestName, new LocalSwitch_Setting_UI(0));
             TestItemSetUnit remote      = new TestItemSetUnit(RemoteCommVM.TestName, new RemoteComm_Setting_UI(0));
             TestItemSetUnit bat         = new TestItemSetUnit(BatteryCommVM.TestName, new BatteryComm_Setting_UI(0));
@@ -230,9 +230,9 @@ namespace J_Project.ViewModel
             TestList.Add(currCal);      // 전류 CAL
             TestList.Add(m200);         // M200 모드 준비
             TestList.Add(m100);         // M100 모드 준비
-            //TestList.Add(inrush);     // 돌입전류
+            TestList.Add(inrush);       // 돌입전류
             TestList.Add(id);           // ID 변경
-            //TestList.Add(leakage);    // 누설전류
+            TestList.Add(leakage);      // 누설전류
             TestList.Add(local);        // 로컬 스위치
             TestList.Add(remote);       // 리모트
             TestList.Add(bat);          // 배터리 통신

@@ -1,4 +1,4 @@
-﻿<Page x:Class="J_Project.UI.TestSeq.TestSetting.레귤레이션_100V_Setting_UI"
+﻿<Page x:Class="J_Project.UI.TestSeq.TestSetting.누설전류_Setting_UI"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -6,7 +6,7 @@
       xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
       xmlns:fa="clr-namespace:FontAwesome.WPF;assembly=FontAwesome.WPF"
       mc:Ignorable="d"
-      Title="로드_레귤레이션_Setting_UI">
+      Title="효율_Setting_UI">
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Unloaded">
@@ -17,16 +17,53 @@
     <Grid>
         <StackPanel>
             <!-- 테스트명-->
-            <TextBlock Text="{Binding TestName, Mode=OneWay}" Style="{StaticResource TestList_TestNameStyle}" />
+            <TextBlock Text="누설 전류" Style="{StaticResource TestList_TestNameStyle}" />
             <StackPanel Orientation="Horizontal" Margin="5">
+                <!-- AC 설정-->
+                <StackPanel>
+                    <TextBlock Text="AC" Style="{StaticResource TestList_ItemNameTextStyle}" />
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="전압(V)"    Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
+                        <TextBlock Text="전류(A)"    Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="1" />
+                        <TextBlock Text="주파수(Hz)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="2" />
+
+                        <TextBox Style="{StaticResource TestList_SetValueStyle}" Text="{Binding Leakage.AcVolt, Mode=TwoWay}" Grid.Column="0" Grid.Row="1" />
+                        <TextBox Style="{StaticResource TestList_SetValueStyle}" Text="{Binding Leakage.AcCurr, Mode=TwoWay}" Grid.Column="1" Grid.Row="1" />
+                        <TextBox Style="{StaticResource TestList_SetValueStyle}" Text="{Binding Leakage.AcFreq, Mode=TwoWay}" Grid.Column="2" Grid.Row="1" />
+                    </Grid>
+                </StackPanel>
+                <!-- 화살표 이미지 -->
+                <fa:ImageAwesome Style="{StaticResource Allow}"/>
+                <!-- 지연 시간 -->
+                <StackPanel>
+                    <TextBlock Text="지연시간" Style="{StaticResource TestList_ItemNameTextStyle}" />
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Text="대기(s)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
+
+                        <TextBox Style="{StaticResource TestList_SetValueStyle}" Text="{Binding Leakage.Delay1, Mode=TwoWay}" Grid.Column="0" Grid.Row="1" />
+                    </Grid>
+                </StackPanel>
+                <!-- 화살표 이미지 -->
+                <fa:ImageAwesome Style="{StaticResource Allow}"/>
                 <!-- 부하 설정 -->
                 <StackPanel>
                     <TextBlock Text="부하" Style="{StaticResource TestList_ItemNameTextStyle}" />
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="*" />
                             <RowDefinition Height="*" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
@@ -36,7 +73,7 @@
 
                         <TextBlock Text="전류(A)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
 
-                        <TextBox Style="{StaticResource TestList_SetValueStyle}" Text="{Binding Regul100.LoadCurr, Mode=TwoWay}" Grid.Column="0" Grid.Row="1" />
+                        <TextBox Style="{StaticResource TestList_SetValueStyle}" Text="{Binding Leakage.LoadCurr, Mode=TwoWay}" Grid.Column="0" Grid.Row="1" />
                     </Grid>
                 </StackPanel>
                 <!-- 화살표 이미지 -->
@@ -48,113 +85,57 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
                             <RowDefinition Height="*" />
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
 
                         <TextBlock Text="대기(s)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
 
-                        <TextBox Style="{StaticResource TestList_SetValueStyle}" Text="{Binding Regul100.Delay1, Mode=TwoWay}" Grid.Column="0" Grid.Row="1" />
-                    </Grid>
-                </StackPanel>
-                <!-- 화살표 이미지 -->
-                <fa:ImageAwesome Style="{StaticResource Allow}"/>
-                <!-- AC 설정-->
-                <StackPanel>
-                    <TextBlock Text="AC" Style="{StaticResource TestList_ItemNameTextStyle}" />
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-
-                        <TextBlock Text="전압(V)"    Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="1" />
-                        <TextBlock Text="전류(A)"    Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="2" />
-                        <TextBlock Text="주파수(Hz)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="3" />
-
-                        <TextBox Style="{StaticResource TestList_SetValueStyle}" Text="{Binding Regul100.AcVolt, Mode=TwoWay}" Grid.Column="1" Grid.Row="1" />
-                        <TextBox Style="{StaticResource TestList_SetValueStyle}" Text="{Binding Regul100.AcCurr, Mode=TwoWay}" Grid.Column="2" Grid.Row="1" />
-                        <TextBox Style="{StaticResource TestList_SetValueStyle}" Text="{Binding Regul100.AcFreq, Mode=TwoWay}" Grid.Column="3" Grid.Row="1" />
-                    </Grid>
-                </StackPanel>
-                <!-- 화살표 이미지 -->
-                <fa:ImageAwesome Style="{StaticResource Allow}"/>
-                <!-- 지연 시간 -->
-                <StackPanel>
-                    <TextBlock Text="지연시간" Style="{StaticResource TestList_ItemNameTextStyle}" />
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
-
-                        <TextBlock Text="대기(s)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
-
-                        <TextBox Style="{StaticResource TestList_SetValueStyle}" Text="{Binding Regul100.Delay2, Mode=TwoWay}" Grid.Column="0" Grid.Row="1" />
+                        <TextBox Style="{StaticResource TestList_SetValueStyle}" Text="{Binding Leakage.Delay2, Mode=TwoWay}" Grid.Column="0" Grid.Row="1" />
                     </Grid>
                 </StackPanel>
                 <!-- 화살표 이미지 -->
                 <fa:ImageAwesome Style="{StaticResource Allow}"/>
                 <!-- 합격 기준 -->
                 <StackPanel>
-                    <TextBlock Text="합격 기준" Style="{StaticResource TestList_ItemNameTextStyle}" />
+                    <TextBlock Text="누설 전류" Style="{StaticResource TestList_ItemNameTextStyle}" />
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="*" />
                             <RowDefinition Height="*" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <TextBlock Text="검사시간(s)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
-                        <TextBlock Text="최대전압(V)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="1" />
-                        <TextBlock Text="최소전압(V)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="2" />
 
-                        <TextBox Style="{StaticResource TestList_SetValueStyle}" Text="{Binding Regul100.CheckTiming,  Mode=TwoWay}" Grid.Column="0" Grid.Row="1" Width="70" />
-                        <TextBox Style="{StaticResource TestList_SetValueStyle}" Text="{Binding Regul100.LimitMaxVolt, Mode=TwoWay}" Grid.Column="1" Grid.Row="1" Width="70" />
-                        <TextBox Style="{StaticResource TestList_SetValueStyle}" Text="{Binding Regul100.LimitMinVolt, Mode=TwoWay}" Grid.Column="2" Grid.Row="1" Width="70" />
+                        <TextBlock Text="전류(A)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" Grid.ColumnSpan="2"/>
+
+                        <TextBox Style="{StaticResource TestList_SetValueStyle}" Text="{Binding Leakage.LimitLeakage, Mode=TwoWay}" Grid.Column="0" Grid.Row="1" />
+
+                        <TextBlock Text="이하" Grid.Row="1" Grid.Column="1" Foreground="White" Margin="0,0,1,0" HorizontalAlignment="Center" />
                     </Grid>
                 </StackPanel>
                 <!-- 화살표 이미지 -->
                 <fa:ImageAwesome Style="{StaticResource Allow}"/>
                 <!-- 결과 저장 -->
-                <TextBlock Text="결과 저장" Style="{StaticResource TestList_ItemNameTextStyle}" />
+                <TextBlock Text="결과 저장" Style="{StaticResource TestList_ItemNameTextStyle}"/>
                 <!-- 화살표 이미지 -->
                 <fa:ImageAwesome Style="{StaticResource Allow}"/>
                 <!-- 부하 OFF -->
-                <TextBlock Text="부하 OFF" Style="{StaticResource TestList_ItemNameTextStyle}" />
+                <TextBlock Text="부하 OFF" Style="{StaticResource TestList_ItemNameTextStyle}"/>
                 <!-- 화살표 이미지 -->
                 <fa:ImageAwesome Style="{StaticResource Allow}"/>
                 <!-- 지연 시간 -->
                 <StackPanel>
-                    <TextBlock Text="지연시간" Style="{StaticResource TestList_ItemNameTextStyle}" />
+                    <TextBlock Text="지연시간" Style="{StaticResource TestList_ItemNameTextStyle}"/>
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="*" />
                             <RowDefinition Height="*" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
 
                         <TextBlock Text="대기(s)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" />
 
-                        <TextBox Style="{StaticResource TestList_SetValueStyle}" Text="{Binding Regul100.NextTestWait, Mode=TwoWay}" Grid.Column="0" Grid.Row="1" />
+                        <TextBox Style="{StaticResource TestList_SetValueStyle}" Text="{Binding Leakage.NextTestWait, Mode=TwoWay}" Grid.Column="0" Grid.Row="1" />
                     </Grid>
                 </StackPanel>
                 <!-- 화살표 이미지 -->

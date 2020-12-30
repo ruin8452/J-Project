@@ -473,8 +473,10 @@ namespace J_Project.ViewModel
                     }
                     else
                     {
-                        AllTestVM.SecondOrderInit();
-                        csvReport.ReportSave(csvSavePath, new List<string[]>(AllTestVM.SecondOrder));
+                        AllTestVM.FirstOrderInit();
+                        csvReport.ReportSave(csvSavePath, new List<string[]>(AllTestVM.FirstOrder));
+                        //AllTestVM.SecondOrderInit();
+                        //csvReport.ReportSave(csvSavePath, new List<string[]>(AllTestVM.SecondOrder));
                     }
                 }
                 else if (writeTypeStr == "새로쓰기")
@@ -488,8 +490,10 @@ namespace J_Project.ViewModel
                     }
                     else
                     {
-                        AllTestVM.SecondOrderInit();
-                        csvReport.ReportSave(csvSavePath, new List<string[]>(AllTestVM.SecondOrder));
+                        AllTestVM.FirstOrderInit();
+                        csvReport.ReportSave(csvSavePath, new List<string[]>(AllTestVM.FirstOrder));
+                        //AllTestVM.SecondOrderInit();
+                        //csvReport.ReportSave(csvSavePath, new List<string[]>(AllTestVM.SecondOrder));
                     }
                 }
                 else if (writeTypeStr == "이어쓰기")
@@ -508,8 +512,10 @@ namespace J_Project.ViewModel
                 }
                 else
                 {
-                    AllTestVM.SecondOrderInit();
-                    csvReport.ReportSave(csvSavePath, new List<string[]>(AllTestVM.SecondOrder));
+                    AllTestVM.FirstOrderInit();
+                    csvReport.ReportSave(csvSavePath, new List<string[]>(AllTestVM.FirstOrder));
+                    //AllTestVM.SecondOrderInit();
+                    //csvReport.ReportSave(csvSavePath, new List<string[]>(AllTestVM.SecondOrder));
                 }
             }
 
@@ -914,10 +920,10 @@ namespace J_Project.ViewModel
                 TestItemUnit isoReg = new TestItemUnit() { TestIndex = 0, CaseIndex = 0, Checked = false, TestName = IsolResVM.TestName, Parents = null, remark = new IsolResVM(0) };
                 TestItemUnit isoPress = new TestItemUnit() { TestIndex = 0, CaseIndex = 0, Checked = false, TestName = IsolPressVM.TestName, Parents = null, remark = new IsolPressVM(0) };
                 TestItemUnit PowerSup = new TestItemUnit() { TestIndex = 0, CaseIndex = 0, Checked = false, TestName = PowerSupplyVM.TestName, Parents = null, remark = new PowerSupplyVM(0) };
-                TestItemUnit inrush = new TestItemUnit() { TestIndex = 0, CaseIndex = 0, Checked = false, TestName = PowerSupplyVM.TestName, Parents = null, remark = new InrushVM(0) };
+                TestItemUnit inrush = new TestItemUnit() { TestIndex = 0, CaseIndex = 0, Checked = false, TestName = InrushVM.TestName, Parents = null, TestExeUi = new 돌입전류_UI(0) };
                 TestItemUnit id = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = IdChangeVM.TestName, TestExeUi = new IdChange_UI(0) };
                 TestItemUnit temp = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = TempVM.TestName, TestExeUi = new 온도센서_점검_UI(0) };
-                TestItemUnit leakage = new TestItemUnit() { TestIndex = 0, CaseIndex = 0, Checked = false, TestName = PowerSupplyVM.TestName, Parents = null, remark = new Leakage(0) };
+                TestItemUnit leakage = new TestItemUnit() { TestIndex = 0, CaseIndex = 0, Checked = false, TestName = LeakageVM.TestName, Parents = null, TestExeUi = new 누설전류_UI(0) };
                 TestItemUnit local = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = LocalSwitchVM.TestName, TestExeUi = new LocalSwitch_UI(0) };
                 TestItemUnit remote = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = RemoteCommVM.TestName, TestExeUi = new RemoteComm_UI(0) };
                 TestItemUnit bat = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = BatteryCommVM.TestName, TestExeUi = new BatteryComm_UI(0) };
@@ -998,10 +1004,10 @@ namespace J_Project.ViewModel
                 M100.Child.Add(rtc);
 
                 TestTree.Add(init); // 초기세팅
-                //TestTree.Add(inrush); // 돌입전류
+                TestTree.Add(inrush); // 돌입전류
                 TestTree.Add(id); // ID 변경
                 TestTree.Add(temp); // 온도
-                //TestTree.Add(leakage); // 누설전류
+                TestTree.Add(leakage); // 누설전류
                 TestTree.Add(local); // Local Switch
                 TestTree.Add(remote); // 리모트 통신
                 TestTree.Add(bat); // 배터리 통신
@@ -1012,29 +1018,103 @@ namespace J_Project.ViewModel
             }
             else
             {
-                TestItemUnit test0 = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = NoLoadVM.TestName,       TestExeUi = new 무부하_전원_ON_UI(new NoLoad2VM(0)) };
-                TestItemUnit test1 = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = DcOutCheckVM.TestName,   TestExeUi = new DcOutCheck_UI(0) };
-                TestItemUnit test2 = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = LedCheck2VM.TestName,    TestExeUi = new LedCheck2_UI(new LedCheck2VM(0)) };
-                TestItemUnit test3 = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = RemoteCommVM.TestName,   TestExeUi = new RemoteComm_UI(new RemoteComm2VM(0)) };
-                TestItemUnit test4 = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = BatteryCommVM.TestName,  TestExeUi = new BatteryComm_UI(new BatteryComm2VM(0)) };
-                TestItemUnit test5 = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = LocalSwitch2VM.TestName, TestExeUi = new LocalSwitch_UI(new LocalSwitch2VM(0)) };
-                TestItemUnit test6 = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = ConnecterVM.TestName,    TestExeUi = new ConnecterCheck_UI(0) };
-                TestItemUnit test7 = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = PowerFactorVM.TestName,  TestExeUi = new 역률_UI(new PowerFactor2VM(0)) };
-                TestItemUnit test8 = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = NoiseVM.TestName,        TestExeUi = new 리플_노이즈_UI(new Noise2VM(0)) };
-                TestItemUnit test9 = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = RtcCheck2VM.TestName,    TestExeUi = new RTC_TIME_체크2_UI(0) };
-                TestItemUnit test10 = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = SerialSaveVM.TestName,  TestExeUi = new SerialSave_UI(0) };
+                TestItemUnit M200 = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = M200ReadyVM.TestName, TestExeUi = new M200Ready_UI(0) };
+                TestItemUnit M100 = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = M100ReadyVM.TestName, TestExeUi = new M100Ready_UI(0) };
 
-                TestTree.Add(test0);
-                TestTree.Add(test1);
-                TestTree.Add(test2);
-                TestTree.Add(test3);
-                TestTree.Add(test4);
-                TestTree.Add(test5);
-                TestTree.Add(test6);
-                TestTree.Add(test7);
-                TestTree.Add(test8);
-                TestTree.Add(test9);
-                TestTree.Add(test10);
+                TestItemUnit init = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = InitVM.TestName, TestExeUi = new 초기세팅_UI(0) };
+
+                TestItemUnit isoReg = new TestItemUnit() { TestIndex = 0, CaseIndex = 0, Checked = false, TestName = IsolResVM.TestName, Parents = null, remark = new IsolResVM(0) };
+                TestItemUnit isoPress = new TestItemUnit() { TestIndex = 0, CaseIndex = 0, Checked = false, TestName = IsolPressVM.TestName, Parents = null, remark = new IsolPressVM(0) };
+                TestItemUnit PowerSup = new TestItemUnit() { TestIndex = 0, CaseIndex = 0, Checked = false, TestName = PowerSupplyVM.TestName, Parents = null, remark = new PowerSupplyVM(0) };
+                TestItemUnit inrush = new TestItemUnit() { TestIndex = 0, CaseIndex = 0, Checked = false, TestName = InrushVM.TestName, Parents = null, TestExeUi = new 돌입전류_UI(0) };
+                TestItemUnit id = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = IdChangeVM.TestName, TestExeUi = new IdChange_UI(0) };
+                TestItemUnit temp = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = TempVM.TestName, TestExeUi = new 온도센서_점검_UI(0) };
+                TestItemUnit leakage = new TestItemUnit() { TestIndex = 0, CaseIndex = 0, Checked = false, TestName = LeakageVM.TestName, Parents = null, TestExeUi = new 누설전류_UI(0) };
+                TestItemUnit local = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = LocalSwitchVM.TestName, TestExeUi = new LocalSwitch_UI(0) };
+                TestItemUnit remote = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = RemoteCommVM.TestName, TestExeUi = new RemoteComm_UI(0) };
+                TestItemUnit bat = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = BatteryCommVM.TestName, TestExeUi = new BatteryComm_UI(0) };
+                TestItemUnit led = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = LedCheckVM.TestName, TestExeUi = new LedCheck_UI(0) };
+
+                //TestItemUnit noload = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = M200, TestName = NoLoadVM.TestName, TestExeUi = new 무부하_전원_ON_UI(0) };
+
+                TestItemUnit Reg200_1 = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = M200, TestName = RegulM200VM.TestName + " 1", TestExeUi = new 레귤레이션_200V_UI(0) };
+                TestItemUnit Reg200_2 = new TestItemUnit() { TestIndex = index++, CaseIndex = 1, Checked = false, Parents = M200, TestName = RegulM200VM.TestName + " 2", TestExeUi = new 레귤레이션_200V_UI(1) };
+                TestItemUnit Reg200_3 = new TestItemUnit() { TestIndex = index++, CaseIndex = 2, Checked = false, Parents = M200, TestName = RegulM200VM.TestName + " 3", TestExeUi = new 레귤레이션_200V_UI(2) };
+                TestItemUnit Reg200_4 = new TestItemUnit() { TestIndex = index++, CaseIndex = 3, Checked = false, Parents = M200, TestName = RegulM200VM.TestName + " 4", TestExeUi = new 레귤레이션_200V_UI(3) };
+                TestItemUnit Reg200_5 = new TestItemUnit() { TestIndex = index++, CaseIndex = 4, Checked = false, Parents = M200, TestName = RegulM200VM.TestName + " 5", TestExeUi = new 레귤레이션_200V_UI(4) };
+                TestItemUnit Reg200_6 = new TestItemUnit() { TestIndex = index++, CaseIndex = 5, Checked = false, Parents = M200, TestName = RegulM200VM.TestName + " 6", TestExeUi = new 레귤레이션_200V_UI(5) };
+                TestItemUnit Reg200_7 = new TestItemUnit() { TestIndex = index++, CaseIndex = 6, Checked = false, Parents = M200, TestName = RegulM200VM.TestName + " 7", TestExeUi = new 레귤레이션_200V_UI(6) };
+                TestItemUnit Reg200_8 = new TestItemUnit() { TestIndex = index++, CaseIndex = 7, Checked = false, Parents = M200, TestName = RegulM200VM.TestName + " 8", TestExeUi = new 레귤레이션_200V_UI(7) };
+                TestItemUnit Reg200_9 = new TestItemUnit() { TestIndex = index++, CaseIndex = 8, Checked = false, Parents = M200, TestName = RegulM200VM.TestName + " 9", TestExeUi = new 레귤레이션_200V_UI(8) };
+
+                TestItemUnit noise = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = M200, TestName = NoiseVM.TestName, TestExeUi = new 리플_노이즈_UI(0) };
+                TestItemUnit pf = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = M200, TestName = PowerFactorVM.TestName, TestExeUi = new 역률_UI(0) };
+                TestItemUnit effic = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = M200, TestName = EfficiencyVM.TestName, TestExeUi = new 효율_UI(0) };
+                TestItemUnit outLow = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = M200, TestName = OutputLowVM.TestName, TestExeUi = new 출력_저전압_보호_UI(0) };
+                TestItemUnit outHigh = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = M200, TestName = OutputHighVM.TestName, TestExeUi = new 출력_고전압_보호_UI(0) };
+                TestItemUnit acLow1 = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = M100, TestName = AcLowVM.TestName + " 1", TestExeUi = new AC_저전압_알람_UI(0) };
+                TestItemUnit acHigh = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = M200, TestName = AcHighVM.TestName, TestExeUi = new AC_고전압_알람_UI(0) };
+                TestItemUnit outOver1 = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = M200, TestName = OutputOverVM.TestName + " 1", TestExeUi = new 출력_과부하_보호_UI(0) };
+
+                TestItemUnit Reg100_1 = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = M100, TestName = RegulM100VM.TestName + " 1", TestExeUi = new 레귤레이션_100V_UI(0) };
+                TestItemUnit Reg100_2 = new TestItemUnit() { TestIndex = index++, CaseIndex = 1, Checked = false, Parents = M100, TestName = RegulM100VM.TestName + " 2", TestExeUi = new 레귤레이션_100V_UI(1) };
+                TestItemUnit Reg100_3 = new TestItemUnit() { TestIndex = index++, CaseIndex = 2, Checked = false, Parents = M100, TestName = RegulM100VM.TestName + " 3", TestExeUi = new 레귤레이션_100V_UI(2) };
+                TestItemUnit Reg100_4 = new TestItemUnit() { TestIndex = index++, CaseIndex = 3, Checked = false, Parents = M100, TestName = RegulM100VM.TestName + " 4", TestExeUi = new 레귤레이션_100V_UI(3) };
+                TestItemUnit Reg100_5 = new TestItemUnit() { TestIndex = index++, CaseIndex = 4, Checked = false, Parents = M100, TestName = RegulM100VM.TestName + " 5", TestExeUi = new 레귤레이션_100V_UI(4) };
+                TestItemUnit Reg100_6 = new TestItemUnit() { TestIndex = index++, CaseIndex = 5, Checked = false, Parents = M100, TestName = RegulM100VM.TestName + " 6", TestExeUi = new 레귤레이션_100V_UI(5) };
+                TestItemUnit Reg100_7 = new TestItemUnit() { TestIndex = index++, CaseIndex = 6, Checked = false, Parents = M100, TestName = RegulM100VM.TestName + " 7", TestExeUi = new 레귤레이션_100V_UI(6) };
+                TestItemUnit Reg100_8 = new TestItemUnit() { TestIndex = index++, CaseIndex = 7, Checked = false, Parents = M100, TestName = RegulM100VM.TestName + " 8", TestExeUi = new 레귤레이션_100V_UI(7) };
+                TestItemUnit Reg100_9 = new TestItemUnit() { TestIndex = index++, CaseIndex = 8, Checked = false, Parents = M100, TestName = RegulM100VM.TestName + " 9", TestExeUi = new 레귤레이션_100V_UI(8) };
+
+                TestItemUnit acLow2 = new TestItemUnit() { TestIndex = index++, CaseIndex = 1, Checked = false, Parents = M200, TestName = AcLowVM.TestName + " 2", TestExeUi = new AC_저전압_알람_UI(1) };
+                TestItemUnit acOut = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = M100, TestName = AcBlackOutVM.TestName, TestExeUi = new AC_정전전압_인식_UI(0) };
+                TestItemUnit outOver2 = new TestItemUnit() { TestIndex = index++, CaseIndex = 1, Checked = false, Parents = M100, TestName = OutputOverVM.TestName + " 2", TestExeUi = new 출력_과부하_보호_UI(1) };
+                TestItemUnit rtc = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = M200, TestName = RtcCheckVM.TestName, TestExeUi = new RTC_TIME_체크_UI(0) };
+
+                //M200.Child.Add(temp);
+                M200.Child.Add(Reg200_1);
+                M200.Child.Add(Reg200_2);
+                M200.Child.Add(Reg200_3);
+                M200.Child.Add(Reg200_4);
+                M200.Child.Add(Reg200_5);
+                M200.Child.Add(Reg200_6);
+                M200.Child.Add(Reg200_7);
+                M200.Child.Add(Reg200_8);
+                M200.Child.Add(Reg200_9);
+                M200.Child.Add(noise);
+                M200.Child.Add(pf);
+                M200.Child.Add(effic);
+                M200.Child.Add(outLow);
+                M200.Child.Add(outHigh);
+                M200.Child.Add(acLow1);
+                M200.Child.Add(acHigh);
+                M200.Child.Add(outOver1);
+
+                M100.Child.Add(Reg100_1);
+                M100.Child.Add(Reg100_2);
+                M100.Child.Add(Reg100_3);
+                M100.Child.Add(Reg100_4);
+                M100.Child.Add(Reg100_5);
+                M100.Child.Add(Reg100_6);
+                M100.Child.Add(Reg100_7);
+                M100.Child.Add(Reg100_8);
+                M100.Child.Add(Reg100_9);
+                M100.Child.Add(acLow2);
+                M100.Child.Add(acOut);
+                M100.Child.Add(outOver2);
+                M100.Child.Add(rtc);
+
+                TestTree.Add(init); // 초기세팅
+                TestTree.Add(inrush); // 돌입전류
+                TestTree.Add(id); // ID 변경
+                TestTree.Add(temp); // 온도
+                TestTree.Add(leakage); // 누설전류
+                TestTree.Add(local); // Local Switch
+                TestTree.Add(remote); // 리모트 통신
+                TestTree.Add(bat); // 배터리 통신
+                TestTree.Add(led); // LED
+                TestTree.Add(M200);  // 200V Mode
+                TestTree.Add(M100);  // 100V Mode
             }
 
             return TestTree;

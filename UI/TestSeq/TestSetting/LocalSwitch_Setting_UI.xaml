@@ -51,6 +51,10 @@
                 <TextBlock Text="스위치 점검" Style="{StaticResource TestList_ItemNameTextStyle}" />
                 <!-- 화살표 이미지 -->
                 <fa:ImageAwesome Style="{StaticResource Allow}"/>
+                <!-- 커넥터 점검 -->
+                <TextBlock Text="커넥터 체크" Style="{StaticResource TestList_ItemNameTextStyle}" />
+                <!-- 화살표 이미지 -->
+                <fa:ImageAwesome Style="{StaticResource Allow}"/>
                 <!-- 결과 저장 -->
                 <TextBlock Text="결과 저장" Style="{StaticResource TestList_ItemNameTextStyle}" />
                 <!-- 화살표 이미지 -->

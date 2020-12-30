@@ -2,42 +2,34 @@
 using J_Project.Equipment;
 using J_Project.Manager;
 using J_Project.TestMethod;
+using J_Project.UI.SubWindow;
 using J_Project.ViewModel.SubWindow;
 using System;
 using System.Collections.ObjectModel;
 using System.Text;
+using System.Windows;
 using System.Windows.Media;
 
 namespace J_Project.ViewModel.TestItem
 {
-    /**
-     *  @brief RTC TIME 체크 테스트 클래스(양산용)
-     *  @details RTC TIME 체크와 관련된 시퀀스 및 UI관련을 담당하는 클래스
-     *
-     *  @author SSW
-     *  @date 2020.02.25
-     *  @version 1.0.0
-     */
-    internal class RtcCheckVM : AllTestVM
+    class LeakageVM : AllTestVM
     {
         private enum Seq
         {
             AC_ON,
             DELAY1,
-            RTC_CHECK,
-            RTC_SET,
             LOAD_ON,
             DELAY2,
-            RTC_CHECK2,
+            LEAKAGE_CHECK,
             RESULT_SAVE,
             LOAD_OFF,
             NEXT_TEST_DELAY,
             END_TEST
         }
 
-        public static string TestName { get; } = "RTC TIME 체크";
+        public static string TestName { get; } = "누설전류";
         public int CaseNum { get; set; }
-        public RTC_TIME_체크 RtcCheck { get; set; }
+        public 누설전류 Leakage { get; set; }
         public TestOption Option { get; set; }
 
         public ObservableCollection<SolidColorBrush> ButtonColor { get; private set; }
@@ -45,16 +37,16 @@ namespace J_Project.ViewModel.TestItem
         public RelayCommand UnloadPage { get; set; }
         public RelayCommand<int> UnitTestCommand { get; set; }
 
-        public RtcCheckVM(int caseNum)
+        public LeakageVM(int caseNum)
         {
-            CaseNum = caseNum;
             TestLog = new StringBuilder();
+            CaseNum = caseNum;
 
-            TestOrterNum = (int)FirstTestOrder.Rtc + caseNum;
+            TestOrterNum = (int)FirstTestOrder.Leakage + caseNum;
             TotalStepNum = (int)Seq.END_TEST + 1;
 
-            RtcCheck = new RTC_TIME_체크();
-            RtcCheck = (RTC_TIME_체크)Test.Load(RtcCheck, CaseNum);
+            Leakage = new 누설전류();
+            Leakage = (누설전류)Test.Load(Leakage, CaseNum);
 
             Option = TestOption.GetObj();
             ButtonColor = new ObservableCollection<SolidColorBrush>();
@@ -78,7 +70,7 @@ namespace J_Project.ViewModel.TestItem
          */
         private void DataSave()
         {
-            Test.Save(RtcCheck, CaseNum);
+            Test.Save(Leakage, CaseNum);
         }
 
         /**
@@ -122,6 +114,7 @@ namespace J_Project.ViewModel.TestItem
          *  
          *  @return
          */
+        // 수동 테스트 동작 이벤트 함수(버튼 클릭)
         private void UnitTestClick(int unitIndex)
         {
             //string result = Test.EquiConnectCheck();
@@ -158,12 +151,12 @@ namespace J_Project.ViewModel.TestItem
 
             switch (stepName)
             {
-                case Seq.AC_ON: // AC 설정 및 ON
+                case Seq.AC_ON: // 초기 AC 설정
                     TestLog.AppendLine("[ AC ]");
 
                     double acVolt = PowerMeter.GetObj().AcVolt;
                     TestLog.AppendLine($"- AC : {acVolt}");
-                    if (Math.Abs(RtcCheck.AcVolt - acVolt) <= AC_ERR_RANGE)
+                    if (Math.Abs(Leakage.AcVolt - acVolt) <= AC_ERR_RANGE)
                     {
                         result = StateFlag.PASS;
                         break;
@@ -171,7 +164,7 @@ namespace J_Project.ViewModel.TestItem
 
                     if (Option.IsFullAuto)
                     {
-                        result = AcSourceSet(RtcCheck.AcVolt, RtcCheck.AcCurr, RtcCheck.AcFreq);
+                        result = AcSourceSet(Leakage.AcVolt, Leakage.AcCurr, Leakage.AcFreq);
                         TestLog.AppendLine($"- AC 세팅 결과 : {result}");
 
                         if (result != StateFlag.PASS)
@@ -190,7 +183,7 @@ namespace J_Project.ViewModel.TestItem
                     {
                         TestLog.AppendLine($"- AC 설정 팝업");
 
-                        result = AcCtrlWin(RtcCheck.AcVolt, AC_ERR_RANGE, AcCheckMode.NORMAL);
+                        result = AcCtrlWin(Leakage.AcVolt, AC_ERR_RANGE, AcCheckMode.NORMAL);
                         TestLog.AppendLine($"- AC 전원 결과 : {result}\n");
 
                         if (result != StateFlag.PASS)
@@ -200,26 +193,8 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.DELAY1:
                     TestLog.AppendLine("[ 딜레이1 ]\n");
-                    Util.Delay(RtcCheck.Delay1);
+                    Util.Delay(Leakage.Delay1);
                     result = StateFlag.PASS;
-                    break;
-
-                case Seq.RTC_CHECK: // RTC 검사
-                    TestLog.AppendLine("[ RTC 검사 ]");
-                    result = RtcCheckTest(RtcCheck.TimeErrRate);
-                    TestLog.AppendLine($"- 결과 : {result}\n");
-
-                    if (result != StateFlag.PASS)
-                        jumpStepNum = (int)Seq.RESULT_SAVE;
-                    break;
-
-                case Seq.RTC_SET:
-                    TestLog.AppendLine("[ RTC 설정 ]");
-                    result = RtcSet();
-                    TestLog.AppendLine($"- 결과 : {result}\n");
-
-                    if (result != StateFlag.PASS)
-                        jumpStepNum = (int)Seq.RESULT_SAVE;
                     break;
 
                 case Seq.LOAD_ON: // 부하 설정
@@ -227,7 +202,7 @@ namespace J_Project.ViewModel.TestItem
 
                     double loadVolt = Dmm2.GetObj().DcVolt;
                     TestLog.AppendLine($"- Load : {loadVolt}");
-                    if (Math.Abs(RtcCheck.LoadCurr - loadVolt) <= LOAD_ERR_RANGE)
+                    if (Math.Abs(Leakage.LoadCurr - loadVolt) <= LOAD_ERR_RANGE)
                     {
                         result = StateFlag.PASS;
                         break;
@@ -235,7 +210,7 @@ namespace J_Project.ViewModel.TestItem
 
                     if (Option.IsFullAuto)
                     {
-                        result = LoadCurrSet(RtcCheck.LoadCurr);
+                        result = LoadCurrSet(Leakage.LoadCurr);
                         TestLog.AppendLine($"- 부하 세팅 결과 : {result}");
 
                         if (result != StateFlag.PASS)
@@ -254,7 +229,7 @@ namespace J_Project.ViewModel.TestItem
                     {
                         TestLog.AppendLine($"- 부하 설정 팝업");
 
-                        result = LoadCtrlWin(RtcCheck.LoadCurr, LOAD_ERR_RANGE, LoadCheckMode.NORMAL);
+                        result = LoadCtrlWin(Leakage.LoadCurr, LOAD_ERR_RANGE, LoadCheckMode.NORMAL);
                         TestLog.AppendLine($"- 부하 전원 결과 : {result}\n");
 
                         if (result != StateFlag.PASS)
@@ -264,24 +239,62 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.DELAY2:
                     TestLog.AppendLine("[ 딜레이2 ]\n");
-                    Util.Delay(RtcCheck.Delay2);
+                    Util.Delay(Leakage.Delay2);
                     result = StateFlag.PASS;
                     break;
 
-                case Seq.RTC_CHECK2: // RTC 검사
-                    TestLog.AppendLine("[ RTC 검사 ]");
-                    result = RtcCheckTest(RtcCheck.TimeErrRate2);
-                    TestLog.AppendLine($"- 결과 : {result}\n");
+                case Seq.LEAKAGE_CHECK: // 결과 판단 & 성적서 작성
+                    TestLog.AppendLine("[ 누설전류 측정 ]");
+
+                    TestLog.AppendLine($"- 누설전류 입력 팝업");
+
+                    TextWindow textWindow = new TextWindow
+                    {
+                        Owner = Application.Current.MainWindow,
+                        WindowStartupLocation = WindowStartupLocation.CenterOwner
+                    };
+                    textWindow.ShowDialog();
+                    double leakageCurr = TextViewModel.Number;
+
+                    TestLog.AppendLine($"- 누설전류 : {leakageCurr}");
+
+                    if (leakageCurr <= Leakage.LimitLeakage)
+                    {
+                        TestLog.AppendLine($"- 테스트 합격");
+                        resultData = (leakageCurr.ToString(), "OK(합격)");
+                        result = StateFlag.PASS;
+                    }
+                    else
+                    {
+                        TestLog.AppendLine($"- 테스트 불합격 : 제한수치 초과");
+                        resultData = (leakageCurr.ToString(), "NG(불합격)");
+                        result = StateFlag.CONDITION_FAIL;
+                    }
                     break;
 
-                case Seq.RESULT_SAVE:
+                case Seq.RESULT_SAVE: // 결과 저장
                     TestLog.AppendLine("[ 결과 저장 ]");
                     result = ResultDataSave(TestOrterNum, resultData);
                     TestLog.AppendLine($"- 결과 : {result}\n");
                     break;
 
-                case Seq.LOAD_OFF:
+                case Seq.LOAD_OFF: // Load OFF
                     TestLog.AppendLine("[ 부하 OFF ]");
+
+                    if (!TestOption.GetObj().IsLoadManage)
+                    {
+                        TestLog.AppendLine("- 부하 관리 OFF");
+                        result = StateFlag.PASS;
+                        break;
+                    }
+
+                    loadVolt = Dmm2.GetObj().DcVolt;
+                    TestLog.AppendLine($"- Load : {loadVolt}");
+                    if (Math.Abs(0 - loadVolt) <= LOAD_ERR_RANGE)
+                    {
+                        result = StateFlag.PASS;
+                        break;
+                    }
 
                     if (Option.IsFullAuto)
                     {
@@ -302,7 +315,7 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.NEXT_TEST_DELAY:
                     TestLog.AppendLine("[ 다음 테스트 딜레이 ]\n");
-                    Util.Delay(RtcCheck.NextTestWait);
+                    Util.Delay(Leakage.NextTestWait);
                     result = StateFlag.PASS;
                     break;
 
@@ -316,75 +329,6 @@ namespace J_Project.ViewModel.TestItem
             }
 
             return result;
-        }
-
-        /**
-         *  @brief RTC 설정
-         *  @details 정류기의 RTC 값을 현재 시간으로 설정한다
-         *  
-         *  @param 
-         *  
-         *  @return StateFlag - 수행 결과
-         */
-        private StateFlag RtcSet()
-        {
-            bool cmdResult;
-
-            for (int i = 0; i < MAX_TRY_COUNT; i++)
-            {
-                TestLog.Append($"- RTC 설정 {i}회차 시도 -> ");
-
-                ushort data1 = (ushort)(((DateTime.Now.Year - 2000) << 8) + DateTime.Now.Month);
-                ushort data2 = (ushort)(((DateTime.Now.Day) << 8) + DateTime.Now.Hour);
-                ushort data3 = (ushort)((DateTime.Now.Minute << 8) + DateTime.Now.Second);
-
-                cmdResult = Rectifier.GetObj().RectCommand(CommandList.RTC_SET, data1, data2, data3);
-                if (cmdResult)
-                {
-                    TestLog.AppendLine($"성공");
-                    return StateFlag.PASS;
-                }
-                TestLog.AppendLine($"실패");
-            }
-
-            TestLog.AppendLine($"RTC 설정 실패");
-            return StateFlag.RTC_ERR;
-        }
-
-        /**
-         *  @brief RTC 검사
-         *  @details 테스트 시작 시 설정한 RTC가 테스트를 진행하면서 허용 오차 범위를 넘었는지 검사한다
-         *  
-         *  @param double timeErrRate - 허용 시간 오차
-         *  
-         *  @return StateFlag - 수행 결과
-         */
-        private StateFlag RtcCheckTest(double timeErrRate)
-        {
-            for (int i = 0; i < MAX_TRY_COUNT; i++)
-            {
-                TestLog.AppendLine($"- {i}회차 시도");
-
-                DateTime pcTime = DateTime.Now;
-                DateTime rectTime = Rectifier.GetObj().RectTime;
-                double errRateDb = Math.Abs((pcTime - rectTime).TotalSeconds);
-
-                TestLog.AppendLine($"- PC 시간 : {pcTime}");
-                TestLog.AppendLine($"- 정류기 시간 : {rectTime}");
-                TestLog.AppendLine($"- 현재오차 : {errRateDb}");
-                TestLog.AppendLine($"- 허용오차 : {timeErrRate}");
-
-                if (errRateDb < timeErrRate)
-                {
-                    TestLog.AppendLine($"- 테스트 합격");
-                    resultData = ("OK", "OK(합격)");
-                    return StateFlag.PASS;
-                }
-            }
-
-            TestLog.AppendLine($"- 테스트 불합격");
-            resultData = ("허용오차 초과", "NG(불합격)");
-            return StateFlag.CONDITION_FAIL;
         }
     }
 }

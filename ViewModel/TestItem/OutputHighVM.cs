@@ -40,7 +40,7 @@ namespace J_Project.ViewModel.TestItem
         public ObservableCollection<SolidColorBrush> ButtonColor { get; private set; }
 
         public RelayCommand UnloadPage { get; set; }
-        public RelayCommand<object> UnitTestCommand { get; set; }
+        public RelayCommand<int> UnitTestCommand { get; set; }
 
         public OutputHighVM(int caseNum)
         {
@@ -62,7 +62,7 @@ namespace J_Project.ViewModel.TestItem
                 ButtonColor.Add(Brushes.White);
 
             UnloadPage = new RelayCommand(DataSave);
-            UnitTestCommand = new RelayCommand<object>(UnitTestClick);
+            UnitTestCommand = new RelayCommand<int>(UnitTestClick);
         }
 
         /**
@@ -119,10 +119,8 @@ namespace J_Project.ViewModel.TestItem
          *  
          *  @return
          */
-        private void UnitTestClick(object value)
+        private void UnitTestClick(int unitIndex)
         {
-            object[] parameter = (object[])value;
-
             //string result = Test.EquiConnectCheck();
             //if (result.Length > 0)
             //{
@@ -130,12 +128,10 @@ namespace J_Project.ViewModel.TestItem
             //    return;
             //}
 
-            int caseIndex = int.Parse(parameter[0].ToString());
-            int unitIndex = int.Parse(parameter[1].ToString());
             int jumpNum = -1;
 
             TextColorChange(unitIndex, StateFlag.WAIT);
-            StateFlag resultState = TestSeq(caseIndex, unitIndex, ref jumpNum);
+            StateFlag resultState = TestSeq(0, unitIndex, ref jumpNum);
             TextColorChange(unitIndex, resultState);
         }
 
@@ -207,7 +203,7 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.OUT_HIGH_CHECK:
                     TestLog.AppendLine("[ 기능 검사 ]");
-                    result = RectOutHighCheck(caseNumber, OutputHigh.DcOutVolt, OutputHigh.DcErrRate, ref resultData);
+                    result = RectOutHighCheck(OutputHigh.DcOutVolt, OutputHigh.DcErrRate, ref resultData);
                     TestLog.AppendLine($"- 결과 : {result}\n");
                     if (result != StateFlag.PASS)
                         jumpStepNum = (int)Seq.RECT_RESET;
@@ -267,14 +263,13 @@ namespace J_Project.ViewModel.TestItem
          *  @brief 출력 고전압 인식 검사
          *  @details 정류기의 출력을 기준치 이상 강제로 올렸을 때, 출력 고전압 인식을 하는지 검사
          *  
-         *  @param int caseNum - 해당 테스트의 케이스 번호
          *  @param double outUp - 고전압 인식 기준치
          *  @param double errRate - 체크할 범위(기준값 ±범위값)
          *  @param ref (string, string) resultData - 테스트 결과
          *  
          *  @return StateFlag - 수행 결과
          */
-        private StateFlag RectOutHighCheck(int caseNum, double outUp, double errRate, ref (string, string) resultData)
+        private StateFlag RectOutHighCheck(double outUp, double errRate, ref (string, string) resultData)
         {
             Rectifier rect = Rectifier.GetObj();
             Dmm1 dmm1 = Dmm1.GetObj();

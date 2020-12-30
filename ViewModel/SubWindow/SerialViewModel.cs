@@ -68,6 +68,9 @@ namespace J_Project.ViewModel.SubWindow
         {
             int time = 20;
 
+            if (string.IsNullOrEmpty(SerialText))
+                return;
+
             Rect.RectCommand(CommandList.EEPROM_WRITE, 130, ushort.Parse(SerialText));
             Rect.RectCommand(CommandList.EEPROM_READ, 130);
 

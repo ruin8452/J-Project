@@ -10,7 +10,10 @@ using System.IO.Ports;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
+using System.Windows;
 using System.Windows.Media;
+using System.Windows.Threading;
 
 namespace J_Project.ViewModel.TestItem
 {
@@ -46,7 +49,7 @@ namespace J_Project.ViewModel.TestItem
 
         public RelayCommand LoadPage { get; set; }
         public RelayCommand UnloadPage { get; set; }
-        public RelayCommand<object> UnitTestCommand { get; set; }
+        public RelayCommand<int> UnitTestCommand { get; set; }
 
         private string[] ComportList;
 
@@ -57,8 +60,8 @@ namespace J_Project.ViewModel.TestItem
 
             TotalStepNum = (int)Seq.END_TEST + 1;
 
-            //Init = new 초기세팅();
-            Init = (초기세팅)Test.Load(new 초기세팅(), CaseNum);
+            Init = new 초기세팅();
+            Test.Load(Init, CaseNum);
 
             Option = TestOption.GetObj();
             ButtonColor = new ObservableCollection<SolidColorBrush>();
@@ -68,7 +71,7 @@ namespace J_Project.ViewModel.TestItem
 
             LoadPage = new RelayCommand(DataLoad);
             UnloadPage = new RelayCommand(DataSave);
-            UnitTestCommand = new RelayCommand<object>(UnitTestClick);
+            UnitTestCommand = new RelayCommand<int>(UnitTestClick);
         }
 
         /**
@@ -94,7 +97,7 @@ namespace J_Project.ViewModel.TestItem
          */
         private void DataLoad()
         {
-            Init = (초기세팅)Test.Load(Init, CaseNum);
+            Test.Load(Init, CaseNum);
         }
 
         /**
@@ -149,10 +152,8 @@ namespace J_Project.ViewModel.TestItem
          *  
          *  @return
          */
-        private void UnitTestClick(object value)
+        private void UnitTestClick(int unitIndex)
         {
-            object[] parameter = (object[])value;
-
             //string result = Test.EquiConnectCheck();
             //if (result.Length > 0)
             //{
@@ -160,12 +161,10 @@ namespace J_Project.ViewModel.TestItem
             //    return;
             //}
 
-            int caseIndex = int.Parse(parameter[0].ToString());
-            int unitIndex = int.Parse(parameter[1].ToString());
             int jumpNum = -1;
 
             TextColorChange(unitIndex, StateFlag.WAIT);
-            StateFlag resultState = TestSeq(caseIndex, unitIndex, ref jumpNum);
+            StateFlag resultState = TestSeq(0, unitIndex, ref jumpNum);
             TextColorChange(unitIndex, resultState);
         }
 

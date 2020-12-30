@@ -264,7 +264,7 @@ namespace J_Project.ViewModel.TestItem
                     result = StateFlag.PASS;
                     break;
 
-                case Seq.CONNECTER_CHECK: // 결과 판단 & 성적서 작성
+                case Seq.CONNECTER_CHECK: // 결과 판단
                     TestLog.AppendLine("[ 커넥터 체크 ]");
 
                     TestLog.AppendLine($"- 커넥터 체크 팝업");

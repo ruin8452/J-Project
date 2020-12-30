@@ -42,7 +42,7 @@ namespace J_Project.ViewModel.TestItem
         public ObservableCollection<SolidColorBrush> ButtonColor { get; private set; }
 
         public RelayCommand UnloadPage { get; set; }
-        public RelayCommand<object> UnitTestCommand { get; set; }
+        public RelayCommand<int> UnitTestCommand { get; set; }
 
         public OutputOverVM(int caseNum)
         {
@@ -64,7 +64,7 @@ namespace J_Project.ViewModel.TestItem
                 ButtonColor.Add(Brushes.White);
 
             UnloadPage = new RelayCommand(DataSave);
-            UnitTestCommand = new RelayCommand<object>(UnitTestClick);
+            UnitTestCommand = new RelayCommand<int>(UnitTestClick);
         }
 
         /**
@@ -121,10 +121,8 @@ namespace J_Project.ViewModel.TestItem
          *  
          *  @return
          */
-        private void UnitTestClick(object value)
+        private void UnitTestClick(int unitIndex)
         {
-            object[] parameter = (object[])value;
-
             //string result = Test.EquiConnectCheck();
             //if (result.Length > 0)
             //{
@@ -132,12 +130,10 @@ namespace J_Project.ViewModel.TestItem
             //    return;
             //}
 
-            int caseIndex = int.Parse(parameter[0].ToString());
-            int unitIndex = int.Parse(parameter[1].ToString());
             int jumpNum = -1;
 
             TextColorChange(unitIndex, StateFlag.WAIT);
-            StateFlag resultState = TestSeq(caseIndex, unitIndex, ref jumpNum);
+            StateFlag resultState = TestSeq(0, unitIndex, ref jumpNum);
             TextColorChange(unitIndex, resultState);
         }
 
@@ -286,7 +282,7 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.RESULT_CHECK: // 결과 판단
                     TestLog.AppendLine("[ 기능 검사 ]");
-                    result = PassFailCheckTest(caseNumber, OutputOver.CheckTiming, OutputOver.DcOutVolt, OutputOver.VoltErrRate, ref resultData);
+                    result = PassFailCheckTest(OutputOver.CheckTiming, OutputOver.DcOutVolt, OutputOver.VoltErrRate, ref resultData);
                     TestLog.AppendLine($"- 결과 : {result}\n");
                     break;
 
@@ -345,7 +341,6 @@ namespace J_Project.ViewModel.TestItem
          *  @brief 전압 복귀 검사
          *  @details 에러 인식 후 복구 시 정상 출력으로 복귀하는지 검사
          *  
-         *  @param int caseNum - 해당 테스트의 케이스 번호
          *  @param double timing - 복귀 제한 시간
          *  @param double dcOutVolt - 정상 전압값
          *  @param double errRate - 체크할 범위(기준값 ±범위값)
@@ -353,7 +348,7 @@ namespace J_Project.ViewModel.TestItem
          *  
          *  @return StateFlag - 수행 결과
          */
-        private StateFlag PassFailCheckTest(int caseNum, double timing, double dcOutVolt, double errRate, ref (string, string) resultData)
+        private StateFlag PassFailCheckTest(double timing, double dcOutVolt, double errRate, ref (string, string) resultData)
         {
             Dmm1 dmm = Dmm1.GetObj();
             double voltCheck = double.NaN;

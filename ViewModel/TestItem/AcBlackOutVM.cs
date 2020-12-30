@@ -47,7 +47,7 @@ namespace J_Project.ViewModel.TestItem
 
         public RelayCommand LoadPage { get; set; }
         public RelayCommand UnloadPage { get; set; }
-        public RelayCommand<object> UnitTestCommand { get; set; }
+        public RelayCommand<int> UnitTestCommand { get; set; }
 
         public AcBlackOutVM(int caseNum)
         {
@@ -70,7 +70,7 @@ namespace J_Project.ViewModel.TestItem
 
             LoadPage = new RelayCommand(DataLoad);
             UnloadPage = new RelayCommand(DataSave);
-            UnitTestCommand = new RelayCommand<object>(UnitTestClick);
+            UnitTestCommand = new RelayCommand<int>(UnitTestClick);
         }
 
         /**
@@ -140,10 +140,8 @@ namespace J_Project.ViewModel.TestItem
          *  
          *  @return
          */
-        private void UnitTestClick(object value)
+        private void UnitTestClick(int unitIndex)
         {
-            object[] parameter = (object[])value;
-
             //string result = Test.EquiConnectCheck();
             //if (result.Length > 0)
             //{
@@ -151,12 +149,10 @@ namespace J_Project.ViewModel.TestItem
             //    return;
             //}
 
-            int caseIndex = int.Parse(parameter[0].ToString());
-            int unitIndex = int.Parse(parameter[1].ToString());
             int jumpNum = -1;
 
             TextColorChange(unitIndex, StateFlag.WAIT);
-            StateFlag resultState = TestSeq(caseIndex, unitIndex, ref jumpNum);
+            StateFlag resultState = TestSeq(0, unitIndex, ref jumpNum);
             TextColorChange(unitIndex, resultState);
         }
 
@@ -286,7 +282,7 @@ namespace J_Project.ViewModel.TestItem
 
                     if (Option.IsFullAuto)
                     {
-                        result = AcBlackOutCheck(caseNumber, AcBlackOut.AcVoltOut, AcBlackOut.AcErrRate, ref resultData);
+                        result = AcBlackOutCheck(AcBlackOut.AcVoltOut, AcBlackOut.AcErrRate, ref resultData);
                         TestLog.AppendLine($"- AC 세팅 결과 : {result}\n");
 
                         if (result != StateFlag.PASS)
@@ -340,7 +336,7 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.RESULT_CHECK: // 결과 판단
                     TestLog.AppendLine("[ 기능 검사 ]");
-                    result = VoltCheckTest(caseNumber, AcBlackOut.CheckTiming, AcBlackOut.LimitMaxVolt, AcBlackOut.LimitMinVolt, ref resultData);
+                    result = VoltCheckTest(AcBlackOut.CheckTiming, AcBlackOut.LimitMaxVolt, AcBlackOut.LimitMinVolt, ref resultData);
                     TestLog.AppendLine($"- 결과 : {result}\n");
                     break;
 
@@ -399,14 +395,13 @@ namespace J_Project.ViewModel.TestItem
          *  @brief AC 정전 인식 검사
          *  @details AC 정전 인식을 정상적으로 수행하는지 판단한다
          *  
-         *  @param int caseNum - 해당 테스트의 케이스 번호
          *  @param double acBlackOut - 정전으로 인식하는 AC 기준값
          *  @param double errRate - 체크할 범위(기준값 ±범위값)
          *  @param ref (string, string) resultData - 테스트 결과
          *  
          *  @return StateFlag - 수행 결과
          */
-        private StateFlag AcBlackOutCheck(int caseNum, double acBlackOut, double errRate, ref (string, string) resultData)
+        private StateFlag AcBlackOutCheck(double acBlackOut, double errRate, ref (string, string) resultData)
         {
             PowerMeter pm = PowerMeter.GetObj();
             double minAc = acBlackOut - errRate;
@@ -446,7 +441,6 @@ namespace J_Project.ViewModel.TestItem
          *  @brief 전압 복귀 검사
          *  @details 에러 인식 후 복구 시 정상 출력으로 복귀하는지 검사
          *  
-         *  @param int caseNum - 해당 테스트의 케이스 번호
          *  @param double timing - 복귀 제한 시간
          *  @param double maxVolt - 정상 전압 최대값
          *  @param double minVolt - 정상 전압 최소값
@@ -454,7 +448,7 @@ namespace J_Project.ViewModel.TestItem
          *  
          *  @return StateFlag - 수행 결과
          */
-        private StateFlag VoltCheckTest(int caseNum, double timing, double maxVolt, double minVolt, ref (string, string) resultData)
+        private StateFlag VoltCheckTest(double timing, double maxVolt, double minVolt, ref (string, string) resultData)
         {
             Dmm1 dmm = Dmm1.GetObj();
             double voltCheck = double.NaN;

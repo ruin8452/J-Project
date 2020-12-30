@@ -7,8 +7,6 @@ namespace J_Project.UI.TestSeq.TestSetting
     /// </summary>
     public partial class 초기세팅_Setting_UI : Page, ITestSettingList
     {
-        //private List<TextBox> TextBoxList = new List<TextBox>();
-
         public 초기세팅_Setting_UI(int caseNum)
         {
             InitializeComponent();

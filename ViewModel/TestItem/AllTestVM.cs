@@ -88,7 +88,7 @@ namespace J_Project.ViewModel.TestItem
 
         // 첫 줄 기본 정보 삽입을 위해 배열의 크기 1+
         private static int FirstOrderCnt = Enum.GetNames(typeof(FirstTestOrder)).Length + 1;
-        private static int SecondOrderCnt = Enum.GetNames(typeof(SecondTestOrder)).Length + 1;
+        private static int SecondOrderCnt = Enum.GetNames(typeof(FirstTestOrder)).Length + 1;
         public static string[][] FirstOrder = new string[FirstOrderCnt][];
         public static string[][] SecondOrder = new string[SecondOrderCnt][];
 

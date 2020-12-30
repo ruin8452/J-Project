@@ -18,9 +18,10 @@
         <sys:Int32 x:Key="AcIdx">0</sys:Int32>
         <sys:Int32 x:Key="ChangeIdx">1</sys:Int32>
         <sys:Int32 x:Key="SwitchCheckIdx">2</sys:Int32>
-        <sys:Int32 x:Key="SaveIdx">3</sys:Int32>
-        <sys:Int32 x:Key="NextDelayIdx">4</sys:Int32>
-        <sys:Int32 x:Key="NextIdx">5</sys:Int32>
+        <sys:Int32 x:Key="ConnCheckIdx">3</sys:Int32>
+        <sys:Int32 x:Key="SaveIdx">4</sys:Int32>
+        <sys:Int32 x:Key="NextDelayIdx">5</sys:Int32>
+        <sys:Int32 x:Key="NextIdx">6</sys:Int32>
     </Page.Resources>
     
     <Grid>
@@ -33,13 +34,8 @@
                     <Button Content=" AC "
                             Foreground="{Binding ButtonColor[0]}"
                             Style="{StaticResource TestList_ItemNameButtonStyle}"
-                            Command="{Binding UnitTestCommand}">
-                        <Button.CommandParameter>
-                            <MultiBinding Converter="{StaticResource UnitTestConverter}">
-                                <Binding ElementName="LocalSwitchCheck" Path="Tag"/>
-                                <Binding Source="{StaticResource AcIdx}"/>
-                            </MultiBinding>
-                        </Button.CommandParameter>
+                            Command="{Binding UnitTestCommand}"
+                            CommandParameter="{Binding Source={StaticResource AcIdx}}">
                     </Button>
                     <Grid>
                         <Grid.RowDefinitions>
@@ -72,13 +68,8 @@
                 <Button Content=" 로컬 변경 "
                         Foreground="{Binding ButtonColor[1]}"
                         Style="{StaticResource TestList_ItemNameButtonStyle}"
-                        Command="{Binding UnitTestCommand}">
-                    <Button.CommandParameter>
-                        <MultiBinding Converter="{StaticResource UnitTestConverter}">
-                            <Binding ElementName="LocalSwitchCheck" Path="Tag"/>
-                            <Binding Source="{StaticResource ChangeIdx}"/>
-                        </MultiBinding>
-                    </Button.CommandParameter>
+                        Command="{Binding UnitTestCommand}"
+                        CommandParameter="{Binding Source={StaticResource ChangeIdx}}">
                 </Button>
                 <!-- 화살표 이미지 -->
                 <fa:ImageAwesome Style="{StaticResource Allow}"/>
@@ -86,42 +77,36 @@
                 <Button Content=" 스위치 점검 "
                         Foreground="{Binding ButtonColor[2]}"
                         Style="{StaticResource TestList_ItemNameButtonStyle}"
-                        Command="{Binding UnitTestCommand}">
-                    <Button.CommandParameter>
-                        <MultiBinding Converter="{StaticResource UnitTestConverter}">
-                            <Binding ElementName="LocalSwitchCheck" Path="Tag"/>
-                            <Binding Source="{StaticResource SwitchCheckIdx}"/>
-                        </MultiBinding>
-                    </Button.CommandParameter>
+                        Command="{Binding UnitTestCommand}"
+                        CommandParameter="{Binding Source={StaticResource SwitchCheckIdx}}">
+                </Button>
+                <!-- 화살표 이미지 -->
+                <fa:ImageAwesome Style="{StaticResource Allow}"/>
+                <!-- LED 점검 -->
+                <Button Content=" 커넥터 체크 "
+                        Foreground="{Binding ButtonColor[3]}"
+                        Style="{StaticResource TestList_ItemNameButtonStyle}"
+                        Command="{Binding UnitTestCommand}"
+                        CommandParameter="{Binding Source={StaticResource ConnCheckIdx}}">
                 </Button>
                 <!-- 화살표 이미지 -->
                 <fa:ImageAwesome Style="{StaticResource Allow}"/>
                 <!-- 결과 저장 -->
                 <Button Content=" 결과 저장 "
-                        Foreground="{Binding ButtonColor[3]}"
+                        Foreground="{Binding ButtonColor[4]}"
                         Style="{StaticResource TestList_ItemNameButtonStyle}"
-                        Command="{Binding UnitTestCommand}">
-                    <Button.CommandParameter>
-                        <MultiBinding Converter="{StaticResource UnitTestConverter}">
-                            <Binding ElementName="LocalSwitchCheck" Path="Tag"/>
-                            <Binding Source="{StaticResource SaveIdx}"/>
-                        </MultiBinding>
-                    </Button.CommandParameter>
+                        Command="{Binding UnitTestCommand}"
+                        CommandParameter="{Binding Source={StaticResource SaveIdx}}">
                 </Button>
                 <!-- 화살표 이미지 -->
                 <fa:ImageAwesome Style="{StaticResource Allow}"/>
                 <!-- 지연 시간 -->
                 <StackPanel>
                     <Button Content=" 지연시간 "
-                            Foreground="{Binding ButtonColor[4]}"
+                            Foreground="{Binding ButtonColor[5]}"
                             Style="{StaticResource TestList_ItemNameButtonStyle}"
-                            Command="{Binding UnitTestCommand}">
-                        <Button.CommandParameter>
-                            <MultiBinding Converter="{StaticResource UnitTestConverter}">
-                                <Binding ElementName="LocalSwitchCheck" Path="Tag"/>
-                                <Binding Source="{StaticResource NextDelayIdx}"/>
-                            </MultiBinding>
-                        </Button.CommandParameter>
+                            Command="{Binding UnitTestCommand}"
+                            CommandParameter="{Binding Source={StaticResource NextDelayIdx}}">
                     </Button>
                     <Grid>
                         <Grid.RowDefinitions>
@@ -140,15 +125,10 @@
                 <fa:ImageAwesome Style="{StaticResource Allow}"/>
                 <!-- 테스트명-->
                 <Button Content=" 다음 테스트 "
-                        Foreground="{Binding ButtonColor[5]}"
+                        Foreground="{Binding ButtonColor[6]}"
                         Style="{StaticResource TestList_ItemNameButtonStyle}"
-                        Command="{Binding UnitTestCommand}">
-                    <Button.CommandParameter>
-                        <MultiBinding Converter="{StaticResource UnitTestConverter}">
-                            <Binding ElementName="LocalSwitchCheck" Path="Tag"/>
-                            <Binding Source="{StaticResource NextIdx}"/>
-                        </MultiBinding>
-                    </Button.CommandParameter>
+                        Command="{Binding UnitTestCommand}"
+                        CommandParameter="{Binding Source={StaticResource NextIdx}}">
                 </Button>
             </StackPanel>
         </StackPanel>

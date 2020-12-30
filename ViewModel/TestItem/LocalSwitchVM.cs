@@ -27,6 +27,7 @@ namespace J_Project.ViewModel.TestItem
             AC_ON,
             LOCAL_CHANGE,
             SWITCH_CHECK,
+            CONNECTER_CHECK,
             RESULT_SAVE,
             NEXT_TEST_DELAY,
             END_TEST
@@ -40,7 +41,7 @@ namespace J_Project.ViewModel.TestItem
         public ObservableCollection<SolidColorBrush> ButtonColor { get; private set; }
 
         public RelayCommand UnloadPage { get; set; }
-        public RelayCommand<object> UnitTestCommand { get; set; }
+        public RelayCommand<int> UnitTestCommand { get; set; }
 
         public LocalSwitchVM(int caseNum)
         {
@@ -62,7 +63,7 @@ namespace J_Project.ViewModel.TestItem
                 ButtonColor.Add(Brushes.White);
 
             UnloadPage = new RelayCommand(DataSave);
-            UnitTestCommand = new RelayCommand<object>(UnitTestClick);
+            UnitTestCommand = new RelayCommand<int>(UnitTestClick);
         }
 
         /**
@@ -119,10 +120,8 @@ namespace J_Project.ViewModel.TestItem
          *  
          *  @return
          */
-        private void UnitTestClick(object value)
+        private void UnitTestClick(int unitIndex)
         {
-            object[] parameter = (object[])value;
-
             //string result = Test.EquiConnectCheck();
             //if (result.Length > 0)
             //{
@@ -130,12 +129,10 @@ namespace J_Project.ViewModel.TestItem
             //    return;
             //}
 
-            int caseIndex = int.Parse(parameter[0].ToString());
-            int unitIndex = int.Parse(parameter[1].ToString());
             int jumpNum = -1;
 
             TextColorChange(unitIndex, StateFlag.WAIT);
-            StateFlag resultState = TestSeq(caseIndex, unitIndex, ref jumpNum);
+            StateFlag resultState = TestSeq(0, unitIndex, ref jumpNum);
             TextColorChange(unitIndex, resultState);
         }
 
@@ -234,6 +231,33 @@ namespace J_Project.ViewModel.TestItem
                         TestLog.AppendLine($"- 테스트 불합격\n");
                         resultData = ("로컬 스위치 조작 오류", "NG(불합격)");
                         result = StateFlag.LOCAL_SWITCH_ERR;
+                    }
+                    break;
+
+                case Seq.CONNECTER_CHECK: // 커텍터 점검
+                    TestLog.AppendLine("[ 커넥터 체크 ]");
+
+                    TestLog.AppendLine($"- 커넥터 체크 팝업");
+
+                    ConnecterCheckWindow ConnectWindow = new ConnecterCheckWindow
+                    {
+                        Owner = Application.Current.MainWindow,
+                        WindowStartupLocation = WindowStartupLocation.CenterOwner
+                    };
+                    ConnectWindow.ShowDialog();
+                    subWinResult = ConnecterWinViewModel.PassOrFail;
+
+                    if (subWinResult == true)
+                    {
+                        TestLog.AppendLine($"- 테스트 합격\n");
+                        resultData = ("OK", "OK(합격)");
+                        result = StateFlag.PASS;
+                    }
+                    else if (subWinResult == false)
+                    {
+                        TestLog.AppendLine($"- 테스트 불합격\n");
+                        resultData = ("커넥터 오류", "NG(불합격)");
+                        result = StateFlag.ID_ERROR;
                     }
                     break;
 

@@ -27,6 +27,7 @@ namespace J_Project.ViewModel.TestItem
             AC_ON,
             LOCAL_CHANGE,
             SWITCH_CHECK,
+            CONNECTER_CHECK,
             RESULT_SAVE,
             NEXT_TEST_DELAY,
             END_TEST
@@ -237,6 +238,33 @@ namespace J_Project.ViewModel.TestItem
                         TestLog.AppendLine($"- 테스트 불합격\n");
                         resultData = ("로컬 스위치 조작 오류", "NG(불합격)");
                         result = StateFlag.LOCAL_SWITCH_ERR;
+                    }
+                    break;
+
+                case Seq.CONNECTER_CHECK: // 커텍터 점검
+                    TestLog.AppendLine("[ 커넥터 체크 ]");
+
+                    TestLog.AppendLine($"- 커넥터 체크 팝업");
+
+                    ConnecterCheckWindow ConnectWindow = new ConnecterCheckWindow
+                    {
+                        Owner = Application.Current.MainWindow,
+                        WindowStartupLocation = WindowStartupLocation.CenterOwner
+                    };
+                    ConnectWindow.ShowDialog();
+                    subWinResult = ConnecterWinViewModel.PassOrFail;
+
+                    if (subWinResult == true)
+                    {
+                        TestLog.AppendLine($"- 테스트 합격\n");
+                        resultData = ("OK", "OK(합격)");
+                        result = StateFlag.PASS;
+                    }
+                    else if (subWinResult == false)
+                    {
+                        TestLog.AppendLine($"- 테스트 불합격\n");
+                        resultData = ("커넥터 오류", "NG(불합격)");
+                        result = StateFlag.ID_ERROR;
                     }
                     break;
 

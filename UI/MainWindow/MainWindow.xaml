@@ -193,6 +193,13 @@
             </Grid>
 
             <StackPanel Orientation="Horizontal" Margin="3,3" Grid.Column="1" HorizontalAlignment="Right">
+                <Button Style="{StaticResource BtnBaseNormal}" ToolTip="시리얼 번호 저장" Background="{x:Null}" BorderBrush="{x:Null}" Margin="20,0" Command="{Binding SerialSaveCommand}">
+                    <StackPanel>
+                        <fa:ImageAwesome Foreground="White" Width="30" Height="35.2" Margin="0,0,0,3" Icon="ArrowCircleOutlineDown"/>
+                        <TextBlock Text="시리얼 번호 저장" Foreground="White" FontSize="8"/>
+                    </StackPanel>
+                </Button>
+                
                 <Button Style="{StaticResource BtnBaseNormal}" ToolTip="양산 CSV 폴더" Background="{x:Null}" BorderBrush="{x:Null}" Margin="10,0" Command="{Binding OpenCvsFolderCommand}">
                     <StackPanel>
                         <fa:ImageAwesome Icon="FileText" Foreground="White" Width="30" Margin="0,0,0,3"/>

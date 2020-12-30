@@ -48,6 +48,10 @@
                 <TextBlock Text="LED 점검" Style="{StaticResource TestList_ItemNameTextStyle}" />
                 <!-- 화살표 이미지 -->
                 <fa:ImageAwesome Style="{StaticResource Allow}"/>
+                <!-- 결과 저장 -->
+                <TextBlock Text="결과 저장" Style="{StaticResource TestList_ItemNameTextStyle}" />
+                <!-- 화살표 이미지 -->
+                <fa:ImageAwesome Style="{StaticResource Allow}"/>
                 <!-- 지연 시간 -->
                 <StackPanel>
                     <TextBlock Text="지연시간" Style="{StaticResource TestList_ItemNameTextStyle}" />

@@ -1,11 +1,4 @@
-﻿using Ivi.Visa.FormattedIO;
-using J_Project.Communication.CommFlags;
-using System;
-using System.Collections.Generic;
-using System.IO.Ports;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using J_Project.Communication.CommFlags;
 
 namespace J_Project.Communication.CommModule
 {

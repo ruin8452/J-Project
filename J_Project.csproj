@@ -191,11 +191,12 @@
     <Compile Include="TestMethod\Cal_AC_입력전압.cs" />
     <Compile Include="TestMethod\Cal_DC_출력전류.cs" />
     <Compile Include="TestMethod\Cal_DC_출력전압.cs" />
-    <Compile Include="TestMethod\EventArgsClass\ResultCheckEventArgs.cs" />
     <Compile Include="TestMethod\Test.cs" />
     <Compile Include="TestMethod\ConnecterCheck.cs" />
+    <Compile Include="TestMethod\누설전류.cs" />
     <Compile Include="TestMethod\레귤레이션_M200.cs" />
     <Compile Include="TestMethod\레귤레이션_M100.cs" />
+    <Compile Include="TestMethod\돌입전류.cs" />
     <Compile Include="TestMethod\리플_노이즈.cs" />
     <Compile Include="TestMethod\DcOutCheck.cs" />
     <Compile Include="TestMethod\무부하_전원_ON.cs" />
@@ -241,6 +242,9 @@
     </Compile>
     <Compile Include="UI\SubWindow\ReportProcessWindow.xaml.cs">
       <DependentUpon>ReportProcessWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\Execution\돌입전류_UI.xaml.cs">
+      <DependentUpon>돌입전류_UI.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\TestSeq\Execution\BatteryComm_UI.xaml.cs">
       <DependentUpon>BatteryComm_UI.xaml</DependentUpon>
@@ -343,6 +347,9 @@
     <Compile Include="UI\TestSeq\Execution\출력_저전압_보호_UI.xaml.cs">
       <DependentUpon>출력_저전압_보호_UI.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\TestSeq\Execution\누설전류_UI.xaml.cs">
+      <DependentUpon>누설전류_UI.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\TestSeq\Execution\효율_UI.xaml.cs">
       <DependentUpon>효율_UI.xaml</DependentUpon>
     </Compile>
@@ -425,6 +432,9 @@
     <Compile Include="UI\TestSeq\TestSetting\무부하_전원_ON_Setting_UI.xaml.cs">
       <DependentUpon>무부하_전원_ON_Setting_UI.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\TestSeq\TestSetting\돌입전류_Setting_UI.xaml.cs">
+      <DependentUpon>돌입전류_Setting_UI.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\TestSeq\TestSetting\역률_Setting_UI.xaml.cs">
       <DependentUpon>역률_Setting_UI.xaml</DependentUpon>
     </Compile>
@@ -448,6 +458,9 @@
     </Compile>
     <Compile Include="UI\TestSeq\TestSetting\RTC_TIME_체크_Setting_UI.xaml.cs">
       <DependentUpon>RTC_TIME_체크_Setting_UI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestSeq\TestSetting\누설전류_Setting_UI.xaml.cs">
+      <DependentUpon>누설전류_Setting_UI.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\TestSeq\TestSetting\효율_Setting_UI.xaml.cs">
       <DependentUpon>효율_Setting_UI.xaml</DependentUpon>
@@ -475,7 +488,7 @@
     <Compile Include="ViewModel\TestingPageVM.cs" />
     <Compile Include="ViewModel\TestItem\InrushVM.cs" />
     <Compile Include="ViewModel\TestItem\IsolPressVM.cs" />
-    <Compile Include="ViewModel\TestItem\Leakage.cs" />
+    <Compile Include="ViewModel\TestItem\LeakageVM.cs" />
     <Compile Include="ViewModel\TestItem\PowerSupplyVM.cs" />
     <Compile Include="ViewModel\TestItem\IsolResVM.cs" />
     <Compile Include="ViewModel\TestItem\AcHighVM.cs" />
@@ -563,6 +576,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\SubWindow\ReportProcessWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\Execution\돌입전류_UI.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -718,6 +735,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="UI\TestSeq\Execution\누설전류_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="UI\TestSeq\Execution\효율_UI.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -826,6 +847,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="UI\TestSeq\TestSetting\돌입전류_Setting_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="UI\TestSeq\TestSetting\역률_Setting_UI.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -855,6 +880,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\TestSeq\TestSetting\RTC_TIME_체크_Setting_UI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TestSeq\TestSetting\누설전류_Setting_UI.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

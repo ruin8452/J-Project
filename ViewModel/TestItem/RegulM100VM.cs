@@ -22,9 +22,9 @@ namespace J_Project.ViewModel.TestItem
     {
         private enum Seq
         {
-            AC_ON,
-            DELAY1,
             LOAD_ON,
+            DELAY1,
+            AC_ON,
             DELAY2,
             RESULT_CHECK,
             RESULT_SAVE,
@@ -41,7 +41,7 @@ namespace J_Project.ViewModel.TestItem
         public ObservableCollection<SolidColorBrush> ButtonColor { get; private set; }
 
         public RelayCommand UnloadPage { get; set; }
-        public RelayCommand<object> UnitTestCommand { get; set; }
+        public RelayCommand<int> UnitTestCommand { get; set; }
 
         public RegulM100VM(int caseNum)
         {
@@ -63,7 +63,7 @@ namespace J_Project.ViewModel.TestItem
                 ButtonColor.Add(Brushes.White);
 
             UnloadPage = new RelayCommand(DataSave);
-            UnitTestCommand = new RelayCommand<object>(UnitTestClick);
+            UnitTestCommand = new RelayCommand<int>(UnitTestClick);
         }
 
         /**
@@ -120,10 +120,8 @@ namespace J_Project.ViewModel.TestItem
          *  
          *  @return
          */
-        private void UnitTestClick(object value)
+        private void UnitTestClick(int unitIndex)
         {
-            object[] parameter = (object[])value;
-
             //string result = Test.EquiConnectCheck();
             //if (result.Length > 0)
             //{
@@ -131,12 +129,10 @@ namespace J_Project.ViewModel.TestItem
             //    return;
             //}
 
-            int caseIndex = int.Parse(parameter[0].ToString());
-            int unitIndex = int.Parse(parameter[1].ToString());
             int jumpNum = -1;
 
             TextColorChange(unitIndex, StateFlag.WAIT);
-            StateFlag resultState = TestSeq(caseIndex, unitIndex, ref jumpNum);
+            StateFlag resultState = TestSeq(0, unitIndex, ref jumpNum);
             TextColorChange(unitIndex, resultState);
         }
 
@@ -160,51 +156,6 @@ namespace J_Project.ViewModel.TestItem
 
             switch (stepName)
             {
-                case Seq.AC_ON: // 초기 AC 설정
-                    TestLog.AppendLine("[ AC ]");
-
-                    double acVolt = PowerMeter.GetObj().AcVolt;
-                    TestLog.AppendLine($"- AC : {acVolt}");
-                    if (Math.Abs(Regul100.AcVolt - acVolt) <= AC_ERR_RANGE)
-                    {
-                        result = StateFlag.PASS;
-                        break;
-                    }
-
-                    if (Option.IsFullAuto)
-                    {
-                        result = AcSourceSet(Regul100.AcVolt, Regul100.AcCurr, Regul100.AcFreq);
-                        TestLog.AppendLine($"- AC 세팅 결과 : {result}");
-
-                        if (result != StateFlag.PASS)
-                        {
-                            jumpStepNum = (int)Seq.RESULT_SAVE;
-                            break;
-                        }
-
-                        result = AcSourceOn();
-                        TestLog.AppendLine($"- AC 전원 결과 : {result}\n");
-
-                        if (result != StateFlag.PASS)
-                            jumpStepNum = (int)Seq.RESULT_SAVE;
-                    }
-                    else
-                    {
-                        TestLog.AppendLine($"- AC 설정 팝업");
-
-                        result = AcCtrlWin(Regul100.AcVolt, AC_ERR_RANGE, AcCheckMode.NORMAL);
-                        TestLog.AppendLine($"- AC 전원 결과 : {result}\n");
-
-                        if (result != StateFlag.PASS)
-                            jumpStepNum = (int)Seq.RESULT_SAVE;
-                    }
-                    break;
-
-                case Seq.DELAY1:
-                    TestLog.AppendLine("[ 딜레이1 ]\n");
-                    Util.Delay(Regul100.Delay1);
-                    result = StateFlag.PASS;
-                    break;
 
                 case Seq.LOAD_ON: // 부하 설정
                     TestLog.AppendLine("[ 부하 ON ]");
@@ -240,6 +191,52 @@ namespace J_Project.ViewModel.TestItem
 
                         result = LoadCtrlWin(Regul100.LoadCurr, LOAD_ERR_RANGE, LoadCheckMode.NORMAL);
                         TestLog.AppendLine($"- 부하 전원 결과 : {result}\n");
+
+                        if (result != StateFlag.PASS)
+                            jumpStepNum = (int)Seq.RESULT_SAVE;
+                    }
+                    break;
+
+                case Seq.DELAY1:
+                    TestLog.AppendLine("[ 딜레이1 ]\n");
+                    Util.Delay(Regul100.Delay1);
+                    result = StateFlag.PASS;
+                    break;
+
+                case Seq.AC_ON: // 초기 AC 설정
+                    TestLog.AppendLine("[ AC ]");
+
+                    double acVolt = PowerMeter.GetObj().AcVolt;
+                    TestLog.AppendLine($"- AC : {acVolt}");
+                    if (Math.Abs(Regul100.AcVolt - acVolt) <= AC_ERR_RANGE)
+                    {
+                        result = StateFlag.PASS;
+                        break;
+                    }
+
+                    if (Option.IsFullAuto)
+                    {
+                        result = AcSourceSet(Regul100.AcVolt, Regul100.AcCurr, Regul100.AcFreq);
+                        TestLog.AppendLine($"- AC 세팅 결과 : {result}");
+
+                        if (result != StateFlag.PASS)
+                        {
+                            jumpStepNum = (int)Seq.RESULT_SAVE;
+                            break;
+                        }
+
+                        result = AcSourceOn();
+                        TestLog.AppendLine($"- AC 전원 결과 : {result}\n");
+
+                        if (result != StateFlag.PASS)
+                            jumpStepNum = (int)Seq.RESULT_SAVE;
+                    }
+                    else
+                    {
+                        TestLog.AppendLine($"- AC 설정 팝업");
+
+                        result = AcCtrlWin(Regul100.AcVolt, AC_ERR_RANGE, AcCheckMode.NORMAL);
+                        TestLog.AppendLine($"- AC 전원 결과 : {result}\n");
 
                         if (result != StateFlag.PASS)
                             jumpStepNum = (int)Seq.RESULT_SAVE;

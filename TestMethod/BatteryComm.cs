@@ -1,17 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using J_Project.Equipment;
-using J_Project.FileSystem;
-using J_Project.Manager;
-using J_Project.TestMethod.EventArgsClass;
-using J_Project.ViewModel.SubWindow;
-using PropertyChanged;
-
-namespace J_Project.TestMethod
+﻿namespace J_Project.TestMethod
 {
     /**
      *  @brief 배터리 통신 테스트 세팅 데이터
