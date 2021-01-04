@@ -8,8 +8,8 @@
       xmlns:sys="clr-namespace:System;assembly=mscorlib"
       xmlns:fa="clr-namespace:FontAwesome.WPF;assembly=FontAwesome.WPF"
       mc:Ignorable="d"
-      x:Name="Efficiency"
-      Title="효율_UI"
+      x:Name="Leakage"
+      Title="누설전류_UI"
       Tag="0"> <!--Tag - 케이스 번호-->
 
     <Page.Resources>

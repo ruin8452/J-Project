@@ -19,7 +19,7 @@ namespace J_Project.Communication.CommModule
     class SerialComm : ICommModule
     {
         const double SEND_DELAY = 0.1;
-        const double RECIVE_DELAY = 0.1;
+        const double RECIVE_DELAY = 0.05;
         const int MAX_RETRY = 3;
 
         SerialPort ComPort;
@@ -156,7 +156,7 @@ namespace J_Project.Communication.CommModule
                     Debug.WriteLine("ErrPos04 : " + e.Message);
                     continue;
                 }
-                Util.Delay(0.1);
+                Util.Delay(0.01);
 
                 return TryResultFlag.SUCCESS;
             }
@@ -208,7 +208,7 @@ namespace J_Project.Communication.CommModule
                     token = 0;
                     continue;
                 }
-                Util.Delay(0.1);
+                Util.Delay(0.01);
 
                 return TryResultFlag.SUCCESS;
             }

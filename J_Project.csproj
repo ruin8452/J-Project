@@ -145,6 +145,7 @@
     <Compile Include="Communication\CommFlags\CommFlag.cs" />
     <Compile Include="Communication\CommModule\ICommModule.cs" />
     <Compile Include="Communication\CommModule\NullComm.cs" />
+    <Compile Include="Communication\CommModule\QueueComm.cs" />
     <Compile Include="Communication\CommModule\SerialComm.cs" />
     <Compile Include="Communication\CommModule\UsbComm.cs" />
     <Compile Include="Data\BasicInfo.cs" />

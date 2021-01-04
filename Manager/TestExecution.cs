@@ -132,7 +132,7 @@ namespace J_Project.Manager
             }
 
             OnUnitTestStart(new UnitTestStartEventArgs(TestList[TestIndex].TestExeUi.DataContext, AutoTestStepNum, ((AllTestVM)TestList[TestIndex].TestExeUi.DataContext).TotalStepNum));
-            StateFlag result = ((AllTestVM)TestList[TestIndex].TestExeUi.DataContext).TestSeq(TestList[TestIndex].CaseIndex, AutoTestStepNum, ref jumpIndex);
+            StateFlag result = ((AllTestVM)TestList[TestIndex].TestExeUi.DataContext).TestSeq(AutoTestStepNum, ref jumpIndex);
             OnUnitTestEnd(new UnitTestEndEventArgs(TestList[TestIndex].TestIndex, TestList[TestIndex].CaseIndex, AutoTestStepNum, result));
 
             Fault.FaultCheck(result);

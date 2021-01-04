@@ -204,7 +204,7 @@
 
                 <Border BorderBrush="#FF53609B" BorderThickness="2.5" CornerRadius="10" Margin="15,0,0,0" Padding="15" Grid.Column="1">
                     <ScrollViewer x:Name="SeqViewer" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Auto" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" PreviewMouseWheel="SeqViewer_PreviewMouseWheel" >
-                        <Frame NavigationUIVisibility="Hidden" Content="{Binding TestUi}"/>
+                        <Frame NavigationUIVisibility="Hidden" Content="{Binding TestUi}" VerticalAlignment="Center"/>
                     </ScrollViewer>
                 </Border>
             </Grid>

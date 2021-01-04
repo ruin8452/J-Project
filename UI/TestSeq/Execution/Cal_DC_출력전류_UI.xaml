@@ -55,8 +55,7 @@
                             Foreground="{Binding ButtonColor[0]}"
                             Style="{StaticResource TestList_ItemNameButtonStyle}"
                             Command="{Binding UnitTestCommand}"
-                            CommandParameter="{Binding Source={StaticResource Ac200Idx}}">
-                    </Button>
+                            CommandParameter="{Binding Source={StaticResource Ac200Idx}}"/>
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
@@ -89,8 +88,7 @@
                         Foreground="{Binding ButtonColor[1]}"
                         Style="{StaticResource TestList_ItemNameButtonStyle}"
                         Command="{Binding UnitTestCommand}"
-                        CommandParameter="{Binding Source={StaticResource AlramOff1Idx}}">
-                </Button>
+                        CommandParameter="{Binding Source={StaticResource AlramOff1Idx}}"/>
                 <!-- 화살표 이미지 -->
                 <fa:ImageAwesome Style="{StaticResource Allow}"/>
                 <!-- 지연 시간 -->
@@ -99,8 +97,7 @@
                             Foreground="{Binding ButtonColor[2]}"
                             Style="{StaticResource TestList_ItemNameButtonStyle}"
                             Command="{Binding UnitTestCommand}"
-                            CommandParameter="{Binding Source={StaticResource Delay1Idx}}">
-                    </Button>
+                            CommandParameter="{Binding Source={StaticResource Delay1Idx}}"/>
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
@@ -122,8 +119,7 @@
                             Foreground="{Binding ButtonColor[3]}"
                             Style="{StaticResource TestList_ItemNameButtonStyle}"
                             Command="{Binding UnitTestCommand}"
-                            CommandParameter="{Binding Source={StaticResource Load1Idx}}">
-                    </Button>
+                            CommandParameter="{Binding Source={StaticResource Load1Idx}}"/>
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
@@ -148,8 +144,7 @@
                             Foreground="{Binding ButtonColor[4]}"
                             Style="{StaticResource TestList_ItemNameButtonStyle}"
                             Command="{Binding UnitTestCommand}"
-                            CommandParameter="{Binding Source={StaticResource Delay2Idx}}">
-                    </Button>
+                            CommandParameter="{Binding Source={StaticResource Delay2Idx}}"/>
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
@@ -171,8 +166,7 @@
                             Foreground="{Binding ButtonColor[5]}"
                             Style="{StaticResource TestList_ItemNameButtonStyle}"
                             Command="{Binding UnitTestCommand}"
-                            CommandParameter="{Binding Source={StaticResource DacCalIdx}}">
-                    </Button>
+                            CommandParameter="{Binding Source={StaticResource DacCalIdx}}"/>
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
@@ -202,8 +196,7 @@
                             Foreground="{Binding ButtonColor[6]}"
                             Style="{StaticResource TestList_ItemNameButtonStyle}"
                             Command="{Binding UnitTestCommand}"
-                            CommandParameter="{Binding Source={StaticResource Delay3Idx}}">
-                    </Button>
+                            CommandParameter="{Binding Source={StaticResource Delay3Idx}}"/>
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
@@ -227,8 +220,7 @@
                             Foreground="{Binding ButtonColor[7]}"
                             Style="{StaticResource TestList_ItemNameButtonStyle}"
                             Command="{Binding UnitTestCommand}"
-                            CommandParameter="{Binding Source={StaticResource Default200Idx}}">
-                    </Button>
+                            CommandParameter="{Binding Source={StaticResource Default200Idx}}"/>
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
@@ -253,8 +245,7 @@
                             Foreground="{Binding ButtonColor[8]}"
                             Style="{StaticResource TestList_ItemNameButtonStyle}"
                             Command="{Binding UnitTestCommand}"
-                            CommandParameter="{Binding Source={StaticResource Delay4Idx}}">
-                    </Button>
+                            CommandParameter="{Binding Source={StaticResource Delay4Idx}}"/>
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
@@ -278,8 +269,7 @@
                             Foreground="{Binding ButtonColor[9]}"
                             Style="{StaticResource TestList_ItemNameButtonStyle}"
                             Command="{Binding UnitTestCommand}"
-                            CommandParameter="{Binding Source={StaticResource Load2Idx}}">
-                    </Button>
+                            CommandParameter="{Binding Source={StaticResource Load2Idx}}"/>
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
@@ -304,8 +294,7 @@
                             Foreground="{Binding ButtonColor[10]}"
                             Style="{StaticResource TestList_ItemNameButtonStyle}"
                             Command="{Binding UnitTestCommand}"
-                            CommandParameter="{Binding Source={StaticResource Delay5Idx}}">
-                    </Button>
+                            CommandParameter="{Binding Source={StaticResource Delay5Idx}}"/>
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
@@ -329,8 +318,7 @@
                             Foreground="{Binding ButtonColor[11]}"
                             Style="{StaticResource TestList_ItemNameButtonStyle}"
                             Command="{Binding UnitTestCommand}"
-                            CommandParameter="{Binding Source={StaticResource UpAdcCalIdx}}">
-                    </Button>
+                            CommandParameter="{Binding Source={StaticResource UpAdcCalIdx}}"/>
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
@@ -355,8 +343,7 @@
                             Foreground="{Binding ButtonColor[12]}"
                             Style="{StaticResource TestList_ItemNameButtonStyle}"
                             Command="{Binding UnitTestCommand}"
-                            CommandParameter="{Binding Source={StaticResource Delay6Idx}}">
-                    </Button>
+                            CommandParameter="{Binding Source={StaticResource Delay6Idx}}"/>
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
@@ -379,8 +366,7 @@
                         Foreground="{Binding ButtonColor[13]}"
                         Style="{StaticResource TestList_ItemNameButtonStyle}"
                         Command="{Binding UnitTestCommand}"
-                        CommandParameter="{Binding Source={StaticResource LoadOff1Idx}}">
-                </Button>
+                        CommandParameter="{Binding Source={StaticResource LoadOff1Idx}}"/>
                 <!-- 화살표 이미지 -->
                 <fa:ImageAwesome Style="{StaticResource Allow}"/>
                 <!-- 지연 시간 -->
@@ -414,8 +400,7 @@
                             Foreground="{Binding ButtonColor[15]}"
                             Style="{StaticResource TestList_ItemNameButtonStyle}"
                             Command="{Binding UnitTestCommand}"
-                            CommandParameter="{Binding Source={StaticResource LowAdcCalIdx}}">
-                    </Button>
+                            CommandParameter="{Binding Source={StaticResource LowAdcCalIdx}}"/>
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
@@ -440,8 +425,7 @@
                             Foreground="{Binding ButtonColor[16]}"
                             Style="{StaticResource TestList_ItemNameButtonStyle}"
                             Command="{Binding UnitTestCommand}"
-                            CommandParameter="{Binding Source={StaticResource Ac100Idx}}">
-                    </Button>
+                            CommandParameter="{Binding Source={StaticResource Ac100Idx}}"/>
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
@@ -474,8 +458,7 @@
                         Foreground="{Binding ButtonColor[17]}"
                         Style="{StaticResource TestList_ItemNameButtonStyle}"
                         Command="{Binding UnitTestCommand}"
-                        CommandParameter="{Binding Source={StaticResource RectResetIdx}}">
-                </Button>
+                        CommandParameter="{Binding Source={StaticResource RectResetIdx}}"/>
                 <!-- 화살표 이미지 -->
                 <fa:ImageAwesome Style="{StaticResource Allow}"/>
                 <!-- AC ON -->
@@ -483,8 +466,7 @@
                         Foreground="{Binding ButtonColor[18]}"
                         Style="{StaticResource TestList_ItemNameButtonStyle}"
                         Command="{Binding UnitTestCommand}"
-                        CommandParameter="{Binding Source={StaticResource AlramOff2Idx}}">
-                </Button>
+                        CommandParameter="{Binding Source={StaticResource AlramOff2Idx}}"/>
                 <!-- 화살표 이미지 -->
                 <fa:ImageAwesome Style="{StaticResource Allow}"/>
                 <!-- 지연 시간 -->
@@ -493,8 +475,7 @@
                             Foreground="{Binding ButtonColor[19]}"
                             Style="{StaticResource TestList_ItemNameButtonStyle}"
                             Command="{Binding UnitTestCommand}"
-                            CommandParameter="{Binding Source={StaticResource Delay8Idx}}">
-                    </Button>
+                            CommandParameter="{Binding Source={StaticResource Delay8Idx}}"/>
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
@@ -518,8 +499,7 @@
                             Foreground="{Binding ButtonColor[20]}"
                             Style="{StaticResource TestList_ItemNameButtonStyle}"
                             Command="{Binding UnitTestCommand}"
-                            CommandParameter="{Binding Source={StaticResource Load3Idx}}">
-                    </Button>
+                            CommandParameter="{Binding Source={StaticResource Load3Idx}}"/>
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
@@ -544,8 +524,7 @@
                             Foreground="{Binding ButtonColor[21]}"
                             Style="{StaticResource TestList_ItemNameButtonStyle}"
                             Command="{Binding UnitTestCommand}"
-                            CommandParameter="{Binding Source={StaticResource Delay9Idx}}">
-                    </Button>
+                            CommandParameter="{Binding Source={StaticResource Delay9Idx}}"/>
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
@@ -569,8 +548,7 @@
                             Foreground="{Binding ButtonColor[22]}"
                             Style="{StaticResource TestList_ItemNameButtonStyle}"
                             Command="{Binding UnitTestCommand}"
-                            CommandParameter="{Binding Source={StaticResource Default100Idx}}">
-                    </Button>
+                            CommandParameter="{Binding Source={StaticResource Default100Idx}}"/>
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
@@ -594,8 +572,7 @@
                         Foreground="{Binding ButtonColor[23]}"
                         Style="{StaticResource TestList_ItemNameButtonStyle}"
                         Command="{Binding UnitTestCommand}"
-                        CommandParameter="{Binding Source={StaticResource LoadOff2Idx}}">
-                </Button>
+                        CommandParameter="{Binding Source={StaticResource LoadOff2Idx}}"/>
                 <!-- 화살표 이미지 -->
                 <fa:ImageAwesome Style="{StaticResource Allow}"/>
                 <!-- 지연 시간 -->
@@ -603,8 +580,7 @@
                         Foreground="{Binding ButtonColor[24]}"
                         Style="{StaticResource TestList_ItemNameButtonStyle}"
                         Command="{Binding UnitTestCommand}"
-                        CommandParameter="{Binding Source={StaticResource RectReset2Idx}}">
-                </Button>
+                        CommandParameter="{Binding Source={StaticResource RectReset2Idx}}"/>
                 <!-- 화살표 이미지 -->
                 <fa:ImageAwesome Style="{StaticResource Allow}"/>
                 <!-- 지연 시간 -->
@@ -613,8 +589,7 @@
                             Foreground="{Binding ButtonColor[25]}"
                             Style="{StaticResource TestList_ItemNameButtonStyle}"
                             Command="{Binding UnitTestCommand}"
-                            CommandParameter="{Binding Source={StaticResource NextDelayIdx}}">
-                    </Button>
+                            CommandParameter="{Binding Source={StaticResource NextDelayIdx}}"/>
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
@@ -635,8 +610,7 @@
                         Foreground="{Binding ButtonColor[26]}"
                         Style="{StaticResource TestList_ItemNameButtonStyle}"
                         Command="{Binding UnitTestCommand}"
-                        CommandParameter="{Binding Source={StaticResource NextIdx}}">
-                </Button>
+                        CommandParameter="{Binding Source={StaticResource NextIdx}}"/>
             </StackPanel>
         </StackPanel>
     </Grid>

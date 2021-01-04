@@ -1,4 +1,5 @@
-﻿using J_Project.Communication.CommFlags;
+﻿using Communication.CommModule;
+using J_Project.Communication.CommFlags;
 using J_Project.Communication.CommModule;
 using J_Project.Manager;
 using PropertyChanged;
@@ -50,6 +51,7 @@ namespace J_Project.Equipment
     [ImplementPropertyChanged]
     public class Rectifier : Equipment
     {
+        QueueComm queueComm = new QueueComm("byte[]");
         private BackgroundWorker background = new BackgroundWorker();
 
         public event EventHandler MonitorRenewal;
@@ -192,11 +194,10 @@ namespace J_Project.Equipment
             sendCount = 0;
             receiveCount = 0;
 
-            //queueComm = new QueueComm(portName, baudRate);
-            //EquiCheckStr = queueComm.Connect();
+            //CommModule = new SerialComm(portName, baudRate);
+            //EquiCheckStr = CommModule.Connect();
 
-            CommModule = new SerialComm(portName, baudRate);
-            EquiCheckStr = CommModule.Connect();
+            EquiCheckStr = queueComm.Connect(portName, baudRate);
             if (EquiCheckStr == "Connected!")
             {
                 IsConnected = true;
@@ -217,8 +218,12 @@ namespace J_Project.Equipment
             EquiCheckStr = string.Empty;
             IsConnected = false;
             EquiMonitoring.Stop();
-            return CommModule.Disconnect();
-            //return queueComm.Disconnect();
+            //return CommModule.Disconnect();
+            bool result = queueComm.Disconnect();
+            if (result)
+                return TryResultFlag.SUCCESS;
+            else
+                return TryResultFlag.FAIL;
         }
 
         /**
@@ -242,14 +247,14 @@ namespace J_Project.Equipment
             sendStream = (byte[])Util.MakeCrc16_byte(sendStream, sendStream.Length, Util.CrcReturnOption.ARRAY);
 
             // 송신
-            TryResultFlag commResult = CommModule.CommSend(sendStream);
-            //TryResultFlag commResult = queueComm.CommSend(sendStream, out int code);
-            if (commResult == TryResultFlag.FAIL) { CommErrCount++; return false; }
+            //TryResultFlag commResult = CommModule.CommSend(sendStream);
+            bool commResult = queueComm.CommSend(sendStream, out int code);
+            if (commResult == false) { CommErrCount++; return false; }
             sendCount++;
             // 수신
-            commResult = CommModule.CommReceive(out byte[] reciveStream);
-            //commResult = queueComm.CommReceive(out byte[] reciveStream, code);
-            if (commResult == TryResultFlag.FAIL) { CommErrCount++; return false; }
+            //commResult = CommModule.CommReceive(out byte[] reciveStream);
+            commResult = queueComm.CommReceive(out byte[] reciveStream, code);
+            if (commResult == false) { CommErrCount++; return false; }
 
             reciveStream = ReciveDataCheck(reciveStream);
             if(reciveStream == null) { CommErrCount++; return false; }
@@ -376,14 +381,14 @@ namespace J_Project.Equipment
             listStream = (List<byte>)Util.MakeCrc16_byte(listStream.ToArray(), listStream.Count, Util.CrcReturnOption.LIST);
 
             // 송신
-            TryResultFlag commResult = CommModule.CommSend(listStream.ToArray());
-            //TryResultFlag commResult = queueComm.CommSend(listStream.ToArray(), out int code);
-            if (commResult == TryResultFlag.FAIL) { CommErrCount++; return false; }
+            //TryResultFlag commResult = CommModule.CommSend(listStream.ToArray());
+            bool commResult = queueComm.CommSend(listStream.ToArray(), out int code);
+            if (commResult == false) { CommErrCount++; return false; }
 
             // 수신
-            commResult = CommModule.CommReceive(out byte[] reciveStream);
-            //commResult = queueComm.CommReceive(out byte[] reciveStream, code);
-            if (commResult == TryResultFlag.FAIL) { CommErrCount++; return false; }
+            //commResult = CommModule.CommReceive(out byte[] reciveStream);
+            commResult = queueComm.CommReceive(out byte[] reciveStream, code);
+            if (commResult == false) { CommErrCount++; return false; }
 
             CommErrCount = 0;
             return ReciveDataCheck(listStream, new List<byte>(reciveStream));

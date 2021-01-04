@@ -511,13 +511,12 @@ namespace J_Project.ViewModel.TestItem
          *  @brief 테스트 시퀀스
          *  @details 해당 테스트의 시퀀스를 담당 및 수행한다
          *  
-         *  @param int caseNumbere - 해당 테스트의 케이스 번호
          *  @param int stepNumber - 실행할 세부 단계 번호
          *  @param ref int jumpStepNum - 점프할 세부 단계
          *  
          *  @return StateFlag - 수행 결과
          */
-        public abstract StateFlag TestSeq(int caseNumber, int stepNumber, ref int jumpStepNum);
+        public abstract StateFlag TestSeq(int stepNumber, ref int jumpStepNum);
         /**
          *  @brief 테스트 UI 텍스트 색 변경
          *  @details 양상 테스트 화면에서 해당 테스트 UI의 텍스트 색을 변경시킨다

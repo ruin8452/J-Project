@@ -920,10 +920,10 @@ namespace J_Project.ViewModel
                 TestItemUnit isoReg = new TestItemUnit() { TestIndex = 0, CaseIndex = 0, Checked = false, TestName = IsolResVM.TestName, Parents = null, remark = new IsolResVM(0) };
                 TestItemUnit isoPress = new TestItemUnit() { TestIndex = 0, CaseIndex = 0, Checked = false, TestName = IsolPressVM.TestName, Parents = null, remark = new IsolPressVM(0) };
                 TestItemUnit PowerSup = new TestItemUnit() { TestIndex = 0, CaseIndex = 0, Checked = false, TestName = PowerSupplyVM.TestName, Parents = null, remark = new PowerSupplyVM(0) };
-                TestItemUnit inrush = new TestItemUnit() { TestIndex = 0, CaseIndex = 0, Checked = false, TestName = InrushVM.TestName, Parents = null, TestExeUi = new 돌입전류_UI(0) };
+                TestItemUnit inrush = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, TestName = InrushVM.TestName, Parents = null, TestExeUi = new 돌입전류_UI(0) };
                 TestItemUnit id = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = IdChangeVM.TestName, TestExeUi = new IdChange_UI(0) };
                 TestItemUnit temp = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = TempVM.TestName, TestExeUi = new 온도센서_점검_UI(0) };
-                TestItemUnit leakage = new TestItemUnit() { TestIndex = 0, CaseIndex = 0, Checked = false, TestName = LeakageVM.TestName, Parents = null, TestExeUi = new 누설전류_UI(0) };
+                TestItemUnit leakage = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, TestName = LeakageVM.TestName, Parents = null, TestExeUi = new 누설전류_UI(0) };
                 TestItemUnit local = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = LocalSwitchVM.TestName, TestExeUi = new LocalSwitch_UI(0) };
                 TestItemUnit remote = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = RemoteCommVM.TestName, TestExeUi = new RemoteComm_UI(0) };
                 TestItemUnit bat = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = BatteryCommVM.TestName, TestExeUi = new BatteryComm_UI(0) };
@@ -1026,10 +1026,10 @@ namespace J_Project.ViewModel
                 TestItemUnit isoReg = new TestItemUnit() { TestIndex = 0, CaseIndex = 0, Checked = false, TestName = IsolResVM.TestName, Parents = null, remark = new IsolResVM(0) };
                 TestItemUnit isoPress = new TestItemUnit() { TestIndex = 0, CaseIndex = 0, Checked = false, TestName = IsolPressVM.TestName, Parents = null, remark = new IsolPressVM(0) };
                 TestItemUnit PowerSup = new TestItemUnit() { TestIndex = 0, CaseIndex = 0, Checked = false, TestName = PowerSupplyVM.TestName, Parents = null, remark = new PowerSupplyVM(0) };
-                TestItemUnit inrush = new TestItemUnit() { TestIndex = 0, CaseIndex = 0, Checked = false, TestName = InrushVM.TestName, Parents = null, TestExeUi = new 돌입전류_UI(0) };
+                TestItemUnit inrush = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, TestName = InrushVM.TestName, Parents = null, TestExeUi = new 돌입전류_UI(0) };
                 TestItemUnit id = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = IdChangeVM.TestName, TestExeUi = new IdChange_UI(0) };
                 TestItemUnit temp = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = TempVM.TestName, TestExeUi = new 온도센서_점검_UI(0) };
-                TestItemUnit leakage = new TestItemUnit() { TestIndex = 0, CaseIndex = 0, Checked = false, TestName = LeakageVM.TestName, Parents = null, TestExeUi = new 누설전류_UI(0) };
+                TestItemUnit leakage = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, TestName = LeakageVM.TestName, Parents = null, TestExeUi = new 누설전류_UI(0) };
                 TestItemUnit local = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = LocalSwitchVM.TestName, TestExeUi = new LocalSwitch_UI(0) };
                 TestItemUnit remote = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = RemoteCommVM.TestName, TestExeUi = new RemoteComm_UI(0) };
                 TestItemUnit bat = new TestItemUnit() { TestIndex = index++, CaseIndex = 0, Checked = false, Parents = null, TestName = BatteryCommVM.TestName, TestExeUi = new BatteryComm_UI(0) };
