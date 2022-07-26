@@ -37,7 +37,7 @@ namespace J_Project.ViewModel
 
         public DateTime PcTime { get; set; }
 
-        public string GuiVersion { get; set; } = "201211.1.2.0";    // 날짜.메인.서브.패치
+        public string GuiVersion { get; set; } = "210115.1.4.0";    // 날짜.메인.서브.패치
 
         public RelayCommand ClosingCommand { get; set; }
         public RelayCommand SerialSaveCommand { get; set; }
@@ -108,10 +108,10 @@ namespace J_Project.ViewModel
             textWindow.ShowDialog();
             subWinResult = SerialViewModel.CtrlResult;
 
-            if (subWinResult == true)
-                MessageBox.Show("시리얼 번호 저장 완료");
-            else
-                MessageBox.Show("시리얼 번호 저장 실패");
+            //if (subWinResult == true)
+            //    MessageBox.Show("시리얼 번호 저장 완료");
+            //else
+            //    MessageBox.Show("시리얼 번호 저장 실패");
         }
 
         /**
@@ -327,7 +327,11 @@ namespace J_Project.ViewModel
             string ConnectResult;
             if (Dmm1.IsConnected == false)
             {
-                ConnectResult = Dmm1.Connect(EquiConnectID.GetObj().Dmm1ID);
+                if (EquiConnectID.GetObj().Dmm1ID.StartsWith("COM", StringComparison.Ordinal) == true)
+                    ConnectResult = Dmm1.Connect(EquiConnectID.GetObj().Dmm1ID, 9600);
+                else
+                    ConnectResult = Dmm1.Connect(EquiConnectID.GetObj().Dmm1ID);
+
                 if (ConnectResult == "Connected!")
                     Dmm1.EquiCheck();
             }

@@ -17,6 +17,10 @@ namespace J_Project.TestMethod
         public double DcVolt { get; set; } = 0;
         public double DcCurr { get; set; } = 0;
 
+        public double AcVolt { get; set; } = 0;
+        public double AcCurr { get; set; } = 0;
+        public double AcFreq { get; set; } = 0;
+
         public double Delay1 { get; set; } = 0;
         public double NextTestWait { get; set; } = 0;
     }

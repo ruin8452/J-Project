@@ -3,17 +3,15 @@ using J_Project.Data;
 using J_Project.Equipment;
 using J_Project.Manager;
 using J_Project.TestMethod;
-using PropertyChanged;
+using J_Project.ViewModel.SubWindow;
 using System;
 using System.Collections.ObjectModel;
 using System.IO.Ports;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading;
 using System.Windows;
 using System.Windows.Media;
-using System.Windows.Threading;
 
 namespace J_Project.ViewModel.TestItem
 {
@@ -25,7 +23,6 @@ namespace J_Project.ViewModel.TestItem
      *  @date 2020.02.25
      *  @version 1.0.0
      */
-    [ImplementPropertyChanged]
     public class InitVM : AllTestVM
     {
         private enum Seq
@@ -34,6 +31,9 @@ namespace J_Project.ViewModel.TestItem
             DELAY1,
             RECT_CONNECT,
             RTC_SET,
+            AC_ON,
+            RECT_RESET,
+            DC_OFF,
             NEXT_TEST_DELAY,
             END_TEST
         }
@@ -42,8 +42,6 @@ namespace J_Project.ViewModel.TestItem
         public int CaseNum { get; set; }
         public 초기세팅 Init { get; set; }
         public TestOption Option { get; set; }
-
-        public bool IsRightText { get; set; }
 
         public ObservableCollection<SolidColorBrush> ButtonColor { get; private set; }
 
@@ -141,7 +139,7 @@ namespace J_Project.ViewModel.TestItem
 
             Regex regex = new Regex(@"^(-?[0-9]+(.?[0-9]+)?)+$"); // 정수 및 실수 판단용 정규식
 
-            IsRightText = regex.IsMatch(text);
+            regex.IsMatch(text);
         }
 
         /**
@@ -217,7 +215,19 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.RECT_CONNECT:
                     string[] tempComport = SerialPort.GetPortNames();
-                    EquiConnectID.GetObj().RectID = tempComport.Except(ComportList).ToArray().First();
+
+                    // 차집합 후 값이 있다면 대체, 없다면 그대로 접속
+                    try
+                    {
+                        EquiConnectID.GetObj().RectID = tempComport.Except(ComportList).ToArray().First();
+                    }
+                    catch(Exception)
+                    {
+                        //MessageBox.Show("정류기 포트 없음");
+                        //result = StateFlag.RECT_RESET_ERR;
+                        //break;
+
+                    }
 
                     TestLog.AppendLine("[ 정류기 접속 ]");
                     if (Rectifier.GetObj().IsConnected)
@@ -241,6 +251,9 @@ namespace J_Project.ViewModel.TestItem
                     {
                         TestLog.AppendLine("실패\n");
                         result = StateFlag.RECT_CONNECT_ERR;
+
+                        if (result != StateFlag.PASS)
+                            jumpStepNum = (int)Seq.DC_OFF;
                     }
 
                     break;
@@ -253,6 +266,77 @@ namespace J_Project.ViewModel.TestItem
                     if (result != StateFlag.PASS)
                         jumpStepNum = (int)Seq.END_TEST;
                     break;
+
+                case Seq.AC_ON:
+                    TestLog.AppendLine("[ AC ]");
+
+                    double acVolt = PowerMeter.GetObj().AcVolt;
+                    TestLog.AppendLine($"- AC : {acVolt}");
+                    if (Math.Abs(Init.AcVolt - acVolt) <= AC_ERR_RANGE)
+                    {
+                        result = StateFlag.PASS;
+                        break;
+                    }
+
+                    if (Option.IsFullAuto)
+                    {
+                        result = AcSourceSet(Init.AcVolt, Init.AcCurr, Init.AcFreq);
+                        TestLog.AppendLine($"- AC 세팅 결과 : {result}");
+
+                        if (result != StateFlag.PASS)
+                        {
+                            jumpStepNum = (int)Seq.END_TEST;
+                            break;
+                        }
+
+                        result = AcSourceOn();
+                        TestLog.AppendLine($"- AC 전원 결과 : {result}\n");
+
+                        if (result != StateFlag.PASS)
+                            jumpStepNum = (int)Seq.END_TEST;
+                    }
+                    else
+                    {
+                        TestLog.AppendLine($"- AC 설정 팝업");
+
+                        result = AcCtrlWin(Init.AcVolt, AC_ERR_RANGE);
+                        TestLog.AppendLine($"- AC 전원 결과 : {result}\n");
+
+                        if (result != StateFlag.PASS)
+                            jumpStepNum = (int)Seq.END_TEST;
+                    }
+                    break;
+
+                case Seq.RECT_RESET:
+                    TestLog.AppendLine("[ 정류기 리셋 ]\n");
+
+                    for (int i = 0; i < 3; i++)
+                    {
+                        TestLog.Append($"- 리셋 시도 {i + 1}회차 -> ");
+                        Rectifier.GetObj().RectCommand(CommandList.SW_RESET, 1);
+                        Util.Delay(8);
+
+                        if (Rectifier.GetObj().AcInVoltMode == "200V")
+                        {
+                            TestLog.AppendLine($"성공");
+                            return StateFlag.PASS;
+                        }
+                        TestLog.AppendLine($"실패");
+                    }
+                    TestLog.AppendLine($"- RECT 리셋 실패\n");
+                    result = StateFlag.RECT_RESET_ERR;
+                    break;
+
+                case Seq.DC_OFF:
+                    TestLog.AppendLine("[ DC OFF ]");
+
+                    result = DcSourceOff();
+                    TestLog.AppendLine($"- DC 전원 결과 : {result}\n");
+
+                    if (result != StateFlag.PASS)
+                        jumpStepNum = (int)Seq.END_TEST;
+                    break;
+
 
                 case Seq.NEXT_TEST_DELAY:
                     TestLog.AppendLine("[ 다음 테스트 딜레이 ]\n");

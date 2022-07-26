@@ -51,7 +51,7 @@ namespace J_Project.ViewModel.TestItem
             TotalStepNum = (int)Seq.END_TEST + 1;
 
             OutputLow = new 출력_저전압_보호();
-            OutputLow = (출력_저전압_보호)Test.Load(OutputLow, CaseNum);
+            Test.Load(OutputLow, CaseNum);
 
             Option = TestOption.GetObj();
             ButtonColor = new ObservableCollection<SolidColorBrush>();
@@ -186,7 +186,7 @@ namespace J_Project.ViewModel.TestItem
                     {
                         TestLog.AppendLine($"- AC 설정 팝업");
 
-                        result = AcCtrlWin(OutputLow.AcVolt, AC_ERR_RANGE, AcCheckMode.NORMAL);
+                        result = AcCtrlWin(OutputLow.AcVolt, AC_ERR_RANGE);
                         TestLog.AppendLine($"- AC 전원 결과 : {result}\n");
 
                         if (result != StateFlag.PASS)
@@ -227,7 +227,7 @@ namespace J_Project.ViewModel.TestItem
                     {
                         TestLog.Append($"- 리셋 시도 {i + 1}회차 -> ");
                         Rectifier.GetObj().RectCommand(CommandList.SW_RESET, 1);
-                        Util.Delay(7);
+                        Util.Delay(8);
 
                         if (Rectifier.GetObj().AcInVoltMode == "200V")
                         {

@@ -398,11 +398,11 @@ namespace J_Project.ViewModel.TestItem
          *  
          *  @return StateFlag - 설정 결과
          */
-        protected StateFlag AcCtrlWin(double acSetVolt, int errRange, AcCheckMode acMode)
+        protected StateFlag AcCtrlWin(double acSetVolt, int errRange)
         {
             StateFlag result;
 
-            AcCtrlViewModel.SetAcCheck(acSetVolt, errRange, acMode);
+            AcCtrlViewModel.SetAcCheck(acSetVolt, errRange);
             AcCtrlWindow acCtrlWindow = new AcCtrlWindow
             {
                 Owner = Application.Current.MainWindow,
@@ -412,6 +412,38 @@ namespace J_Project.ViewModel.TestItem
             subWinResult = AcCtrlViewModel.CtrlResult;
 
             // AC파워 조작 상태에 따른 분기
+            if (subWinResult == true)
+                result = StateFlag.PASS;
+            else
+                result = StateFlag.TEST_PAUSE;
+
+            return result;
+        }
+
+        /**
+         *  @brief 정류기 AC 알람 윈도우
+         *  @details 서브 윈도우를 띄워 정류기 AC 알람을 유도한다
+         *  
+         *  @param double acSetVolt - 설정해야 할 AC 전압
+         *  @param double errRange - 허용오차
+         *  @param AcCheckMode acMode - AC 상태 감지 모드(노멀, 저전압, 고전압, 정전)
+         *  
+         *  @return StateFlag - 설정 결과
+         */
+        protected StateFlag RectAcWin(double acSetVolt, AlarmCheckMode checkMode)
+        {
+            StateFlag result;
+
+            RectAcViewModel.SetAcCheck(acSetVolt, checkMode);
+            RectAcWindow acCtrlWindow = new RectAcWindow
+            {
+                Owner = Application.Current.MainWindow,
+                WindowStartupLocation = WindowStartupLocation.CenterOwner
+            };
+            acCtrlWindow.ShowDialog();
+            subWinResult = RectAcViewModel.CtrlResult;
+
+            // 정류기 AC 알람 상태에 따른 분기
             if (subWinResult == true)
                 result = StateFlag.PASS;
             else
@@ -436,38 +468,6 @@ namespace J_Project.ViewModel.TestItem
 
             LoadCtrlViewModel.SetLoadCheck(loadSetVolt, errRange, loadMode);
             LoadCtrlWindow loadCtrlWindow = new LoadCtrlWindow
-            {
-                Owner = Application.Current.MainWindow,
-                WindowStartupLocation = WindowStartupLocation.CenterOwner
-            };
-            loadCtrlWindow.ShowDialog();
-            subWinResult = LoadCtrlViewModel.CtrlResult;
-
-            // 부하 조작 상태에 따른 분기
-            if (subWinResult == true)
-                result = StateFlag.PASS;
-            else
-                result = StateFlag.TEST_PAUSE;
-
-            return result;
-        }
-
-        /**
-         *  @brief 부하 수동조작 윈도우(출하용)
-         *  @details 서브 윈도우를 띄워 부하 수동조작을 유도한다(출하용)
-         *  
-         *  @param double loadSetVolt - 설정해야 할 부하값
-         *  @param double errRange - 허용오차
-         *  @param AcCheckMode acMode - AC 상태 감지 모드(노멀, 과부하)
-         *  
-         *  @return StateFlag - 설정 결과
-         */
-        protected StateFlag LoadCtrlWin2(double loadSetVolt, int errRange, LoadCheckMode loadMode)
-        {
-            StateFlag result;
-
-            LoadCtrlViewModel.SetLoadCheck(loadSetVolt, errRange, loadMode);
-            LoadCtrlWindow2 loadCtrlWindow = new LoadCtrlWindow2
             {
                 Owner = Application.Current.MainWindow,
                 WindowStartupLocation = WindowStartupLocation.CenterOwner

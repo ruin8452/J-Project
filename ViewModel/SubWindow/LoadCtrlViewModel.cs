@@ -2,10 +2,8 @@
 using J_Project.Equipment;
 using PropertyChanged;
 using System;
-using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Forms;
-using System.Windows.Input;
 using System.Windows.Media;
 
 namespace J_Project.ViewModel.SubWindow
@@ -13,8 +11,7 @@ namespace J_Project.ViewModel.SubWindow
     public enum LoadCheckMode
     {
         NORMAL,
-        OVER_LOAD,
-        SECOND_TEST
+        OVER_LOAD
     }
 
     [ImplementPropertyChanged]
@@ -40,6 +37,7 @@ namespace J_Project.ViewModel.SubWindow
         public RelayCommand CancelCommand { get; set; }
 
         readonly Timer CountDownTimer = new Timer();
+        readonly Timer DmmValueTimer = new Timer();
 
         Window window;
 
@@ -50,18 +48,14 @@ namespace J_Project.ViewModel.SubWindow
             CountDownTimer.Interval = 1000;
             CountDownTimer.Tick += CountDownTimer_Tick;
 
+            DmmValueTimer.Interval = 100;
+            DmmValueTimer.Tick += DmmValueTimer_Tick;
+            DmmValueTimer.Start();
+
             CountDown = MAX_COUNT_DOWN;
 
             Dmm2 = Dmm2.GetObj();
             Rect = Rectifier.GetObj();
-
-            Dmm2.DcVoltRenewal -= LoadNormalCheck;
-            Dmm2.DcVoltRenewal -= LoadOverCheck;
-            Rect.MonitorRenewal -= RectNormalCheck;
-
-            if (CheckMode == LoadCheckMode.NORMAL) Dmm2.DcVoltRenewal += LoadNormalCheck;
-            else if (CheckMode == LoadCheckMode.OVER_LOAD) Dmm2.DcVoltRenewal += LoadOverCheck;
-            //else if (CheckMode == LoadCheckMode.SECOND_TEST) Rect.MonitorRenewal += RectNormalCheck;
 
             ConfirmBtnText = "확인";
 
@@ -100,84 +94,42 @@ namespace J_Project.ViewModel.SubWindow
             {
                 CtrlResult = true;
                 CountDownTimer.Stop();
+                DmmValueTimer.Stop();
                 window.Close();
             }
             CountDown--;
         }
 
-        /**
-         *  @brief 부하 체크
-         *  @details 부하가 설정한 값에 근접했는지 체크하고 카운트 다운 활성화
-         *  
-         *  @param object sender - 이벤트 발생자
-         *  @param EventArgs e - 이벤트 변수
-         *  
-         *  @return
-         */
-        private void LoadNormalCheck(object sender, EventArgs e)
+        private void DmmValueTimer_Tick(object sender, EventArgs e)
         {
-            if (Math.Abs(TargetValue - Dmm2.DcVolt) <= ErrRate)
+            if(CheckMode == LoadCheckMode.NORMAL)
             {
-                CountDownTimer.Start();
+                if (Math.Abs(TargetValue - Dmm2.DcVolt) <= ErrRate ||
+                    Math.Abs(TargetValue - Rect.DcOutputCurr) <= ErrRate)
+                {
+                    CountDownTimer.Start();
 
-                CtrlResult = true;
-                LoadMeterColor = new SolidColorBrush(Color.FromArgb(0xFF, 0x4D, 0xB9, 0x48));
+                    CtrlResult = true;
+                    LoadMeterColor = new SolidColorBrush(Color.FromArgb(0xFF, 0x4D, 0xB9, 0x48));
+                }
+                else
+                {
+                    CountDownTimer.Stop();
+                    CountDown = MAX_COUNT_DOWN;
+
+                    CtrlResult = false;
+                    ConfirmBtnText = "확인";
+                    LoadMeterColor = new SolidColorBrush(Color.FromArgb(0xFF, 0xFF, 0x43, 0x43));
+                }
             }
             else
             {
-                CountDownTimer.Stop();
-                CountDown = MAX_COUNT_DOWN;
-
-                CtrlResult = false;
-                ConfirmBtnText = "확인";
-                LoadMeterColor = new SolidColorBrush(Color.FromArgb(0xFF, 0xFF, 0x43, 0x43));
-            }
-        }
-
-        /**
-         *  @brief Over Load 체크
-         *  @details 정류기가 과부하를 인식했을 경우 통과시킨다
-         *  
-         *  @param object sender - 이벤트 발생자
-         *  @param EventArgs e - 이벤트 변수
-         *  
-         *  @return
-         */
-        private void LoadOverCheck(object sender, EventArgs e)
-        {
-            if (Rect.Flag_DcOverLoad)
-            {
-                CtrlResult = true;
-                window.Close();
-            }
-        }
-
-        /**
-         *  @brief 정류기 체크(출하용)
-         *  @details 정류기가 인식하는 출력 전류가 설정한 값에 근접했는지 체크하고 카운트 다운 활성화
-         *  
-         *  @param object sender - 이벤트 발생자
-         *  @param EventArgs e - 이벤트 변수
-         *  
-         *  @return
-         */
-        private void RectNormalCheck(object sender, EventArgs e)
-        {
-            if (Math.Abs(TargetValue - Rect.DcOutputCurr) <= ErrRate)
-            {
-                CountDownTimer.Start();
-
-                CtrlResult = true;
-                LoadMeterColor = new SolidColorBrush(Color.FromArgb(0xFF, 0x4D, 0xB9, 0x48));
-            }
-            else
-            {
-                CountDownTimer.Stop();
-                CountDown = MAX_COUNT_DOWN;
-
-                CtrlResult = false;
-                ConfirmBtnText = "확인";
-                LoadMeterColor = new SolidColorBrush(Color.FromArgb(0xFF, 0xFF, 0x43, 0x43));
+                if (Rect.Flag_DcOverLoad)
+                {
+                    CtrlResult = true;
+                    DmmValueTimer.Stop();
+                    window.Close();
+                }
             }
         }
 
@@ -187,7 +139,7 @@ namespace J_Project.ViewModel.SubWindow
          *  
          *  @param double loadCurr - 설정해야 할 부하값
          *  @param double checkRange - 허용오차
-         *  @param LoadCheckMode checkMode - 부하 상태 감지 모드(노멀, 과부하, 출하용)
+         *  @param LoadCheckMode checkMode - 부하 상태 감지 모드(노멀, 과부하)
          *  
          *  @return
          */
@@ -212,6 +164,7 @@ namespace J_Project.ViewModel.SubWindow
             {
                 CtrlResult = true;
                 CountDownTimer.Stop();
+                DmmValueTimer.Stop();
                 window.Close();
             }
             else
@@ -230,6 +183,7 @@ namespace J_Project.ViewModel.SubWindow
         {
             CtrlResult = false;
             CountDownTimer.Stop();
+            DmmValueTimer.Stop();
             window.Close();
 
         }

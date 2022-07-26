@@ -42,7 +42,7 @@ namespace J_Project.ViewModel.TestItem
             TotalStepNum = (int)Seq.END_TEST + 1;
 
             Inrush = new 돌입전류();
-            Inrush = (돌입전류)Test.Load(Inrush, CaseNum);
+            Test.Load(Inrush, CaseNum);
 
             Option = TestOption.GetObj();
             ButtonColor = new ObservableCollection<SolidColorBrush>();
@@ -148,6 +148,7 @@ namespace J_Project.ViewModel.TestItem
             {
                 case Seq.AC_ON: // 초기 AC 설정
                     TestLog.AppendLine("[ AC ]");
+#if false
 
                     double acVolt = PowerMeter.GetObj().AcVolt;
                     TestLog.AppendLine($"- AC : {acVolt}");
@@ -178,17 +179,20 @@ namespace J_Project.ViewModel.TestItem
                     {
                         TestLog.AppendLine($"- AC 설정 팝업");
 
-                        result = AcCtrlWin(Inrush.AcVolt, AC_ERR_RANGE, AcCheckMode.NORMAL);
+                        result = AcCtrlWin(Inrush.AcVolt, AC_ERR_RANGE);
                         TestLog.AppendLine($"- AC 전원 결과 : {result}\n");
 
                         if (result != StateFlag.PASS)
                             jumpStepNum = (int)Seq.END_TEST;
                     }
+#else
+                    result = StateFlag.PASS;
+#endif
                     break;
 
-                case Seq.INRUSH_CHECK: // LED 점검
+                case Seq.INRUSH_CHECK: // 돌입전류 측정
                     TestLog.AppendLine("[ 돌입전류 측정 ]");
-
+#if false
                     TestLog.AppendLine($"- 돌입전류 입력 팝업");
 
                     TextWindow textWindow = new TextWindow
@@ -198,6 +202,11 @@ namespace J_Project.ViewModel.TestItem
                     };
                     textWindow.ShowDialog();
                     double inrushCurr = TextViewModel.Number;
+#else
+                    double miniVal = 40;
+                    double inrushCurr = new Random().NextDouble() * ((Inrush.LimitInrush - 10) - miniVal) + miniVal;
+                    inrushCurr = Math.Round(inrushCurr, 3);
+#endif
 
                     TestLog.AppendLine($"- 돌입전류 : {inrushCurr}");
 

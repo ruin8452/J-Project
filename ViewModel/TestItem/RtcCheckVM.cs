@@ -54,7 +54,7 @@ namespace J_Project.ViewModel.TestItem
             TotalStepNum = (int)Seq.END_TEST + 1;
 
             RtcCheck = new RTC_TIME_체크();
-            RtcCheck = (RTC_TIME_체크)Test.Load(RtcCheck, CaseNum);
+            Test.Load(RtcCheck, CaseNum);
 
             Option = TestOption.GetObj();
             ButtonColor = new ObservableCollection<SolidColorBrush>();
@@ -189,7 +189,7 @@ namespace J_Project.ViewModel.TestItem
                     {
                         TestLog.AppendLine($"- AC 설정 팝업");
 
-                        result = AcCtrlWin(RtcCheck.AcVolt, AC_ERR_RANGE, AcCheckMode.NORMAL);
+                        result = AcCtrlWin(RtcCheck.AcVolt, AC_ERR_RANGE);
                         TestLog.AppendLine($"- AC 전원 결과 : {result}\n");
 
                         if (result != StateFlag.PASS)

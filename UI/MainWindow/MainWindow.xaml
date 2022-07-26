@@ -9,7 +9,7 @@
         xmlns:testsubw="clr-namespace:J_Project.UI.MainWindow.Testing"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         mc:Ignorable="d"
-        Title="J Project Total Test" Height="800" Width="1300">
+        Title="J Project Total Test" Height="800" Width="1350">
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closing">
@@ -199,7 +199,7 @@
                         <TextBlock Text="시리얼 번호 저장" Foreground="White" FontSize="8"/>
                     </StackPanel>
                 </Button>
-                
+
                 <Button Style="{StaticResource BtnBaseNormal}" ToolTip="양산 CSV 폴더" Background="{x:Null}" BorderBrush="{x:Null}" Margin="10,0" Command="{Binding OpenCvsFolderCommand}">
                     <StackPanel>
                         <fa:ImageAwesome Icon="FileText" Foreground="White" Width="30" Margin="0,0,0,3"/>
@@ -209,7 +209,7 @@
                 <Button Style="{StaticResource BtnBaseNormal}" ToolTip="양산 Excel 폴더" Background="{x:Null}" BorderBrush="{x:Null}" Margin="10,0" Command="{Binding OpenExcelFolderCommand}">
                     <StackPanel>
                         <fa:ImageAwesome Icon="FileExcelOutline" Foreground="White" Width="30" Margin="0,0,0,3"/>
-                        <TextBlock Text="양산 CSV 폴더" Foreground="White" FontSize="8"/>
+                        <TextBlock Text="양산 엑셀 폴더" Foreground="White" FontSize="8"/>
                     </StackPanel>
                 </Button>
 
@@ -224,7 +224,7 @@
                 <Button Style="{StaticResource BtnBaseNormal}" ToolTip="출하 Excel 폴더" Background="{x:Null}" BorderBrush="{x:Null}" Margin="10,0" Command="{Binding OpenExcelFolder2Command}">
                     <StackPanel>
                         <fa:ImageAwesome Icon="FileExcelOutline" Foreground="White" Width="30" Margin="0,0,0,3"/>
-                        <TextBlock Text="출하 CSV 폴더" Foreground="White" FontSize="8"/>
+                        <TextBlock Text="출하 엑셀 폴더" Foreground="White" FontSize="8"/>
                     </StackPanel>
                 </Button>
 

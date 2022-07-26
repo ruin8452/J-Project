@@ -3,6 +3,7 @@ using J_Project.Data;
 using J_Project.Manager;
 using System;
 using System.ComponentModel;
+using System.Timers;
 
 namespace J_Project.Equipment
 {
@@ -37,11 +38,12 @@ namespace J_Project.Equipment
                 DcVolt = (double)e.Result;
             });
 
-            EquiMonitoring.Interval = TimeSpan.FromMilliseconds(700);
-            EquiMonitoring.Tick += new EventHandler((object sender, EventArgs e) =>
+            EquiMonitoring.Interval = 500;
+            EquiMonitoring.Elapsed += new ElapsedEventHandler((object sender, ElapsedEventArgs e) =>
             {
-                if (background.IsBusy == false)
-                    background.RunWorkerAsync();
+                DcVolt = Math.Round(RealDcVolt(), 3);
+                //if (background.IsBusy == false)
+                //    background.RunWorkerAsync();
             });
         }
 
@@ -118,7 +120,7 @@ namespace J_Project.Equipment
                 {
                     return Convert.ToDouble(resultStr, Util.Cultur);
                 }
-                catch(Exception e)
+                catch(Exception)
                 {
                     return double.NaN;
                 }

@@ -32,7 +32,7 @@ namespace J_Project.Manager
 
         public TestExecution()
         {
-            AutoTestTimer.Interval = TimeSpan.FromMilliseconds(100);
+            AutoTestTimer.Interval = TimeSpan.FromMilliseconds(50);
             AutoTestTimer.Tick += new EventHandler((object send, EventArgs e) =>
             {
                 TestExecutionMethod();

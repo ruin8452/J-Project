@@ -7,10 +7,7 @@
       xmlns:converter="clr-namespace:J_Project.UI.BindConverterClass"
       xmlns:sys="clr-namespace:System;assembly=mscorlib"
       xmlns:fa="clr-namespace:FontAwesome.WPF;assembly=FontAwesome.WPF"
-      mc:Ignorable="d"
-      x:Name="Leakage"
-      Title="누설전류_UI"
-      Tag="0"> <!--Tag - 케이스 번호-->
+      mc:Ignorable="d">
 
     <Page.Resources>
         <converter:PassThroughConverter x:Key="UnitTestConverter"/>
@@ -156,7 +153,7 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock Text="전류(A)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" Grid.ColumnSpan="2" />
+                        <TextBlock Text="전류(mA)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" Grid.ColumnSpan="2" />
 
                         <Border Grid.Column="0" Grid.Row="1" Style="{StaticResource SettingDataViewBorder}">
                             <TextBlock Text="{Binding Leakage.LimitLeakage}" Style="{StaticResource TestList_ViewValueStyle}" />

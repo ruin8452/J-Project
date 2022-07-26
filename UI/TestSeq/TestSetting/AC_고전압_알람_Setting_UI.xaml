@@ -5,8 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
       xmlns:fa="clr-namespace:FontAwesome.WPF;assembly=FontAwesome.WPF"
-      mc:Ignorable="d"
-      Title="AC_고전압_알람_Setting_UI">
+      mc:Ignorable="d">
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Unloaded">
@@ -183,7 +182,7 @@
                 <!-- 화살표 이미지 -->
                 <fa:ImageAwesome Style="{StaticResource Allow}"/>
                 <!-- 부하 OFF -->
-                <TextBlock Text="부하 OFF" Style="{StaticResource TestList_ItemNameTextStyle}"  />
+                <TextBlock Text="부하 OFF" Style="{StaticResource TestList_ItemNameTextStyle}" />
                 <!-- 화살표 이미지 -->
                 <fa:ImageAwesome Style="{StaticResource Allow}"/>
                 <!-- 지연 시간 -->

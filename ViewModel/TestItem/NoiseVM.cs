@@ -54,7 +54,7 @@ namespace J_Project.ViewModel.TestItem
             TotalStepNum = (int)Seq.END_TEST + 1;
 
             Noise = new 리플_노이즈();
-            Noise = (리플_노이즈)Test.Load(Noise, CaseNum);
+            Test.Load(Noise, CaseNum);
 
             Option = TestOption.GetObj();
             ButtonColor = new ObservableCollection<SolidColorBrush>();
@@ -189,7 +189,7 @@ namespace J_Project.ViewModel.TestItem
                     {
                         TestLog.AppendLine($"- AC 설정 팝업");
 
-                        result = AcCtrlWin(Noise.AcVolt, AC_ERR_RANGE, AcCheckMode.NORMAL);
+                        result = AcCtrlWin(Noise.AcVolt, AC_ERR_RANGE);
                         TestLog.AppendLine($"- AC 전원 결과 : {result}\n");
 
                         if (result != StateFlag.PASS)

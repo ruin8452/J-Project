@@ -22,6 +22,8 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using GalaSoft.MvvmLight.Command;
 using Timer = System.Timers.Timer;
+using System.Threading;
+using System.Windows.Threading;
 
 namespace J_Project.ViewModel
 {
@@ -352,6 +354,7 @@ namespace J_Project.ViewModel
             if(Rectifier.GetObj().RectCommand(CommandList.CAL_RESET, 1))
                 MessageBox.Show("정류기 CAL 리셋 OK");
         }
+
         /**
          *  @brief 로그 갱신
          *  @details 로그창을 갱신시킨다
@@ -365,6 +368,16 @@ namespace J_Project.ViewModel
             if (TestUi == null) return;
 
             Log = ((AllTestVM)TestUi.DataContext).TestLog.ToString();
+        }
+
+        private void AutoLogRenewal()
+        {
+            if (TestUi == null) return;
+
+            TestUi.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            {
+                Log = ((AllTestVM)TestUi.DataContext).TestLog.ToString();
+            }));
         }
 
         /**
@@ -395,7 +408,6 @@ namespace J_Project.ViewModel
                 return;
             }
 
-
             List<TestItemUnit> source = MakeList(TreeTestItems);
 
             var selectedItems = from tempItem in source
@@ -403,7 +415,6 @@ namespace J_Project.ViewModel
                                 select tempItem;
 
             List<TestItemUnit> runableTestList = selectedItems.ToList();
-
 
             // 양식 경로 유효성 검사
             if (TestType == "FirstTest")
@@ -659,6 +670,8 @@ namespace J_Project.ViewModel
             AllTestVM unitItem = testInfo.TestExeUi.DataContext as AllTestVM;
 
             unitItem.TextColorChange(e.CurrentSeqNumer, e.Result);
+
+            AutoLogRenewal();
         }
 
         /**

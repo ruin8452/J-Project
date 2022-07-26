@@ -107,7 +107,7 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock Text="전류(A)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" Grid.ColumnSpan="2"/>
+                        <TextBlock Text="전류(mA)" Style="{StaticResource TestList_SetItemNameStyle}" Grid.Column="0" Grid.ColumnSpan="2"/>
 
                         <TextBox Style="{StaticResource TestList_SetValueStyle}" Text="{Binding Leakage.LimitLeakage, Mode=TwoWay}" Grid.Column="0" Grid.Row="1" />
 

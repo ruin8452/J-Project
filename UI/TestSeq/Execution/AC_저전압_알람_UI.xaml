@@ -7,10 +7,7 @@
       xmlns:local="clr-namespace:J_Project.UI.TestSeq.Execution"
       xmlns:converter="clr-namespace:J_Project.UI.BindConverterClass"
       xmlns:fa="clr-namespace:FontAwesome.WPF;assembly=FontAwesome.WPF"
-      mc:Ignorable="d"
-      x:Name="AcLow"
-      Title="AC_저전압_알람1_UI"
-      Tag="0">
+      mc:Ignorable="d">
     <!--Tag - 케이스 번호-->
 
     <Page.Resources>

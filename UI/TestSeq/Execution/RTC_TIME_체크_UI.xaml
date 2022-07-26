@@ -7,10 +7,7 @@
       xmlns:converter="clr-namespace:J_Project.UI.BindConverterClass"
       xmlns:sys="clr-namespace:System;assembly=mscorlib"
       xmlns:fa="clr-namespace:FontAwesome.WPF;assembly=FontAwesome.WPF"
-      mc:Ignorable="d"
-      x:Name="Rtc"
-      Title="RTC_TIME_체크_UI"
-      Tag="0"> <!--Tag - 케이스 번호-->
+      mc:Ignorable="d">
 
     <Page.Resources>
         <converter:PassThroughConverter x:Key="UnitTestConverter"/>

@@ -211,7 +211,7 @@ namespace J_Project.ViewModel.TestItem
                     {
                         TestLog.AppendLine($"- AC 설정 팝업");
 
-                        result = AcCtrlWin(AcBlackOut.AcVoltInit, AC_ERR_RANGE, AcCheckMode.NORMAL);
+                        result = AcCtrlWin(AcBlackOut.AcVoltInit, AC_ERR_RANGE);
                         TestLog.AppendLine($"- AC 전원 결과 : {result}\n");
 
                         // AC 설정 실패 시 테스트 실패, 결과 저장 부분으로 점프
@@ -291,7 +291,7 @@ namespace J_Project.ViewModel.TestItem
                     {
                         TestLog.AppendLine($"- AC 설정 팝업");
 
-                        result = AcCtrlWin(AcBlackOut.AcVoltOut, AC_ERR_RANGE, AcCheckMode.AC_BLACK_OUT);
+                        result = RectAcWin(AcBlackOut.AcVoltOut, AlarmCheckMode.AC_BLACK_OUT);
                         TestLog.AppendLine($"- AC 전원 결과 : {result}\n");
 
                         if (result != StateFlag.PASS)
@@ -325,7 +325,7 @@ namespace J_Project.ViewModel.TestItem
                     {
                         TestLog.AppendLine($"- AC 설정 팝업");
 
-                        result = AcCtrlWin(AcBlackOut.AcVoltReturn, AC_ERR_RANGE, AcCheckMode.NORMAL);
+                        result = AcCtrlWin(AcBlackOut.AcVoltReturn, AC_ERR_RANGE);
                         TestLog.AppendLine($"- AC 전원 결과 : {result}\n");
 
                         if (result != StateFlag.PASS)

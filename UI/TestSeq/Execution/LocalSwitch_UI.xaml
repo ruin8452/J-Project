@@ -7,10 +7,7 @@
       xmlns:sys="clr-namespace:System;assembly=mscorlib"
       xmlns:local="clr-namespace:J_Project.UI.TestSeq.Execution"
       xmlns:fa="clr-namespace:FontAwesome.WPF;assembly=FontAwesome.WPF"
-      mc:Ignorable="d"
-      Title="LocalSwitch_UI"
-      x:Name="LocalSwitchCheck"
-      Tag="0">
+      mc:Ignorable="d">
     
     <Page.Resources>
         <converter:PassThroughConverter x:Key="UnitTestConverter"/>

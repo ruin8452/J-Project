@@ -53,7 +53,7 @@ namespace J_Project.ViewModel.TestItem
             TotalStepNum = (int)Seq.END_TEST + 1;
 
             RemoteComm = new RemoteComm();
-            RemoteComm = (RemoteComm)Test.Load(RemoteComm, CaseNum);
+            Test.Load(RemoteComm, CaseNum);
 
             Option = TestOption.GetObj();
             ButtonColor = new ObservableCollection<SolidColorBrush>();
@@ -188,7 +188,7 @@ namespace J_Project.ViewModel.TestItem
                     {
                         TestLog.AppendLine($"- AC 설정 팝업");
 
-                        result = AcCtrlWin(RemoteComm.AcVolt, AC_ERR_RANGE, AcCheckMode.NORMAL);
+                        result = AcCtrlWin(RemoteComm.AcVolt, AC_ERR_RANGE);
                         TestLog.AppendLine($"- AC 전원 결과 : {result}\n");
 
                         if (result != StateFlag.PASS)
@@ -198,6 +198,13 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.REMOTE_CHANGE:
                     TestLog.AppendLine("[ 리모트 변경 ]\n");
+                    if (!Rectifier.GetObj().IsConnected)
+                    {
+                        result = StateFlag.REMOTE_COMM_ERR;
+                        jumpStepNum = (int)Seq.RESULT_SAVE;
+                        break;
+                    }
+
                     if (!Rectifier.GetObj().LocalRemoteLed)
                         result = StateFlag.PASS;
                     else
@@ -278,7 +285,7 @@ namespace J_Project.ViewModel.TestItem
                     rmt.RemoteCommand(RemoteCommandList.DC_SWITCH1 + i, 1);
                     TestLog.AppendLine($"- Switch On 전송");
 
-                    Util.Delay(1.2);
+                    Util.Delay(0.8);
                     TestLog.Append($"- 전압 검사 -> ");
                     if (rect.DcSwOutVolt[i] < 10)
                     {
@@ -302,7 +309,7 @@ namespace J_Project.ViewModel.TestItem
                     rmt.RemoteCommand(RemoteCommandList.DC_SWITCH1 + i, 0);
                     TestLog.AppendLine($"- Switch Off 전송");
 
-                    Util.Delay(1.2);
+                    Util.Delay(0.8);
                     TestLog.Append($"- 전압 검사 -> ");
                     if (rect.DcSwOutVolt[i] > 10)
                     {
@@ -326,7 +333,7 @@ namespace J_Project.ViewModel.TestItem
                     rmt.RemoteCommand(RemoteCommandList.DC_SWITCH1 + i, 1);
                     TestLog.AppendLine($"- Switch On 전송");
 
-                    Util.Delay(1.2);
+                    Util.Delay(0.8);
                     TestLog.Append($"- 전압 검사 -> ");
                     if (rect.DcSwOutVolt[i] < 10)
                     {
@@ -369,7 +376,7 @@ namespace J_Project.ViewModel.TestItem
             TestLog.AppendLine($"- 리모트 통신 접속");
             if (!rmt.IsConnected)
                 rmt.Connect(EquiConnectID.GetObj().RemoteID, 9600);
-            Util.Delay(1);
+            Util.Delay(0.5);
 
             for (int i = 2; i < 4; i++)
             {
@@ -380,7 +387,7 @@ namespace J_Project.ViewModel.TestItem
                     rmt.RemoteCommand(RemoteCommandList.DC_SWITCH1 + i, 1);
                     TestLog.AppendLine($"- Switch On 전송");
 
-                    Util.Delay(1.2);
+                    Util.Delay(0.8);
                     TestLog.Append($"- 전압 검사 -> ");
                     if (rect.DcSwOutVolt[i] < 10)
                     {
@@ -404,7 +411,7 @@ namespace J_Project.ViewModel.TestItem
                     rmt.RemoteCommand(RemoteCommandList.DC_SWITCH1 + i, 0);
                     TestLog.AppendLine($"- Switch Off 전송");
 
-                    Util.Delay(1.2);
+                    Util.Delay(0.8);
                     TestLog.Append($"- 전압 검사 -> ");
                     if (rect.DcSwOutVolt[i] > 10)
                     {
@@ -428,7 +435,7 @@ namespace J_Project.ViewModel.TestItem
                     rmt.RemoteCommand(RemoteCommandList.DC_SWITCH1 + i, 1);
                     TestLog.AppendLine($"- Switch On 전송");
 
-                    Util.Delay(1.2);
+                    Util.Delay(0.8);
                     TestLog.Append($"- 전압 검사 -> ");
                     if (rect.DcSwOutVolt[i] < 10)
                     {

@@ -55,7 +55,7 @@ namespace J_Project.ViewModel.TestItem
             TotalStepNum = (int)Seq.END_TEST + 1;
 
             AcHigh = new AC_고전압_알람();
-            AcHigh = (AC_고전압_알람)Test.Load(AcHigh, CaseNum);
+            Test.Load(AcHigh, CaseNum);
 
             Option = TestOption.GetObj();
             ButtonColor = new ObservableCollection<SolidColorBrush>();
@@ -191,7 +191,7 @@ namespace J_Project.ViewModel.TestItem
                     {
                         TestLog.AppendLine($"- AC 설정 팝업");
 
-                        result = AcCtrlWin(AcHigh.AcVoltInit, AC_ERR_RANGE, AcCheckMode.NORMAL);
+                        result = AcCtrlWin(AcHigh.AcVoltInit, AC_ERR_RANGE);
                         TestLog.AppendLine($"- AC 전원 결과 : {result}\n");
 
                         if (result != StateFlag.PASS)
@@ -266,7 +266,7 @@ namespace J_Project.ViewModel.TestItem
                     {
                         TestLog.AppendLine($"- AC 설정 팝업");
 
-                        result = AcCtrlWin(AcHigh.AcVoltUp, AC_ERR_RANGE, AcCheckMode.AC_OVER);
+                        result = RectAcWin(AcHigh.AcVoltUp, AlarmCheckMode.AC_OVER);
                         TestLog.AppendLine($"- AC 전원 결과 : {result}\n");
 
                         if (result != StateFlag.PASS)
@@ -300,7 +300,7 @@ namespace J_Project.ViewModel.TestItem
                     {
                         TestLog.AppendLine($"- AC 설정 팝업");
 
-                        result = AcCtrlWin(AcHigh.AcVoltReturn, AC_ERR_RANGE, AcCheckMode.NORMAL);
+                        result = AcCtrlWin(AcHigh.AcVoltReturn, AC_ERR_RANGE);
                         TestLog.AppendLine($"- AC 전원 결과 : {result}\n");
 
                         if (result != StateFlag.PASS)

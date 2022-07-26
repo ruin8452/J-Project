@@ -2,6 +2,7 @@
 using J_Project.Manager;
 using System;
 using System.ComponentModel;
+using System.Timers;
 
 namespace J_Project.Equipment
 {
@@ -18,8 +19,6 @@ namespace J_Project.Equipment
         private BackgroundWorker background = new BackgroundWorker();
         public double DcVolt { get; set; }
 
-        public event EventHandler DcVoltRenewal;
-
         #region 싱글톤 패턴 구현
         private static Dmm2 _Dmm2 = null;
 
@@ -34,14 +33,14 @@ namespace J_Project.Equipment
             background.RunWorkerCompleted += new RunWorkerCompletedEventHandler((object sender, RunWorkerCompletedEventArgs e) =>
             {
                 DcVolt = (double)e.Result;
-                OnDcVoltRenewal(EventArgs.Empty);
             });
 
-            EquiMonitoring.Interval = TimeSpan.FromMilliseconds(700);
-            EquiMonitoring.Tick += new EventHandler((object sender, EventArgs e) =>
+            EquiMonitoring.Interval = 500;
+            EquiMonitoring.Elapsed += new ElapsedEventHandler((object sender, ElapsedEventArgs e) =>
             {
-                if (background.IsBusy == false)
-                    background.RunWorkerAsync();
+                DcVolt = Math.Round(RealDcVolt() * 1000, 3);
+                //if (background.IsBusy == false)
+                //    background.RunWorkerAsync();
             });
         }
 
@@ -118,7 +117,7 @@ namespace J_Project.Equipment
                 {
                     return Convert.ToDouble(resultStr, Util.Cultur);
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     return double.NaN;
                 }
@@ -200,19 +199,6 @@ namespace J_Project.Equipment
 
             CommErrCount = 0;
             return resultStr;
-        }
-
-        /**
-         *  @brief DC전압값 갱신 이벤트 발생 함수
-         *  @details DC전압값 갱신 이벤트 발생 시 실행되는 함수
-         *  
-         *  @param EventArgs e - 이벤트 변수
-         *  
-         *  @return
-         */
-        public void OnDcVoltRenewal(EventArgs e)
-        {
-            DcVoltRenewal?.Invoke(this, e);
         }
     }
 }

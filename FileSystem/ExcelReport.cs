@@ -255,7 +255,7 @@ namespace J_Project.FileSystem
                     return new XSSFWorkbook(stream);
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
             }
             throw new NotSupportedException();

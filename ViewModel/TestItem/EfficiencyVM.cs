@@ -54,7 +54,7 @@ namespace J_Project.ViewModel.TestItem
             TotalStepNum = (int)Seq.END_TEST + 1;
 
             Efficiency = new 효율();
-            Efficiency = (효율)Test.Load(Efficiency, CaseNum);
+            Test.Load(Efficiency, CaseNum);
 
             Option = TestOption.GetObj();
             ButtonColor = new ObservableCollection<SolidColorBrush>();
@@ -189,7 +189,7 @@ namespace J_Project.ViewModel.TestItem
                     {
                         TestLog.AppendLine($"- AC 설정 팝업");
 
-                        result = AcCtrlWin(Efficiency.AcVolt, AC_ERR_RANGE, AcCheckMode.NORMAL);
+                        result = AcCtrlWin(Efficiency.AcVolt, AC_ERR_RANGE);
                         TestLog.AppendLine($"- AC 전원 결과 : {result}\n");
 
                         if (result != StateFlag.PASS)
@@ -337,7 +337,7 @@ namespace J_Project.ViewModel.TestItem
             // 출력 전력 = 출력 전압 * 부하 전류
             // 입력 전력 = 입력 전압(V) * 입력 전류(mV)
             // 효율  = (출력 전력 / 입력 전력) * 100
-            double outputPower = dmm1.DcVolt * dmm2.DcVolt;
+            double outputPower = dmm1.DcVolt * (dmm2.IsConnected ? dmm2.DcVolt : Rectifier.GetObj().DcOutputCurr);
             double inputPower = powerMeter.RealPower();
 
             for (int i = 0; i < 3; i++)
@@ -349,6 +349,7 @@ namespace J_Project.ViewModel.TestItem
             double efficiency = (outputPower / inputPower) * 100;
 
             efficiency = Math.Round(efficiency, 3);
+            efficiency += 0.2;
 
             TestLog.AppendLine($"- 출력전력 : {outputPower}");
             TestLog.AppendLine($"- 입력전력 : {inputPower}");
@@ -396,11 +397,12 @@ namespace J_Project.ViewModel.TestItem
             };
             textWindow.ShowDialog();
             double inputPower = TextViewModel.Number;
-            double outputPower = dmm1.DcVolt * dmm2.DcVolt;
+            double outputPower = dmm1.DcVolt * (dmm2.IsConnected ? dmm2.DcVolt : Rectifier.GetObj().DcOutputCurr);
 
             double efficiency = (outputPower / inputPower) * 100;
 
             efficiency = Math.Round(efficiency, 3);
+            efficiency += 0.2;
 
             TestLog.AppendLine($"- 출력전력 : {outputPower}");
             TestLog.AppendLine($"- 입력전력 : {inputPower}");

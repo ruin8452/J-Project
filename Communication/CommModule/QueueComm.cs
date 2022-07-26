@@ -355,7 +355,16 @@ namespace Communication.CommModule
             tempPacket = SendCommQueue.Dequeue();
 
             if (ComPort.IsOpen)
-                ComPort.Write(tempPacket.ByteData, 0, tempPacket.ByteData.Length);
+            {
+                try
+                {
+                    ComPort.Write(tempPacket.ByteData, 0, tempPacket.ByteData.Length);
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                }
+            }
             else
             {
                 try

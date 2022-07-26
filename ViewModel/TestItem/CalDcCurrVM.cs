@@ -84,7 +84,7 @@ namespace J_Project.ViewModel.TestItem
             TotalStepNum = (int)Seq.END_TEST + 1;
 
             DcOutCurrCal = new Cal_DC_출력전류();
-            DcOutCurrCal = (Cal_DC_출력전류)Test.Load(DcOutCurrCal, CaseNum);
+            Test.Load(DcOutCurrCal, CaseNum);
 
             Option = TestOption.GetObj();
             ButtonColor = new ObservableCollection<SolidColorBrush>();
@@ -215,7 +215,7 @@ namespace J_Project.ViewModel.TestItem
                     {
                         TestLog.AppendLine($"- AC 설정 팝업");
 
-                        result = AcCtrlWin(DcOutCurrCal.M200AcVolt, AC_ERR_RANGE, AcCheckMode.NORMAL);
+                        result = AcCtrlWin(DcOutCurrCal.M200AcVolt, AC_ERR_RANGE);
                         TestLog.AppendLine($"- AC 전원 결과 : {result}\n");
 
                         if (result != StateFlag.PASS)
@@ -435,7 +435,7 @@ namespace J_Project.ViewModel.TestItem
                     {
                         TestLog.AppendLine($"- AC 설정 팝업");
 
-                        result = AcCtrlWin(DcOutCurrCal.M100AcVolt, AC_ERR_RANGE, AcCheckMode.NORMAL);
+                        result = AcCtrlWin(DcOutCurrCal.M100AcVolt, AC_ERR_RANGE);
                         TestLog.AppendLine($"- AC 전원 결과 : {result}\n");
 
                         if (result != StateFlag.PASS)
@@ -450,7 +450,7 @@ namespace J_Project.ViewModel.TestItem
                     {
                         TestLog.Append($"- 리셋 시도 {i + 1}회차 -> ");
                         Rectifier.GetObj().RectCommand(CommandList.SW_RESET, 1);
-                        Util.Delay(7);
+                        Util.Delay(8);
 
                         if (Rectifier.GetObj().AcInVoltMode == "100V")
                         {
@@ -554,7 +554,7 @@ namespace J_Project.ViewModel.TestItem
                     {
                         TestLog.Append($"- 리셋 시도 {i + 1}회차 -> ");
                         Rectifier.GetObj().RectCommand(CommandList.SW_RESET, 1);
-                        Util.Delay(7);
+                        Util.Delay(8);
 
                         if (Rectifier.GetObj().AcInVoltMode == "100V")
                         {
@@ -603,7 +603,7 @@ namespace J_Project.ViewModel.TestItem
             double dmmDcVolt;
             bool cmdResult;
 
-            rect.MonitoringStop();
+            //rect.MonitoringStop();
 
             for (int i = 0; i < MAX_CAL_TRY_COUNT; i++)
             {
@@ -613,7 +613,7 @@ namespace J_Project.ViewModel.TestItem
                 TestLog.Append($"- 전류 상한 Ref 설정 -> ");
                 rect.RectCommand(CommandList.I_REF_SET, (ushort)RefSave.NO_SAVE, (ushort)(upRefValue * 100));
 
-                Util.Delay(1.5);
+                Util.Delay(2);
 
                 dmmDcVolt = Dmm2.GetObj().DcVolt;
                 if (Math.Abs(upRefValue - dmmDcVolt) > 5) // CAL 전 허용 오차 : 5V
@@ -626,11 +626,11 @@ namespace J_Project.ViewModel.TestItem
 
                 TestLog.Append($"- 전류 DAC CAL 시도 : {dmmDcVolt} -> ");
                 cmdResult = rect.RectCommand(CommandList.DAC_I_CAL, (ushort)CalPoint.HIGH_POINT, (ushort)(dmmDcVolt * 100), (ushort)I_RefCal((int)(upRefValue * 100)));
-                //if (!cmdResult)
-                //{
-                //    TestLog.AppendLine($"실패");
-                //    continue;
-                //}
+                if (!cmdResult)
+                {
+                    TestLog.AppendLine($"실패");
+                    continue;
+                }
                 TestLog.AppendLine($"성공");
 
                 // Low 포인트 CAL
@@ -638,43 +638,43 @@ namespace J_Project.ViewModel.TestItem
                 TestLog.Append($"- 전류 하한 Ref 설정 -> ");
                 rect.RectCommand(CommandList.I_REF_SET, (ushort)RefSave.NO_SAVE, (ushort)(lowRefValue * 100));
 
-                Util.Delay(1.5);
+                Util.Delay(2);
 
                 dmmDcVolt = Dmm2.GetObj().DcVolt;
-                if (Math.Abs(upRefValue - dmmDcVolt) > 5) // CAL 전 허용 오차 : 5V
+                if (Math.Abs(lowRefValue - dmmDcVolt) > 5) // CAL 전 허용 오차 : 5V
                 {
                     TestLog.AppendLine($"실패\n");
                     continue;
                 }
                 TestLog.AppendLine($"성공");
 
-                Util.Delay(1.5);
+                Util.Delay(2);
 
                 TestLog.Append($"- 전류 DAC CAL 시도 : {dmmDcVolt} -> ");
                 cmdResult = rect.RectCommand(CommandList.DAC_I_CAL, (ushort)CalPoint.LOW_POINT, (ushort)(dmmDcVolt * 100), (ushort)I_RefCal((int)(lowRefValue * 100)));
-                //if (!cmdResult)
-                //{
-                //    TestLog.AppendLine($"실패");
-                //    continue;
-                //}
+                if (!cmdResult)
+                {
+                    TestLog.AppendLine($"실패");
+                    continue;
+                }
                 TestLog.AppendLine($"성공");
 
                 Util.Delay(1);
                 TestLog.Append($"- CAL 적용 -> ");
                 cmdResult = rect.RectCommand(CommandList.CAL_I_APPLY, 1);
-                //if (!cmdResult)
-                //{
-                //    TestLog.AppendLine($"실패");
-                //    continue;
-                //}
+                if (!cmdResult)
+                {
+                    TestLog.AppendLine($"실패");
+                    continue;
+                }
                 TestLog.AppendLine($"성공");
 
                 TestLog.AppendLine($"- DAC CAL 성공");
-                rect.MonitoringStart();
+                //rect.MonitoringStart();
                 return StateFlag.PASS;
             }
             TestLog.AppendLine($"- DAC CAL 실패");
-            rect.MonitoringStart();
+            //rect.MonitoringStart();
             return StateFlag.DC_CURR_CAL_ERR;
         }
 
@@ -694,7 +694,6 @@ namespace J_Project.ViewModel.TestItem
             double rectDcCurr;
             bool cmdResult;
 
-            rect.MonitoringStop();
 
             for (int i = 0; i < MAX_CAL_TRY_COUNT; i++)
             {
@@ -714,7 +713,7 @@ namespace J_Project.ViewModel.TestItem
                 ////////////////////////////////////////////////////////////////////////////////////
             }
 
-            rect.RectMonitoring();
+            //rect.RectMonitoring();
             dmmDcVolt = Dmm2.GetObj().DcVolt;
             Util.Delay(1.5);
             rectDcCurr = rect.DcOutputCurr;
@@ -727,12 +726,10 @@ namespace J_Project.ViewModel.TestItem
             if (Math.Abs(dmmDcVolt - rectDcCurr) <= ERR_RATE)
             {
                 TestLog.AppendLine($"- ADC CAL 완료");
-                rect.MonitoringStart();
                 return StateFlag.PASS;
             }
 
             TestLog.AppendLine($"- ADC CAL 실패");
-            rect.MonitoringStart();
             return StateFlag.DC_CURR_CAL_ERR;
         }
 

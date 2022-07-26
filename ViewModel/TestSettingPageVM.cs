@@ -2,12 +2,7 @@
 using J_Project.Manager;
 using PropertyChanged;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Input;
 using GalaSoft.MvvmLight.Command;
 using System.Collections.ObjectModel;
 using J_Project.ViewModel.TestItem;
@@ -218,9 +213,7 @@ namespace J_Project.ViewModel
             TestItemSetUnit acOut       = new TestItemSetUnit(AcBlackOutVM.TestName, new AC_정전전압_인식_Setting_UI(0));
             TestItemSetUnit outOver2    = new TestItemSetUnit(OutputOverVM.TestName + " 2", new 출력_과부하_보호_Setting_UI(1));
             TestItemSetUnit rtc         = new TestItemSetUnit(RtcCheckVM.TestName, new RTC_TIME_체크_Setting_UI(0));
-            TestItemSetUnit outCheck    = new TestItemSetUnit(DcOutCheckVM.TestName, new DcOutCheck_Setting_UI(0));
-            TestItemSetUnit connecter   = new TestItemSetUnit(ConnecterVM.TestName, new ConnecterCheck_Setting_UI(0));
-            TestItemSetUnit noload      = new TestItemSetUnit(NoLoadVM.TestName, new 무부하_전원_ON_Setting_UI(0));
+            //TestItemSetUnit noload      = new TestItemSetUnit(NoLoadVM.TestName, new 무부하_전원_ON_Setting_UI(0));
             TestItemSetUnit serial      = new TestItemSetUnit(SerialSaveVM.TestName, new SerialSave_Setting_UI(0));
 
             TestList.Add(init);         // 초기세팅
@@ -268,9 +261,7 @@ namespace J_Project.ViewModel
             TestList.Add(acOut);        // 정전
             TestList.Add(outOver2);     // 출력 과부하
             TestList.Add(rtc);          // RTC
-            TestList.Add(outCheck);     // 출력 체크
-            TestList.Add(connecter);    // 커넥터 검사
-            TestList.Add(noload);       // 무부하
+            //TestList.Add(noload);       // 무부하
             TestList.Add(serial);       // 시리얼 저장
 
             return TestList;

@@ -8,7 +8,7 @@
         xmlns:converter="clr-namespace:J_Project.UI.BindConverterClass"
         mc:Ignorable="d"
         x:Name="LoadCtrl"
-        Title="LoadCtrlWindow" Height="400" Width="500" ResizeMode="NoResize" WindowStyle="None">
+        Title="LoadCtrlWindow" Width="500" ResizeMode="NoResize" WindowStyle="None" Height="450">
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
@@ -70,8 +70,28 @@
 
             <StackPanel Margin="0,0,0,20">
                 <Grid HorizontalAlignment="Center">
-                    <TextBlock x:Name="Back" Text="888.88" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF2D3144" FontSize="160" FontFamily="Digital-7 Mono"/>
-                    <TextBlock Text="{Binding Dmm2.DcVolt, StringFormat=#0.00}" Foreground="{Binding LoadMeterColor}" FontSize="160" FontFamily="Digital-7 Mono" HorizontalAlignment="Right" />
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Orientation="Horizontal" Grid.Row="0">
+                        <TextBlock Text="멀티미터" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" FontSize="30" FontFamily="NanumGothic"/>
+                        <Border Width="30"/>
+                        <Grid>
+                            <TextBlock Text="888.88" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF2D3144" FontSize="110" FontFamily="Digital-7 Mono" />
+                            <TextBlock Text="{Binding Dmm2.DcVolt, StringFormat=#0.00}" Foreground="{Binding LoadMeterColor}" FontSize="110" FontFamily="Digital-7 Mono" HorizontalAlignment="Right"/>
+                        </Grid>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right">
+                        <TextBlock Text="정류기" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" FontSize="30" FontFamily="NanumGothic"/>
+                        <Border Width="30"/>
+                        <Grid>
+                            <TextBlock Text="888.88" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF2D3144" FontSize="110" FontFamily="Digital-7 Mono"/>
+                            <TextBlock Text="{Binding Rect.DcOutputCurr, StringFormat=#0.00}" Foreground="White" FontSize="110" FontFamily="Digital-7 Mono" HorizontalAlignment="Right"/>
+                        </Grid>
+                    </StackPanel>
                     <!--<TextBlock Text="{Binding Pm.AcVolt, StringFormat=#0.0}" Foreground="White" FontSize="160" FontFamily="Digital-7 Mono" HorizontalAlignment="Right" Margin="0,0,66,0"/>-->
                 </Grid>
 

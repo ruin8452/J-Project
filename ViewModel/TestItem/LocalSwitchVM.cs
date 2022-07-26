@@ -52,7 +52,7 @@ namespace J_Project.ViewModel.TestItem
             TotalStepNum = (int)Seq.END_TEST + 1;
 
             LocalSwitch = new LocalSwitch();
-            LocalSwitch = (LocalSwitch)Test.Load(LocalSwitch, CaseNum);
+            Test.Load(LocalSwitch, CaseNum);
 
             Option = TestOption.GetObj();
             ButtonColor = new ObservableCollection<SolidColorBrush>();
@@ -187,7 +187,7 @@ namespace J_Project.ViewModel.TestItem
                     {
                         TestLog.AppendLine($"- AC 설정 팝업");
 
-                        result = AcCtrlWin(LocalSwitch.AcVolt, AC_ERR_RANGE, AcCheckMode.NORMAL);
+                        result = AcCtrlWin(LocalSwitch.AcVolt, AC_ERR_RANGE);
                         TestLog.AppendLine($"- AC 전원 결과 : {result}\n");
 
                         if (result != StateFlag.PASS)
@@ -197,6 +197,13 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.LOCAL_CHANGE:  // 로컬 변경
                     TestLog.AppendLine("[ 로컬 변경 ]\n");
+                    if (!Rectifier.GetObj().IsConnected)
+                    {
+                        result = StateFlag.LOCAL_SWITCH_ERR;
+                        jumpStepNum = (int)Seq.RESULT_SAVE;
+                        break;
+                    }
+
                     if (Rectifier.GetObj().LocalRemoteLed == true)
                         result = StateFlag.PASS;
                     else

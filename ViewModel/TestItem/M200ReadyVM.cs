@@ -50,7 +50,7 @@ namespace J_Project.ViewModel.TestItem
             TotalStepNum = (int)Seq.END_TEST + 1;
 
             M200 = new M200Ready();
-            M200 = (M200Ready)Test.Load(M200, CaseNum);
+            Test.Load(M200, CaseNum);
 
             Option = TestOption.GetObj();
             ButtonColor = new ObservableCollection<SolidColorBrush>();
@@ -183,7 +183,7 @@ namespace J_Project.ViewModel.TestItem
                     {
                         TestLog.AppendLine($"- AC 설정 팝업");
 
-                        result = AcCtrlWin(M200.AcVolt, AC_ERR_RANGE, AcCheckMode.NORMAL);
+                        result = AcCtrlWin(M200.AcVolt, AC_ERR_RANGE);
                         TestLog.AppendLine($"- AC 전원 결과 : {result}\n");
 
                         if (result != StateFlag.PASS)
@@ -201,7 +201,7 @@ namespace J_Project.ViewModel.TestItem
                     {
                         TestLog.Append($"- 리셋 시도 {i + 1}회차 -> ");
                         Rectifier.GetObj().RectCommand(CommandList.SW_RESET, 1);
-                        Util.Delay(7);
+                        Util.Delay(8);
 
                         if (Rectifier.GetObj().AcInVoltMode == "200V")
                         {

@@ -4,6 +4,7 @@ using J_Project.Manager;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Timers;
 
 namespace J_Project.Equipment
 {
@@ -20,8 +21,6 @@ namespace J_Project.Equipment
         private BackgroundWorker background = new BackgroundWorker();
         public double AcVolt { get; set; }
 
-        public event EventHandler AcVoltRenewal;
-
         #region 싱글톤 패턴 구현
         private static PowerMeter _PowerMeter = null;
 
@@ -36,14 +35,14 @@ namespace J_Project.Equipment
             background.RunWorkerCompleted += new RunWorkerCompletedEventHandler((object sender, RunWorkerCompletedEventArgs e) =>
             {
                 AcVolt = (double)e.Result;
-                OnAcVoltRenewal(EventArgs.Empty);
             });
 
-            EquiMonitoring.Interval = TimeSpan.FromMilliseconds(700);
-            EquiMonitoring.Tick += new EventHandler((object sender, EventArgs e) =>
+            EquiMonitoring.Interval = 500;
+            EquiMonitoring.Elapsed += new ElapsedEventHandler((object sender, ElapsedEventArgs e) =>
             {
-                if (background.IsBusy == false)
-                    background.RunWorkerAsync();
+                AcVolt = Math.Round(RealAcVolt(), 3);
+                //if (background.IsBusy == false)
+                //    background.RunWorkerAsync();
             });
         }
 
@@ -119,7 +118,7 @@ namespace J_Project.Equipment
                 {
                     return Convert.ToDouble(resultStr, Util.Cultur);
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     return double.NaN;
                 }
@@ -224,19 +223,6 @@ namespace J_Project.Equipment
                 return double.NaN;
             else
                 return Convert.ToDouble(resultStr, Util.Cultur);
-        }
-
-        /**
-         *  @brief AC전압값 갱신 이벤트 발생 함수
-         *  @details AC전압값 갱신 이벤트 발생 시 실행되는 함수
-         *  
-         *  @param EventArgs e - 이벤트 변수
-         *  
-         *  @return
-         */
-        public void OnAcVoltRenewal(EventArgs e)
-        {
-            AcVoltRenewal?.Invoke(this, e);
         }
     }
 }

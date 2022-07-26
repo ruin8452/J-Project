@@ -2,6 +2,7 @@
 using J_Project.Communication.CommModule;
 using PropertyChanged;
 using System.Diagnostics;
+using System.Timers;
 using System.Windows.Threading;
 
 namespace J_Project.Equipment
@@ -25,7 +26,7 @@ namespace J_Project.Equipment
         protected string EquiId;
         protected int CommSpeed;
 
-        protected DispatcherTimer EquiMonitoring = new DispatcherTimer();
+        protected Timer EquiMonitoring = new Timer();
 
         private int commErrCount;
         protected int CommErrCount

@@ -55,7 +55,7 @@ namespace J_Project.ViewModel.TestItem
             TotalStepNum = (int)Seq.END_TEST + 1;
 
             AcCal = new Cal_AC_입력전압();
-            AcCal = (Cal_AC_입력전압)Test.Load(AcCal, CaseNum);
+            Test.Load(AcCal, CaseNum);
 
             Option = TestOption.GetObj();
             ButtonColor = new ObservableCollection<SolidColorBrush>();
@@ -190,7 +190,7 @@ namespace J_Project.ViewModel.TestItem
                     {
                         TestLog.AppendLine($"- AC 설정 팝업");
 
-                        result = AcCtrlWin(AcCal.AcVoltUpper, 2, AcCheckMode.NORMAL);
+                        result = AcCtrlWin(AcCal.AcVoltUpper, 2);
                         TestLog.AppendLine($"- AC 전원 결과 : {result}\n");
 
                         if (result != StateFlag.PASS)
@@ -234,7 +234,7 @@ namespace J_Project.ViewModel.TestItem
                     {
                         TestLog.AppendLine($"- AC 설정 팝업");
 
-                        result = AcCtrlWin(AcCal.AcVoltLower, 2, AcCheckMode.NORMAL);
+                        result = AcCtrlWin(AcCal.AcVoltLower, 2);
                         TestLog.AppendLine($"- AC 전원 결과 : {result}\n");
 
                         if (result != StateFlag.PASS)

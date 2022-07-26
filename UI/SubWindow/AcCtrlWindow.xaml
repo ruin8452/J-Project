@@ -68,7 +68,7 @@
 
             <StackPanel Margin="0,0,0,20">
                 <Grid HorizontalAlignment="Center">
-                    <TextBlock x:Name="Back" Text="888.8" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF2D3144" FontSize="160" FontFamily="Digital-7 Mono"/>
+                    <TextBlock Text="888.8" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF2D3144" FontSize="160" FontFamily="Digital-7 Mono"/>
                     <TextBlock Text="{Binding Pm.AcVolt, StringFormat=#0.0}" Foreground="{Binding AcMeterColor}" FontSize="160" FontFamily="Digital-7 Mono" HorizontalAlignment="Right" />
                     <!--<TextBlock Text="{Binding Pm.AcVolt, StringFormat=#0.0}" Foreground="White" FontSize="160" FontFamily="Digital-7 Mono" HorizontalAlignment="Right" Margin="0,0,66,0"/>-->
                 </Grid>

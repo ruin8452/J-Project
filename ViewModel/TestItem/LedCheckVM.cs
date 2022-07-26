@@ -50,7 +50,7 @@ namespace J_Project.ViewModel.TestItem
             TotalStepNum = (int)Seq.END_TEST + 1;
 
             LedCheck = new LedCheck();
-            LedCheck = (LedCheck)Test.Load(LedCheck, CaseNum);
+            Test.Load(LedCheck, CaseNum);
 
             Option = TestOption.GetObj();
             ButtonColor = new ObservableCollection<SolidColorBrush>();
@@ -185,7 +185,7 @@ namespace J_Project.ViewModel.TestItem
                     {
                         TestLog.AppendLine($"- AC 설정 팝업");
 
-                        result = AcCtrlWin(LedCheck.AcVolt, AC_ERR_RANGE, AcCheckMode.NORMAL);
+                        result = AcCtrlWin(LedCheck.AcVolt, AC_ERR_RANGE);
                         TestLog.AppendLine($"- AC 전원 결과 : {result}\n");
 
                         if (result != StateFlag.PASS)
@@ -218,6 +218,8 @@ namespace J_Project.ViewModel.TestItem
                         resultData = ("LED 비정상", "NG(불합격)");
                         result = StateFlag.LED_ERROR;
                     }
+
+                    MessageBox.Show("보드의 스위치를 꺼주세요.");
                     break;
 
                 case Seq.RESULT_SAVE: // 결과 저장

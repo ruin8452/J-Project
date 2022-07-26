@@ -214,6 +214,9 @@
     <Compile Include="UI\MainWindow\Testing\SecondTestingPage.xaml.cs">
       <DependentUpon>SecondTestingPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\SubWindow\RectAcWindow.xaml.cs">
+      <DependentUpon>RectAcWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\SubWindow\SerialWindow.xaml.cs">
       <DependentUpon>SerialWindow.xaml</DependentUpon>
     </Compile>
@@ -228,9 +231,6 @@
     </Compile>
     <Compile Include="UI\SubWindow\LedCheckWindow.xaml.cs">
       <DependentUpon>LedCheckWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\SubWindow\LoadCtrlWindow2.xaml.cs">
-      <DependentUpon>LoadCtrlWindow2.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\SubWindow\LoadCtrlWindow.xaml.cs">
       <DependentUpon>LoadCtrlWindow.xaml</DependentUpon>
@@ -252,12 +252,6 @@
     </Compile>
     <Compile Include="UI\TestSeq\Execution\IdChange_UI.xaml.cs">
       <DependentUpon>IdChange_UI.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\TestSeq\Execution\ConnecterCheck_UI.xaml.cs">
-      <DependentUpon>ConnecterCheck_UI.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\TestSeq\Execution\LedCheck2_UI.xaml.cs">
-      <DependentUpon>LedCheck2_UI.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\TestSeq\Execution\SerialSave_UI.xaml.cs">
       <DependentUpon>SerialSave_UI.xaml</DependentUpon>
@@ -312,9 +306,6 @@
       <DependentUpon>Cal_DC_출력전압_UI.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\TestSeq\Execution\ITestExeList.cs" />
-    <Compile Include="UI\TestSeq\Execution\RTC_TIME_체크2_UI.xaml.cs">
-      <DependentUpon>RTC_TIME_체크2_UI.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UI\TestSeq\Execution\레귤레이션_200V_UI.xaml.cs">
       <DependentUpon>레귤레이션_200V_UI.xaml</DependentUpon>
     </Compile>
@@ -326,9 +317,6 @@
     </Compile>
     <Compile Include="UI\TestSeq\Execution\무부하_전원_ON_UI.xaml.cs">
       <DependentUpon>무부하_전원_ON_UI.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\TestSeq\Execution\DcOutCheck_UI.xaml.cs">
-      <DependentUpon>DcOutCheck_UI.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\TestSeq\Execution\역률_UI.xaml.cs">
       <DependentUpon>역률_UI.xaml</DependentUpon>
@@ -381,12 +369,6 @@
     <Compile Include="UI\TestSeq\TestSetting\IdChange_Setting_UI.xaml.cs">
       <DependentUpon>IdChange_Setting_UI.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\TestSeq\TestSetting\ConnecterCheck_Setting_UI.xaml.cs">
-      <DependentUpon>ConnecterCheck_Setting_UI.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\TestSeq\TestSetting\LedCheck2_Setting_UI.xaml.cs">
-      <DependentUpon>LedCheck2_Setting_UI.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UI\TestSeq\TestSetting\SerialSave_Setting_UI.xaml.cs">
       <DependentUpon>SerialSave_Setting_UI.xaml</DependentUpon>
     </Compile>
@@ -415,9 +397,6 @@
     <Compile Include="UI\TestSeq\TestSetting\CalReady_Setting_UI.xaml.cs">
       <DependentUpon>CalReady_Setting_UI.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\TestSeq\TestSetting\RTC_TIME_체크2_Setting_UI.xaml.cs">
-      <DependentUpon>RTC_TIME_체크2_Setting_UI.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UI\TestSeq\TestSetting\레귤레이션_200V_Setting_UI.xaml.cs">
       <DependentUpon>레귤레이션_200V_Setting_UI.xaml</DependentUpon>
     </Compile>
@@ -426,9 +405,6 @@
     </Compile>
     <Compile Include="UI\TestSeq\TestSetting\리플_노이즈_Setting_UI.xaml.cs">
       <DependentUpon>리플_노이즈_Setting_UI.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\TestSeq\TestSetting\DcOutCheck_Setting_UI.xaml.cs">
-      <DependentUpon>DcOutCheck_Setting_UI.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\TestSeq\TestSetting\무부하_전원_ON_Setting_UI.xaml.cs">
       <DependentUpon>무부하_전원_ON_Setting_UI.xaml</DependentUpon>
@@ -476,6 +452,7 @@
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\MainWindowVM.cs" />
     <Compile Include="ViewModel\BasicInfoPageVM.cs" />
+    <Compile Include="ViewModel\SubWindow\RectAcViewModel.cs" />
     <Compile Include="ViewModel\SubWindow\SerialViewModel.cs" />
     <Compile Include="ViewModel\SubWindow\TextViewModel.cs" />
     <Compile Include="ViewModel\SubWindow\AcCtrlViewModel.cs" />
@@ -496,32 +473,22 @@
     <Compile Include="ViewModel\TestItem\AcLowVM.cs" />
     <Compile Include="ViewModel\TestItem\AcBlackOutVM.cs" />
     <Compile Include="ViewModel\TestItem\AllTestVM.cs" />
-    <Compile Include="ViewModel\TestItem\BatteryComm2VM.cs" />
     <Compile Include="ViewModel\TestItem\CalAcVM.cs" />
     <Compile Include="ViewModel\TestItem\CalDcCurrVM.cs" />
     <Compile Include="ViewModel\TestItem\CalDcVoltVM.cs" />
-    <Compile Include="ViewModel\TestItem\DcOutCheckVM.cs" />
     <Compile Include="ViewModel\TestItem\IdChangeVM.cs" />
-    <Compile Include="ViewModel\TestItem\LedCheck2VM.cs" />
     <Compile Include="ViewModel\TestItem\SerialSaveVM.cs" />
-    <Compile Include="ViewModel\TestItem\LocalSwitch2VM.cs" />
     <Compile Include="ViewModel\TestItem\BatteryCommVM.cs" />
-    <Compile Include="ViewModel\TestItem\RemoteComm2VM.cs" />
     <Compile Include="ViewModel\TestItem\RemoteCommVM.cs" />
     <Compile Include="ViewModel\TestItem\LocalSwitchVM.cs" />
     <Compile Include="ViewModel\TestItem\M100ReadyVM.cs" />
     <Compile Include="ViewModel\TestItem\CalReadyVM.cs" />
     <Compile Include="ViewModel\TestItem\M200ReadyVM.cs" />
     <Compile Include="ViewModel\TestItem\LedCheckVM.cs" />
-    <Compile Include="ViewModel\TestItem\ConnecterVM.cs" />
-    <Compile Include="ViewModel\TestItem\RtcCheck2VM.cs" />
     <Compile Include="ViewModel\TestItem\RegulM200VM.cs" />
     <Compile Include="ViewModel\TestItem\RegulM100VM.cs" />
-    <Compile Include="ViewModel\TestItem\Noise2VM.cs" />
     <Compile Include="ViewModel\TestItem\NoiseVM.cs" />
-    <Compile Include="ViewModel\TestItem\NoLoad2VM.cs" />
     <Compile Include="ViewModel\TestItem\NoLoadVM.cs" />
-    <Compile Include="ViewModel\TestItem\PowerFactor2VM.cs" />
     <Compile Include="ViewModel\TestItem\PowerFactorVM.cs" />
     <Compile Include="ViewModel\TestItem\InitVM.cs" />
     <Compile Include="ViewModel\TestItem\TempVM.cs" />
@@ -540,6 +507,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UI\SubWindow\RectAcWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="UI\SubWindow\SerialWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -557,10 +528,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\SubWindow\LedCheckWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UI\SubWindow\LoadCtrlWindow2.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -589,14 +556,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\TestSeq\Execution\IdChange_UI.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UI\TestSeq\Execution\ConnecterCheck_UI.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UI\TestSeq\Execution\LedCheck2_UI.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -688,10 +647,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UI\TestSeq\Execution\RTC_TIME_체크2_UI.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="UI\TestSeq\Execution\레귤레이션_200V_UI.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -705,10 +660,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\TestSeq\Execution\무부하_전원_ON_UI.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UI\TestSeq\Execution\DcOutCheck_UI.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -780,14 +731,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UI\TestSeq\TestSetting\ConnecterCheck_Setting_UI.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UI\TestSeq\TestSetting\LedCheck2_Setting_UI.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="UI\TestSeq\TestSetting\SerialSave_Setting_UI.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -824,10 +767,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UI\TestSeq\TestSetting\RTC_TIME_체크2_Setting_UI.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="UI\TestSeq\TestSetting\레귤레이션_200V_Setting_UI.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -837,10 +776,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\TestSeq\TestSetting\리플_노이즈_Setting_UI.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UI\TestSeq\TestSetting\DcOutCheck_Setting_UI.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -925,15 +860,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\allow.png" />
     <Resource Include="Resources\Logo.JPG" />
     <Resource Include="Resources\Logo2.JPG" />
-    <Resource Include="Resources\monitoring.png" />
-    <Resource Include="Resources\onoff.png" />
-    <Resource Include="Resources\redButton.PNG" />
-    <Resource Include="Resources\Reset.png" />
-    <Resource Include="Resources\setting.png" />
-    <Resource Include="Resources\test.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="FodyWeavers.xml" />
@@ -948,28 +876,13 @@
     <Resource Include="CheckList.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\test_Blue.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\LogoOnly_Blue3.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\LogoOnly_Blue4.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\logout.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\LogoOnly_White.png" />
-    <Resource Include="Resources\logout_Blue.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\report_Blue.png" />
-    <Resource Include="Resources\setting_Blue.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Setting2.png" />
-    <Resource Include="Resources\Setting2_Blue.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\Fody.2.5.0\build\Fody.targets" Condition="Exists('packages\Fody.2.5.0\build\Fody.targets')" />

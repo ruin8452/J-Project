@@ -10,47 +10,41 @@ using System.Windows.Threading;
 
 namespace J_Project.ViewModel.SubWindow
 {
-    [ImplementPropertyChanged]
-    public class AcCtrlViewModel
+    public enum AlarmCheckMode
     {
-        const int MAX_COUNT_DOWN = 1;
-        int CountDown;
+        AC_OVER,
+        AC_UNDER,
+        AC_BLACK_OUT
+    }
 
+    [ImplementPropertyChanged]
+    public class RectAcViewModel
+    {
         public static double TargetValue { get; set; }
-        public static double ErrRate { get; set; }
+        private static AlarmCheckMode CheckMode;
 
         public static bool CtrlResult = false;
-        public PowerMeter Pm { get; set; }
         public Rectifier Rect { get; set; }
 
         public SolidColorBrush AcMeterColor { get; set; }
-
-        public string ConfirmBtnText { get; set; }
 
         public RelayCommand<object> LoadedCommand { get; set; }
         public RelayCommand CompleteCommand { get; set; }
         public RelayCommand CancelCommand { get; set; }
 
-        readonly Timer CountDownTimer = new Timer();
-        readonly Timer PmValueTimer = new Timer();
+        readonly Timer RectValueTimer = new Timer();
 
         Window window;
 
-        public AcCtrlViewModel()
+        public RectAcViewModel()
         {
             AcMeterColor = Brushes.White;
 
-            CountDownTimer.Interval = 1000;
-            CountDownTimer.Tick += CountDownTimer_Tick;
+            RectValueTimer.Interval = 100;
+            RectValueTimer.Tick += RectValueTimer_Tick;
+            RectValueTimer.Start();
 
-            PmValueTimer.Interval = 100;
-            PmValueTimer.Tick += PmValueTimer_Tick;
-            PmValueTimer.Start();
-
-            Pm = PowerMeter.GetObj();
             Rect = Rectifier.GetObj();
-
-            ConfirmBtnText = "확인";
 
             LoadedCommand = new RelayCommand<object>(SubWinLoad);
             CompleteCommand = new RelayCommand(CtrlValueCheck);
@@ -73,44 +67,37 @@ namespace J_Project.ViewModel.SubWindow
             CtrlResult = false;
         }
 
-        /**
-         *  @brief 카운트다운(타이머 이벤트)
-         *  @details 일정 시간동안 확인을 누르지 않을 경우 자동 확인
-         *  
-         *  @param object sender - 이벤트 발생자
-         *  @param EventArgs e - 이벤트 변수
-         *  
-         *  @return
-         */
-        private void CountDownTimer_Tick(object sender, EventArgs e)
+        private void RectValueTimer_Tick(object sender, EventArgs e)
         {
-            ConfirmBtnText = string.Format($"확인({CountDown})");
-            if(CountDown <= 0)
+            if (CheckMode == AlarmCheckMode.AC_OVER)
             {
-                CtrlResult = true;
-                CountDownTimer.Stop();
-                PmValueTimer.Stop();
-                window.Close();
+                if (Rect.Flag_OverAcInVolt)
+                {
+                    CtrlResult = true;
+                    Dispatcher.CurrentDispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
+                    {
+                        RectValueTimer.Stop();
+                        window.Close();
+                    }));
+                }
             }
-            CountDown--;
-        }
-
-        private void PmValueTimer_Tick(object sender, EventArgs e)
-        {
-            if (Math.Abs(Pm.AcVolt - TargetValue) < ErrRate)
+            else if (CheckMode == AlarmCheckMode.AC_UNDER)
             {
-                CountDownTimer.Start();
-
-                CtrlResult = true;
-                AcMeterColor = new SolidColorBrush(Color.FromArgb(0xFF, 0x4D, 0xB9, 0x48));
+                if (Rect.Flag_UnderAcInVolt)
+                {
+                    CtrlResult = true;
+                    RectValueTimer.Stop();
+                    window.Close();
+                }
             }
             else
             {
-                CountDownTimer.Stop();
-                CountDown = MAX_COUNT_DOWN;
-
-                ConfirmBtnText = "확인";
-                AcMeterColor = new SolidColorBrush(Color.FromArgb(0xFF, 0xFF, 0x43, 0x43));
+                if (Rect.Flag_AcRelayOnOff == true)
+                {
+                    CtrlResult = true;
+                    RectValueTimer.Stop();
+                    window.Close();
+                }
             }
         }
 
@@ -124,10 +111,10 @@ namespace J_Project.ViewModel.SubWindow
          *  
          *  @return
          */
-        public static void SetAcCheck(double acVolt, double checkRange)
+        public static void SetAcCheck(double acVolt, AlarmCheckMode checkMode)
         {
             TargetValue = acVolt;
-            ErrRate = checkRange;
+            CheckMode = checkMode;
         }
 
         /**
@@ -142,8 +129,7 @@ namespace J_Project.ViewModel.SubWindow
         {
             if (CtrlResult == true)
             {
-                CountDownTimer.Stop();
-                PmValueTimer.Stop();
+                RectValueTimer.Stop();
                 window.Close();
             }
             else
@@ -160,8 +146,7 @@ namespace J_Project.ViewModel.SubWindow
          */
         private void CtrlCancel()
         {
-            CountDownTimer.Stop();
-            PmValueTimer.Stop();
+            RectValueTimer.Stop();
             CtrlResult = false;
             window.Close();
         }

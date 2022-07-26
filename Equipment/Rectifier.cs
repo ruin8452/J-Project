@@ -9,6 +9,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Timers;
 
 namespace J_Project.Equipment
 {
@@ -131,11 +132,19 @@ namespace J_Project.Equipment
                 RectMonitoring();
             });
 
-            EquiMonitoring.Interval = TimeSpan.FromMilliseconds(700);
-            EquiMonitoring.Tick += new EventHandler((object sender, EventArgs e) =>
+            //EquiMonitoring.Interval = TimeSpan.FromMilliseconds(1000);
+            //EquiMonitoring.Tick += new EventHandler((object sender, EventArgs e) =>
+            //{
+            //    if (background.IsBusy == false)
+            //        background.RunWorkerAsync();
+            //});
+
+            EquiMonitoring.Interval = 500;
+            EquiMonitoring.Elapsed += new ElapsedEventHandler((object sender, ElapsedEventArgs e) =>
             {
-                if (background.IsBusy == false)
-                    background.RunWorkerAsync();
+                RectMonitoring();
+                //if (background.IsBusy == false)
+                //    background.RunWorkerAsync();
             });
         }
 
@@ -481,52 +490,52 @@ namespace J_Project.Equipment
             DcSwOutVolt[2] = (short)((reciveStream[17] << 8) + reciveStream[16]) / 100.0;
             DcSwOutVolt[3] = (short)((reciveStream[19] << 8) + reciveStream[18]) / 100.0;
 
-            Flag_RectFail = (reciveStream[20] & 0x01) != 0 ? true : false;
-            Flag_AcFail = (reciveStream[20] & 0x02) != 0 ? true : false;
-            Flag_BatFail = (reciveStream[20] & 0x04) != 0 ? true : false;
-            Flag_BatEx = (reciveStream[20] & 0x08) != 0 ? true : false;
-            AcInVoltMode = (reciveStream[20] & 0x10) != 0 ? "200V" : "100V";
-            Flag_UnberDcOutVolt = (reciveStream[20] & 0x20) != 0 ? true : false;
-            Flag_DcOverLoad = (reciveStream[20] & 0x40) != 0 ? true : false;
-            Flag_AcRelayOnOff = (reciveStream[20] & 0x80) != 0 ? false : true;  // false : 정상, true : 정전
-            Flag_SystemCutOff = (reciveStream[21] & 0x01) != 0 ? true : false;
-            DcOutVoltFailNum = (byte)(reciveStream[21] >> 1 & 0x07);
-            DcOutCurrFailNum = (byte)(reciveStream[21] >> 4 & 0x07);
+            Flag_RectFail       = (reciveStream[20] & 0x01) != 0;
+            Flag_AcFail         = (reciveStream[20] & 0x02) != 0;
+            Flag_BatFail        = (reciveStream[20] & 0x04) != 0;
+            Flag_BatEx          = (reciveStream[20] & 0x08) != 0;
+            AcInVoltMode        = (reciveStream[20] & 0x10) != 0 ? "200V" : "100V";
+            Flag_UnberDcOutVolt = (reciveStream[20] & 0x20) != 0;
+            Flag_DcOverLoad     = (reciveStream[20] & 0x40) != 0;
+            Flag_AcRelayOnOff   = (reciveStream[20] & 0x80) == 0;  // false : 정상, true : 정전
+            Flag_SystemCutOff   = (reciveStream[21] & 0x01) != 0;
+            DcOutVoltFailNum    = (byte)(reciveStream[21] >> 1 & 0x07);
+            DcOutCurrFailNum    = (byte)(reciveStream[21] >> 4 & 0x07);
 
-            Flag_OverDcOutVolt = (reciveStream[22] & 0x01) != 0 ? true : false;
-            Flag_OverDcOutCurr = (reciveStream[22] & 0x02) != 0 ? true : false;
-            Flag_OverAcInVolt  = (reciveStream[22] & 0x04) != 0 ? true : false;
-            Flag_UnderAcInVolt = (reciveStream[22] & 0x08) != 0 ? true : false;
-            Flag_TempHeatFail  = (reciveStream[22] & 0x10) != 0 ? true : false;
-            DcSwLed3V[0]  = (reciveStream[23] & 0x01) != 0 ? true : false;
-            DcSwLed3V[1]  = (reciveStream[23] & 0x02) != 0 ? true : false;
-            DcSwLed3V[2]  = (reciveStream[23] & 0x04) != 0 ? true : false;
-            DcSwLed3V[3]  = (reciveStream[23] & 0x08) != 0 ? true : false;
-            DcSwLed40V[0] = (reciveStream[23] & 0x10) != 0 ? true : false;
-            DcSwLed40V[1] = (reciveStream[23] & 0x20) != 0 ? true : false;
-            DcSwLed40V[2] = (reciveStream[23] & 0x40) != 0 ? true : false;
-            DcSwLed40V[3] = (reciveStream[23] & 0x80) != 0 ? true : false;
+            Flag_OverDcOutVolt = (reciveStream[22] & 0x01) != 0;
+            Flag_OverDcOutCurr = (reciveStream[22] & 0x02) != 0;
+            Flag_OverAcInVolt  = (reciveStream[22] & 0x04) != 0;
+            Flag_UnderAcInVolt = (reciveStream[22] & 0x08) != 0;
+            Flag_TempHeatFail  = (reciveStream[22] & 0x10) != 0;
+            DcSwLed3V[0]  = (reciveStream[23] & 0x01) != 0;
+            DcSwLed3V[1]  = (reciveStream[23] & 0x02) != 0;
+            DcSwLed3V[2]  = (reciveStream[23] & 0x04) != 0;
+            DcSwLed3V[3]  = (reciveStream[23] & 0x08) != 0;
+            DcSwLed40V[0] = (reciveStream[23] & 0x10) != 0;
+            DcSwLed40V[1] = (reciveStream[23] & 0x20) != 0;
+            DcSwLed40V[2] = (reciveStream[23] & 0x40) != 0;
+            DcSwLed40V[3] = (reciveStream[23] & 0x80) != 0;
 
             CommandCheck = (reciveStream[25] << 8) + reciveStream[24];
-            EEPRomData = (reciveStream[27] << 8) + reciveStream[26];
+            EEPRomData   = (reciveStream[27] << 8) + reciveStream[26];
 
-            SwLed[0] = (reciveStream[28] & 0x01) != 0 ? false : true;
-            SwLed[1] = (reciveStream[28] & 0x02) != 0 ? false : true;
-            SwLed[2] = (reciveStream[28] & 0x04) != 0 ? false : true;
-            SwLed[3] = (reciveStream[28] & 0x08) != 0 ? false : true;
+            SwLed[0] = (reciveStream[28] & 0x01) == 0;
+            SwLed[1] = (reciveStream[28] & 0x02) == 0;
+            SwLed[2] = (reciveStream[28] & 0x04) == 0;
+            SwLed[3] = (reciveStream[28] & 0x08) == 0;
             CommId = (byte)((reciveStream[28] >> 4) & 0x03);
-            LocalRemoteLed = (reciveStream[28] & 0x40) != 0 ? true : false;
+            LocalRemoteLed = (reciveStream[28] & 0x40) != 0;
 
             Reserved3 = (reciveStream[31] << 8) + reciveStream[30];
 
-            BatteryComm[0] = (reciveStream[32] & 0x01) != 0 ? true : false;
-            BatteryComm[1] = (reciveStream[32] & 0x02) != 0 ? true : false;
-            BatteryComm[2] = (reciveStream[32] & 0x04) != 0 ? true : false;
-            BatteryComm[3] = (reciveStream[32] & 0x08) != 0 ? true : false;
-            BatteryComm[4] = (reciveStream[32] & 0x10) != 0 ? true : false;
-            BatteryComm[5] = (reciveStream[32] & 0x20) != 0 ? true : false;
-            BatteryComm[6] = (reciveStream[32] & 0x40) != 0 ? true : false;
-            BatteryComm[7] = (reciveStream[32] & 0x80) != 0 ? true : false;
+            BatteryComm[0] = (reciveStream[32] & 0x01) != 0;
+            BatteryComm[1] = (reciveStream[32] & 0x02) != 0;
+            BatteryComm[2] = (reciveStream[32] & 0x04) != 0;
+            BatteryComm[3] = (reciveStream[32] & 0x08) != 0;
+            BatteryComm[4] = (reciveStream[32] & 0x10) != 0;
+            BatteryComm[5] = (reciveStream[32] & 0x20) != 0;
+            BatteryComm[6] = (reciveStream[32] & 0x40) != 0;
+            BatteryComm[7] = (reciveStream[32] & 0x80) != 0;
 
             RectTime = new DateTime(reciveStream[35] + 2000,
                                     reciveStream[34] != 0 ? reciveStream[34] : 1,    // 월 값이 0이면 오류

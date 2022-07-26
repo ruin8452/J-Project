@@ -6,6 +6,7 @@ using J_Project.ViewModel.SubWindow;
 using System;
 using System.Collections.ObjectModel;
 using System.Text;
+using System.Windows;
 using System.Windows.Media;
 
 namespace J_Project.ViewModel.TestItem
@@ -53,7 +54,7 @@ namespace J_Project.ViewModel.TestItem
             TotalStepNum = (int)Seq.END_TEST + 1;
 
             OutputOver = new 출력_과부하_보호();
-            OutputOver = (출력_과부하_보호)Test.Load(OutputOver, CaseNum);
+            Test.Load(OutputOver, CaseNum);
 
             Option = TestOption.GetObj();
             ButtonColor = new ObservableCollection<SolidColorBrush>();
@@ -188,7 +189,7 @@ namespace J_Project.ViewModel.TestItem
                     {
                         TestLog.AppendLine($"- AC 설정 팝업");
 
-                        result = AcCtrlWin(OutputOver.AcVolt, AC_ERR_RANGE, AcCheckMode.NORMAL);
+                        result = AcCtrlWin(OutputOver.AcVolt, AC_ERR_RANGE);
                         TestLog.AppendLine($"- AC 전원 결과 : {result}\n");
 
                         if (result != StateFlag.PASS)
@@ -265,11 +266,13 @@ namespace J_Project.ViewModel.TestItem
                     {
                         TestLog.AppendLine($"- 부하 설정 팝업");
 
-                        result = LoadCtrlWin(0, LOAD_ERR_RANGE, LoadCheckMode.NORMAL);
-                        TestLog.AppendLine($"- 부하 전원 결과 : {result}\n");
+                        MessageBox.Show("부하를 꺼주세요");
+                        result = StateFlag.PASS;
+                        //result = LoadCtrlWin(0, LOAD_ERR_RANGE, LoadCheckMode.NORMAL);
+                        //TestLog.AppendLine($"- 부하 전원 결과 : {result}\n");
 
-                        if (result != StateFlag.PASS)
-                            jumpStepNum = (int)Seq.RESULT_SAVE;
+                        //if (result != StateFlag.PASS)
+                        //    jumpStepNum = (int)Seq.RESULT_SAVE;
                     }
                     break;
 

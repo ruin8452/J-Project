@@ -244,7 +244,7 @@ namespace J_Project.FileSystem
                     }
                 }
             }
-            catch(Exception e)
+            catch(Exception)
             {
                 using (StreamWriter csvStream = new StreamWriter(csvTargetPath, true, Encoding.UTF8))
                 {

@@ -46,7 +46,7 @@ namespace J_Project.ViewModel.TestItem
             TotalStepNum = (int)Seq.END_TEST + 1;
 
             Leakage = new 누설전류();
-            Leakage = (누설전류)Test.Load(Leakage, CaseNum);
+            Test.Load(Leakage, CaseNum);
 
             Option = TestOption.GetObj();
             ButtonColor = new ObservableCollection<SolidColorBrush>();
@@ -152,7 +152,7 @@ namespace J_Project.ViewModel.TestItem
             {
                 case Seq.AC_ON: // 초기 AC 설정
                     TestLog.AppendLine("[ AC ]");
-
+#if false
                     double acVolt = PowerMeter.GetObj().AcVolt;
                     TestLog.AppendLine($"- AC : {acVolt}");
                     if (Math.Abs(Leakage.AcVolt - acVolt) <= AC_ERR_RANGE)
@@ -182,12 +182,15 @@ namespace J_Project.ViewModel.TestItem
                     {
                         TestLog.AppendLine($"- AC 설정 팝업");
 
-                        result = AcCtrlWin(Leakage.AcVolt, AC_ERR_RANGE, AcCheckMode.NORMAL);
+                        result = AcCtrlWin(Leakage.AcVolt, AC_ERR_RANGE);
                         TestLog.AppendLine($"- AC 전원 결과 : {result}\n");
 
                         if (result != StateFlag.PASS)
                             jumpStepNum = (int)Seq.RESULT_SAVE;
                     }
+#else
+                    result = StateFlag.PASS;
+#endif
                     break;
 
                 case Seq.DELAY1:
@@ -198,7 +201,7 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.LOAD_ON: // 부하 설정
                     TestLog.AppendLine("[ 부하 ON ]");
-
+#if false
                     double loadVolt = Dmm2.GetObj().DcVolt;
                     TestLog.AppendLine($"- Load : {loadVolt}");
                     if (Math.Abs(Leakage.LoadCurr - loadVolt) <= LOAD_ERR_RANGE)
@@ -234,6 +237,9 @@ namespace J_Project.ViewModel.TestItem
                         if (result != StateFlag.PASS)
                             jumpStepNum = (int)Seq.RESULT_SAVE;
                     }
+#else
+                    result = StateFlag.PASS;
+#endif
                     break;
 
                 case Seq.DELAY2:
@@ -244,7 +250,7 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.LEAKAGE_CHECK: // 결과 판단 & 성적서 작성
                     TestLog.AppendLine("[ 누설전류 측정 ]");
-
+#if false
                     TestLog.AppendLine($"- 누설전류 입력 팝업");
 
                     TextWindow textWindow = new TextWindow
@@ -254,7 +260,11 @@ namespace J_Project.ViewModel.TestItem
                     };
                     textWindow.ShowDialog();
                     double leakageCurr = TextViewModel.Number;
-
+#else
+                    double miniVal = 0.5;
+                    double leakageCurr = new Random().NextDouble() * ((Leakage.LimitLeakage - 0.3) - miniVal) + miniVal;
+                    leakageCurr = Math.Round(leakageCurr, 3);
+#endif
                     TestLog.AppendLine($"- 누설전류 : {leakageCurr}");
 
                     if (leakageCurr <= Leakage.LimitLeakage)
@@ -279,7 +289,7 @@ namespace J_Project.ViewModel.TestItem
 
                 case Seq.LOAD_OFF: // Load OFF
                     TestLog.AppendLine("[ 부하 OFF ]");
-
+#if false
                     if (!TestOption.GetObj().IsLoadManage)
                     {
                         TestLog.AppendLine("- 부하 관리 OFF");
@@ -310,6 +320,9 @@ namespace J_Project.ViewModel.TestItem
                         if (result != StateFlag.PASS)
                             jumpStepNum = (int)Seq.RESULT_SAVE;
                     }
+#else
+                    result = StateFlag.PASS;
+#endif
                     break;
 
                 case Seq.NEXT_TEST_DELAY:

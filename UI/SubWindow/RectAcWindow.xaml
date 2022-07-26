@@ -1,4 +1,4 @@
-﻿<Window x:Class="J_Project.UI.SubWindow.LoadCtrlWindow2"
+﻿<Window x:Class="J_Project.UI.SubWindow.RectAcWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -7,27 +7,19 @@
         xmlns:local="clr-namespace:J_Project.UI.SubWindow"
         xmlns:converter="clr-namespace:J_Project.UI.BindConverterClass"
         mc:Ignorable="d"
-        x:Name="LoadCtrl"
-        Title="LoadCtrlWindow" Height="400" Width="500" ResizeMode="NoResize" WindowStyle="None">
+        x:Name="RectAcCtrl"
+        Title="RectAcWindow" Height="400" Width="500" ResizeMode="NoResize" WindowStyle="None">
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction  Command="{Binding LoadedCommand}" CommandParameter="{Binding ElementName=LoadCtrl}"/>
+            <i:InvokeCommandAction  Command="{Binding LoadedCommand}" CommandParameter="{Binding ElementName=RectAcCtrl}"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
     <Window.Effect>
         <DropShadowEffect Color="DodgerBlue" BlurRadius="40" RenderingBias="Quality" ShadowDepth="1"/>
     </Window.Effect>
-
-    <Window.InputBindings>
-        <KeyBinding Key="Enter" Command="{Binding CompleteCommand}"/>
-        <KeyBinding Key="Esc" Command="{Binding CancelCommand}"/>
-    </Window.InputBindings>
-    
     <Window.Resources>
-        <converter:PassThroughConverter x:Key="MultiBinding"/>
-
         <Style TargetType="TextBlock" x:Key="LedText">
             <Setter Property="FontFamily" Value="NanumGothic Light"/>
             <Setter Property="FontSize" Value="25"/>
@@ -72,39 +64,40 @@
 
     <Border BorderBrush="DodgerBlue" BorderThickness="1.5">
         <StackPanel Background="#FF1B1E2B">
-            <TextBlock Text="부하 설정" Padding="10,5,0,5" Background="#FF3B456B" VerticalAlignment="Center" Foreground="White" FontSize="30" FontFamily="NanumGothic"/>
+            <TextBlock Text="정류기 AC 알람" Padding="10,5,0,5" Background="#FF3B456B" VerticalAlignment="Center" Foreground="White" FontSize="30" FontFamily="NanumGothic"/>
 
             <StackPanel Margin="0,0,0,20">
                 <Grid HorizontalAlignment="Center">
-                    <TextBlock x:Name="Back" Text="888.88" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF2D3144" FontSize="160" FontFamily="Digital-7 Mono"/>
-                    <TextBlock Text="{Binding Rect.DcOutputCurr, StringFormat=#0.00}" Foreground="{Binding LoadMeterColor}" FontSize="160" FontFamily="Digital-7 Mono" HorizontalAlignment="Right" />
+                    <TextBlock x:Name="Back" Text="888.8" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF2D3144" FontSize="160" FontFamily="Digital-7 Mono"/>
+                    <TextBlock Text="{Binding Rect.AcInputVolt, StringFormat=#0.0}" Foreground="{Binding AcMeterColor}" FontSize="160" FontFamily="Digital-7 Mono" HorizontalAlignment="Right" />
                     <!--<TextBlock Text="{Binding Pm.AcVolt, StringFormat=#0.0}" Foreground="White" FontSize="160" FontFamily="Digital-7 Mono" HorizontalAlignment="Right" Margin="0,0,66,0"/>-->
                 </Grid>
 
                 <!--<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,20">
                     <Border Style="{StaticResource Normal}" IsEnabled="{Binding Rect.Monitoring.Flag_OverAcInVolt}">
-                        <TextBlock Text="DC 과부하" Style="{StaticResource LedText}" IsEnabled="{Binding Rect.Monitoring.Flag_DcOverLoad}"/>
+                        <TextBlock Text="AC 고전압" Style="{StaticResource LedText}" IsEnabled="{Binding Rect.Monitoring.Flag_OverAcInVolt}"/>
+                    </Border>
+                    <Border Style="{StaticResource Normal}" IsEnabled="{Binding Rect.Monitoring.Flag_UnderAcInVolt}">
+                        <TextBlock Text="AC 저전압" Style="{StaticResource LedText}" IsEnabled="{Binding Rect.Monitoring.Flag_UnderAcInVolt}"/>
+                    </Border>
+                    <Border Style="{StaticResource Normal}" IsEnabled="{Binding Rect.Monitoring.Flag_AcRelayOnOff}">
+                        <TextBlock Text="AC 정전" Style="{StaticResource LedText}" IsEnabled="{Binding Rect.Monitoring.Flag_AcRelayOnOff}"/>
                     </Border>
                 </StackPanel>-->
             </StackPanel>
 
             <StackPanel>
-                <TextBlock Text="목표설정치까지 부하를 설정해주세요." HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" FontSize="25" FontFamily="NanumGothic"/>
+                <TextBlock Text="목표설정치까지 AC 파워를 설정해주세요." HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" FontSize="20" FontFamily="NanumGothic"/>
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10">
-                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" FontSize="20" FontFamily="NanumGothic">
-                        <Run Text="목표설정(A) :"/>
-                        <Run Text="{Binding TargetValue}"/>
-                    </TextBlock>
-                    <Border Width="20"/>
                     <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" FontSize="17" FontFamily="NanumGothic">
-                        <Run Text="허용오차(A) :"/>
-                        <Run Text="{Binding ErrRate, StringFormat=±0.#}"/>
+                        <Run Text="목표설정(V) :"/>
+                        <Run Text="{Binding TargetValue}"/>
                     </TextBlock>
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,40,0,10">
-                    <Button Content="{Binding ConfirmBtnText}" Margin="0,0,10,0" FontSize="20" Height="30" Width="100" Command="{Binding CompleteCommand}" Background="#0000" BorderBrush="{x:Null}" Foreground="White" Style="{StaticResource ButtonColor}"/>
+                    <Button Content="확인" Margin="0,0,10,0" FontSize="20" Height="30" Width="100" Command="{Binding CompleteCommand}" Background="#0000" BorderBrush="{x:Null}" Foreground="White" Style="{StaticResource ButtonColor}"/>
                     <Button Content="취소" Margin="10,0,0,0" FontSize="20" Height="30" Width="100" Command="{Binding CancelCommand}" Background="#0000" BorderBrush="{x:Null}" Foreground="White" Style="{StaticResource ButtonColor}"/>
                 </StackPanel>
             </StackPanel>
